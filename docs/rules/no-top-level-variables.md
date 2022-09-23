@@ -35,7 +35,7 @@ export default function () {
 ```json
 {
   "rules": {
-    "nosideeffect-top/no-top-level-variables": [
+    "@ericcornelissen/top/no-top-level-variables": [
       "error",
       {
         "kind": ["const", "let", "var"]

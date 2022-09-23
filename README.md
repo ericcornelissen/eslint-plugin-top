@@ -13,7 +13,7 @@ npm i eslint --save-dev
 Next, install `eslint-plugin-top`:
 
 ```sh
-npm install eslint-plugin-top --save-dev
+npm install @ericcornelissen/eslint-plugin-top --save-dev
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ Add `top` to the plugins section of your `.eslintrc` configuration file. You can
 
 ```json
 {
-  "plugins": ["top"]
+  "plugins": ["@ericcornelissen/top"]
 }
 ```
 
@@ -31,8 +31,8 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
-    "top/no-top-level-variables": 2,
-    "top/no-top-level-side-effect": 2
+    "@ericcornelissen/top/no-top-level-variables": 2,
+    "@ericcornelissen/top/no-top-level-side-effect": 2
   }
 }
 ```
