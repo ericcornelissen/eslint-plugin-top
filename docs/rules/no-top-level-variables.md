@@ -10,7 +10,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 var foo = 42;
-const bar = 1337;
+const bar = new Bar();
 let baz = 0;
 
 // Rest of your code
@@ -19,9 +19,11 @@ let baz = 0;
 Examples of **correct** code for this rule:
 
 ```js
+const bar = 1337;
+
 export default function () {
   var foo = 42;
-  const bar = 1337;
+  const bar = new Bar();
   let baz = 0;
 
   // Rest of your code
