@@ -1,6 +1,6 @@
 {
   "name": "@ericcornelissen/eslint-plugin-top",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Disallow side effects at the top level of files",
   "keywords": [
     "eslint",
