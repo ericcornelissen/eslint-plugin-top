@@ -34,8 +34,11 @@ export const noTopLevelVariables: Rule.RuleModule = {
           node.declarations[0].init?.type === 'CallExpression' &&
           node.declarations[0].init.callee.type === 'Identifier' &&
           node.declarations[0].init.callee.name === 'require';
+        const isLiteral =
+          node.kind === 'const' &&
+          node.declarations[0].init?.type === 'Literal';
 
-        if (isMatching && !isRequire) {
+        if (isMatching && !isRequire && !isLiteral) {
           if (isTopLevel(node)) {
             context.report({node, messageId: 'message'});
           }
