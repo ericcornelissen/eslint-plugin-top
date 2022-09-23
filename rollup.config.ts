@@ -1,5 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@wessberg/rollup-plugin-ts';
+import typescript from 'rollup-plugin-ts';
 
 export default {
   input: 'lib/index.ts',
