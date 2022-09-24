@@ -1,3 +1,5 @@
+// Check out rollup.js at: https://rollupjs.org/guide/en/
+
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-ts';
 

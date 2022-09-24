@@ -1,0 +1,111 @@
+name: Releases
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: Update type
+        required: true
+        default: minor
+        type: choice
+        options: [patch, minor, major]
+
+permissions: read-all
+
+jobs:
+  # Create release
+  pr:
+    name: Create Pull Request
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push a commit
+      pull-requests: write # To open a Pull Request
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Bump version
+        run: npm version ${{ github.event.inputs.update_type }} --no-git-tag-version
+      - name: Update CHANGELOG
+        run: node scripts/bump-changelog.js
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@171dd555b9ab6b18fa02519fdfacbb8bf671e1b4
+        with:
+          title: New ${{ github.event.inputs.update_type }} release
+          body: |
+            _This Pull Request was created automatically_
+
+            ---
+
+            ### Merge checklist
+
+            - [ ] All continuous integration checks passed.
+            - [ ] The version number is consistently updated in `package.json`,
+                  `package-lock.json`, and `index.js`.
+            - [ ] A new release is added to `CHANGELOG.md` with the correct
+                  version number and date.
+            - [ ] The new version number is in accordance with [semantic
+                  versioning].
+            - [ ] There are no unexpected changes in the Pull Request.
+
+            [semantic versioning]: https://semver.org/spec/v2.0.0.html
+          branch: release-${{ github.event.inputs.update_type }}
+          branch-suffix: random
+          commit-message: Version bump
+
+  # Publish release
+  release:
+    name: Create release
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push a tag
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        with:
+          fetch-depth: 0 # To obtain all tags
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Validate release readiness
+        run: |
+          npm run test
+          npm run build
+      - name: Check if version is released
+        id: version
+        run: |
+          VERSION="v$(cat package.json | jq -r '.version')"
+          echo "::set-output name=version::$VERSION"
+          if [ $(git tag -l $VERSION) ]; then
+            echo "::set-output name=released::true"
+          else
+            echo "::set-output name=released::false"
+          fi
+      - name: Publish tag to remote
+        if: ${{ steps.version.outputs.released == 'false' }}
+        run: |
+          # Create & push a tag for the new version
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }}
+
+          # Update what commit the v0 branch points to
+          git push origin HEAD:v0
+      - name: Publish to npm
+        uses: JS-DevTools/npm-publish@0f451a94170d1699fd50710966d48fb26194d939
+        if: ${{ steps.version.outputs.released == 'false' }}
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

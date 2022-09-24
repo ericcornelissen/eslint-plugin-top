@@ -45,8 +45,8 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       const bar = 1337;
-    `,
-  },
+    `
+  }
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [

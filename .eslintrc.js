@@ -1,3 +1,5 @@
+// Check out ESLint at: https://eslint.org/
+
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
@@ -5,7 +7,11 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  extends: ['eslint:recommended', 'plugin:eslint-plugin/recommended', 'plugin:node/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:eslint-plugin/recommended',
+    'plugin:node/recommended'
+  ],
   plugins: ['@typescript-eslint'],
   env: {
     node: true

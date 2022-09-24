@@ -1,7 +1,14 @@
 {
   "name": "@ericcornelissen/eslint-plugin-top",
-  "version": "0.1.1",
   "description": "Disallow side effects at the top level of files",
+  "version": "0.1.1",
+  "license": "ISC",
+  "main": "index.js",
+  "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericcornelissen/eslint-plugin-top"
+  },
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -15,13 +22,18 @@
       "name": "Eric Cornelissen"
     }
   ],
-  "main": "index.js",
   "scripts": {
-    "build": "rollup --config rollup.config.ts",
     "prepublishOnly": "npm run build",
-    "lint": "eslint .",
+    "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
+    "build": "rollup --config rollup.config.ts",
+    "eslint": "eslint .",
+    "format": "npm run _prettier -- --write",
+    "lint": "npm run _prettier -- --check",
     "test": "mocha tests --recursive",
     "test:watch": "npm run test -- --watch"
+  },
+  "peerDependencies": {
+    "eslint": ">=6"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.6",
@@ -41,13 +53,5 @@
   },
   "engines": {
     "node": "12.x || 14.x || >= 16"
-  },
-  "peerDependencies": {
-    "eslint": ">=6"
-  },
-  "license": "ISC",
-  "directories": {
-    "lib": "lib",
-    "test": "tests"
   }
 }

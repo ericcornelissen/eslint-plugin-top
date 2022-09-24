@@ -8,9 +8,9 @@ export function isTopLevel(node: Rule.Node) {
   return scope.type === 'Program';
 }
 
-export function trimTestCases<T extends RuleTester.InvalidTestCase | RuleTester.ValidTestCase>(
-  testCase: T
-): T {
+export function trimTestCases<
+  T extends RuleTester.InvalidTestCase | RuleTester.ValidTestCase
+>(testCase: T): T {
   return {
     ...testCase,
     code: testCase.code.trim()

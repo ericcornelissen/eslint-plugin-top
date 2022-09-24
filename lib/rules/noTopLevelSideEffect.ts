@@ -45,7 +45,12 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
             node.expression.left.object.type === 'Identifier' &&
             node.expression.left.object.name === 'exports';
 
-          if (!isIIFE && !isModuleAssignment && !isExportsAssignment && !isExportPropertyAssignment) {
+          if (
+            !isIIFE &&
+            !isModuleAssignment &&
+            !isExportsAssignment &&
+            !isExportPropertyAssignment
+          ) {
             context.report({
               node,
               messageId: 'message'

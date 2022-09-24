@@ -1,0 +1,33 @@
+name: Audit
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+
+permissions: read-all
+
+jobs:
+  npm:
+    name: npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version: 16 # using this while v0 has no .nvmrc yet
+          # node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Audit all npm dependencies
+        if: ${{ !startsWith(inputs.ref, 'v') }}
+        run: npm audit
+      - name: Audit production npm dependencies
+        if: ${{ startsWith(inputs.ref, 'v') }}
+        run: npm audit --omit dev

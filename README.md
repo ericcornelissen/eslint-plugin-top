@@ -4,21 +4,22 @@ Disallow side effects at the top level of files
 
 ## Installation
 
-You'll first need to install [ESLint](https://eslint.org/):
+You'll first need to install [ESLint]:
 
-```sh
+```shell
 npm i eslint --save-dev
 ```
 
 Next, install `eslint-plugin-top`:
 
-```sh
+```shell
 npm install @ericcornelissen/eslint-plugin-top --save-dev
 ```
 
 ## Usage
 
-Add `top` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Add `top` to the plugins section of your `.eslintrc` configuration file. You can
+omit the `eslint-plugin-` prefix:
 
 ```json
 {
@@ -39,5 +40,7 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-- [`no-top-level-variables`](./docs/rules/no-top-level-variables.md)
-- [`no-top-level-side-effect`](./docs/rules/no-top-level-side-effect.md)
+- [`no-top-level-variables`](docs/rules/no-top-level-variables.md)
+- [`no-top-level-side-effect`](docs/rules/no-top-level-side-effect.md)
+
+[eslint]: https://eslint.org/

@@ -1,0 +1,68 @@
+name: Check
+on:
+  - push
+  - pull_request
+
+permissions: read-all
+
+jobs:
+  audit:
+    name: Audit
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Lint
+        run: |
+          npm run lint
+          npm run eslint
+  sast:
+    name: SAST
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-sast.yml@main
+    permissions:
+      contents: read
+      security-events: write
+    needs:
+      - build
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - name: Install Node.js
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Test
+        run: npm test
