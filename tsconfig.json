@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "exclude": [
+    ".temp/",
+    "node_modules/",
+    "scripts/",
+    "tests/",
+    "rollup.config.ts"
+  ]
 }

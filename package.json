@@ -31,6 +31,7 @@
     "format": "npm run _prettier -- --write",
     "lint": "npm run _prettier -- --check",
     "test": "mocha tests --recursive",
+    "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch"
   },
   "peerDependencies": {
@@ -38,6 +39,8 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.0.6",
+    "@stryker-mutator/core": "6.2.2",
+    "@stryker-mutator/typescript-checker": "6.2.2",
     "@types/eslint": "8.2.0",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
