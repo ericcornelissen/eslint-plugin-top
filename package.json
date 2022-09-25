@@ -26,6 +26,7 @@
     "prepublishOnly": "npm run build",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "build": "rollup --config rollup.config.ts",
+    "clean": "git clean -fqX .temp/ _reports/ index.js",
     "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
     "eslint": "eslint .",
     "format": "npm run _prettier -- --write",
