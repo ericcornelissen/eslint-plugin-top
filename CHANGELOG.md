@@ -7,17 +7,18 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`0f80dc5`) Fix supported rules link on npm.
 
 ## [0.1.1] - 2022-09-23
 
-- Remove unused dependencies.
-- Correct package references in the documentation.
+- (`e75383f`) Remove unused dependency `requireindex`.
+- (`3b42dca`) Remove unused dependency `typescript-eslint/eslint-plugin`.
+- (`bb1fd72`) Correct package references in the documentation.
 
 ## [0.1.0] - 2022-09-23
 
-- Don't report top-level literal assignments to a `const`.
-- Omit unnecessary files from published package.
+- (`9490743`) Don't report top-level literal assignments to a `const`.
+- (`d3690da`) Omit unnecessary files from published package.
 
 ## [0.0.1] - 2021-11-26
 
