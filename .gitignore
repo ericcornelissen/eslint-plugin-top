@@ -4,5 +4,6 @@ node_modules/
 .node_repl_history
 npm-debug.log*
 
-# generated files
+# generated
+_reports/
 index.js
