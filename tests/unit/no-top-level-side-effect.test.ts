@@ -1,7 +1,7 @@
 import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
-import {trimTestCases} from '../lib/helpers';
-import {noTopLevelSideEffect} from '../lib/rules/noTopLevelSideEffect';
+import {trimTestCases} from '../../lib/helpers';
+import {noTopLevelSideEffect} from '../../lib/rules/noTopLevelSideEffect';
 
 const valid: RuleTester.ValidTestCase[] = [
   {
