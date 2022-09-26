@@ -25,6 +25,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
+    "audit": "better-npm-audit audit",
     "build": "rollup --config rollup.config.ts",
     "clean": "git clean -fqX .temp/ _reports/ index.js",
     "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
@@ -45,6 +46,7 @@
     "@types/eslint": "8.2.0",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
+    "better-npm-audit": "3.7.3",
     "c8": "7.12.0",
     "eslint": "8.3.0",
     "eslint-plugin-eslint-plugin": "4.0.2",
