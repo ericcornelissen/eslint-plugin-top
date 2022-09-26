@@ -1,6 +1,6 @@
-import * as assert from 'node:assert';
-import * as cp from 'node:child_process';
-import * as path from 'node:path';
+import * as assert from 'assert';
+import * as cp from 'child_process';
+import * as path from 'path';
 
 import * as snapshots from './snapshots';
 
