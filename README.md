@@ -1,4 +1,6 @@
 # eslint-plugin-top
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fericcornelissen%2Feslint-plugin-top.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fericcornelissen%2Feslint-plugin-top?ref=badge_shield)
+
 
 Disallow side effects at the top level of files
 
@@ -44,3 +46,7 @@ Then configure the rules you want to use under the rules section.
 - [`no-top-level-side-effect`](docs/rules/no-top-level-side-effect.md)
 
 [eslint]: https://eslint.org/
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fericcornelissen%2Feslint-plugin-top.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fericcornelissen%2Feslint-plugin-top?ref=badge_large)
