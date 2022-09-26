@@ -24,8 +24,7 @@
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "pretest": "npm run build",
-    "pretest:mutation": "npm run build",
+    "pretest:compat": "npm run build",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "build": "rollup --config rollup.config.ts",
     "clean": "git clean -fqX .temp/ _reports/ index.js",
@@ -33,7 +32,8 @@
     "eslint": "eslint .",
     "format": "npm run _prettier -- --write",
     "lint": "npm run _prettier -- --check",
-    "test": "mocha tests --recursive",
+    "test": "mocha tests/unit --recursive",
+    "test:compat": "mocha tests/compat --recursive",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch"
   },
