@@ -27,7 +27,9 @@ jobs:
         run: npm ci
       - name: Audit all npm dependencies
         if: ${{ !startsWith(inputs.ref, 'v') }}
-        run: npm audit
+        run: npm run audit
       - name: Audit production npm dependencies
         if: ${{ startsWith(inputs.ref, 'v') }}
+        # TODO: use `npm run audit -- --production` when the `npm run audit`
+        # command is available at v0
         run: npm audit --omit dev
