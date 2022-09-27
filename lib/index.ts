@@ -1,5 +1,5 @@
-import {noTopLevelSideEffect} from './rules/noTopLevelSideEffect';
-import {noTopLevelVariables} from './rules/noTopLevelVariables';
+import {noTopLevelSideEffect} from './rules/no-top-level-side-effect';
+import {noTopLevelVariables} from './rules/no-top-level-variables';
 
 /**
  * @fileoverview Disallow side effects at the top level of files
