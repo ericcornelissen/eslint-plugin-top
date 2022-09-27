@@ -38,7 +38,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.ref }}
       - name: Perform GitLeaks analysis
-        uses: gitleaks/gitleaks-action@5425999620c418539c61a8143f29e346d5f6cf08
+        uses: gitleaks/gitleaks-action@5b07ceca8a89dc14d2191f4a202bd28fae3e76ad
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_ENABLE_COMMENTS: false
