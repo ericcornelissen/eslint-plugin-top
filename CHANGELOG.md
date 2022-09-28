@@ -7,6 +7,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.1.2] - 2022-09-28
+
 - (`0f80dc5`) Fix supported rules link on npm.
 - (`300e7b7`) Improve specificity of supported Node.js versions.
 
