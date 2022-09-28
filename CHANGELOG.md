@@ -7,7 +7,12 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.1.2] - 2022-09-28
+
 - (`6670488`) Add `"exports"` field to the package manifest.
+- (`0f80dc5`) Add homepage and repository link to package metadata.
 - (`0f80dc5`) Fix supported rules link on npm.
 - (`300e7b7`) Improve specificity of supported Node.js versions.
 
