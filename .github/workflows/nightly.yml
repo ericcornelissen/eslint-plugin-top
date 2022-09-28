@@ -17,11 +17,3 @@ jobs:
           - v0
     with:
       ref: ${{ matrix.ref }}
-  sast:
-    name: SAST
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-sast.yml@main
-    permissions:
-      contents: read
-      security-events: write
-    with:
-      ref: main
