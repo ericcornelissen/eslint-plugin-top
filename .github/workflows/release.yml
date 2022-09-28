@@ -49,8 +49,8 @@ jobs:
             ### Merge checklist
 
             - [ ] All continuous integration checks passed.
-            - [ ] The version number is consistently updated in `package.json`,
-                  `package-lock.json`, and `index.js`.
+            - [ ] The version number is consistently updated in `package.json`
+                  and `package-lock.json`.
             - [ ] A new release is added to `CHANGELOG.md` with the correct
                   version number and date.
             - [ ] The new version number is in accordance with [semantic
