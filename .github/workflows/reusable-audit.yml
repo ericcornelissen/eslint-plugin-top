@@ -21,8 +21,7 @@ jobs:
         uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b
         with:
           cache: npm
-          node-version: 16 # using this while v0 has no .nvmrc yet
-          # node-version-file: .nvmrc
+          node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm ci
       - name: Audit all npm dependencies
@@ -30,6 +29,4 @@ jobs:
         run: npm run audit
       - name: Audit production npm dependencies
         if: ${{ startsWith(inputs.ref, 'v') }}
-        # TODO: use `npm run audit -- --production` when the `npm run audit`
-        # command is available at v0
-        run: npm audit --omit dev
+        run: npm run audit -- --production
