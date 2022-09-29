@@ -31,7 +31,7 @@
     "build": "rollup --config rollup.config.ts",
     "clean": "git clean -fqX .temp/ _reports/ index.js",
     "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
-    "eslint": "eslint .",
+    "eslint": "eslint . --report-unused-disable-directives",
     "format": "npm run _prettier -- --write",
     "lint": "npm run _prettier -- --check",
     "lint:md": "markdownlint --dot --ignore-path .gitignore .",
