@@ -44,6 +44,21 @@ jobs:
           languages: javascript
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@86f3159a697a097a813ad9bfa0002412d97690a4
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - name: Install Node.js
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Check formatting
+        run: npm run lint
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -57,10 +72,8 @@ jobs:
           node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm ci
-      - name: Lint
-        run: |
-          npm run lint
-          npm run eslint
+      - name: Lint TypeScript
+        run: npm run eslint
   test:
     name: Test
     runs-on: ubuntu-latest
