@@ -9,6 +9,6 @@ permissions: read-all
 jobs:
   audit:
     name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@avoid-codeql-nightly
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
     with:
       refs: '["main", "v0"]'
