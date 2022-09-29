@@ -75,7 +75,7 @@ jobs:
       - name: Lint MarkDown
         run: npm run lint:md
       - name: Lint TypeScript
-        run: npm run eslint
+        run: npm run lint:ts
   test:
     name: Test
     runs-on: ubuntu-latest
