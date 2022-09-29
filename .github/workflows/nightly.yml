@@ -8,20 +8,7 @@ permissions: read-all
 
 jobs:
   audit:
-    name: Audit (${{ matrix.ref }})
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
-    strategy:
-      matrix:
-        ref:
-          - main
-          - v0
+    name: Audit
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@avoid-codeql-nightly
     with:
-      ref: ${{ matrix.ref }}
-  sast:
-    name: SAST
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-sast.yml@main
-    permissions:
-      contents: read
-      security-events: write
-    with:
-      ref: main
+      refs: '["main", "v0"]'

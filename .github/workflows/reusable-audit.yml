@@ -2,21 +2,41 @@ name: Audit
 on:
   workflow_call:
     inputs:
-      ref:
+      refs:
+        default: '[""]'
         required: false
         type: string
 
 permissions: read-all
 
 jobs:
-  npm:
-    name: npm
+  gitleaks:
+    name: Gitleaks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
         with:
-          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - name: Perform GitLeaks analysis
+        uses: gitleaks/gitleaks-action@5425999620c418539c61a8143f29e346d5f6cf08
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
+          GITLEAKS_ENABLE_SUMMARY: true
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+  npm:
+    name: npm
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ref: ${{ fromJSON(inputs.refs) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        with:
+          ref: ${{ matrix.ref }}
       - name: Install Node.js
         uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b
         with:
