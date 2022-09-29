@@ -43,6 +43,7 @@ jobs:
       - name: Lint
         run: |
           npm run lint
+          npm run lint:md
           npm run eslint
   sast:
     name: SAST
