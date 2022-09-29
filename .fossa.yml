@@ -1,0 +1,15 @@
+# Check out Fossa at: https://fossa.com/
+
+version: 3
+
+server: https://app.fossa.com
+
+project:
+  id: github.com/ericcornelissen/eslint-plugin-top
+  name: eslint-plugin-top
+  url: https://github.com/ericcornelissen/eslint-plugin-top
+
+paths:
+  exclude:
+    - ./_reports/
+    - ./.temp/
