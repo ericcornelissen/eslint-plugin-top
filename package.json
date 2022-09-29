@@ -34,7 +34,7 @@
     "format": "npm run _prettier -- --write",
     "lint": "npm run _prettier -- --check",
     "lint:md": "markdownlint --dot --ignore-path .gitignore .",
-    "lint:ts": "eslint . --ext .ts",
+    "lint:ts": "eslint . --report-unused-disable-directives --ext .ts",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
     "test:mutation": "stryker run stryker.config.js",
