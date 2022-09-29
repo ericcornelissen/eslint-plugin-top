@@ -7,7 +7,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`03418df`) Correct the plugin name in the usage documentation text.
 
 ## [0.1.2] - 2022-09-28
 
