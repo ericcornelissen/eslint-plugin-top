@@ -72,6 +72,8 @@ jobs:
           node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm ci
+      - name: Lint MarkDown
+        run: npm run lint:md
       - name: Lint TypeScript
         run: npm run eslint
   test:
