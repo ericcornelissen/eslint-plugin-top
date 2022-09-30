@@ -18,8 +18,8 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ## Usage
 
-Add `top` to the plugins section of your `.eslintrc` configuration file. You can
-omit the `eslint-plugin-` prefix:
+Add `@ericcornelissen/top` to the plugins section of your `.eslintrc` config
+file. You can omit the `eslint-plugin-` infix:
 
 ```json
 {
