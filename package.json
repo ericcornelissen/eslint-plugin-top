@@ -5,6 +5,9 @@
   "license": "ISC",
   "main": "index.js",
   "exports": "./index.js",
+  "engines": {
+    "node": "12.x || 14.x || 16.x || 18.x"
+  },
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
     "type": "git",
@@ -23,24 +26,6 @@
       "name": "Eric Cornelissen"
     }
   ],
-  "scripts": {
-    "prepublishOnly": "npm run build",
-    "pretest:compat": "npm run build",
-    "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
-    "audit": "better-npm-audit audit",
-    "build": "rollup --config rollup.config.ts",
-    "check-licenses": "fossa analyze && fossa test",
-    "clean": "git clean -fqX .temp/ _reports/ index.js",
-    "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
-    "format": "npm run _prettier -- --write",
-    "lint": "npm run _prettier -- --check",
-    "lint:md": "markdownlint --dot --ignore-path .gitignore .",
-    "lint:ts": "eslint . --report-unused-disable-directives --ext .ts",
-    "test": "mocha tests/unit --recursive",
-    "test:compat": "mocha tests/compat --recursive",
-    "test:mutation": "stryker run stryker.config.js",
-    "test:watch": "npm run test -- --watch"
-  },
   "peerDependencies": {
     "eslint": ">=6"
   },
@@ -69,7 +54,22 @@
     "ts-node": "10.4.0",
     "typescript": "4.5.2"
   },
-  "engines": {
-    "node": "12.x || 14.x || 16.x || 18.x"
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "pretest:compat": "npm run build",
+    "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
+    "audit": "better-npm-audit audit",
+    "build": "rollup --config rollup.config.ts",
+    "check-licenses": "fossa analyze && fossa test",
+    "clean": "git clean --force -X .temp/ _reports/ index.js",
+    "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
+    "format": "npm run _prettier -- --write",
+    "lint": "npm run _prettier -- --check",
+    "lint:md": "markdownlint --dot --ignore-path .gitignore .",
+    "lint:ts": "eslint . --report-unused-disable-directives --ext .ts",
+    "test": "mocha tests/unit --recursive",
+    "test:compat": "mocha tests/compat --recursive",
+    "test:mutation": "stryker run stryker.config.js",
+    "test:watch": "npm run test -- --watch"
   }
 }
