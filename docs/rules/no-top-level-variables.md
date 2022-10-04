@@ -55,4 +55,10 @@ Default is `["const", "let", "var"]`
 
 If you want to allow top level variables
 
+---
+
+Please [open an issue] if you found a mistake or if you have a suggestion for
+how to improve the documentation.
+
 [eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel
+[open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md

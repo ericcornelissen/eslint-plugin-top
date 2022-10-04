@@ -77,4 +77,10 @@ module.exports = () => {
 
 If you want to allow top level side effects
 
+---
+
+Please [open an issue] if you found a mistake or if you have a suggestion for
+how to improve the documentation.
+
 [eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel
+[open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md
