@@ -75,7 +75,7 @@ module.exports = () => {
 
 ## When Not To Use It
 
-If you want to allow top level side effects
+If you want to allow top level side effects.
 
 ---
 

@@ -1,6 +1,6 @@
 # eslint-plugin-top
 
-Disallow side effects at the top level of files
+Disallow side effects at the top level of files.
 
 ## Installation
 
@@ -27,7 +27,7 @@ file. You can omit the `eslint-plugin-` infix:
 }
 ```
 
-Then configure the rules you want to use under the rules section.
+Then, configure the rules you want to use under the rules section:
 
 ```json
 {

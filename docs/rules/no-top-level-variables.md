@@ -49,11 +49,11 @@ export default function () {
 
 Allows to only forbid specific kinds of variables.
 
-Default is `["const", "let", "var"]`
+Default is: `["const", "let", "var"]`
 
 ## When Not To Use It
 
-If you want to allow top level variables
+If you want to allow top level variables.
 
 ---
 
