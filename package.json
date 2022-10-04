@@ -34,7 +34,7 @@
     "@rollup/plugin-node-resolve": "14.1.0",
     "@stryker-mutator/core": "6.2.2",
     "@stryker-mutator/typescript-checker": "6.2.2",
-    "@types/eslint": "8.2.0",
+    "@types/eslint": "8.4.6",
     "@types/mocha": "^9.1.1",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
