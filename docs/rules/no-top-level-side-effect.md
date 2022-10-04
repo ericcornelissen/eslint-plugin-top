@@ -1,6 +1,6 @@
 # No top level side effect (no-top-level-side-effect)
 
-Based on [eslint-plugin-toplevel](https://github.com/HKalbasi/eslint-plugin-toplevel).
+Based on [eslint-plugin-toplevel].
 
 ## Rule Details
 
@@ -76,3 +76,5 @@ module.exports = () => {
 ## When Not To Use It
 
 If you want to allow top level side effects
+
+[eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel

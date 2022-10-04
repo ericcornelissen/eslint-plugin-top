@@ -40,7 +40,9 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-- [`no-top-level-variables`](docs/rules/no-top-level-variables.md)
-- [`no-top-level-side-effect`](docs/rules/no-top-level-side-effect.md)
+- [`no-top-level-variables`]
+- [`no-top-level-side-effect`]
 
 [eslint]: https://eslint.org/
+[`no-top-level-variables`]: docs/rules/no-top-level-variables.md
+[`no-top-level-side-effect`]: docs/rules/no-top-level-side-effect.md

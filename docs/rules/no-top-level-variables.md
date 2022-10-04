@@ -1,6 +1,6 @@
 # No top level variables (no-top-level-variables)
 
-Based on [eslint-plugin-toplevel](https://github.com/HKalbasi/eslint-plugin-toplevel).
+Based on [eslint-plugin-toplevel].
 
 ## Rule Details
 
@@ -54,3 +54,5 @@ Default is `["const", "let", "var"]`
 ## When Not To Use It
 
 If you want to allow top level variables
+
+[eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel
