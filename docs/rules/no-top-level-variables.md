@@ -32,17 +32,14 @@ export default function () {
 
 ### Options
 
-```json
-{
-  "rules": {
-    "@ericcornelissen/top/no-top-level-variables": [
-      "error",
-      {
-        "kind": ["const", "let", "var"]
-      }
-    ]
-  }
-}
+```yaml
+rules:
+  '@ericcornelissen/top/no-top-level-variables':
+    - error
+    - kind:
+        - const
+        - let
+        - var
 ```
 
 #### kind
