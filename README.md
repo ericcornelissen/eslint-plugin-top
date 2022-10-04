@@ -21,21 +21,17 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 Add `@ericcornelissen/top` to the plugins section of your `.eslintrc` config
 file. You can omit the `eslint-plugin-` infix:
 
-```json
-{
-  "plugins": ["@ericcornelissen/top"]
-}
+```yaml
+plugins:
+  - '@ericcornelissen/top'
 ```
 
 Then configure the rules you want to use under the rules section.
 
-```json
-{
-  "rules": {
-    "@ericcornelissen/top/no-top-level-variables": 2,
-    "@ericcornelissen/top/no-top-level-side-effect": 2
-  }
-}
+```yaml
+rules:
+  '@ericcornelissen/top/no-top-level-variables': error
+  '@ericcornelissen/top/no-top-level-side-effect': error
 ```
 
 ## Supported Rules
