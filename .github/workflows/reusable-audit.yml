@@ -30,10 +30,10 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       - name: Audit all npm dependencies
-        if: ${{ !startsWith(inputs.ref, 'v') }}
+        if: ${{ !startsWith(matrix.ref, 'v') }}
         run: npm run audit
       - name: Audit production npm dependencies
-        if: ${{ startsWith(inputs.ref, 'v') }}
+        if: ${{ startsWith(matrix.ref, 'v') }}
         run: npm run audit -- --production
   secrets:
     name: Secrets
