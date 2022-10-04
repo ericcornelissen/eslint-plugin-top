@@ -1,6 +1,6 @@
 # No top level side effect (no-top-level-side-effect)
 
-Based on [eslint-plugin-toplevel](https://github.com/HKalbasi/eslint-plugin-toplevel).
+Based on [eslint-plugin-toplevel].
 
 ## Rule Details
 
@@ -8,7 +8,7 @@ Lets you disallow top level side effects.
 
 Examples of **incorrect** code for this rule:
 
-```js
+```javascript
 console.log('hello world');
 for (let i = 0; i < 10; i++) {
   s += i;
@@ -21,7 +21,7 @@ fetch('/api')
 
 Examples of **correct** code for this rule:
 
-```js
+```javascript
 export default function () {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -34,7 +34,7 @@ export default function () {
 }
 ```
 
-```js
+```javascript
 (function () {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -47,7 +47,7 @@ export default function () {
 })();
 ```
 
-```js
+```javascript
 module.exports = () => {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -60,7 +60,7 @@ module.exports = () => {
 };
 ```
 
-```js
+```javascript
 (() => {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -75,4 +75,12 @@ module.exports = () => {
 
 ## When Not To Use It
 
-If you want to allow top level side effects
+If you want to allow top level side effects.
+
+---
+
+Please [open an issue] if you found a mistake or if you have a suggestion for
+how to improve the documentation.
+
+[eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel
+[open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md

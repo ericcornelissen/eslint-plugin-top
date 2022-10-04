@@ -1,13 +1,13 @@
 # eslint-plugin-top
 
-Disallow side effects at the top level of files
+Disallow side effects at the top level of files.
 
 ## Installation
 
 You'll first need to install [ESLint]:
 
 ```shell
-npm i eslint --save-dev
+npm install eslint --save-dev
 ```
 
 Next, install `eslint-plugin-top`:
@@ -27,7 +27,7 @@ file. You can omit the `eslint-plugin-` infix:
 }
 ```
 
-Then configure the rules you want to use under the rules section.
+Then, configure the rules you want to use under the rules section:
 
 ```json
 {
@@ -40,7 +40,15 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-- [`no-top-level-variables`](docs/rules/no-top-level-variables.md)
-- [`no-top-level-side-effect`](docs/rules/no-top-level-side-effect.md)
+- [`no-top-level-variables`]
+- [`no-top-level-side-effect`]
+
+---
+
+Please [open an issue] if you found a mistake or if you have a suggestion for
+how to improve the documentation.
 
 [eslint]: https://eslint.org/
+[open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md
+[`no-top-level-variables`]: docs/rules/no-top-level-variables.md
+[`no-top-level-side-effect`]: docs/rules/no-top-level-side-effect.md
