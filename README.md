@@ -7,7 +7,7 @@ Disallow side effects at the top level of files.
 You'll first need to install [ESLint]:
 
 ```shell
-npm i eslint --save-dev
+npm install eslint --save-dev
 ```
 
 Next, install `eslint-plugin-top`:

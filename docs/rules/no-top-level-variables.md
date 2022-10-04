@@ -8,7 +8,7 @@ Lets you disallow top level variables.
 
 Examples of **incorrect** code for this rule:
 
-```js
+```javascript
 var foo = 42;
 const bar = new Bar();
 let baz = 0;
@@ -18,7 +18,7 @@ let baz = 0;
 
 Examples of **correct** code for this rule:
 
-```js
+```javascript
 const bar = 1337;
 
 export default function () {

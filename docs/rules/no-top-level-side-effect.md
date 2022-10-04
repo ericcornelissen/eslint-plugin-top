@@ -8,7 +8,7 @@ Lets you disallow top level side effects.
 
 Examples of **incorrect** code for this rule:
 
-```js
+```javascript
 console.log('hello world');
 for (let i = 0; i < 10; i++) {
   s += i;
@@ -21,7 +21,7 @@ fetch('/api')
 
 Examples of **correct** code for this rule:
 
-```js
+```javascript
 export default function () {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -34,7 +34,7 @@ export default function () {
 }
 ```
 
-```js
+```javascript
 (function () {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -47,7 +47,7 @@ export default function () {
 })();
 ```
 
-```js
+```javascript
 module.exports = () => {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
@@ -60,7 +60,7 @@ module.exports = () => {
 };
 ```
 
-```js
+```javascript
 (() => {
   console.log('hello world');
   for (let i = 0; i < 10; i++) {
