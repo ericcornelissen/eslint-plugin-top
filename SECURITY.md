@@ -2,9 +2,8 @@
 
 ## Supported Versions
 
-The table below shows which versions of _eslint-plugin-top_ (specifically
-`@ericcornelissen/eslint-plugin-top`) are currently supported with security
-updates.
+The table below shows which versions of `@ericcornelissen/eslint-plugin-top` are
+currently supported with security updates.
 
 | Version | Supported | End-of-life |
 | ------: | :-------- | :---------- |
@@ -12,19 +11,18 @@ updates.
 
 ## Reporting a Vulnerability
 
-The maintainers of _eslint-plugin-top_ take security bugs very seriously. We
-appreciate your efforts to responsibly disclose your findings. Due to the
-non-funded open-source nature of this project, we take a best-efforts approach
-when it comes to engaging with (security) reports.
+The maintainers of this project take security bugs very seriously. We appreciate
+your efforts to responsibly disclose your findings. Due to the non-funded and
+open-source nature of this project, we take a best-efforts approach when it
+comes to engaging with (security) reports.
 
-To report a security issue in a supported version of _eslint-plugin-top_, send
-an email to [security@ericcornelissen.dev] and include the words _"SECURITY"_
-and _"eslint-plugin-top"_ in the subject line. Please do not open a regular
-issue or Pull Request in the public repository.
+To report a security issue in a supported version of the project, send an email
+to [security@ericcornelissen.dev] and include the terms "SECURITY" and
+"eslint-plugin-top" in the subject line. Please do not open a regular issue or
+Pull Request in the public repository.
 
-If you found a security bug in an unsupported version of _eslint-plugin-top_,
-please report this publicly. For example, as a regular issue in the public
-repository.
+If you found a security bug in an unsupported version of the project, please
+report this publicly. For example, as a regular issue in the public repository.
 
 ## Advisories
 

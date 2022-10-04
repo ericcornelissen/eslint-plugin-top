@@ -17,5 +17,5 @@ comment:
   require_head: yes
 
 ignore:
-  - 'scripts/**/*'
-  - 'tests/**/*'
+  - scripts/**/*
+  - tests/**/*

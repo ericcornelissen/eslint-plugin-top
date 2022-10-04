@@ -1,4 +1,4 @@
-name: Releases
+name: Release
 on:
   push:
     branches:
@@ -8,18 +8,20 @@ on:
       update_type:
         description: Update type
         required: true
-        default: minor
         type: choice
-        options: [patch, minor, major]
+        options:
+          - patch
+          - minor
+          - major
 
 permissions: read-all
 
 jobs:
   # Create release
-  pr:
-    name: Create Pull Request
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+  initiate:
+    name: Initiate
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     permissions:
       contents: write # To push a commit
       pull-requests: write # To open a Pull Request
@@ -64,9 +66,9 @@ jobs:
 
   # Publish release
   release:
-    name: Create release
-    if: ${{ github.event_name == 'push' }}
+    name: Release
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
     permissions:
       contents: write # To push a tag
     steps:
@@ -83,14 +85,14 @@ jobs:
         run: npm ci
       - name: Validate release readiness
         run: |
-          npm run test
           npm run build
+          npm run test
       - name: Check if version is released
         id: version
         run: |
-          VERSION="v$(cat package.json | jq -r '.version')"
+          VERSION="v$(jq -r '.version' < package.json)"
           echo "::set-output name=version::$VERSION"
-          if [ $(git tag -l $VERSION) ]; then
+          if [ "$(git tag --list "$VERSION")" ]; then
             echo "::set-output name=released::true"
           else
             echo "::set-output name=released::false"
@@ -99,8 +101,8 @@ jobs:
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
           # Create & push a tag for the new version
-          git tag ${{ steps.version.outputs.version }}
-          git push origin ${{ steps.version.outputs.version }}
+          git tag "${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.version }}"
 
           # Update what commit the v0 branch points to
           git push origin HEAD:v0
