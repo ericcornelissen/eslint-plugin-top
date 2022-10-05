@@ -49,22 +49,21 @@ as a [bug report].
 The project welcomes request for new rules, extensions of existing rules, or
 other new features. When requesting a feature, make sure to be specific and
 precise about what you want, as well as why you want it. Also, make sure the
-feature has not already been request.
+feature has not already been requested.
 
 When you have a clear idea of what you need, you can submit a [feature request].
 
 ### Corrections
 
 Corrections, such as fixing typos or refactoring code, are important. For small
-changes of this nature you can open a Pull Request directly, or open an issue
-first if you prefer.
+changes you can open a Pull Request directly, Or you can first [open an issue].
 
 ---
 
 ## Making Changes
 
 You are always free to contribute by working on one of the confirmed or accepted
-(and unassigned) [open issues] and opening a Pull Request for it.
+and unassigned [open issues] and opening a Pull Request for it.
 
 It is advised to indicate that you will be working on a issue by commenting on
 that issue. This is so others don't start working on the same issue as you are.
@@ -82,9 +81,9 @@ as clearly as possible.
 
 ### Prerequisites
 
-To be able to contribute you need at least the following:
+To be able to contribute you need the following tooling:
 
-- [Git];
+- [git];
 - [Node.js] v16.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
 - (Optional) [Docker];
@@ -232,6 +231,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [mutation testing]: https://en.wikipedia.org/wiki/Mutation_testing
 [node.js]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
+[open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new
 [open issues]: https://github.com/ericcornelissen/eslint-plugin-top/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee
 [prettier]: https://prettier.io/
 [rollup.js]: https://rollupjs.org/guide/en/
