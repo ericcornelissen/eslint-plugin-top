@@ -4,8 +4,11 @@ module.exports = {
   coverageAnalysis: 'perTest',
   inPlace: false,
   mutate: ['lib/**/*.ts'],
-  commandRunner: {
-    command: 'npm run test'
+
+  testRunner: 'mocha',
+  mochaOptions: {
+    config: '.mocharc.yml',
+    spec: ['tests/unit/**/*.test.ts']
   },
 
   timeoutMS: 25000,
