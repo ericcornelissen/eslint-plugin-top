@@ -151,6 +151,13 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
+      - name: Cache Stryker incremental report
+        uses: actions/cache@56461b9eb0f8438fd15c7a9968e3c9ebb18ceff1
+        with:
+          path: _reports/mutation/stryker-incremental.json
+          key: mutation-${{ github.run_number }}
+          restore-keys: |
+            mutation-
       - name: Install Node.js dependencies
         run: npm ci
       - name: Run mutation tests
