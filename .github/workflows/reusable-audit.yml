@@ -44,7 +44,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Scan for secrets
-        uses: gitleaks/gitleaks-action@5425999620c418539c61a8143f29e346d5f6cf08
+        uses: gitleaks/gitleaks-action@1938557f6a58837331b99822ab17b8e536e7bef9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_ENABLE_COMMENTS: false
