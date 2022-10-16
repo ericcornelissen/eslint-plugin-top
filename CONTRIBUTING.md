@@ -182,13 +182,19 @@ node scripts/run-compat-tests.js
 
 ##### Vulnerabilities
 
-To scan for vulnerabilities in Node.js dependencies, run:
+To scan for vulnerabilities in all npm dependencies, run:
 
 ```shell
 npm run audit
 ```
 
-This uses [better-npm-audit] to audit dependencies, which allows for having
+To scan for vulnerabilities in runtime npm dependencies only, run:
+
+```shell
+npm run audit:runtime
+```
+
+Both use [better-npm-audit] to audit dependencies, which allows for having
 exceptions defined in the `.nsprc` file.
 
 ##### Licenses
