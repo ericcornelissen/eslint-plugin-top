@@ -29,7 +29,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
       - name: Install Node.js
-        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -77,7 +77,7 @@ jobs:
         with:
           fetch-depth: 0 # To obtain all tags
       - name: Install Node.js
-        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516
         with:
           cache: npm
           node-version-file: .nvmrc
