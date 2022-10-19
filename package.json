@@ -60,7 +60,6 @@
     "pretest:compat": "npm run build",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
-    "audit:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.ts",
     "check-licenses": "fossa analyze && fossa test",
     "clean": "git clean --force -X .temp/ _reports/ index.js",

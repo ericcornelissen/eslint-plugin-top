@@ -29,13 +29,9 @@ jobs:
           node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm ci
-      - name: Audit all npm dependencies
+      - name: Audit npm dependencies
         if: ${{ !startsWith(matrix.ref, 'v') }}
         run: npm run audit
-      - name: Audit production npm dependencies
-        if: ${{ startsWith(matrix.ref, 'v') }}
-        # TODO: Replace with `run: npm run audit:runtime`
-        run: npm run audit -- --production
   secrets:
     name: Secrets
     runs-on: ubuntu-latest
