@@ -84,7 +84,7 @@ as clearly as possible.
 To be able to contribute you need the following tooling:
 
 - [git];
-- [Node.js] v16.0.0 or higher and [npm] v8.1.2 or higher;
+- [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
 - (Optional) [Docker];
 - (Optional) [Fossa CLI];
