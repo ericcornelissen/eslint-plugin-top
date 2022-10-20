@@ -27,7 +27,7 @@
     }
   ],
   "peerDependencies": {
-    "eslint": ">=6"
+    "eslint": "6.x || 7.x || 8.x"
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
