@@ -156,7 +156,7 @@ jobs:
       - name: Cache Stryker incremental report
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7
         with:
-          path: _reports/mutation/stryker-incremental.json
+          path: .cache/stryker-incremental.json
           key: mutation-${{ github.run_number }}
           restore-keys: |
             mutation-
