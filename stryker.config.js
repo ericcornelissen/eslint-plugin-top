@@ -1,7 +1,5 @@
 // Check out StrykerJS at: https://stryker-mutator.io/
 
-const reportDir = '_reports/mutation';
-
 module.exports = {
   coverageAnalysis: 'perTest',
   inPlace: false,
@@ -14,10 +12,7 @@ module.exports = {
   },
 
   incremental: true,
-  incrementalFile: `${reportDir}/stryker-incremental.json`,
-
-  timeoutMS: 25000,
-  timeoutFactor: 2.5,
+  incrementalFile: '.cache/stryker-incremental.json',
 
   disableTypeChecks: '{lib,tests}/**/*.ts',
   checkers: ['typescript'],
@@ -25,12 +20,12 @@ module.exports = {
 
   reporters: ['clear-text', 'dashboard', 'html', 'progress'],
   htmlReporter: {
-    fileName: `${reportDir}/index.html`
+    fileName: '_reports/mutation/index.html'
   },
   thresholds: {
     // TODO: add thresholds
   },
 
   tempDirName: '.temp/stryker',
-  cleanTempDir: false
+  cleanTempDir: true
 };
