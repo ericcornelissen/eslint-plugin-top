@@ -9,6 +9,7 @@ Versioning].
 ## [Unreleased]
 
 - (`03418df`) Correct the plugin name in the usage documentation text.
+- (`ceaa619`) Improve specificity of supported ESLint versions.
 - (`9fa79df`) Use YAML for example configuration in documentation.
 
 ## [0.1.2] - 2022-09-28
