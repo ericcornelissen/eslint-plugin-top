@@ -36,7 +36,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
           node.declarations[0].init.callee.name === 'require';
         const isLiteral =
           node.kind === 'const' &&
-          node.declarations[0].init?.type === 'Literal';
+          (node.declarations[0].init as any).type === 'Literal';
 
         if (isMatching && !isRequire && !isLiteral) {
           if (isTopLevel(node)) {

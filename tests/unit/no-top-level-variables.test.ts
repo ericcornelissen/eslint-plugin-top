@@ -88,6 +88,16 @@ const invalid: RuleTester.InvalidTestCase[] = [
         messageId: 'message'
       }
     ]
+  },
+  {
+    code: `
+      var foo;
+    `,
+    errors: [
+      {
+        messageId: 'message'
+      }
+    ]
   }
 ];
 
