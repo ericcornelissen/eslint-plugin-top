@@ -87,7 +87,6 @@ To be able to contribute you need the following tooling:
 - [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
 - (Optional) [Docker];
-- (Optional) [Fossa CLI];
 
 ### Workflow
 
@@ -197,20 +196,6 @@ npm run audit:runtime
 Both use [better-npm-audit] to audit dependencies, which allows for having
 exceptions defined in the `.nsprc` file.
 
-##### Licenses
-
-To check the licenses of Node.js dependencies for potential problems this
-project uses [Fossa]. This is covered by the project's continuous integration.
-You can also run this locally by:
-
-1. Creating a [Fossa] account.
-2. Setting up the [Fossa CLI].
-3. Running:
-
-   ```shell
-   npm run check-licenses
-   ```
-
 #### Building
 
 The TypeScript source code of this project is converted and bundled into a
@@ -229,8 +214,6 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
-[fossa]: https://fossa.com/
-[fossa cli]: https://github.com/fossas/fossa-cli
 [git]: https://git-scm.com/
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [mocha]: https://mochajs.org/

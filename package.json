@@ -62,7 +62,6 @@
     "audit": "better-npm-audit audit",
     "audit:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.ts",
-    "check-licenses": "fossa analyze && fossa test",
     "clean": "git clean --force -X .cache/ .temp/ _reports/ index.js",
     "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
     "format": "npm run _prettier -- --write",

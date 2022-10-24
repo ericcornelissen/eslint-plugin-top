@@ -59,21 +59,6 @@ jobs:
         run: npm ci
       - name: Check formatting
         run: npm run lint
-  licenses:
-    name: Licenses
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
-      - name: Scan licenses
-        uses: fossas/fossa-action@f61a4c0c263690f2ddb54b9822a719c25a7b608f
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-      - name: Check licenses
-        uses: fossas/fossa-action@f61a4c0c263690f2ddb54b9822a719c25a7b608f
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-          run-tests: true
   lint:
     name: Lint
     runs-on: ubuntu-latest
