@@ -196,6 +196,15 @@ npm run audit:runtime
 Both use [better-npm-audit] to audit dependencies, which allows for having
 exceptions defined in the `.nsprc` file.
 
+##### Licenses
+
+To check the licenses of Node.js dependencies for potential problems this
+project uses [licensee]. To validate the project dependencies' licenses, run:
+
+```shell
+npm run check-licenses
+```
+
 #### Building
 
 The TypeScript source code of this project is converted and bundled into a
@@ -215,6 +224,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [eslint]: https://eslint.org/
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
 [git]: https://git-scm.com/
+[licensee]: https://github.com/jslicense/licensee.js
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [mocha]: https://mochajs.org/
 [mutation testing]: https://en.wikipedia.org/wiki/Mutation_testing
