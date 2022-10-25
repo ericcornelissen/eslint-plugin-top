@@ -65,15 +65,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
-      - name: Scan licenses
-        uses: fossas/fossa-action@f61a4c0c263690f2ddb54b9822a719c25a7b608f
+      - name: Install Node.js
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516
         with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
       - name: Check licenses
-        uses: fossas/fossa-action@f61a4c0c263690f2ddb54b9822a719c25a7b608f
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-          run-tests: true
+        run: npm run check-licenses
   lint:
     name: Lint
     runs-on: ubuntu-latest

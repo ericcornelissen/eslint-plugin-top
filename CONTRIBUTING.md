@@ -87,7 +87,6 @@ To be able to contribute you need the following tooling:
 - [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
 - (Optional) [Docker];
-- (Optional) [Fossa CLI];
 
 ### Workflow
 
@@ -200,16 +199,11 @@ exceptions defined in the `.nsprc` file.
 ##### Licenses
 
 To check the licenses of Node.js dependencies for potential problems this
-project uses [Fossa]. This is covered by the project's continuous integration.
-You can also run this locally by:
+project uses [licensee]. To validate the project dependencies' licenses, run:
 
-1. Creating a [Fossa] account.
-2. Setting up the [Fossa CLI].
-3. Running:
-
-   ```shell
-   npm run check-licenses
-   ```
+```shell
+npm run check-licenses
+```
 
 #### Building
 
@@ -229,9 +223,8 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
-[fossa]: https://fossa.com/
-[fossa cli]: https://github.com/fossas/fossa-cli
 [git]: https://git-scm.com/
+[licensee]: https://github.com/jslicense/licensee.js
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [mocha]: https://mochajs.org/
 [mutation testing]: https://en.wikipedia.org/wiki/Mutation_testing
