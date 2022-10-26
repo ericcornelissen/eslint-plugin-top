@@ -8,6 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`84b0145`) Add the Security Policy to the published package.
 - (`03418df`) Correct the plugin name in the usage documentation text.
 - (`ceaa619`) Improve specificity of supported ESLint versions.
 - (`9fa79df`) Use YAML for example configuration in documentation.
