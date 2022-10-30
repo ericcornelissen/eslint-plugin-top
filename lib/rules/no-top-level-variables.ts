@@ -30,10 +30,12 @@ export const noTopLevelVariables: Rule.RuleModule = {
     return {
       VariableDeclaration: (node) => {
         const isMatching = Array.from(options.kind).includes(node.kind);
-        const isRequire =
-          node.declarations[0].init?.type === 'CallExpression' &&
-          node.declarations[0].init.callee.type === 'Identifier' &&
-          node.declarations[0].init.callee.name === 'require';
+        const isRequire = node.declarations.every(
+          (declaration) =>
+            declaration.init?.type === 'CallExpression' &&
+            declaration.init.callee.type === 'Identifier' &&
+            declaration.init.callee.name === 'require'
+        );
         const isLiteral =
           node.kind === 'const' &&
           node.declarations.every(
