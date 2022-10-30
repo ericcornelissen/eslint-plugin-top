@@ -40,7 +40,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
         if (isMatching && !isRequire && !isLiteral) {
           if (isTopLevel(node)) {
-            context.report({node, messageId: 'message'});
+            context.report({node: node.declarations[0], messageId: 'message'});
           }
         }
       }
