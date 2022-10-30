@@ -128,6 +128,36 @@ const invalid: RuleTester.InvalidTestCase[] = [
         messageId: 'message'
       }
     ]
+  },
+  {
+    code: `
+      var path = require('path'), foo = 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message'
+      }
+    ]
+  },
+  {
+    code: `
+      let path = require('path'), foo = 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message'
+      }
+    ]
+  },
+  {
+    code: `
+      const path = require('path'), foo = bar();
+    `,
+    errors: [
+      {
+        messageId: 'message'
+      }
+    ]
   }
 ];
 
