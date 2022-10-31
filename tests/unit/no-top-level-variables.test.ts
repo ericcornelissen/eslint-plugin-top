@@ -46,6 +46,11 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const bar = 1337;
     `
+  },
+  {
+    code: `
+      const path = require('path'), foo = 'bar';
+    `
   }
 ];
 
@@ -112,6 +117,104 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 5,
         endLine: 1,
         endColumn: 8
+      }
+    ]
+  },
+  {
+    code: `
+      var foo = 'bar', hello = 'world';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 33
+      }
+    ]
+  },
+  {
+    code: `
+      let foo = 'bar', hello = 'world';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 33
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = 'bar', hello = world();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 20,
+        endLine: 1,
+        endColumn: 35
+      }
+    ]
+  },
+  {
+    code: `
+      var path = require('path'), foo = 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 29,
+        endLine: 1,
+        endColumn: 40
+      }
+    ]
+  },
+  {
+    code: `
+      let path = require('path'), foo = 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 29,
+        endLine: 1,
+        endColumn: 40
+      }
+    ]
+  },
+  {
+    code: `
+      const path = require('path'), foo = bar();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 31,
+        endLine: 1,
+        endColumn: 42
       }
     ]
   }
