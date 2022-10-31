@@ -62,7 +62,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   },
@@ -73,7 +77,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   },
@@ -90,7 +98,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     ],
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 19
       }
     ]
   },
@@ -100,7 +112,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 8
       }
     ]
   },
@@ -110,7 +126,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   },
@@ -120,7 +140,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   },
@@ -130,7 +154,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 18
       }
     ]
   },
@@ -140,7 +168,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 27
       }
     ]
   },
@@ -150,7 +182,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 27
       }
     ]
   },
@@ -160,7 +196,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     errors: [
       {
-        messageId: 'message'
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 29
       }
     ]
   }
