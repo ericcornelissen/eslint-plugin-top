@@ -10,6 +10,7 @@ Versioning].
 
 - (`84b0145`) Add the Security Policy to the published package.
 - (`03418df`) Correct the plugin name in the usage documentation text.
+- (`6d89129`) Fix only reporting first declaration for `no-top-level-variables`.
 - (`ceaa619`) Improve specificity of supported ESLint versions.
 - (`73ca9c0`) Improve violation highlights for `no-top-level-variables`.
 - (`9fa79df`) Use YAML for example configuration in documentation.
