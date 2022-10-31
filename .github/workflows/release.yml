@@ -51,14 +51,20 @@ jobs:
             ### Merge checklist
 
             - [ ] All continuous integration checks passed.
-            - [ ] The version number is consistently updated in `package.json`
-                  and `package-lock.json`.
-            - [ ] A new release is added to `CHANGELOG.md` with the correct
-                  version number and date.
-            - [ ] The new version number is in accordance with [semantic
-                  versioning].
+            - [ ] The version number is consistently updated in `package.json` and `package-lock.json`.
+            - [ ] A new release is added to `CHANGELOG.md` with the correct version number and date.
+            - [ ] The new version number is in accordance with [Semantic Versioning].
             - [ ] There are no unexpected changes in the Pull Request.
 
+            ---
+
+            ### Post-merge checklist
+
+            - [ ] The new version is published to [npm].
+            - [ ] The `v0` branch is at the merge commit.
+            - [ ] There is a git tag for the new version on the merge commit.
+
+            [npm]: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
             [semantic versioning]: https://semver.org/spec/v2.0.0.html
           branch: release-${{ github.event.inputs.update_type }}
           branch-suffix: random
