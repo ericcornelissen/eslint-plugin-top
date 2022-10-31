@@ -8,6 +8,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.1.3] - 2022-10-31
+
 - (`84b0145`) Add the Security Policy to the published package.
 - (`03418df`) Correct the plugin name in the usage documentation text.
 - (`6d89129`) Fix only reporting first declaration for `no-top-level-variables`.
