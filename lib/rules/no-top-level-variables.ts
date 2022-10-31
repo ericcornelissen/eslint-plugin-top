@@ -30,23 +30,28 @@ export const noTopLevelVariables: Rule.RuleModule = {
     return {
       VariableDeclaration: (node) => {
         const isMatching = Array.from(options.kind).includes(node.kind);
-        const isRequire = node.declarations.every(
-          (declaration) =>
+        if (!isMatching) {
+          return;
+        }
+
+        node.declarations.forEach((declaration) => {
+          const isRequire =
             declaration.init?.type === 'CallExpression' &&
             declaration.init.callee.type === 'Identifier' &&
-            declaration.init.callee.name === 'require'
-        );
-        const isLiteral =
-          node.kind === 'const' &&
-          node.declarations.every(
-            (declaration) => (declaration.init as any).type === 'Literal'
-          );
+            declaration.init.callee.name === 'require';
+          const isLiteral =
+            node.kind === 'const' &&
+            (declaration.init as any).type === 'Literal';
 
-        if (isMatching && !isRequire && !isLiteral) {
-          if (isTopLevel(node)) {
-            context.report({node: node.declarations[0], messageId: 'message'});
+          if (!isRequire && !isLiteral) {
+            if (isTopLevel(node)) {
+              context.report({
+                node: declaration,
+                messageId: 'message'
+              });
+            }
           }
-        }
+        });
       }
     };
   }
