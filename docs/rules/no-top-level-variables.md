@@ -46,7 +46,7 @@ rules:
 
 #### constAllowed
 
-Allows to only customize what kinds of assignments are allowed for `const`.
+Allows to customize what kinds of assignments are allowed for `const`.
 
 Default is: `["Literal"]`
 
