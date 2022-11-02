@@ -38,7 +38,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
     return {
       VariableDeclaration: (node) => {
         const isMatching = Array.from(options.kind).includes(node.kind);
-        if (!isMatching) {
+        if (!isTopLevel(node) || !isMatching) {
           return;
         }
 
@@ -53,12 +53,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
             (declaration.init as any).type === 'Literal';
 
           if (!isRequire && !isLiteral) {
-            if (isTopLevel(node)) {
-              context.report({
-                node: declaration,
-                messageId: 'message'
-              });
-            }
+            context.report({
+              node: declaration,
+              messageId: 'message'
+            });
           }
         });
       }
