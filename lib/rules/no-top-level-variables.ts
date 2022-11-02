@@ -11,6 +11,13 @@ export const noTopLevelVariables: Rule.RuleModule = {
       {
         type: 'object',
         properties: {
+          constAllowed: {
+            type: 'array',
+            minItems: 0,
+            items: {
+              enum: ['Literal']
+            }
+          },
           kind: {
             type: 'array',
             minItems: 1,
@@ -23,8 +30,9 @@ export const noTopLevelVariables: Rule.RuleModule = {
     ]
   },
   create: (context) => {
-    const options = context.options[0] || {
-      kind: ['const', 'let', 'var']
+    const options = {
+      constAllowed: context.options[0]?.constAllowed || ['Literal'],
+      kind: context.options[0]?.kind || ['const', 'let', 'var']
     };
 
     return {
@@ -41,6 +49,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
             declaration.init.callee.name === 'require';
           const isLiteral =
             node.kind === 'const' &&
+            options.constAllowed.includes('Literal') &&
             (declaration.init as any).type === 'Literal';
 
           if (!isRequire && !isLiteral) {

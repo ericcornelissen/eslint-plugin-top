@@ -36,11 +36,19 @@ export default function () {
 rules:
   '@ericcornelissen/top/no-top-level-variables':
     - error
-    - kind:
+    - constAllowed:
+        - Literal
+      kind:
         - const
         - let
         - var
 ```
+
+#### constAllowed
+
+Allows to only customize what kinds of assignments are allowed for `const`.
+
+Default is: `["Literal"]`
 
 #### kind
 

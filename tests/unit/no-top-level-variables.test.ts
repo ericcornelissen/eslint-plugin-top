@@ -224,7 +224,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     options: [
       {
-        constAllowed: [],
+        constAllowed: []
       }
     ],
     errors: [
