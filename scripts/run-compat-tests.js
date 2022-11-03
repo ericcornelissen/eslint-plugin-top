@@ -27,7 +27,8 @@ function runCompatibilityTestsOn(nodeVersion) {
       `node:${nodeVersion}`,
       'npm',
       'run',
-      'test:compat'
+      'test:compat',
+      '--ignore-scripts'
     ],
     {encoding: 'utf-8'}
   );
@@ -38,9 +39,14 @@ function runCompatibilityTestsOn(nodeVersion) {
   };
 }
 
+print('Building...');
+cp.spawnSync('npm', ['run', 'build']);
+reprintln('Built\n');
+
 const nodeVersions = ['12', '14', '16', '18'];
 
 const fails = [];
+println('Running tests:');
 for (const nodeVersion of nodeVersions) {
   print(`Running compatibility tests on Node.js v${nodeVersion}...`);
   const {success, stderr} = runCompatibilityTestsOn(nodeVersion);
