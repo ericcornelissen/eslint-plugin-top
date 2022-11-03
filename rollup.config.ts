@@ -1,7 +1,7 @@
 // Check out rollup.js at: https://rollupjs.org/guide/en/
 
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 
 export default {
   input: 'lib/index.ts',
