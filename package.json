@@ -59,6 +59,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "pretest:compat": "npm run build",
+    "pretest:compat-all": "npm run build",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
     "audit:runtime": "better-npm-audit audit --production",
@@ -72,6 +73,7 @@
     "lint:ts": "eslint . --report-unused-disable-directives --ext .ts",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
+    "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch"
   }

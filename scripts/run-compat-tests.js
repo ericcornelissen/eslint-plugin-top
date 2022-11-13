@@ -39,10 +39,6 @@ function runCompatibilityTestsOn(nodeVersion) {
   };
 }
 
-print('Building...');
-cp.spawnSync('npm', ['run', 'build']);
-reprintln('Built\n');
-
 const nodeVersions = ['12', '14', '16', '18'];
 
 const fails = [];
