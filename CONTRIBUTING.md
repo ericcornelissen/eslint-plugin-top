@@ -171,10 +171,10 @@ npm run test:compat
 
 To check compatibility with all Node.js versions, the continuous integration
 runs the compatibility test suite on every supported Node.js version. You can
-also do this locally using a script (requires [Docker]):
+also do this locally using (requires [Docker]):
 
 ```shell
-node scripts/run-compat-tests.js
+npm run test:compat-all
 ```
 
 #### Auditing
