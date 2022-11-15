@@ -271,6 +271,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 28
       }
     ]
+  },
+  {
+    code: `
+      const isArray = Array.isArray;
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 30
+      }
+    ]
   }
 ];
 

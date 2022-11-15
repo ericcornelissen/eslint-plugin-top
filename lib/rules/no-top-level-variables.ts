@@ -15,7 +15,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
             type: 'array',
             minItems: 0,
             items: {
-              enum: ['Literal']
+              enum: ['Literal', 'MemberExpression']
             }
           },
           kind: {
@@ -31,7 +31,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
   },
   create: (context) => {
     const options = {
-      constAllowed: context.options[0]?.constAllowed || ['Literal'],
+      constAllowed: context.options[0]?.constAllowed || [
+        'Literal',
+        'MemberExpression'
+      ],
       kind: context.options[0]?.kind || ['const', 'let', 'var']
     };
 
@@ -51,8 +54,12 @@ export const noTopLevelVariables: Rule.RuleModule = {
             node.kind === 'const' &&
             options.constAllowed.includes('Literal') &&
             (declaration.init as any).type === 'Literal';
+          const isMemberExpression =
+            node.kind === 'const' &&
+            options.constAllowed.includes('MemberExpression') &&
+            (declaration.init as any).type === 'MemberExpression';
 
-          if (!isRequire && !isLiteral) {
+          if (!isRequire && !isLiteral && !isMemberExpression) {
             context.report({
               node: declaration,
               messageId: 'message'
