@@ -38,6 +38,7 @@ rules:
     - error
     - constAllowed:
         - Literal
+        - MemberExpression
       kind:
         - const
         - let
@@ -48,7 +49,7 @@ rules:
 
 Allows to customize what kinds of assignments are allowed for `const`.
 
-Default is: `["Literal"]`
+Default is: `["Literal", "MemberExpression"]`
 
 #### kind
 
