@@ -202,7 +202,7 @@ To check the licenses of Node.js dependencies for potential problems this
 project uses [licensee]. To validate the project dependencies' licenses, run:
 
 ```shell
-npm run check-licenses
+npm run license-check
 ```
 
 #### Building
