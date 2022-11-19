@@ -93,6 +93,8 @@ jobs:
         run: npm ci
       - name: Lint MarkDown
         run: npm run lint:md
+      - name: Lint shell scripts
+        run: npm run lint:sh
       - name: Lint TypeScript
         run: npm run lint:ts
   test:

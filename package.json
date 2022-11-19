@@ -73,6 +73,7 @@
     "lint:md": "npm run lint:md:text && npm run lint:md:code",
     "lint:md:code": "eslint **/*.md --ext .md,.javascript,.yml",
     "lint:md:text": "markdownlint --dot --ignore-path .gitignore .",
+    "lint:sh": "shellcheck scripts/*.sh",
     "lint:ts": "eslint . --report-unused-disable-directives --ext .ts",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
