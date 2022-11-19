@@ -8,6 +8,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.2.0] - 2022-11-19
+
 - (`60f0f38`) Add support for configuring allowed assignments to a `const`.
 - (`acec27c`) Allow top-level assignments of member expressions to `const`.
 - (`ab3fd6b`) Improve performance of `no-top-level-variables`.
