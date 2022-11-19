@@ -10,6 +10,7 @@ Examples of **incorrect** code for this rule:
 
 ```javascript
 console.log('hello world');
+let s = 0;
 for (let i = 0; i < 10; i++) {
   s += i;
 }
@@ -24,6 +25,7 @@ Examples of **correct** code for this rule:
 ```javascript
 export default function () {
   console.log('hello world');
+  let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
@@ -37,6 +39,7 @@ export default function () {
 ```javascript
 (function () {
   console.log('hello world');
+  let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
@@ -50,6 +53,7 @@ export default function () {
 ```javascript
 module.exports = () => {
   console.log('hello world');
+  let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
@@ -63,6 +67,7 @@ module.exports = () => {
 ```javascript
 (() => {
   console.log('hello world');
+  let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }

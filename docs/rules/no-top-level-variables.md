@@ -10,7 +10,7 @@ Examples of **incorrect** code for this rule:
 
 ```javascript
 var foo = 42;
-const bar = new Bar();
+const bar = new Array();
 let baz = 0;
 
 // Rest of your code
@@ -23,7 +23,7 @@ const bar = 1337;
 
 export default function () {
   var foo = 42;
-  const bar = new Bar();
+  const bar = new Array();
   let baz = 0;
 
   // Rest of your code
