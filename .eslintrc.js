@@ -41,6 +41,18 @@ module.exports = {
       rules: {
         'node/no-unpublished-import': 0
       }
+    },
+    {
+      files: ['**/*.md'],
+      plugins: ['markdown'],
+      processor: 'markdown/markdown'
+    },
+    {
+      files: ['**/*.md/*.javascript'],
+      rules: {
+        'no-unused-expressions': 'off',
+        'no-unused-vars': 'off'
+      }
     }
   ]
 };
