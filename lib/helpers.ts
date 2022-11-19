@@ -1,4 +1,4 @@
-import {Rule, RuleTester} from 'eslint';
+import {Rule} from 'eslint';
 
 export function isTopLevel(node: Rule.Node) {
   let scope = node.parent;
@@ -6,13 +6,4 @@ export function isTopLevel(node: Rule.Node) {
     scope = scope.parent;
   }
   return scope.type === 'Program';
-}
-
-export function trimTestCases<
-  T extends RuleTester.InvalidTestCase | RuleTester.ValidTestCase
->(testCase: T): T {
-  return {
-    ...testCase,
-    code: testCase.code.trim()
-  };
 }
