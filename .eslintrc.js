@@ -21,11 +21,12 @@ module.exports = {
     'node/no-missing-import': [
       'error',
       {
-        allowModules: [],
+        allowModules: ['estree'],
         resolvePaths: ['/path/to/a/modules/directory'],
         tryExtensions: ['.js', '.json', '.node', '.ts']
       }
-    ]
+    ],
+    '@typescript-eslint/no-unused-vars': 'error'
   },
   overrides: [
     {
@@ -50,7 +51,8 @@ module.exports = {
       files: ['**/*.md/*.javascript'],
       rules: {
         'no-unused-expressions': 'off',
-        'no-unused-vars': 'off'
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': 'off'
       }
     }
   ]
