@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`bd334d7`) Make example code in documentation runnable.
 
 ## [0.2.0] - 2022-11-19
 
