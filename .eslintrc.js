@@ -51,7 +51,8 @@ module.exports = {
       files: ['**/*.md/*.javascript'],
       rules: {
         'no-unused-expressions': 'off',
-        'no-unused-vars': 'off'
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': 'off'
       }
     }
   ]
