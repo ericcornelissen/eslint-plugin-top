@@ -21,11 +21,12 @@ module.exports = {
     'node/no-missing-import': [
       'error',
       {
-        allowModules: [],
+        allowModules: ['estree'],
         resolvePaths: ['/path/to/a/modules/directory'],
         tryExtensions: ['.js', '.json', '.node', '.ts']
       }
-    ]
+    ],
+    '@typescript-eslint/no-unused-vars': 'error'
   },
   overrides: [
     {
