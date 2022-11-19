@@ -1,4 +1,4 @@
-import type {VariableDeclarator} from 'estree';
+import type {Expression, CallExpression, VariableDeclarator} from 'estree';
 
 import {Rule} from 'eslint';
 import {isTopLevel} from '../helpers';
@@ -54,12 +54,14 @@ export const noTopLevelVariables: Rule.RuleModule = {
             options.constAllowed.includes('MemberExpression');
 
           allowedDeclaration = (declaration) => {
-            switch ((declaration.init as any).type) {
-              case 'CallExpression':
+            switch ((declaration.init as Expression).type) {
+              case 'CallExpression': {
+                const callExpression = declaration.init as CallExpression;
                 return (
-                  (declaration.init as any).callee.type === 'Identifier' &&
-                  (declaration.init as any).callee.name === 'require'
+                  callExpression.callee.type === 'Identifier' &&
+                  callExpression.callee.name === 'require'
                 );
+              }
               case 'Literal':
                 return isLiteralAllowed;
               case 'MemberExpression':
