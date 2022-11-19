@@ -1,0 +1,26 @@
+name: Config
+on:
+  pull_request:
+    paths:
+      - .github/workflows/check-config.yml
+      - .github/codecov.yml
+      - scripts/validate-codecov-config.sh
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/check-config.yml
+      - .github/codecov.yml
+      - scripts/validate-codecov-config.sh
+
+permissions: read-all
+
+jobs:
+  codecov:
+    name: Codecov
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - name: Validate Codecov configuration
+        run: sh scripts/validate-codecov-config.sh
