@@ -1,3 +1,5 @@
+import type {VariableDeclarator} from 'estree';
+
 import {Rule} from 'eslint';
 import {isTopLevel} from '../helpers';
 
@@ -45,27 +47,40 @@ export const noTopLevelVariables: Rule.RuleModule = {
           return;
         }
 
-        node.declarations.forEach((declaration) => {
-          const isRequire =
+        let allowedDeclaration: (declaration: VariableDeclarator) => boolean;
+        if (node.kind === 'const') {
+          const isLiteralAllowed = options.constAllowed.includes('Literal');
+          const isMemberExpressionAllowed =
+            options.constAllowed.includes('MemberExpression');
+
+          allowedDeclaration = (declaration) => {
+            switch ((declaration.init as any).type) {
+              case 'CallExpression':
+                return (
+                  (declaration.init as any).callee.type === 'Identifier' &&
+                  (declaration.init as any).callee.name === 'require'
+                );
+              case 'Literal':
+                return isLiteralAllowed;
+              case 'MemberExpression':
+                return isMemberExpressionAllowed;
+            }
+          };
+        } else {
+          allowedDeclaration = (declaration) =>
             declaration.init?.type === 'CallExpression' &&
             declaration.init.callee.type === 'Identifier' &&
             declaration.init.callee.name === 'require';
-          const isLiteral =
-            node.kind === 'const' &&
-            options.constAllowed.includes('Literal') &&
-            (declaration.init as any).type === 'Literal';
-          const isMemberExpression =
-            node.kind === 'const' &&
-            options.constAllowed.includes('MemberExpression') &&
-            (declaration.init as any).type === 'MemberExpression';
+        }
 
-          if (!isRequire && !isLiteral && !isMemberExpression) {
+        node.declarations
+          .filter((declaration) => !allowedDeclaration(declaration))
+          .forEach((declaration) => {
             context.report({
               node: declaration,
               messageId: 'message'
             });
-          }
-        });
+          });
       }
     };
   }
