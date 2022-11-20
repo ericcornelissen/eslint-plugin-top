@@ -32,7 +32,7 @@ export default function () {
 
 ### Options
 
-```yaml
+```yml
 rules:
   '@ericcornelissen/top/no-top-level-variables':
     - error
