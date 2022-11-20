@@ -3,7 +3,9 @@
     "strict": true
   },
   "exclude": [
+    ".cache/",
     ".temp/",
+    "_reports/",
     "node_modules/",
     "scripts/",
     "tests/",
