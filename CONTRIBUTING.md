@@ -117,11 +117,13 @@ formatting is correct.
 On top of that, this project uses linters to catch mistakes. Use the following
 command to check your changes if applicable:
 
-| File type          | Command           | Linter         |
-| :----------------- | :---------------- | :------------- |
-| MarkDown (`.md`)   | `npm run lint:md` | [markdownlint] |
-| Shell (`.sh`)      | `npm run lint:sh` | [ShellCheck]   |
-| TypeScript (`.ts`) | `npm run lint:ts` | [ESLint]       |
+| File type          | Command             | Linter               |
+| :----------------- | :------------------ | :------------------- |
+| JSON (`.json`)     | `npm run lint:json` | [eslint-plugin-json] |
+| MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]       |
+| Shell (`.sh`)      | `npm run lint:sh`   | [ShellCheck]         |
+| TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]             |
+| YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]  |
 
 #### Testing
 
@@ -224,6 +226,8 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [docker]: https://www.docker.com/
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
+[eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
+[eslint-plugin-yml]: https://www.npmjs.com/package/eslint-plugin-yml
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
 [git]: https://git-scm.com/
 [licensee]: https://github.com/jslicense/licensee.js
