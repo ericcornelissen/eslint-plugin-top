@@ -91,13 +91,20 @@ jobs:
           node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm ci
+      - name: Lint JSON
+        if: ${{ always() }}
+        run: npm run lint:json
       - name: Lint MarkDown
+        if: ${{ always() }}
         run: npm run lint:md
       - name: Lint shell scripts
+        if: ${{ always() }}
         run: npm run lint:sh
       - name: Lint TypeScript
+        if: ${{ always() }}
         run: npm run lint:ts
       - name: Lint YAML
+        if: ${{ always() }}
         run: npm run lint:yml
   test:
     name: Test

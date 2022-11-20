@@ -44,6 +44,25 @@ module.exports = {
     },
     {
       files: [
+        '.github/**/*.json',
+        '.licensee.json',
+        'package-lock.json',
+        'package.json',
+        'tsconfig.json',
+        '**/*.md/*.json'
+      ],
+      plugins: ['json'],
+      rules: {
+        'json/*': [
+          'error',
+          {
+            allowComments: false
+          }
+        ]
+      }
+    },
+    {
+      files: [
         '.github/**/*.yml',
         '.markdownlint.yml',
         '.mocharc.yml',
@@ -120,6 +139,7 @@ module.exports = {
   ignorePatterns: [
     // Don't ignore configuration files
     '!.github/',
+    '!.*.json',
     '!.*.yml',
 
     // Generated & temporary
