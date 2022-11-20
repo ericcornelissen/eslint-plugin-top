@@ -1,6 +1,6 @@
 import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
-import {trimTestCases} from '../../lib/helpers';
+import {trimTestCases} from './helpers';
 import {noTopLevelVariables} from '../../lib/rules/no-top-level-variables';
 
 const valid: RuleTester.ValidTestCase[] = [
