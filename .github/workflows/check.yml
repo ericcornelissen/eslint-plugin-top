@@ -97,6 +97,8 @@ jobs:
         run: npm run lint:sh
       - name: Lint TypeScript
         run: npm run lint:ts
+      - name: Lint YAML
+        run: npm run lint:yml
   test:
     name: Test
     runs-on: ubuntu-latest
