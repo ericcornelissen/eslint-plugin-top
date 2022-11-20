@@ -19,5 +19,8 @@ comment:
   require_head: yes
 
 ignore:
+  - .cache/**/*
+  - .temp/**/*
+  - _reports/**/*
   - scripts/**/*
   - tests/**/*

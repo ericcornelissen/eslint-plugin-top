@@ -127,7 +127,6 @@ module.exports = {
     '.temp/',
     '_reports/',
     'node_modules/',
-    'build/',
     'index.js'
   ]
 };
