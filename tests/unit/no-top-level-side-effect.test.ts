@@ -57,6 +57,14 @@ const invalid: RuleTester.InvalidTestCase[] = [
     switch (foo) {}
     `,
     errors
+  },
+  {
+    code: `
+      {
+        console.log('hello world');
+      }
+    `,
+    errors
   }
 ];
 
