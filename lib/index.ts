@@ -6,6 +6,9 @@ import {noTopLevelVariables} from './rules/no-top-level-variables';
  * @author Damien Erambert
  */
 
+/**
+ * @public
+ */
 export const rules = {
   'no-top-level-variables': noTopLevelVariables,
   'no-top-level-side-effect': noTopLevelSideEffect
