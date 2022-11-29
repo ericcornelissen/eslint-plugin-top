@@ -1,4 +1,5 @@
 {
   "entryFiles": ["lib/index.ts!"],
-  "projectFiles": ["lib/**/*.ts!"]
+  "projectFiles": ["lib/**/*.ts!"],
+  "ignoreBinaries": ["shellcheck"]
 }

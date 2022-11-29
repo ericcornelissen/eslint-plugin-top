@@ -52,7 +52,7 @@
     "eslint-v6": "npm:eslint@6.0.1",
     "eslint-v7": "npm:eslint@7.0.0",
     "eslint-v8": "npm:eslint@8.0.1",
-    "knip": "1.0.0-alpha.2",
+    "knip": "1.0.0-alpha.3",
     "licensee": "10.0.0",
     "markdownlint-cli": "0.32.2",
     "mocha": "10.1.0",
@@ -87,6 +87,6 @@
     "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
-    "vet": "knip --production"
+    "vet": "knip"
   }
 }
