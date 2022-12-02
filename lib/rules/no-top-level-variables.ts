@@ -32,11 +32,16 @@ export const noTopLevelVariables: Rule.RuleModule = {
     ]
   },
   create: (context) => {
-    const options = {
+    const options: {
+      readonly constAllowed: ReadonlyArray<string>;
+      readonly kind: ReadonlyArray<string>;
+    } = {
+      // type-coverage:ignore-next-line
       constAllowed: context.options[0]?.constAllowed || [
         'Literal',
         'MemberExpression'
       ],
+      // type-coverage:ignore-next-line
       kind: context.options[0]?.kind || ['const', 'let', 'var']
     };
 
@@ -54,8 +59,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
             options.constAllowed.includes('MemberExpression');
 
           allowedDeclaration = (declaration) => {
+            // type-coverage:ignore-next-line
             switch ((declaration.init as Expression).type) {
               case 'CallExpression': {
+                // type-coverage:ignore-next-line
                 const callExpression = declaration.init as CallExpression;
                 return (
                   callExpression.callee.type === 'Identifier' &&
@@ -66,6 +73,8 @@ export const noTopLevelVariables: Rule.RuleModule = {
                 return isLiteralAllowed;
               case 'MemberExpression':
                 return isMemberExpressionAllowed;
+              default:
+                return false;
             }
           };
         } else {

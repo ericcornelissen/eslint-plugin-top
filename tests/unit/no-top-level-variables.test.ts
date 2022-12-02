@@ -307,6 +307,21 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 24
       }
     ]
+  },
+  {
+    code: `
+      const foo = new Bar();
+    `,
+    options: [],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
   }
 ];
 
