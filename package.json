@@ -71,7 +71,7 @@
     "audit:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
     "clean": "git clean --force -X .cache/ .temp/ _reports/ index.js",
-    "coverage": "c8 --reporter=lcov --reporter=text --reports-dir=_reports/coverage npm run test",
+    "coverage": "c8 --config .c8rc.json npm run test",
     "format": "npm run _prettier -- --write",
     "license-check": "licensee --errors-only",
     "lint": "npm run _prettier -- --check",

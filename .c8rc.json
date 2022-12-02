@@ -1,0 +1,15 @@
+{
+  "all": true,
+  "check-coverage": true,
+
+  "include": ["lib/"],
+  "exclude": ["lib/index.ts"],
+
+  "branches": 100,
+  "functions": 100,
+  "lines": 100,
+  "statements": 100,
+
+  "reports-dir": "_reports/coverage",
+  "reporter": ["lcov", "text"]
+}
