@@ -1,0 +1,51 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push a tag
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        with:
+          fetch-depth: 0 # To obtain all tags
+      - name: Install Node.js
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3.5.1
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Check if version is released
+        id: version
+        run: |
+          VERSION="v$(jq -r '.version' < package.json)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [ "$(git tag --list "$VERSION")" ]; then
+            echo "released=true" >> $GITHUB_OUTPUT
+          else
+            echo "released=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Publish git tag
+        if: ${{ steps.version.outputs.released == 'false' }}
+        run: |
+          git tag "${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.version }}"
+      - name: Update major version branch
+        if: ${{ steps.version.outputs.released == 'false' }}
+        run: |
+          git push origin HEAD:v0
+      - name: Publish to npm
+        if: ${{ steps.version.outputs.released == 'false' }}
+        run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
