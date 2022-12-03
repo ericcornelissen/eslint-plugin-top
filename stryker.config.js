@@ -3,6 +3,7 @@
 module.exports = {
   coverageAnalysis: 'perTest',
   inPlace: false,
+  ignoreStatic: true,
   mutate: ['lib/**/*.ts'],
 
   testRunner: 'mocha',
