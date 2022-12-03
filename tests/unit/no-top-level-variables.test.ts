@@ -290,6 +290,38 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 30
       }
     ]
+  },
+  {
+    code: `
+      {
+        let foo = 'bar';
+      }
+    `,
+    options: [],
+    errors: [
+      {
+        messageId: 'message',
+        line: 2,
+        column: 13,
+        endLine: 2,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = new Bar();
+    `,
+    options: [],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
   }
 ];
 

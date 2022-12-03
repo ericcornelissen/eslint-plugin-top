@@ -40,7 +40,7 @@ jobs:
       - name: Update CHANGELOG
         run: node scripts/bump-changelog.js
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@b4d51739f96fca8047ad065eccef63442d8e99f7 # v4.2.0
+        uses: peter-evans/create-pull-request@d7db273d6c7206ba99224e659c982ae34a1025e3 # v4.2.1
         with:
           title: New ${{ github.event.inputs.update_type }} release
           body: |
@@ -113,7 +113,8 @@ jobs:
           # Update what commit the v0 branch points to
           git push origin HEAD:v0
       - name: Publish to npm
-        uses: JS-DevTools/npm-publish@0f451a94170d1699fd50710966d48fb26194d939 # v1.4.3
         if: ${{ steps.version.outputs.released == 'false' }}
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
