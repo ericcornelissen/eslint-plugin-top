@@ -3,11 +3,16 @@ import type {Expression, CallExpression, VariableDeclarator} from 'estree';
 import {Rule} from 'eslint';
 import {isTopLevel} from '../helpers';
 
+const violationMessage = 'Unexpected variable at the top level';
+
+const constAllowedValues = ['Literal', 'MemberExpression'];
+const kindValues = ['const', 'let', 'var'];
+
 export const noTopLevelVariables: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
-      message: `Unexpected variable at the top level`
+      message: violationMessage
     },
     schema: [
       {
@@ -17,14 +22,14 @@ export const noTopLevelVariables: Rule.RuleModule = {
             type: 'array',
             minItems: 0,
             items: {
-              enum: ['Literal', 'MemberExpression']
+              enum: constAllowedValues
             }
           },
           kind: {
             type: 'array',
             minItems: 1,
             items: {
-              enum: ['const', 'let', 'var']
+              enum: kindValues
             }
           }
         }
@@ -37,12 +42,9 @@ export const noTopLevelVariables: Rule.RuleModule = {
       readonly kind: ReadonlyArray<string>;
     } = {
       // type-coverage:ignore-next-line
-      constAllowed: context.options[0]?.constAllowed || [
-        'Literal',
-        'MemberExpression'
-      ],
+      constAllowed: context.options[0]?.constAllowed || constAllowedValues,
       // type-coverage:ignore-next-line
-      kind: context.options[0]?.kind || ['const', 'let', 'var']
+      kind: context.options[0]?.kind || kindValues
     };
 
     return {
