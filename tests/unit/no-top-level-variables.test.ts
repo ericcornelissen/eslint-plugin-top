@@ -56,6 +56,26 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const isArray = Array.isArray;
     `
+  },
+  {
+    code: `
+      const pi = 3.14;
+    `,
+    options: [
+      {
+        constAllowed: ['Literal']
+      }
+    ]
+  },
+  {
+    code: `
+      const isArray = Array.isArray;
+    `,
+    options: [
+      {
+        constAllowed: ['MemberExpression']
+      }
+    ]
   }
 ];
 
@@ -320,6 +340,58 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      const isArray = Array.isArray;
+    `,
+    options: [
+      {
+        constAllowed: ['Literal']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 30
+      }
+    ]
+  },
+  {
+    code: `
+      const pi = 3.14;
+    `,
+    options: [
+      {
+        constAllowed: ['MemberExpression']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 16
+      }
+    ]
+  },
+  {
+    code: `
+      var foo = bar();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   }
