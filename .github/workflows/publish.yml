@@ -10,6 +10,9 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
     permissions:
       contents: write # To push a tag
     steps:
