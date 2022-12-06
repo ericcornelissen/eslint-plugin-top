@@ -86,7 +86,6 @@ To be able to contribute you need the following tooling:
 - [git];
 - [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
-- (Optional) [ShellCheck];
 - (Optional) [Docker];
 
 ### Workflow
@@ -121,7 +120,6 @@ command to check your changes if applicable:
 | :----------------- | :------------------ | :------------------- |
 | JSON (`.json`)     | `npm run lint:json` | [eslint-plugin-json] |
 | MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]       |
-| Shell (`.sh`)      | `npm run lint:sh`   | [ShellCheck]         |
 | TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]             |
 | YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]  |
 
@@ -242,5 +240,4 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [rollup.js]: https://rollupjs.org/guide/en/
 [ruletester]: https://eslint.org/docs/latest/developer-guide/nodejs-api#ruletester
 [security policy]: ./SECURITY.md
-[shellcheck]: https://github.com/koalaman/shellcheck
 [stryker]: https://stryker-mutator.io/
