@@ -4,7 +4,7 @@ module.exports = {
   coverageAnalysis: 'perTest',
   inPlace: false,
   ignoreStatic: true,
-  mutate: ['lib/**/*.ts'],
+  mutate: ['lib/**/*.ts', '!lib/index.ts'],
 
   testRunner: 'mocha',
   mochaOptions: {
