@@ -6,68 +6,68 @@ import * as snapshots from './snapshots';
 
 describe('compatibility', function () {
   describe('without violations', function () {
-    const snippet = "function foobar() { var foo = 'bar'; }";
+    const snapshot = snapshots.noViolations;
 
     it('v6', function () {
-      const {exitCode, stdout} = runEslint(6, snippet);
+      const {exitCode, stdout} = runEslint(6, snapshot.inp);
       assert.equal(exitCode, 0);
-      assert.equal(stdout, snapshots.noViolations);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v7', function () {
-      const {exitCode, stdout} = runEslint(7, snippet);
+      const {exitCode, stdout} = runEslint(7, snapshot.inp);
       assert.equal(exitCode, 0);
-      assert.equal(stdout, snapshots.noViolations);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v8', function () {
-      const {exitCode, stdout} = runEslint(8, snippet);
+      const {exitCode, stdout} = runEslint(8, snapshot.inp);
       assert.equal(exitCode, 0);
-      assert.equal(stdout, snapshots.noViolations);
+      assert.equal(stdout, snapshot.out);
     });
   });
 
   describe('with top-level-variable violation', function () {
-    const snippet = "var foo = 'bar';";
+    const snapshot = snapshots.noTopLevelVariablesViolation;
 
     it('v6', function () {
-      const {exitCode, stdout} = runEslint(6, snippet);
+      const {exitCode, stdout} = runEslint(6, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelVariablesViolation);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v7', function () {
-      const {exitCode, stdout} = runEslint(7, snippet);
+      const {exitCode, stdout} = runEslint(7, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelVariablesViolation);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v8', function () {
-      const {exitCode, stdout} = runEslint(8, snippet);
+      const {exitCode, stdout} = runEslint(8, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelVariablesViolation);
+      assert.equal(stdout, snapshot.out);
     });
   });
 
   describe('with top-level-side-effect violation', function () {
-    const snippet = "console.log('hello world');";
+    const snapshot = snapshots.noTopLevelSideEffectsViolation;
 
     it('v6', function () {
-      const {exitCode, stdout} = runEslint(6, snippet);
+      const {exitCode, stdout} = runEslint(6, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelSideEffectsViolation);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v7', function () {
-      const {exitCode, stdout} = runEslint(7, snippet);
+      const {exitCode, stdout} = runEslint(7, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelSideEffectsViolation);
+      assert.equal(stdout, snapshot.out);
     });
 
     it('v8', function () {
-      const {exitCode, stdout} = runEslint(8, snippet);
+      const {exitCode, stdout} = runEslint(8, snapshot.inp);
       assert.equal(exitCode, 1);
-      assert.equal(stdout, snapshots.noTopLevelSideEffectsViolation);
+      assert.equal(stdout, snapshot.out);
     });
   });
 });
