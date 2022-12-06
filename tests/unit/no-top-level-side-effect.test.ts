@@ -13,6 +13,13 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
+      (() => {
+        return '';
+      })();
+    `
+  },
+  {
+    code: `
     export function foobar() {}
     `
   },
@@ -21,6 +28,30 @@ const valid: RuleTester.ValidTestCase[] = [
       module.exports = {};
       exports = {};
       exports.foobar = {};
+    `
+  },
+  {
+    code: `
+      function foobar() {
+        if (foo === bar) {
+          foo = "bar";
+        }
+
+        for (let i = 0; i < 2; i++) {
+          foo = bar[i];
+        }
+
+        while (foo !== "bar") {
+          foo = "bar";
+        }
+
+        switch (foo) {
+        case "bar":
+          return "foo";
+        default:
+          return "bar";
+        }
+      }
     `
   }
 ];
@@ -63,6 +94,24 @@ const invalid: RuleTester.InvalidTestCase[] = [
       {
         console.log('hello world');
       }
+    `,
+    errors
+  },
+  {
+    code: `
+      notModule.exports = {};
+    `,
+    errors
+  },
+  {
+    code: `
+      notExports = {};
+    `,
+    errors
+  },
+  {
+    code: `
+      notExports.foobar = {};
     `,
     errors
   }
