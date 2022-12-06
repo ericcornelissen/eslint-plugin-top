@@ -97,9 +97,6 @@ jobs:
       - name: Lint MarkDown
         if: ${{ always() }}
         run: npm run lint:md
-      - name: Lint shell scripts
-        if: ${{ always() }}
-        run: npm run lint:sh
       - name: Lint TypeScript
         if: ${{ always() }}
         run: npm run lint:ts
