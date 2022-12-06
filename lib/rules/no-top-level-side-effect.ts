@@ -1,6 +1,8 @@
 import {Rule} from 'eslint';
 import {isTopLevel} from '../helpers';
 
+const violationMessage = 'Side effects in toplevel are not allowed';
+
 function sideEffect(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
     if (isTopLevel(node)) {
@@ -16,7 +18,7 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
-      message: 'Side effects in toplevel are not allowed.'
+      message: violationMessage
     }
   },
   create: (context) => {
