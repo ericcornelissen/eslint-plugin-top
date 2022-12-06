@@ -24,7 +24,9 @@ module.exports = {
     fileName: '_reports/mutation/index.html'
   },
   thresholds: {
-    // TODO: add thresholds
+    high: 100,
+    low: 100,
+    break: 100
   },
 
   tempDirName: '.temp/stryker',
