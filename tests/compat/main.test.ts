@@ -2,52 +2,24 @@ import * as assert from 'assert';
 import * as cp from 'child_process';
 import * as path from 'path';
 
-import * as snapshots from './snapshots';
+import {snapshots} from './snapshots';
 
 const eslintVersions: ReadonlyArray<number> = [6, 7, 8];
 
 describe('compatibility', function () {
-  describe('without violations', function () {
-    const snapshot = snapshots.noViolations;
-
-    for (const eslintVersion of eslintVersions) {
-      it(`v${eslintVersion}`, function () {
-        const {exitCode, stdout} = runEslint(eslintVersion, snapshot.inp);
-        assert.equal(exitCode, 0);
-        assert.equal(stdout, snapshot.out);
-      });
-    }
-  });
-
-  describe('with top-level-variable violation', function () {
-    const snapshot = snapshots.noTopLevelVariablesViolation;
-
-    for (const eslintVersion of eslintVersions) {
-      it(`v${eslintVersion}`, function () {
-        const {exitCode, stdout} = runEslint(eslintVersion, snapshot.inp);
-        assert.equal(exitCode, 1);
-        assert.equal(stdout, snapshot.out);
-      });
-    }
-  });
-
-  describe('with top-level-side-effect violation', function () {
-    const snapshot = snapshots.noTopLevelSideEffectsViolation;
-
-    for (const eslintVersion of eslintVersions) {
-      it(`v${eslintVersion}`, function () {
-        const {exitCode, stdout} = runEslint(eslintVersion, snapshot.inp);
-        assert.equal(exitCode, 1);
-        assert.equal(stdout, snapshot.out);
-      });
-    }
-  });
+  for (const snapshot of snapshots) {
+    describe(snapshot.name, function () {
+      for (const eslintVersion of eslintVersions) {
+        it(`v${eslintVersion}`, function () {
+          const {stdout} = runEslint(eslintVersion, snapshot.inp);
+          assert.equal(stdout, snapshot.out);
+        });
+      }
+    });
+  }
 });
 
-function runEslint(
-  version: number,
-  snippet: string
-): {exitCode: number | null; stdout: string} {
+function runEslint(version: number, snippet: string): {stdout: string} {
   const projectRoot = path.resolve('.');
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
@@ -60,7 +32,7 @@ function runEslint(
     throw new Error(`Unknown ESLint version ${version}`);
   }
 
-  const {status, stdout} = cp.spawnSync(
+  return cp.spawnSync(
     'node',
     [
       eslintCli,
@@ -82,6 +54,4 @@ function runEslint(
       input: snippet
     }
   );
-
-  return {exitCode: status, stdout};
 }
