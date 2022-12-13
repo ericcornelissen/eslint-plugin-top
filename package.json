@@ -69,7 +69,7 @@
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
     "audit:runtime": "better-npm-audit audit --production",
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.js",
     "clean": "git clean --force -X .cache/ .temp/ _reports/ index.js",
     "coverage": "c8 --config .c8rc.json npm run test",
     "format": "npm run _prettier -- --write",
