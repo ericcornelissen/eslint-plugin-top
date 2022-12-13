@@ -3,5 +3,5 @@
   "extensions": [".ts"],
   "ignoreUnresolved": ["estree"],
   "ignoreUnused": [],
-  "ignoreUnimported": ["rollup.config.ts"]
+  "ignoreUnimported": []
 }

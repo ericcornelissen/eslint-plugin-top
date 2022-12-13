@@ -1,8 +1,8 @@
 // Check out rollup.js at: https://rollupjs.org/guide/en/
 
-import typescript from '@rollup/plugin-typescript';
+const typescript = require('@rollup/plugin-typescript');
 
-export default {
+module.exports = {
   input: 'lib/index.ts',
   output: {
     file: 'index.js',
