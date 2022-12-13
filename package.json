@@ -58,7 +58,8 @@
     "rollup": "3.7.0",
     "ts-node": "10.9.1",
     "type-coverage": "2.24.1",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "unimported": "1.23.0"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -85,6 +86,8 @@
     "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
-    "vet": "type-coverage --at-least 100 --cache --cache-directory .cache --project tsconfig.json --strict"
+    "vet": "npm run vet:imports && npm run vet:types",
+    "vet:imports": "unimported",
+    "vet:types": "type-coverage --at-least 100 --cache --cache-directory .cache --project tsconfig.json --strict"
   }
 }
