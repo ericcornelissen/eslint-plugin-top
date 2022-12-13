@@ -104,8 +104,8 @@ Before you start making changes you should run npm install. This ensures your
 local development environment is setup and ready to go. All code and tests are
 written in TypeScript, documentation in Markdown, and scripts using JavaScript.
 
-When making contributions, make sure your changes are [tested](#testing) and
-[well-formatted](#formatting-and-linting).
+When making contributions, make sure your changes are [tested](#testing),
+[well-formatted](#formatting-and-linting), and [vetted](#vetting).
 
 #### Formatting and Linting
 
@@ -122,6 +122,11 @@ command to check your changes if applicable:
 | MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]       |
 | TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]             |
 | YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]  |
+
+#### Vetting
+
+The project is vetted using a small collection of static analysis tools. Run
+`npm run vet` to analyze the project for potential problems.
 
 #### Testing
 

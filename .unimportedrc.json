@@ -1,0 +1,7 @@
+{
+  "entry": ["lib/index.ts", "index.js"],
+  "extensions": [".ts"],
+  "ignoreUnresolved": ["estree"],
+  "ignoreUnused": [],
+  "ignoreUnimported": ["rollup.config.ts"]
+}
