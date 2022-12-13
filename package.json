@@ -75,6 +75,7 @@
     "format": "npm run _prettier -- --write",
     "license-check": "licensee --errors-only",
     "lint": "npm run _prettier -- --check",
+    "lint:ci": "actionlint",
     "lint:json": "npm run _eslint -- . --ext .json",
     "lint:md": "npm run lint:md:text && npm run lint:md:code",
     "lint:md:code": "npm run _eslint -- **/*.md --ext .md,.javascript,.json,.yml",

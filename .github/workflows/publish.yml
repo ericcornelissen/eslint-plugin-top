@@ -31,11 +31,11 @@ jobs:
         id: version
         run: |
           VERSION="v$(jq -r '.version' < package.json)"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           if [ "$(git tag --list "$VERSION")" ]; then
-            echo "released=true" >> $GITHUB_OUTPUT
+            echo 'released=true' >> "$GITHUB_OUTPUT"
           else
-            echo "released=false" >> $GITHUB_OUTPUT
+            echo 'released=false' >> "$GITHUB_OUTPUT"
           fi
       - name: Publish git tag
         if: ${{ steps.version.outputs.released == 'false' }}
