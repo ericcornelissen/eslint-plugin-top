@@ -86,6 +86,7 @@ To be able to contribute you need the following tooling:
 - [git];
 - [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
+- (Optional) [actionlint] and [ShellCheck];
 - (Optional) [Docker];
 
 ### Workflow
@@ -116,12 +117,13 @@ formatting is correct.
 On top of that, this project uses linters to catch mistakes. Use the following
 command to check your changes if applicable:
 
-| File type          | Command             | Linter               |
-| :----------------- | :------------------ | :------------------- |
-| JSON (`.json`)     | `npm run lint:json` | [eslint-plugin-json] |
-| MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]       |
-| TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]             |
-| YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]  |
+| File type          | Command             | Linter                      |
+| :----------------- | :------------------ | :-------------------------- |
+| CI workflows       | `npm run lint:ci`   | [actionlint] & [ShellCheck] |
+| JSON (`.json`)     | `npm run lint:json` | [eslint-plugin-json]        |
+| MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]              |
+| TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]                    |
+| YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]         |
 
 #### Testing
 
@@ -219,6 +221,7 @@ npm run build
 
 This will create a file called `index.js`. Note that this file ignored by git.
 
+[actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
 [docker]: https://www.docker.com/
@@ -240,4 +243,5 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [rollup.js]: https://rollupjs.org/guide/en/
 [ruletester]: https://eslint.org/docs/latest/developer-guide/nodejs-api#ruletester
 [security policy]: ./SECURITY.md
+[shellcheck]: https://github.com/koalaman/shellcheck
 [stryker]: https://stryker-mutator.io/
