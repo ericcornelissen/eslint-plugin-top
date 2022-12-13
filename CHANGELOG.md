@@ -8,6 +8,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.2.1] - 2022-12-13
+
 - (`90f9389`) Improve performance of `no-top-level-variables`.
 - (`bd334d7`) Make example code in documentation runnable.
 - (`9485afb`) Update the license year and fullname.
