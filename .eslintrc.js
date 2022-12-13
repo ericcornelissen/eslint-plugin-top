@@ -83,7 +83,13 @@ module.exports = {
             caseSensitive: true
           }
         ],
-        'yml/indent': ['error', 2],
+        'yml/indent': [
+          'error',
+          2,
+          {
+            indentBlockSequences: true
+          }
+        ],
         'yml/key-name-casing': 'off',
         'yml/key-spacing': [
           'error',

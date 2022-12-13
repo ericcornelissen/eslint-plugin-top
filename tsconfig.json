@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
-    "strict": true
+    "target": "es6",
+    "lib": ["es2022"],
+    "moduleResolution": "node",
+    "rootDir": "./lib",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": false
   },
   "exclude": [
     ".cache/",
@@ -8,7 +14,6 @@
     "_reports/",
     "node_modules/",
     "scripts/",
-    "tests/",
-    "rollup.config.ts"
+    "tests/"
   ]
 }

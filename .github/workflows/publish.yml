@@ -17,7 +17,7 @@ jobs:
       contents: write # To push a tag
     steps:
       - name: Checkout repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
         with:
           fetch-depth: 0 # To obtain all tags
       - name: Install Node.js
@@ -25,17 +25,18 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
       - name: Install Node.js dependencies
         run: npm ci
       - name: Check if version is released
         id: version
         run: |
           VERSION="v$(jq -r '.version' < package.json)"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           if [ "$(git tag --list "$VERSION")" ]; then
-            echo "released=true" >> $GITHUB_OUTPUT
+            echo 'released=true' >> "$GITHUB_OUTPUT"
           else
-            echo "released=false" >> $GITHUB_OUTPUT
+            echo 'released=false' >> "$GITHUB_OUTPUT"
           fi
       - name: Publish git tag
         if: ${{ steps.version.outputs.released == 'false' }}
