@@ -16,7 +16,7 @@ permissions: read-all
 jobs:
   initiate:
     name: Initiate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     permissions:
       contents: write # To push a commit
       pull-requests: write # To open a Pull Request
