@@ -14,7 +14,7 @@ jobs:
     uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -33,7 +33,7 @@ jobs:
           path: index.js
   codeql:
     name: CodeQL
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - build
     permissions:
@@ -50,7 +50,7 @@ jobs:
         uses: github/codeql-action/analyze@a669cc5936cc5e1b6a362ec1ff9e410dc570d190 # v2.1.36
   formatting:
     name: Formatting
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -65,7 +65,7 @@ jobs:
         run: npm run lint
   licenses:
     name: Licenses
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -80,7 +80,7 @@ jobs:
         run: npm run license-check
   lint:
     name: Lint
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -114,7 +114,7 @@ jobs:
         run: npm run lint:ci
   test:
     name: Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - build
     steps:
@@ -136,7 +136,7 @@ jobs:
           file: ./_reports/coverage/lcov.info
   test-compat:
     name: Compatibility tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - test
     strategy:
@@ -166,7 +166,7 @@ jobs:
         run: npm run test:compat --ignore-scripts
   test-mutation:
     name: Mutation tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - test
     steps:
@@ -193,7 +193,7 @@ jobs:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_TOKEN }}
   vet:
     name: Vet
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
