@@ -7,10 +7,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:eslint-plugin/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:eslint-plugin/all'],
   plugins: ['@typescript-eslint'],
   env: {
     node: true
