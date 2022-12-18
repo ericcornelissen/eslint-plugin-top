@@ -10,22 +10,12 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:eslint-plugin/recommended',
-    'plugin:node/recommended'
   ],
   plugins: ['@typescript-eslint'],
   env: {
     node: true
   },
   rules: {
-    'node/no-unsupported-features/es-syntax': 0,
-    'node/no-missing-import': [
-      'error',
-      {
-        allowModules: ['estree'],
-        resolvePaths: ['/path/to/a/modules/directory'],
-        tryExtensions: ['.js', '.json', '.node', '.ts']
-      }
-    ],
     '@typescript-eslint/no-unused-vars': 'error'
   },
   overrides: [
@@ -33,13 +23,7 @@ module.exports = {
       files: ['tests/**/*'],
       env: {mocha: true},
       rules: {
-        'node/no-unpublished-import': 0
-      }
-    },
-    {
-      files: ['rollup.config.ts'],
-      rules: {
-        'node/no-unpublished-import': 0
+        'node/no-unpublished-import': 'off'
       }
     },
     {
