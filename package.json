@@ -38,10 +38,11 @@
     "@types/eslint": "8.4.10",
     "@types/estree": "1.0.0",
     "@types/mocha": "10.0.1",
-    "@typescript-eslint/eslint-plugin": "5.45.1",
+    "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.0",
     "better-npm-audit": "3.7.3",
     "c8": "7.12.0",
+    "depcheck": "1.4.3",
     "eslint": "8.28.0",
     "eslint-plugin-eslint-plugin": "5.0.6",
     "eslint-plugin-json": "3.1.0",
@@ -59,7 +60,7 @@
     "rollup": "3.7.0",
     "ts-node": "10.9.1",
     "type-coverage": "2.24.1",
-    "typescript": "4.8.4",
+    "typescript": "4.9.4",
     "unimported": "1.23.0"
   },
   "scripts": {
@@ -88,8 +89,10 @@
     "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
-    "vet": "npm run vet:imports && npm run vet:types",
-    "vet:imports": "unimported && knip",
+    "vet": "npm run vet:deps && npm run vet:knip && npm run vet:imports && npm run vet:types",
+    "vet:deps": "depcheck --config .depcheckrc.yml",
+    "vet:knip": "knip --config knip.json",
+    "vet:imports": "unimported",
     "vet:types": "type-coverage --at-least 100 --cache --cache-directory .cache --project tsconfig.json --strict"
   }
 }

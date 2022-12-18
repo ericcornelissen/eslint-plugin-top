@@ -64,6 +64,7 @@ module.exports = {
     {
       files: [
         '.github/**/*.yml',
+        '.depcheckrc.yml',
         '.markdownlint.yml',
         '.mocharc.yml',
         '.prettierrc.yml',
