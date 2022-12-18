@@ -1,0 +1,13 @@
+# Check out depcheck at: https://github.com/depcheck/depcheck
+
+ignores:
+  - '@ericcornelissen/eslint-plugin-top'
+  - '@stryker-mutator/*'
+  - '@types/*'
+  - estree
+  - rollup
+ignore-path: .gitignore
+
+parsers:
+  '**/*.js': es6
+  '**/*.ts': typescript
