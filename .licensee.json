@@ -14,6 +14,8 @@
       "Unlicense"
     ]
   },
-  "packages": {},
+  "packages": {
+    "scss-parser": "1.0.6"
+  },
   "corrections": true
 }
