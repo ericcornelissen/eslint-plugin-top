@@ -97,21 +97,24 @@ jobs:
         run: |
           npm ci
           go install github.com/rhysd/actionlint/cmd/actionlint@v1.6.22
+      - name: Set setup success flag
+        id: setup
+        run: echo 'succeeded=true' >> "$GITHUB_OUTPUT"
+      - name: Lint CI
+        if: ${{ steps.setup.outputs.succeeded }}
+        run: npm run lint:ci
       - name: Lint JSON
-        if: ${{ always() }}
+        if: ${{ steps.setup.outputs.succeeded }}
         run: npm run lint:json
       - name: Lint MarkDown
-        if: ${{ always() }}
+        if: ${{ steps.setup.outputs.succeeded }}
         run: npm run lint:md
       - name: Lint TypeScript
-        if: ${{ always() }}
+        if: ${{ steps.setup.outputs.succeeded }}
         run: npm run lint:ts
       - name: Lint YAML
-        if: ${{ always() }}
+        if: ${{ steps.setup.outputs.succeeded }}
         run: npm run lint:yml
-      - name: Lint workflows
-        if: ${{ always() }}
-        run: npm run lint:ci
   test:
     name: Test
     runs-on: ubuntu-22.04
