@@ -1,4 +1,4 @@
-import {Rule} from 'eslint';
+import type {Rule} from 'eslint';
 
 export function isTopLevel(node: Rule.Node) {
   let scope = node.parent;

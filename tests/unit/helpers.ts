@@ -1,4 +1,4 @@
-import {RuleTester} from 'eslint';
+import type {RuleTester} from 'eslint';
 
 export function trimTestCases<
   T extends RuleTester.InvalidTestCase | RuleTester.ValidTestCase
