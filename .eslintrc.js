@@ -12,15 +12,38 @@ module.exports = {
   env: {
     node: true
   },
-  rules: {
-    '@typescript-eslint/no-unused-vars': 'error'
-  },
   overrides: [
+    {
+      files: ['lib/**/*.ts'],
+      parserOptions: {
+        project: './tsconfig.json'
+      },
+      rules: {
+        '@typescript-eslint/consistent-type-exports': ['error'],
+        '@typescript-eslint/consistent-type-imports': ['error'],
+        '@typescript-eslint/member-delimiter-style': [
+          'error',
+          {
+            multiline: {
+              delimiter: 'semi',
+              requireLast: true
+            },
+            singleline: {
+              delimiter: 'semi',
+              requireLast: true
+            },
+            multilineDetection: 'brackets'
+          }
+        ],
+        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/switch-exhaustiveness-check': 'error'
+      }
+    },
     {
       files: ['tests/**/*'],
       env: {mocha: true},
       rules: {
-        'node/no-unpublished-import': 'off'
+        '@typescript-eslint/no-unused-vars': 'error'
       }
     },
     {
