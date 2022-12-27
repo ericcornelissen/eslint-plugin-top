@@ -42,7 +42,6 @@
     "@typescript-eslint/parser": "5.46.0",
     "better-npm-audit": "3.7.3",
     "c8": "7.12.0",
-    "depcheck": "1.4.3",
     "eslint": "8.30.0",
     "eslint-plugin-eslint-plugin": "5.0.7",
     "eslint-plugin-json": "3.1.0",
@@ -51,6 +50,7 @@
     "eslint-v6": "npm:eslint@6.0.1",
     "eslint-v7": "npm:eslint@7.0.0",
     "eslint-v8": "npm:eslint@8.0.1",
+    "knip": "1.0.0-beta.2",
     "licensee": "10.0.0",
     "markdownlint-cli": "0.32.2",
     "mocha": "10.2.0",
@@ -59,7 +59,7 @@
     "ts-node": "10.9.1",
     "type-coverage": "2.24.1",
     "typescript": "4.9.4",
-    "unimported": "1.23.0"
+    "yaml-eslint-parser": "1.1.0"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -87,9 +87,8 @@
     "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
-    "vet": "npm run vet:deps && npm run vet:imports && npm run vet:types",
-    "vet:deps": "depcheck --config .depcheckrc.yml",
-    "vet:imports": "unimported",
+    "vet": "npm run vet:imports && npm run vet:types",
+    "vet:imports": "knip --config knip.json",
     "vet:types": "type-coverage --at-least 100 --cache --cache-directory .cache --project tsconfig.json --strict"
   }
 }

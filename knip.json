@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/knip/schema.json",
+  "entry": ["lib/index.ts!"],
+  "project": ["lib/**/*.ts!"],
+  "ignoreBinaries": ["actionlint"],
+  "ignoreDependencies": [
+    "@ericcornelissen/eslint-plugin-top",
+    "eslint-v6",
+    "eslint-v7",
+    "eslint-v8"
+  ]
+}

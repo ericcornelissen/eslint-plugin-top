@@ -75,6 +75,7 @@ module.exports = {
         '**/*.md/*.yml'
       ],
       extends: ['plugin:yml/base'],
+      parser: 'yaml-eslint-parser',
       rules: {
         'yml/block-mapping': ['error', 'always'],
         'yml/block-mapping-colon-indicator-newline': ['error', 'never'],
