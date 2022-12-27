@@ -7,39 +7,43 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:eslint-plugin/recommended',
-    'plugin:node/recommended'
-  ],
+  extends: ['eslint:recommended', 'plugin:eslint-plugin/all'],
   plugins: ['@typescript-eslint'],
   env: {
     node: true
   },
-  rules: {
-    'node/no-unsupported-features/es-syntax': 0,
-    'node/no-missing-import': [
-      'error',
-      {
-        allowModules: ['estree'],
-        resolvePaths: ['/path/to/a/modules/directory'],
-        tryExtensions: ['.js', '.json', '.node', '.ts']
-      }
-    ],
-    '@typescript-eslint/no-unused-vars': 'error'
-  },
   overrides: [
+    {
+      files: ['lib/**/*.ts'],
+      parserOptions: {
+        project: './tsconfig.json'
+      },
+      rules: {
+        '@typescript-eslint/consistent-type-exports': ['error'],
+        '@typescript-eslint/consistent-type-imports': ['error'],
+        '@typescript-eslint/member-delimiter-style': [
+          'error',
+          {
+            multiline: {
+              delimiter: 'semi',
+              requireLast: true
+            },
+            singleline: {
+              delimiter: 'semi',
+              requireLast: true
+            },
+            multilineDetection: 'brackets'
+          }
+        ],
+        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/switch-exhaustiveness-check': 'error'
+      }
+    },
     {
       files: ['tests/**/*'],
       env: {mocha: true},
       rules: {
-        'node/no-unpublished-import': 0
-      }
-    },
-    {
-      files: ['rollup.config.ts'],
-      rules: {
-        'node/no-unpublished-import': 0
+        '@typescript-eslint/no-unused-vars': 'error'
       }
     },
     {

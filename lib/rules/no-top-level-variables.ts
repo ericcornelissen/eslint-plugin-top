@@ -1,6 +1,6 @@
+import type {Rule} from 'eslint';
 import type {Expression, CallExpression, VariableDeclarator} from 'estree';
 
-import {Rule} from 'eslint';
 import {isTopLevel} from '../helpers';
 
 const violationMessage = 'Unexpected variable at the top level';
