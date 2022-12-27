@@ -41,8 +41,8 @@ jobs:
       - name: Publish git tag
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
-          git tag "${{ steps.version.outputs.version }}"
-          git push origin "${{ steps.version.outputs.version }}"
+          git tag '${{ steps.version.outputs.version }}'
+          git push origin '${{ steps.version.outputs.version }}'
       - name: Update major version branch
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
