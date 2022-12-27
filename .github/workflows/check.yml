@@ -89,14 +89,10 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
-        with:
-          go-version: 1.17
+      - name: Install tooling
+        uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
       - name: Install dependencies
-        run: |
-          npm ci
-          go install github.com/rhysd/actionlint/cmd/actionlint@v1.6.22
+        run: npm ci
       - name: Set setup success flag
         id: setup
         run: echo 'succeeded=true' >> "$GITHUB_OUTPUT"
