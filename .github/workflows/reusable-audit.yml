@@ -27,7 +27,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Audit all npm dependencies
         if: ${{ !startsWith(matrix.ref, 'v') }}

@@ -23,7 +23,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Build
         run: npm run build
@@ -59,7 +59,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Check formatting
         run: npm run lint
@@ -74,7 +74,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Check licenses
         run: npm run license-check
@@ -124,7 +124,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Run tests with coverage
         run: npm run coverage
@@ -156,7 +156,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install compatible npm version
         run: npm install --global npm@8.1.2
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 # v3.0.1
         with:
@@ -183,7 +183,7 @@ jobs:
           key: mutation-${{ github.run_number }}
           restore-keys: |
             mutation-
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Run mutation tests
         run: npm run test:mutation
@@ -201,7 +201,7 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Set setup success flag
         id: setup

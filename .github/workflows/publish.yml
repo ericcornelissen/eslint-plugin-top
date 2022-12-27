@@ -26,7 +26,7 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
           registry-url: https://registry.npmjs.org
-      - name: Install Node.js dependencies
+      - name: Install dependencies
         run: npm clean-install
       - name: Check if version is released
         id: version
