@@ -203,5 +203,12 @@ jobs:
           node-version-file: .nvmrc
       - name: Install Node.js dependencies
         run: npm clean-install
-      - name: Vet
-        run: npm run vet
+      - name: Set setup success flag
+        id: setup
+        run: echo 'succeeded=true' >> "$GITHUB_OUTPUT"
+      - name: Vet imports
+        if: ${{ steps.setup.outputs.succeeded }}
+        run: npm run vet:imports
+      - name: Vet types
+        if: ${{ steps.setup.outputs.succeeded }}
+        run: npm run vet:types
