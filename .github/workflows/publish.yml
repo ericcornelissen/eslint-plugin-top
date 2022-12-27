@@ -27,7 +27,7 @@ jobs:
           node-version-file: .nvmrc
           registry-url: https://registry.npmjs.org
       - name: Install Node.js dependencies
-        run: npm ci
+        run: npm clean-install
       - name: Check if version is released
         id: version
         run: |
