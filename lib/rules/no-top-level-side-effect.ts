@@ -1,4 +1,5 @@
-import {Rule} from 'eslint';
+import type {Rule} from 'eslint';
+
 import {isTopLevel} from '../helpers';
 
 const violationMessage = 'Side effects in toplevel are not allowed';
