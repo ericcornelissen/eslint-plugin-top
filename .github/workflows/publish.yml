@@ -26,8 +26,8 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
           registry-url: https://registry.npmjs.org
-      - name: Install Node.js dependencies
-        run: npm ci
+      - name: Install dependencies
+        run: npm clean-install
       - name: Check if version is released
         id: version
         run: |
@@ -41,8 +41,8 @@ jobs:
       - name: Publish git tag
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
-          git tag "${{ steps.version.outputs.version }}"
-          git push origin "${{ steps.version.outputs.version }}"
+          git tag '${{ steps.version.outputs.version }}'
+          git push origin '${{ steps.version.outputs.version }}'
       - name: Update major version branch
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |

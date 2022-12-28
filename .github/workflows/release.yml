@@ -28,15 +28,15 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install Node.js dependencies
-        run: npm ci
+      - name: Install dependencies
+        run: npm clean-install
       - uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c # tag=v1.7.0
         id: release-token
         with:
           app_id: ${{ secrets.RELEASE_APP_ID }}
           private_key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
       - name: Bump version
-        run: npm version ${{ github.event.inputs.update_type }} --no-git-tag-version
+        run: npm version '${{ github.event.inputs.update_type }}' --no-git-tag-version
       - name: Update CHANGELOG
         run: node scripts/bump-changelog.js
       - name: Create Pull Request
