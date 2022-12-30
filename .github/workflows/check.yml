@@ -93,23 +93,20 @@ jobs:
         uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
       - name: Install dependencies
         run: npm clean-install
-      - name: Set setup success flag
-        id: setup
-        run: echo 'succeeded=true' >> "$GITHUB_OUTPUT"
       - name: Lint CI
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run lint:ci
       - name: Lint JSON
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run lint:json
       - name: Lint MarkDown
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run lint:md
       - name: Lint TypeScript
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run lint:ts
       - name: Lint YAML
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run lint:yml
   test:
     name: Test
@@ -203,12 +200,9 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Set setup success flag
-        id: setup
-        run: echo 'succeeded=true' >> "$GITHUB_OUTPUT"
       - name: Vet imports
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run vet:imports
       - name: Vet types
-        if: ${{ steps.setup.outputs.succeeded }}
+        if: ${{ failure() || success() }}
         run: npm run vet:types
