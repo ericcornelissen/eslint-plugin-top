@@ -5,7 +5,7 @@ import {isTopLevel} from '../helpers';
 
 const violationMessage = 'Side effects in toplevel are not allowed';
 
-function sideEffect(context: Rule.RuleContext) {
+function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
     if (isTopLevel(node)) {
       context.report({
@@ -62,22 +62,24 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
     return {
       ExpressionStatement: (node) => {
         if (isTopLevel(node)) {
-          if (isExportsAssignment(node)) return;
-          if (isExportPropertyAssignment(node)) return;
-          if (isIIFE(node)) return;
-          if (isModuleAssignment(node)) return;
-
-          context.report({
-            node,
-            messageId: 'message'
-          });
+          if (
+            !isExportsAssignment(node) &&
+            !isExportPropertyAssignment(node) &&
+            !isIIFE(node) &&
+            !isModuleAssignment(node)
+          ) {
+            context.report({
+              node,
+              messageId: 'message'
+            });
+          }
         }
       },
-      IfStatement: sideEffect(context),
-      ForStatement: sideEffect(context),
-      WhileStatement: sideEffect(context),
-      DoWhileStatement: sideEffect(context),
-      SwitchStatement: sideEffect(context)
+      IfStatement: ifTopLevelReportWith(context),
+      ForStatement: ifTopLevelReportWith(context),
+      WhileStatement: ifTopLevelReportWith(context),
+      DoWhileStatement: ifTopLevelReportWith(context),
+      SwitchStatement: ifTopLevelReportWith(context)
     };
   }
 };
