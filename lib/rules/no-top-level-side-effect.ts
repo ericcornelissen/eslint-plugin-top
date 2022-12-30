@@ -1,4 +1,5 @@
 import type {Rule} from 'eslint';
+import type {ExpressionStatement} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
@@ -15,6 +16,41 @@ function ifTopLevelReportWith(context: Rule.RuleContext) {
   };
 }
 
+function isExportsAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'Identifier' &&
+    node.expression.left.name === 'exports'
+  );
+}
+
+function isExportPropertyAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'MemberExpression' &&
+    node.expression.left.object.type === 'Identifier' &&
+    node.expression.left.object.name === 'exports'
+  );
+}
+
+function isIIFE(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'CallExpression' &&
+    node.expression.callee &&
+    (node.expression.callee.type === 'ArrowFunctionExpression' ||
+      node.expression.callee.type === 'FunctionExpression')
+  );
+}
+
+function isModuleAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'MemberExpression' &&
+    node.expression.left.object.type === 'Identifier' &&
+    node.expression.left.object.name === 'module'
+  );
+}
+
 export const noTopLevelSideEffect: Rule.RuleModule = {
   meta: {
     type: 'problem',
@@ -26,39 +62,15 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
     return {
       ExpressionStatement: (node) => {
         if (isTopLevel(node)) {
-          const isIIFE = Boolean(
-            node.expression.type === 'CallExpression' &&
-              node.expression.callee &&
-              (node.expression.callee.type === 'ArrowFunctionExpression' ||
-                node.expression.callee.type === 'FunctionExpression')
-          );
+          if (isExportsAssignment(node)) return;
+          if (isExportPropertyAssignment(node)) return;
+          if (isIIFE(node)) return;
+          if (isModuleAssignment(node)) return;
 
-          const isModuleAssignment =
-            node.expression.type === 'AssignmentExpression' &&
-            node.expression.left.type === 'MemberExpression' &&
-            node.expression.left.object.type === 'Identifier' &&
-            node.expression.left.object.name === 'module';
-          const isExportsAssignment =
-            node.expression.type === 'AssignmentExpression' &&
-            node.expression.left.type === 'Identifier' &&
-            node.expression.left.name === 'exports';
-          const isExportPropertyAssignment =
-            node.expression.type === 'AssignmentExpression' &&
-            node.expression.left.type === 'MemberExpression' &&
-            node.expression.left.object.type === 'Identifier' &&
-            node.expression.left.object.name === 'exports';
-
-          if (
-            !isIIFE &&
-            !isModuleAssignment &&
-            !isExportsAssignment &&
-            !isExportPropertyAssignment
-          ) {
-            context.report({
-              node,
-              messageId: 'message'
-            });
-          }
+          context.report({
+            node,
+            messageId: 'message'
+          });
         }
       },
       IfStatement: ifTopLevelReportWith(context),
