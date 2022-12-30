@@ -9,6 +9,7 @@ Versioning].
 ## [Unreleased]
 
 - (`64781ae`) Improve performance of `no-top-level-side-effect`.
+- (`27d457b`) Report top-level do-while statements.
 
 ## [0.2.1] - 2022-12-13
 
