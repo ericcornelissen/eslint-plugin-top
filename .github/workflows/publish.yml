@@ -38,6 +38,16 @@ jobs:
           else
             echo 'released=false' >> "$GITHUB_OUTPUT"
           fi
+      - name: Get major version
+        uses: actions/github-script@d556feaca394842dc55e4734bf3bb9f685482fa0 # v6.3.3
+        if: ${{ steps.version.outputs.released == 'false' }}
+        id: major-version
+        with:
+          result-encoding: string
+          script: |
+            const version = "${{ steps.version.outputs.version }}"
+            const major = version.replace(/\.\d\.\d$/, "")
+            return major
       - name: Publish git tag
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
@@ -46,7 +56,7 @@ jobs:
       - name: Update major version branch
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
-          git push origin HEAD:v0
+          git push origin 'HEAD:${{ steps.major-version.outputs.result }}'
       - name: Publish to npm
         if: ${{ steps.version.outputs.released == 'false' }}
         run: |
