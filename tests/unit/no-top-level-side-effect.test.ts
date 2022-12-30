@@ -114,6 +114,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
       notExports.foobar = {};
     `,
     errors
+  },
+  {
+    code: `
+      do {
+        i++;
+        s += i;
+      } while (i<10);
+    `,
+    errors
   }
 ];
 
