@@ -50,7 +50,7 @@
     "eslint-v6": "npm:eslint@6.0.1",
     "eslint-v7": "npm:eslint@7.0.0",
     "eslint-v8": "npm:eslint@8.0.1",
-    "knip": "1.0.0-beta.3",
+    "knip": "1.0.0-beta.4",
     "licensee": "10.0.0",
     "markdownlint-cli": "0.32.2",
     "mocha": "10.2.0",
