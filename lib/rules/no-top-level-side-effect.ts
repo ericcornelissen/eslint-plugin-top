@@ -76,6 +76,7 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       IfStatement: sideEffect(context),
       ForStatement: sideEffect(context),
       WhileStatement: sideEffect(context),
+      DoWhileStatement: sideEffect(context),
       SwitchStatement: sideEffect(context)
     };
   }
