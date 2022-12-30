@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`64781ae`) Improve performance of `no-top-level-side-effect`.
 
 ## [0.2.1] - 2022-12-13
 
