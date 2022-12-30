@@ -4,7 +4,7 @@ import {isTopLevel} from '../helpers';
 
 const violationMessage = 'Side effects in toplevel are not allowed';
 
-function sideEffect(context: Rule.RuleContext) {
+function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
     if (isTopLevel(node)) {
       context.report({
@@ -61,10 +61,10 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
           }
         }
       },
-      IfStatement: sideEffect(context),
-      ForStatement: sideEffect(context),
-      WhileStatement: sideEffect(context),
-      SwitchStatement: sideEffect(context)
+      IfStatement: ifTopLevelReportWith(context),
+      ForStatement: ifTopLevelReportWith(context),
+      WhileStatement: ifTopLevelReportWith(context),
+      SwitchStatement: ifTopLevelReportWith(context)
     };
   }
 };
