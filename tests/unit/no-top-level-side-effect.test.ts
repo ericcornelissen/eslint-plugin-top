@@ -123,6 +123,14 @@ const invalid: RuleTester.InvalidTestCase[] = [
       } while (i<10);
     `,
     errors
+  },
+  {
+    code: `
+      for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+        s += i;
+      }
+    `,
+    errors
   }
 ];
 
