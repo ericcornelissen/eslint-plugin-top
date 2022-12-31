@@ -8,6 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`e97db34`) Report top-level for-in statements.
 - (`16462ae`) Report top-level for-of statements.
 
 ## [0.2.2] - 2022-12-30
