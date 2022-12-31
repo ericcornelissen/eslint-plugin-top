@@ -81,7 +81,8 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       WhileStatement: ifTopLevelReportWith(context),
       DoWhileStatement: ifTopLevelReportWith(context),
       SwitchStatement: ifTopLevelReportWith(context),
-      ThrowStatement: ifTopLevelReportWith(context)
+      ThrowStatement: ifTopLevelReportWith(context),
+      TryStatement: ifTopLevelReportWith(context)
     };
   }
 };
