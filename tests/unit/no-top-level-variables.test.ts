@@ -33,8 +33,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       const foo = 'bar';
-      export default function () {
-      }
+      export default function () {}
     `,
     options: [
       {
