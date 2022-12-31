@@ -12,3 +12,40 @@ jobs:
     uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
     with:
       refs: '["main", "v0"]'
+  tooling:
+    name: Tool update ${{ matrix.tool }}
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write # To push a commit
+      pull-requests: write # To open a Pull Request
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - actionlint
+          - shellcheck
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+      - name: Install tooling
+        uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
+      - name: Get latest version
+        id: version
+        run: |
+          LATEST_VERSION="$(asdf latest '${{ matrix.tool }}')"
+          echo "latest=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Install new version
+        run: |
+          asdf install '${{ matrix.tool }}' '${{ steps.version.outputs.latest }}'
+      - name: Apply latest version to .tool-versions
+        run: |
+          asdf local '${{ matrix.tool }}' '${{ steps.version.outputs.latest }}'
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@d7db273d6c7206ba99224e659c982ae34a1025e3 # v4.2.1
+        with:
+          title: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
+          branch: asdf-${{ matrix.tool }}-${{ steps.version.outputs.latest }}
+          labels: dependencies
+          commit-message: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
+          add-paths: |
+            .tool-versions
