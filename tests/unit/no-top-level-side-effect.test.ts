@@ -139,6 +139,12 @@ const invalid: RuleTester.InvalidTestCase[] = [
       }
     `,
     errors
+  },
+  {
+    code: `
+      throw new Error('Hello world!');
+    `,
+    errors
   }
 ];
 
