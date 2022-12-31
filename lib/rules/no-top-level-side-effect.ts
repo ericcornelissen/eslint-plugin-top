@@ -36,7 +36,6 @@ function isExportPropertyAssignment(node: ExpressionStatement): boolean {
 function isIIFE(node: ExpressionStatement): boolean {
   return (
     node.expression.type === 'CallExpression' &&
-    node.expression.callee &&
     (node.expression.callee.type === 'ArrowFunctionExpression' ||
       node.expression.callee.type === 'FunctionExpression')
   );
