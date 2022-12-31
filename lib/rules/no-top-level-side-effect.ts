@@ -77,6 +77,7 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       },
       IfStatement: ifTopLevelReportWith(context),
       ForStatement: ifTopLevelReportWith(context),
+      ForInStatement: ifTopLevelReportWith(context),
       ForOfStatement: ifTopLevelReportWith(context),
       WhileStatement: ifTopLevelReportWith(context),
       DoWhileStatement: ifTopLevelReportWith(context),
