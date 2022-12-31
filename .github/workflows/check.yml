@@ -62,7 +62,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Check formatting
-        run: npm run lint
+        run: npm run format:check
   licenses:
     name: Licenses
     runs-on: ubuntu-22.04
