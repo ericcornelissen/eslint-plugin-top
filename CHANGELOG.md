@@ -13,6 +13,7 @@ Versioning].
 - (`0a3ba0f`) Report top-level throw statements.
 - (`0fb75fa`) Report top-level try statements.
 - (`dc5f99e`) Improve performance of `no-top-level-side-effect`.
+- (`2e367d4`) Improve violation messaging.
 
 ## [0.2.2] - 2022-12-30
 

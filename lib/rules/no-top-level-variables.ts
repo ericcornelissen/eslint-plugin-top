@@ -3,7 +3,7 @@ import type {Expression, CallExpression, VariableDeclarator} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
-const violationMessage = 'Unexpected variable at the top level';
+const violationMessage = 'Variables at the top level are not allowed';
 
 const constAllowedValues = ['Literal', 'MemberExpression'];
 const kindValues = ['const', 'let', 'var'];
