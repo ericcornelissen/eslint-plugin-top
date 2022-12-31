@@ -73,8 +73,9 @@
     "clean": "git clean --force -X .cache/ .temp/ _reports/ index.js",
     "coverage": "c8 --config .c8rc.json npm run test",
     "format": "npm run _prettier -- --write",
+    "format:check": "npm run _prettier -- --check",
     "license-check": "licensee --errors-only",
-    "lint": "npm run _prettier -- --check",
+    "lint": "npm run lint:ci && npm run lint:json && npm run lint:md && npm run lint:ts && npm run lint:yml",
     "lint:ci": "actionlint",
     "lint:json": "npm run _eslint -- . --ext .json",
     "lint:md": "npm run lint:md:text && npm run lint:md:code",
@@ -87,6 +88,7 @@
     "test:compat-all": "node scripts/run-compat-tests.js",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
+    "verify": "npm run build && npm run format:check && npm run lint && npm run test && npm run vet",
     "vet": "npm run vet:imports && npm run vet:types",
     "vet:imports": "knip --config knip.json",
     "vet:types": "type-coverage --at-least 100 --cache --cache-directory .cache --project tsconfig.json --strict"

@@ -112,8 +112,8 @@ When making contributions, make sure your changes are [tested](#testing),
 #### Formatting and Linting
 
 This project uses [Prettier] to format all source code. Run `npm run format` to
-automatically update the formatting, or `npm run lint` to check if the current
-formatting is correct.
+automatically update the formatting, or `npm run format:check` to check if the
+current formatting is correct.
 
 On top of that, this project uses linters to catch mistakes. Use the following
 command to check your changes if applicable:
