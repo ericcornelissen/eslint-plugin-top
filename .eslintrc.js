@@ -50,6 +50,7 @@ module.exports = {
       files: [
         '.github/**/*.json',
         '.licensee.json',
+        'knip.json',
         'package-lock.json',
         'package.json',
         'tsconfig.json',
@@ -68,7 +69,6 @@ module.exports = {
     {
       files: [
         '.github/**/*.yml',
-        '.depcheckrc.yml',
         '.markdownlint.yml',
         '.mocharc.yml',
         '.prettierrc.yml',
