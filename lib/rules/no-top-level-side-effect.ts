@@ -3,7 +3,7 @@ import type {ExpressionStatement} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
-const violationMessage = 'Side effects in toplevel are not allowed';
+const violationMessage = 'Side effects at the top level are not allowed';
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
@@ -81,7 +81,8 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       WhileStatement: ifTopLevelReportWith(context),
       DoWhileStatement: ifTopLevelReportWith(context),
       SwitchStatement: ifTopLevelReportWith(context),
-      ThrowStatement: ifTopLevelReportWith(context)
+      ThrowStatement: ifTopLevelReportWith(context),
+      TryStatement: ifTopLevelReportWith(context)
     };
   }
 };

@@ -8,10 +8,16 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [0.2.3] - 2022-12-31
+
 - (`e97db34`) Report top-level for-in statements.
 - (`16462ae`) Report top-level for-of statements.
 - (`0a3ba0f`) Report top-level throw statements.
+- (`0fb75fa`) Report top-level try statements.
 - (`dc5f99e`) Improve performance of `no-top-level-side-effect`.
+- (`2e367d4`) Improve violation messaging.
 
 ## [0.2.2] - 2022-12-30
 

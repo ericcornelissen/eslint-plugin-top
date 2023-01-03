@@ -10,7 +10,7 @@ export const snapshots: ReadonlyArray<Snapshot> = [
     inp: 'var foo = "bar";',
     out: `
 <text>
-  1:5  error  Unexpected variable at the top level  @ericcornelissen/top/no-top-level-variables
+  1:5  error  Variables at the top level are not allowed  @ericcornelissen/top/no-top-level-variables
 
 ✖ 1 problem (1 error, 0 warnings)
 
@@ -21,7 +21,7 @@ export const snapshots: ReadonlyArray<Snapshot> = [
     inp: 'console.log("hello world");',
     out: `
 <text>
-  1:1  error  Side effects in toplevel are not allowed  @ericcornelissen/top/no-top-level-side-effect
+  1:1  error  Side effects at the top level are not allowed  @ericcornelissen/top/no-top-level-side-effect
 
 ✖ 1 problem (1 error, 0 warnings)
 
