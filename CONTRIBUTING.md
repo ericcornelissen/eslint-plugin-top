@@ -86,8 +86,8 @@ To be able to contribute you need the following tooling:
 - [git];
 - [Node.js] v18.0.0 or higher and [npm] v8.1.2 or higher;
 - (Recommended) a code editor with [EditorConfig] support;
-- (Optional) [actionlint] (see `.tool-versions` for prefered version);
-- (Optional) [ShellCheck] (see `.tool-versions` for prefered version);
+- (Optional) [actionlint] (see `.tool-versions` for preferred version);
+- (Optional) [ShellCheck] (see `.tool-versions` for preferred version);
 - (Optional) [Docker];
 
 ### Workflow

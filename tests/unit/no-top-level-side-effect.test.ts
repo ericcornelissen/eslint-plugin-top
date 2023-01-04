@@ -6,9 +6,9 @@ import {noTopLevelSideEffect} from '../../lib/rules/no-top-level-side-effect';
 const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
-    (function() {
-      return '';
-    })();
+      (function() {
+        return '';
+      })();
     `
   },
   {
@@ -71,21 +71,21 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
-    for (let i=0;i<10;i++) {
-      s += i;
-    }
+      for (let i=0;i<10;i++) {
+        s += i;
+      }
     `,
     errors
   },
   {
     code: `
-    fetch('/api').then(res=>res.text()).then(console.log);
+      fetch('/api').then(res=>res.text()).then(console.log);
     `,
     errors
   },
   {
     code: `
-    switch (foo) {}
+      switch (foo) {}
     `,
     errors
   },

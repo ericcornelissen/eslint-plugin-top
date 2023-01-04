@@ -6,7 +6,7 @@ interface Snapshot {
 
 export const snapshots: ReadonlyArray<Snapshot> = [
   {
-    name: 'with top-level-variable violation',
+    name: 'with top-level-variables violation',
     inp: 'var foo = "bar";',
     out: `
 <text>
