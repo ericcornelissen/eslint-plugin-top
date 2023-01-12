@@ -55,16 +55,41 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
     type: 'problem',
     messages: {
       message: violationMessage
-    }
+    },
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowIIFE: {
+            type: 'boolean'
+          }
+        }
+      }
+    ]
   },
   create: (context) => {
+    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+
+    const options: {
+      readonly allowIIFE: boolean;
+    } = {
+      allowIIFE:
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : true
+    };
+
     return {
       ExpressionStatement: (node) => {
         if (isTopLevel(node)) {
-          if (
+          if (isIIFE(node)) {
+            if (!options.allowIIFE) {
+              context.report({
+                node,
+                messageId: 'message'
+              });
+            }
+          } else if (
             !isExportsAssignment(node) &&
             !isExportPropertyAssignment(node) &&
-            !isIIFE(node) &&
             !isModuleAssignment(node)
           ) {
             context.report({
