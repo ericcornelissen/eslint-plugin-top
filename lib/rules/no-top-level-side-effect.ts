@@ -68,6 +68,7 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
     ]
   },
   create: (context) => {
+    // type-coverage:ignore-next-line
     const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
 
     const options: {
