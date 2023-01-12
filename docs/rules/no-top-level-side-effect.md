@@ -78,6 +78,21 @@ module.exports = () => {
 })();
 ```
 
+### Options
+
+```yml
+rules:
+  '@ericcornelissen/top/no-top-side-effect':
+    - error
+    - allowIIFE: false
+```
+
+#### allowIIFE
+
+Allows or disallow top-level Immediate Invoked Function Expressions (IIFEs).
+
+Default is: `true`
+
 ## When Not To Use It
 
 If you want to allow top level side effects.
