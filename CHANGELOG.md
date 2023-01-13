@@ -8,7 +8,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`a85b514`) Add support for configuring if top-level Immediately Invoked
+  Function Expressions (IIFEs) are allowed for `no-top-level-side-effect`.
 
 ## [0.2.3] - 2022-12-31
 

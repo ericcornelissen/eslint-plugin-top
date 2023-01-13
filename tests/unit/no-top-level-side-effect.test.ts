@@ -157,6 +157,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
       try { } catch (e) { } finally { }
     `,
     errors
+  },
+  {
+    code: `
+      (function() {
+        return '';
+      })();
+    `,
+    options: [
+      {
+        allowIIFE: false
+      }
+    ],
+    errors
+  },
+  {
+    code: `
+      (() => {
+        return '';
+      })();
+    `,
+    options: [
+      {
+        allowIIFE: false
+      }
+    ],
+    errors
   }
 ];
 
