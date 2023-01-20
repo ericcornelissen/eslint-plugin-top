@@ -51,6 +51,12 @@ jobs:
         with:
           token: ${{ steps.release-token.outputs.token }}
           title: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
+          body: |
+            _This Pull Request was created automatically_
+
+            ---
+
+            Bump ${{ matrix.tool }} to v${{ env.latest }}
           branch: asdf-${{ matrix.tool }}-${{ steps.version.outputs.latest }}
           labels: dependencies
           commit-message: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
