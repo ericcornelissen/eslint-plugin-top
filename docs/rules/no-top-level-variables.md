@@ -51,11 +51,50 @@ Allows to customize what kinds of assignments are allowed for `const`.
 
 Default is: `["Literal", "MemberExpression"]`
 
+Examples of **correct** code when `'Literal'` is allowed:
+
+```javascript
+const foo = 42;
+const hello = 'world!';
+const NULL = null;
+```
+
+Examples of **correct** code when `'MemberExpression'` is allowed:
+
+```javascript
+const parse = JSON.parse;
+const map = Array.prototype.map;
+```
+
 #### kind
 
 Allows to only forbid specific kinds of variables.
 
 Default is: `["const", "let", "var"]`
+
+Examples of **correct** code when `'const'` is not in the list:
+
+```javascript
+const answer = 42;
+const list = new Array();
+const foobar = JSON.parse('{"foo":"bar"}');
+```
+
+Examples of **correct** code when `'let'` is not in the list:
+
+```javascript
+let answer = 42;
+let list = new Array();
+let foobar = JSON.parse('{"foo":"bar"}');
+```
+
+Examples of **correct** code when `'var'` is not in the list:
+
+```javascript
+var answer = 42;
+var list = new Array();
+var foobar = JSON.parse('{"foo":"bar"}');
+```
 
 ## When Not To Use It
 
