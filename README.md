@@ -19,7 +19,7 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 ## Usage
 
 Add `@ericcornelissen/top` to the plugins section of your `.eslintrc` config
-file. You can omit the `eslint-plugin-` infix:
+file. You must omit the `eslint-plugin-` infix:
 
 ```yml
 plugins:
