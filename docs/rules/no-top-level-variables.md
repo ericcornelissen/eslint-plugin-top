@@ -16,24 +16,20 @@ This rule lets you control top level variable assignments.
 Examples of **incorrect** code for this rule:
 
 ```javascript
-var foo = 42;
-const bar = new Array();
-let baz = 0;
-
-// Rest of your code
+var answer = 42;
+let foo = 'bar';
+const list = new Array();
 ```
 
 Examples of **correct** code for this rule:
 
 ```javascript
-const bar = 1337;
+const leet = 1337;
 
 export default function () {
-  var foo = 42;
-  const bar = new Array();
-  let baz = 0;
-
-  // Rest of your code
+  var answer = 42;
+  let foo = 'bar';
+  const list = new Array();
 }
 ```
 
@@ -51,7 +47,7 @@ This rule accepts a configuration object with two options:
 Examples of **correct** code when `'Literal'` is allowed:
 
 ```javascript
-const foo = 42;
+const answer = 42;
 const hello = 'world!';
 const NULL = null;
 ```
