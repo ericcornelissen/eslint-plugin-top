@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`92a3f58`) Improve performance of `no-top-level-variables`.
 
 ## [0.3.0] - 2023-01-13
 
