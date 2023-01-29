@@ -49,8 +49,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
     return {
       VariableDeclaration: (node) => {
-        const isMatching = Array.from(options.kind).includes(node.kind);
-        if (!isTopLevel(node) || !isMatching) {
+        if (
+          !isTopLevel(node) ||
+          !Array.from(options.kind).includes(node.kind)
+        ) {
           return;
         }
 
