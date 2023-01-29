@@ -1,10 +1,17 @@
 # No top level variables (no-top-level-variables)
 
-Based on [eslint-plugin-toplevel].
+Disallow top level variables.
+
+Variables at the top level may indicate side effects. It may be initialized by
+means of a function call, which is a side effect. Or it may be used as state in
+the functions or methods of the module, which means it's used for side effects.
+
+As such, `const` is handled differently from `let` and `var` since it's value is
+not meant to be mutated.
 
 ## Rule Details
 
-Lets you disallow top level variables.
+This rule lets you control top level variable assignments.
 
 Examples of **incorrect** code for this rule:
 
@@ -32,24 +39,14 @@ export default function () {
 
 ### Options
 
-```yml
-rules:
-  '@ericcornelissen/top/no-top-level-variables':
-    - error
-    - constAllowed:
-        - Literal
-        - MemberExpression
-      kind:
-        - const
-        - let
-        - var
-```
+This rule accepts a configuration object with two options:
+
+- `constAllowed`: Configure what assignments are allowed for `const`. By default
+  literal and member expression assignments are allowed.
+- `kind`: Configure which kinds of variables are forbidden. By default all of
+  `const`, `let`, and `var` are forbidden.
 
 #### constAllowed
-
-Allows to customize what kinds of assignments are allowed for `const`.
-
-Default is: `["Literal", "MemberExpression"]`
 
 Examples of **correct** code when `'Literal'` is allowed:
 
@@ -67,10 +64,6 @@ const map = Array.prototype.map;
 ```
 
 #### kind
-
-Allows to only forbid specific kinds of variables.
-
-Default is: `["const", "let", "var"]`
 
 Examples of **correct** code when `'const'` is not in the list:
 
@@ -105,5 +98,4 @@ If you want to allow top level variables.
 Please [open an issue] if you found a mistake or if you have a suggestion for
 how to improve the documentation.
 
-[eslint-plugin-toplevel]: https://github.com/HKalbasi/eslint-plugin-toplevel
 [open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md
