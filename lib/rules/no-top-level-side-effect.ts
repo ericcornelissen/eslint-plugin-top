@@ -80,24 +80,26 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
 
     return {
       ExpressionStatement: (node) => {
-        if (isTopLevel(node)) {
-          if (isIIFE(node)) {
-            if (!options.allowIIFE) {
-              context.report({
-                node,
-                messageId: 'message'
-              });
-            }
-          } else if (
-            !isExportsAssignment(node) &&
-            !isExportPropertyAssignment(node) &&
-            !isModuleAssignment(node)
-          ) {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isIIFE(node)) {
+          if (!options.allowIIFE) {
             context.report({
               node,
               messageId: 'message'
             });
           }
+        } else if (
+          !isExportsAssignment(node) &&
+          !isExportPropertyAssignment(node) &&
+          !isModuleAssignment(node)
+        ) {
+          context.report({
+            node,
+            messageId: 'message'
+          });
         }
       },
       IfStatement: ifTopLevelReportWith(context),
