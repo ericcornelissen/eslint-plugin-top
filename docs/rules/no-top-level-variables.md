@@ -24,6 +24,16 @@ const list = new Array();
 Examples of **correct** code for this rule:
 
 ```javascript
+var fs = require('node:fs');
+let path = require('node:path');
+const util = require('node:util');
+```
+
+```javascript
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as util from 'node:util';
+
 const leet = 1337;
 
 export default function () {
