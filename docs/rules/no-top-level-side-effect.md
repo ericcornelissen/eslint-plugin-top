@@ -14,14 +14,17 @@ Examples of **incorrect** code for this rule:
 
 ```javascript
 console.log('hello world');
+```
+
+```javascript
 let s = 0;
 for (let i = 0; i < 10; i++) {
   s += i;
 }
-console.log(s);
-fetch('/api')
-  .then((res) => res.text())
-  .then(console.log);
+```
+
+```javascript
+fetch('/api').then((res) => res.text());
 ```
 
 Examples of **correct** code for this rule:
@@ -29,28 +32,26 @@ Examples of **correct** code for this rule:
 ```javascript
 export default function () {
   console.log('hello world');
+
   let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
-  console.log(s);
-  fetch('/api')
-    .then((res) => res.text())
-    .then(console.log);
+
+  fetch('/api').then((res) => res.text());
 }
 ```
 
 ```javascript
-module.exports = () => {
+module.exports = function () {
   console.log('hello world');
+
   let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
-  console.log(s);
-  fetch('/api')
-    .then((res) => res.text())
-    .then(console.log);
+
+  fetch('/api').then((res) => res.text());
 };
 ```
 
@@ -68,28 +69,26 @@ Examples of **incorrect** code when set to `false`:
 ```javascript
 (function () {
   console.log('hello world');
+
   let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
-  console.log(s);
-  fetch('/api')
-    .then((res) => res.text())
-    .then(console.log);
+
+  fetch('/api').then((res) => res.text());
 })();
 ```
 
 ```javascript
 (() => {
   console.log('hello world');
+
   let s = 0;
   for (let i = 0; i < 10; i++) {
     s += i;
   }
-  console.log(s);
-  fetch('/api')
-    .then((res) => res.text())
-    .then(console.log);
+
+  fetch('/api').then((res) => res.text());
 })();
 ```
 
