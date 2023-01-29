@@ -4,13 +4,13 @@ Disallow side effects at the top level of files.
 
 ## Installation
 
-You'll first need to install [ESLint]:
+First, If you haven't already, install [ESLint]:
 
 ```shell
 npm install eslint --save-dev
 ```
 
-Next, install `eslint-plugin-top`:
+Then, install `eslint-plugin-top`:
 
 ```shell
 npm install @ericcornelissen/eslint-plugin-top --save-dev
@@ -18,15 +18,15 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ## Usage
 
-Add `@ericcornelissen/top` to the plugins section of your `.eslintrc` config
-file. You must omit the `eslint-plugin-` infix:
+First, add `@ericcornelissen/top` to the plugins section of your `.eslintrc`
+configuration file. You must omit the `eslint-plugin-` infix:
 
 ```yml
 plugins:
   - '@ericcornelissen/top'
 ```
 
-Then, configure the rules you want to use under the rules section:
+Then, configure the rules you want to use in the rules section:
 
 ```yml
 rules:
