@@ -19,6 +19,7 @@ module.exports = {
         project: './tsconfig.json'
       },
       rules: {
+        '@typescript-eslint/block-spacing': 'error',
         '@typescript-eslint/consistent-type-exports': ['error'],
         '@typescript-eslint/consistent-type-imports': ['error'],
         '@typescript-eslint/key-spacing': 'error',
@@ -40,6 +41,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
+        'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
         'key-spacing': 'off' // @typescript-eslint/key-spacing used instead
       }
     },
