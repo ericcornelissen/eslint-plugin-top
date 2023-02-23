@@ -38,6 +38,7 @@ module.exports = {
           }
         ],
         '@typescript-eslint/no-import-type-side-effects': 'error',
+        '@typescript-eslint/no-mixed-enums': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
