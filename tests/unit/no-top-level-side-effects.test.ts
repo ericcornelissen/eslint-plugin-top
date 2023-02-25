@@ -66,18 +66,20 @@ const valid: RuleTester.ValidTestCase[] = [
   }
 ];
 
-const errors = [
-  {
-    messageId: 'message'
-  }
-];
-
 const invalid: RuleTester.InvalidTestCase[] = [
   {
     code: `
       console.log('hello world');
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 28
+      }
+    ]
   },
   {
     code: `
@@ -85,19 +87,43 @@ const invalid: RuleTester.InvalidTestCase[] = [
         s += i;
       }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 3,
+        endColumn: 8
+      }
+    ]
   },
   {
     code: `
       fetch('/api').then(res=>res.text()).then(console.log);
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 55
+      }
+    ]
   },
   {
     code: `
       switch (foo) {}
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 16
+      }
+    ]
   },
   {
     code: `
@@ -105,25 +131,57 @@ const invalid: RuleTester.InvalidTestCase[] = [
         console.log('hello world');
       }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 2,
+        column: 9,
+        endLine: 2,
+        endColumn: 36
+      }
+    ]
   },
   {
     code: `
       notModule.exports = {};
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
   },
   {
     code: `
       notExports = {};
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 17
+      }
+    ]
   },
   {
     code: `
       notExports.foobar = {};
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
   },
   {
     code: `
@@ -132,7 +190,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
         s += i;
       } while (i<10);
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 4,
+        endColumn: 22
+      }
+    ]
   },
   {
     code: `
@@ -140,7 +206,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
         s += i;
       }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 3,
+        endColumn: 8
+      }
+    ]
   },
   {
     code: `
@@ -148,25 +222,57 @@ const invalid: RuleTester.InvalidTestCase[] = [
         s += i;
       }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 3,
+        endColumn: 8
+      }
+    ]
   },
   {
     code: `
       throw new Error('Hello world!');
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 33
+      }
+    ]
   },
   {
     code: `
       try { } catch (e) { }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
   },
   {
     code: `
       try { } catch (e) { } finally { }
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 34
+      }
+    ]
   },
   {
     code: `
@@ -174,7 +280,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
         return '';
       })();
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 3,
+        endColumn: 12
+      }
+    ]
   },
   {
     code: `
@@ -182,7 +296,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
         return '';
       })();
     `,
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 3,
+        endColumn: 12
+      }
+    ]
   },
   {
     code: `
@@ -193,7 +315,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
         allowIIFE: true
       }
     ],
-    errors
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 28
+      }
+    ]
   }
 ];
 
