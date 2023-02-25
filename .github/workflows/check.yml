@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - v1
+      - main-v0
       - v0
 
 permissions: read-all
@@ -11,7 +13,7 @@ permissions: read-all
 jobs:
   audit:
     name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main-v0
   build:
     name: Build
     runs-on: ubuntu-22.04

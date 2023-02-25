@@ -20,6 +20,10 @@ relevant sections of this document.
   - [Workflow](#workflow)
   - [Development Details](#development-details)
 
+> **Note** This document covers contributing to v0 of this project. If you want
+> to make a contribution to the latest version of the project check out the
+> [Contributing Guidelines on `main`].
+
 ---
 
 ## Reporting Issues
@@ -95,10 +99,10 @@ To be able to contribute you need the following tooling:
 If you decide to make a contribution, please do use the following workflow:
 
 - Fork the repository.
-- Create a new branch from the latest `main`.
+- Create a new branch from the latest `main-v0`.
 - Make your changes on the new branch.
 - Commit to the new branch and push the commit(s).
-- Open a Pull Request against `main`.
+- Open a Pull Request against `main-v0`.
 
 ### Development Details
 
@@ -230,6 +234,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
+[contributing Guidelines on `main`]: https://github.com/ericcornelissen/eslint-plugin-top/blob/main/CONTRIBUTING.md
 [docker]: https://www.docker.com/
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/

@@ -5,9 +5,11 @@
 The table below shows which versions of `@ericcornelissen/eslint-plugin-top` are
 currently supported with security updates.
 
-| Version | Supported | End-of-life |
-| ------: | :-------- | :---------- |
-|   0.x.x | Yes       | -           |
+| Version | End-of-life |
+| ------: | :---------- |
+|   0.x.x | 2023-05-26  |
+
+_This table only includes information on versions `<1.0.0`._
 
 ## Reporting a Vulnerability
 

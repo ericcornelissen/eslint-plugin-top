@@ -10,7 +10,7 @@ follow the guidelines found in this document.
 
 To release a new version follow these steps:
 
-1. [Manually trigger] the [release workflow] from the `main` branch; Use an
+1. [Manually trigger] the [release workflow] from the `main-v0` branch; Use an
    update type in accordance with [Semantic Versioning]. This will create a Pull
    Request that start the release process.
 1. Follow the instructions in the Pull Request description.
@@ -24,14 +24,15 @@ version (using `v0.1.2` as an example):
 1. Make sure that your local copy of the repository is up-to-date, sync:
 
    ```shell
-   git checkout main
-   git pull origin main
+   git checkout main-v0
+   git pull origin main-v0
    ```
 
    Or clone:
 
    ```shell
    git clone git@github.com:ericcornelissen/eslint-plugin-top.git
+   git checkout main-v0
    ```
 
 1. Update the version number in the package manifest and lockfile:
@@ -78,7 +79,7 @@ version (using `v0.1.2` as an example):
    git push origin release-$(sha1sum package-lock.json | awk '{print $1}')
    ```
 
-1. Create a Pull Request to merge the release branch into `main`.
+1. Create a Pull Request to merge the release branch into `main-v0`.
 
 1. Merge the Pull Request if the changes look OK and all continuous integration
    checks are passing.
@@ -87,11 +88,11 @@ version (using `v0.1.2` as an example):
    > complete the release process. If not, or only partially, continue following
    > the remaining steps.
 
-1. Immediately after the Pull Request is merged, sync the `main` branch:
+1. Immediately after the Pull Request is merged, sync the `main-v0` branch:
 
    ```shell
-   git checkout main
-   git pull origin main
+   git checkout main-v0
+   git pull origin main-v0
    ```
 
 1. Create a [git tag] for the new version:
@@ -104,7 +105,7 @@ version (using `v0.1.2` as an example):
 
    ```shell
    git checkout v0
-   git merge main
+   git merge main-v0
    ```
 
 1. Push the `v0` branch and new tag:
