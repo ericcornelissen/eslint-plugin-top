@@ -9,14 +9,24 @@ const valid: RuleTester.ValidTestCase[] = [
       (function() {
         return '';
       })();
-    `
+    `,
+    options: [
+      {
+        allowIIFE: true
+      }
+    ]
   },
   {
     code: `
       (() => {
         return '';
       })();
-    `
+    `,
+    options: [
+      {
+        allowIIFE: true
+      }
+    ]
   },
   {
     code: `
@@ -164,11 +174,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
         return '';
       })();
     `,
-    options: [
-      {
-        allowIIFE: false
-      }
-    ],
     errors
   },
   {
@@ -177,11 +182,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
         return '';
       })();
     `,
-    options: [
-      {
-        allowIIFE: false
-      }
-    ],
     errors
   }
 ];
