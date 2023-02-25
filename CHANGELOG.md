@@ -8,6 +8,12 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [1.0.0] - 2023-02-25
+
+- (`9ddf3fe`) _(Breaking)_ Rename the rule `no-top-level-side-effect` to
+  `no-top-level-side-effects`.
 - (`cec69d5`) _(Breaking)_ Report top-level IIFEs by default.
 - (`92a3f58`) Improve performance of `no-top-level-variables`.
 
