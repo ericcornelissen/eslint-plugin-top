@@ -1,7 +1,7 @@
 import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 import {trimTestCases} from './helpers';
-import {noTopLevelSideEffect} from '../../lib/rules/no-top-level-side-effect';
+import {noTopLevelSideEffects} from '../../lib/rules/no-top-level-side-effects';
 
 const valid: RuleTester.ValidTestCase[] = [
   {
@@ -203,7 +203,7 @@ new RuleTester({
     ecmaVersion: 2020,
     sourceType: 'module'
   }
-}).run('no-top-level-side-effect', noTopLevelSideEffect, {
+}).run('no-top-level-side-effects', noTopLevelSideEffects, {
   valid: valid.map(trimTestCases),
   invalid: invalid.map(trimTestCases)
 });

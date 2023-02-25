@@ -28,7 +28,7 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
       '--rule',
       '@ericcornelissen/top/no-top-level-variables: error',
       '--rule',
-      '@ericcornelissen/top/no-top-level-side-effect: error'
+      '@ericcornelissen/top/no-top-level-side-effects: error'
     ],
     {
       encoding: 'utf-8',

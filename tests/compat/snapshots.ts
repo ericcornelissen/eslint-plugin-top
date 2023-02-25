@@ -21,7 +21,7 @@ export const snapshots: ReadonlyArray<Snapshot> = [
     inp: 'console.log("hello world");',
     out: `
 <text>
-  1:1  error  Side effects at the top level are not allowed  @ericcornelissen/top/no-top-level-side-effect
+  1:1  error  Side effects at the top level are not allowed  @ericcornelissen/top/no-top-level-side-effects
 
 ✖ 1 problem (1 error, 0 warnings)
 
