@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - main-v0
     paths:
       - .github/workflows/check-config.yml
       - .github/codecov.yml
@@ -22,6 +23,15 @@ jobs:
     name: Codecov
     runs-on: ubuntu-22.04
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@c8454efe5d0bdefd25384362fe217428ca277d57 # v2.2.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            codecov.io:443
+            github.com:443
       - name: Checkout repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
       - name: Validate Codecov configuration

@@ -8,6 +8,10 @@ const violationMessage = 'Variables at the top level are not allowed';
 const constAllowedValues = ['Literal', 'MemberExpression'];
 const kindValues = ['const', 'let', 'var'];
 
+function isRequireCall(node: CallExpression): boolean {
+  return node.callee.type === 'Identifier' && node.callee.name === 'require';
+}
+
 export const noTopLevelVariables: Rule.RuleModule = {
   meta: {
     type: 'problem',
@@ -49,8 +53,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
     return {
       VariableDeclaration: (node) => {
-        const isMatching = Array.from(options.kind).includes(node.kind);
-        if (!isTopLevel(node) || !isMatching) {
+        if (
+          !isTopLevel(node) ||
+          !Array.from(options.kind).includes(node.kind)
+        ) {
           return;
         }
 
@@ -65,11 +71,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
             switch ((declaration.init as Expression).type) {
               case 'CallExpression': {
                 // type-coverage:ignore-next-line
-                const callExpression = declaration.init as CallExpression;
-                return (
-                  callExpression.callee.type === 'Identifier' &&
-                  callExpression.callee.name === 'require'
-                );
+                return isRequireCall(declaration.init as CallExpression);
               }
               case 'Literal':
                 return isLiteralAllowed;
@@ -82,8 +84,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
         } else {
           allowedDeclaration = (declaration) =>
             declaration.init?.type === 'CallExpression' &&
-            declaration.init.callee.type === 'Identifier' &&
-            declaration.init.callee.name === 'require';
+            isRequireCall(declaration.init);
         }
 
         node.declarations

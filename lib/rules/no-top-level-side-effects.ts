@@ -50,7 +50,7 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-export const noTopLevelSideEffect: Rule.RuleModule = {
+export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
@@ -75,29 +75,31 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       readonly allowIIFE: boolean;
     } = {
       allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : true
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
 
     return {
       ExpressionStatement: (node) => {
-        if (isTopLevel(node)) {
-          if (isIIFE(node)) {
-            if (!options.allowIIFE) {
-              context.report({
-                node,
-                messageId: 'message'
-              });
-            }
-          } else if (
-            !isExportsAssignment(node) &&
-            !isExportPropertyAssignment(node) &&
-            !isModuleAssignment(node)
-          ) {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isIIFE(node)) {
+          if (!options.allowIIFE) {
             context.report({
               node,
               messageId: 'message'
             });
           }
+        } else if (
+          !isExportsAssignment(node) &&
+          !isExportPropertyAssignment(node) &&
+          !isModuleAssignment(node)
+        ) {
+          context.report({
+            node,
+            messageId: 'message'
+          });
         }
       },
       IfStatement: ifTopLevelReportWith(context),
