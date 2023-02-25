@@ -183,6 +183,17 @@ const invalid: RuleTester.InvalidTestCase[] = [
       })();
     `,
     errors
+  },
+  {
+    code: `
+      console.log('hello world');
+    `,
+    options: [
+      {
+        allowIIFE: true
+      }
+    ],
+    errors
   }
 ];
 
