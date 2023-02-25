@@ -8,6 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`cec69d5`) _(Breaking)_ Report top-level IIFEs by default.
 - (`92a3f58`) Improve performance of `no-top-level-variables`.
 
 ## [0.3.0] - 2023-01-13

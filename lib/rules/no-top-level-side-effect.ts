@@ -75,7 +75,7 @@ export const noTopLevelSideEffect: Rule.RuleModule = {
       readonly allowIIFE: boolean;
     } = {
       allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : true
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
 
     return {

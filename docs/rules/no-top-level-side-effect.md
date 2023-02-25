@@ -67,12 +67,12 @@ module.exports = function () {
 
 This rule accepts a configuration object with one option:
 
-- `allowIIFE: true` (default) Configure whether top level Immediately Invoked
+- `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions are allowed.
 
 #### allowIIFE
 
-Examples of **incorrect** code when set to `false`:
+Examples of **correct** code when set to `true`:
 
 ```javascript
 (function () {
