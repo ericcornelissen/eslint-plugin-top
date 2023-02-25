@@ -1,4 +1,4 @@
-# No top level side effect (no-top-level-side-effect)
+# No top level side effect (no-top-level-side-effects)
 
 Disallow top level side effects.
 

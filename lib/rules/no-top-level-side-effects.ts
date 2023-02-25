@@ -50,7 +50,7 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-export const noTopLevelSideEffect: Rule.RuleModule = {
+export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
