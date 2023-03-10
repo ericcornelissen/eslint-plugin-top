@@ -152,7 +152,7 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
       - name: Install tooling
-        uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
+        uses: asdf-vm/actions/install@2368b9def7a1194d67ae0afd9cbbd01e15f658a0 # v2.0.0
       - name: Install dependencies
         run: npm clean-install
       - name: Lint CI
