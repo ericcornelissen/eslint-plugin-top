@@ -20,9 +20,10 @@ module.exports = {
       },
       rules: {
         '@typescript-eslint/block-spacing': 'error',
-        '@typescript-eslint/consistent-type-exports': ['error'],
-        '@typescript-eslint/consistent-type-imports': ['error'],
+        '@typescript-eslint/consistent-type-exports': 'error',
+        '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/key-spacing': 'error',
+        '@typescript-eslint/lines-around-comment': 'error',
         '@typescript-eslint/member-delimiter-style': [
           'error',
           {
@@ -37,13 +38,16 @@ module.exports = {
             multilineDetection: 'brackets'
           }
         ],
+        '@typescript-eslint/no-confusing-void-expression': 'error',
         '@typescript-eslint/no-import-type-side-effects': 'error',
         '@typescript-eslint/no-mixed-enums': 'error',
+        '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
-        'key-spacing': 'off' // @typescript-eslint/key-spacing used instead
+        'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
+        'lines-around-comment': 'off' // @typescript-eslint/lines-around-comment used instead
       }
     },
     {
