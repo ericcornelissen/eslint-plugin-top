@@ -55,7 +55,7 @@
     "markdownlint-cli": "0.33.0",
     "mocha": "10.2.0",
     "prettier": "2.8.4",
-    "rollup": "3.19.1",
+    "rollup": "3.20.0",
     "ts-node": "10.9.1",
     "type-coverage": "2.24.1",
     "typescript": "5.0.2",
