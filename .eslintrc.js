@@ -39,6 +39,7 @@ module.exports = {
           }
         ],
         '@typescript-eslint/no-confusing-void-expression': 'error',
+        '@typescript-eslint/no-duplicate-type-constituents': 'error',
         '@typescript-eslint/no-import-type-side-effects': 'error',
         '@typescript-eslint/no-mixed-enums': 'error',
         '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
