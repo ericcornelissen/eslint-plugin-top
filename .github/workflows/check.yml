@@ -176,15 +176,23 @@ jobs:
   semgrep:
     name: Semgrep
     runs-on: ubuntu-22.04
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    permissions:
+      security-events: write # To upload SARIF results
     container:
       image: returntocorp/semgrep
     steps:
       - name: Checkout repository
         uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - name: Perform Semgrep analysis
-        run: semgrep ci
+        run: semgrep ci --sarif --output semgrep.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      - name: Upload Semgrep report to GitHub
+        uses: github/codeql-action/upload-sarif@04df1262e6247151b5ac09cd2c303ac36ad3f62b # v2.2.9
+        if: ${{ failure() || success() }}
+        with:
+          sarif_file: semgrep.sarif
   test:
     name: Test
     runs-on: ubuntu-22.04
