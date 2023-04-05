@@ -65,7 +65,7 @@ jobs:
 
             ---
 
-            Bump ${{ matrix.tool }} to v${{ env.latest }}
+            Bump ${{ matrix.tool }} to v${{ steps.version.outputs.latest }}
           branch: asdf-${{ matrix.tool }}-${{ steps.version.outputs.latest }}
           labels: dependencies
           commit-message: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
