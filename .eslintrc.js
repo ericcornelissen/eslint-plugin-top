@@ -44,6 +44,7 @@ module.exports = {
         '@typescript-eslint/no-mixed-enums': 'error',
         '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/no-unsafe-enum-comparison': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
