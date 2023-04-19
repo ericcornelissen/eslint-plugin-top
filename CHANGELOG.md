@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`63cfe1e`) Add support for Node.js v20.
 
 ## [1.0.0] - 2023-02-25
 
