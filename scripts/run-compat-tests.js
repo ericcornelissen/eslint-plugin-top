@@ -39,7 +39,7 @@ function runCompatibilityTestsOn(nodeVersion) {
   };
 }
 
-const nodeVersions = ['12', '14', '16', '18'];
+const nodeVersions = ['12', '14', '16', '18', '20'];
 
 const fails = [];
 println('Running tests:');
