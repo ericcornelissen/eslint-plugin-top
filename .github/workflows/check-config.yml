@@ -31,4 +31,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
       - name: Validate Codecov configuration
-        uses: ericcornelissen/codecov-config-validator-action@2a3c15afd02496b4c6f5366166e4e0f610465030 # v1.0.0
+        uses: ericcornelissen/codecov-config-validator-action@79ec876b95be6b652c76279cd8f8f47c68559d3b # v1.0.1
