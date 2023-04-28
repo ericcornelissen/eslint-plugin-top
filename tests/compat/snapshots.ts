@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 interface Snapshot {
   readonly name: string;
   readonly inp: string;

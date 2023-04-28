@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 const cp = require('node:child_process');
 const path = require('node:path');
 

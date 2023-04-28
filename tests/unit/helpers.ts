@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import type {RuleTester} from 'eslint';
 
 export function trimTestCases<

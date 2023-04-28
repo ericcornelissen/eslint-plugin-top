@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import type {Rule} from 'eslint';
 import type {Expression, CallExpression, VariableDeclarator} from 'estree';
 

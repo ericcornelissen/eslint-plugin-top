@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import type {Rule} from 'eslint';
 
 export function isTopLevel(node: Rule.Node) {
