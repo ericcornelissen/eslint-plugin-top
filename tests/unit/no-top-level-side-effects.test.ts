@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 import {trimTestCases} from './helpers';
