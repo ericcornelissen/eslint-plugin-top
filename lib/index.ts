@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import {noTopLevelSideEffects} from './rules/no-top-level-side-effects';
 import {noTopLevelVariables} from './rules/no-top-level-variables';
 

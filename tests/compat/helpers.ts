@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 import * as cp from 'child_process';
 import * as path from 'path';
 
