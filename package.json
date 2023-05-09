@@ -59,7 +59,7 @@
     "ts-node": "10.9.1",
     "type-coverage": "2.25.2",
     "typescript": "5.0.4",
-    "yaml-eslint-parser": "1.2.0"
+    "yaml-eslint-parser": "1.2.2"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
