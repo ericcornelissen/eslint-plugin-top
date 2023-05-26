@@ -6,10 +6,6 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## [Unreleased]
-
-- (`92a3f58`) Improve performance of `no-top-level-variables`.
-
 ## [0.3.0] - 2023-01-13
 
 - (`a85b514`) Add support for configuring if top-level Immediately Invoked
