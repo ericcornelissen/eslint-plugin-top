@@ -77,7 +77,7 @@ jobs:
             ### Post-merge checklist
 
             - [ ] The new version is published to [npm].
-            - [ ] The `v1` branch is at the merge commit.
+            - [ ] The `v2` branch is at the merge commit.
             - [ ] There is a git tag for the new version on the merge commit.
 
             [npm]: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top

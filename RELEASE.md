@@ -19,7 +19,7 @@ To release a new version follow these steps:
 
 If it's not possible to use automated releases, or if something goes wrong with
 the automatic release process, you can follow these steps to release a new
-version (using `v1.2.3` as an example):
+version (using `v2.4.1` as an example):
 
 1. Make sure that your local copy of the repository is up-to-date, sync:
 
@@ -37,15 +37,15 @@ version (using `v1.2.3` as an example):
 1. Update the version number in the package manifest and lockfile:
 
    ```shell
-   npm version v1.2.3 --no-git-tag-version
+   npm version v2.4.1 --no-git-tag-version
    ```
 
    If that fails, change the value of the version field in `package.json` to the
    new version:
 
    ```diff
-   -  "version": "1.2.2",
-   +  "version": "1.2.3",
+   -  "version": "2.4.0",
+   +  "version": "2.4.1",
    ```
 
    and update the version number in `package-lock.json` using `npm install`
@@ -63,7 +63,7 @@ version (using `v1.2.3` as an example):
    ```markdown
    - _No changes yet_
 
-   ## [1.2.3] - YYYY-MM-DD
+   ## [2.4.1] - YYYY-MM-DD
    ```
 
    The date should follow the year-month-day format where single-digit months
@@ -97,20 +97,20 @@ version (using `v1.2.3` as an example):
 1. Create a [git tag] for the new version:
 
    ```shell
-   git tag v1.2.3
+   git tag v2.4.1
    ```
 
-1. Update the `v1` branch to point to the same commit as the new tag:
+1. Update the `v2` branch to point to the same commit as the new tag:
 
    ```shell
-   git checkout v1
+   git checkout v2
    git merge main
    ```
 
-1. Push the `v1` branch and new tag:
+1. Push the `v2` branch and new tag:
 
    ```shell
-   git push origin v1 v1.2.3
+   git push origin v2 v2.4.1
    ```
 
 1. Publish to [npm]:
