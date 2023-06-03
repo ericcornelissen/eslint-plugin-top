@@ -88,7 +88,6 @@ To be able to contribute you need the following tooling:
 - (Recommended) a code editor with [EditorConfig] support;
 - (Optional) [actionlint] (see `.tool-versions` for preferred version);
 - (Optional) [ShellCheck] (see `.tool-versions` for preferred version);
-- (Optional) [Docker];
 
 ### Workflow
 
@@ -181,7 +180,7 @@ npm run test:compat
 
 To check compatibility with all Node.js versions, the continuous integration
 runs the compatibility test suite on every supported Node.js version. You can
-also do this locally using (requires [Docker]):
+also do this locally using:
 
 ```shell
 npm run test:compat-all
@@ -230,7 +229,6 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
-[docker]: https://www.docker.com/
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
