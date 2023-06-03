@@ -6,7 +6,7 @@
   "main": "index.js",
   "exports": "./index.js",
   "engines": {
-    "node": "12.x || 14.x || 16.x || 18.x || 20.x"
+    "node": "18.x || 20.x"
   },
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
