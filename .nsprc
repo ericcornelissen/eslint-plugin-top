@@ -1,6 +1,2 @@
 {
-  "GHSA-ww39-953v-wcq6": {
-    "active": true,
-    "notes": "ReDoS introduced through transitive dependency of ESLint@6. Since ESLint@6 is only used for compatibility testing the risk is accepted"
-  }
 }
