@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`da04330`) _(Breaking)_ Drop Node.js v12, v14, and v16 support.
 
 ## [1.0.1] - 2023-04-19
 
