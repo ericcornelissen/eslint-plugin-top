@@ -8,7 +8,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`c527342`) _(Breaking)_ Drop ESlint v6 and v7 support.
 
 ## [1.0.1] - 2023-04-19
 
