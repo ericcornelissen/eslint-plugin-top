@@ -7,7 +7,7 @@ currently supported with security updates.
 
 | Version | End-of-life |
 | ------: | :---------- |
-|   1.x.x | -           |
+|   1.x.x | 2023-09-01  |
 |   0.x.x | 2023-05-26  |
 
 _This table only includes information on versions `<2.0.0`._
