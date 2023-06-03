@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+      - main-v1
     paths:
       - .github/workflows/check-config.yml
       - .github/codecov.yml
