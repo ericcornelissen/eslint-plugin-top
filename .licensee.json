@@ -12,7 +12,8 @@
       "ISC",
       "MIT",
       "Python-2.0",
-      "Unlicense"
+      "Unlicense",
+      "Zlib"
     ]
   },
   "packages": {},
