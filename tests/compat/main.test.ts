@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-import * as assert from 'assert';
+import * as assert from 'node:assert';
 
 import {runEslint} from './helpers';
 import {snapshots} from './snapshots';
