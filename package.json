@@ -3,7 +3,6 @@
   "description": "Disallow side effects at the top level of files",
   "version": "1.0.1",
   "license": "ISC",
-  "main": "index.js",
   "exports": "./index.js",
   "engines": {
     "node": "18.x || 20.x"
