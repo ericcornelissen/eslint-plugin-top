@@ -13,7 +13,7 @@ npm install eslint --save-dev
 Then, install `eslint-plugin-top`:
 
 ```shell
-npm install @ericcornelissen/eslint-plugin-top --save-dev
+npm install @ericcornelissen/eslint-plugin-top@1 --save-dev
 ```
 
 ## Usage
