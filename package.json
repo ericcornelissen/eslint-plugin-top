@@ -83,7 +83,7 @@
     "lint:yml": "npm run _eslint -- . --ext .yml",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
-    "test:compat-all": "nve 18.0.0,20.0.0 mocha tests/compat --recursive",
+    "test:compat-all": "nve 18.0.0,20.0.0 npm run test:compat --ignore-scripts",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run format:check && npm run lint && npm run test && npm run vet",
