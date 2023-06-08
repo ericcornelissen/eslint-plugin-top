@@ -46,6 +46,7 @@ jobs:
         with:
           name: index-js
           path: index.js
+          retention-days: 1
   codeql:
     name: CodeQL
     runs-on: ubuntu-22.04
