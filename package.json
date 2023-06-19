@@ -49,7 +49,7 @@
     "eslint-v8": "npm:eslint@8.0.1",
     "knip": "1.6.1",
     "licensee": "10.0.0",
-    "markdownlint-cli": "0.34.0",
+    "markdownlint-cli": "0.35.0",
     "mocha": "10.2.0",
     "nve": "16.0.0",
     "prettier": "2.8.8",
