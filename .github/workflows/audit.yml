@@ -1,0 +1,14 @@
+name: Audit
+on:
+  pull_request: ~
+  push:
+    branches:
+      - main
+      - v2
+
+permissions: read-all
+
+jobs:
+  audit:
+    name: Audit
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
