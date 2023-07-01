@@ -10,6 +10,13 @@ updates:
       time: '05:00'
     labels:
       - dependencies
+    groups:
+      stryker:
+        patterns:
+          - '@stryker-mutator/*'
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
   - package-ecosystem: github-actions
     directory: /
     open-pull-requests-limit: 1
