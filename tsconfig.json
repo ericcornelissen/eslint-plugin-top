@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es2022"],
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "rootDir": "./lib",
     "strict": true,
     "noImplicitAny": true,
