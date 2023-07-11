@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Check formatting
-        run: npm run format:check -- --loglevel debug
+        run: npm run format:check -- --log-level debug
   licenses:
     name: Licenses
     runs-on: ubuntu-22.04
