@@ -16,6 +16,10 @@
       "Zlib"
     ]
   },
-  "packages": {},
+  "packages": {
+    "deep-freeze": "0.0.1",
+    "filter-iterator": "0.0.1",
+    "identity-function": "1.0.0"
+  },
   "corrections": true
 }
