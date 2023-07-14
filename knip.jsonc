@@ -1,3 +1,5 @@
+// Check out knip at: https://github.com/webpro/knip
+
 {
   "$schema": "./node_modules/knip/schema.json",
   "entry": ["lib/index.ts!"],
