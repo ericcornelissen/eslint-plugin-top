@@ -51,7 +51,7 @@
     "licensee": "10.0.0",
     "markdownlint-cli": "0.35.0",
     "mocha": "10.2.0",
-    "nve": "16.0.0",
+    "nve": "16.1.0",
     "prettier": "3.0.0",
     "rollup": "3.26.2",
     "ts-node": "10.9.1",
