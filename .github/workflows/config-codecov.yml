@@ -1,15 +1,15 @@
-name: Config
+name: Config Codecov
 on:
   pull_request:
     paths:
-      - .github/workflows/check-config.yml
+      - .github/workflows/config-codecov.yml
       - .github/codecov.yml
   push:
     branches:
       - main
       - main-v1
     paths:
-      - .github/workflows/check-config.yml
+      - .github/workflows/config-codecov.yml
       - .github/codecov.yml
 
 permissions: read-all
