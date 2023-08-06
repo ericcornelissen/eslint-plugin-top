@@ -9,6 +9,7 @@ Versioning].
 ## [Unreleased]
 
 - (`8a7eb63`) Allow top-level assignments of arrow functions to `const`.
+- (`eeb53b4`) Update the license year.
 
 ## [2.0.0] - 2023-06-03
 
