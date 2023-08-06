@@ -78,6 +78,21 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['MemberExpression']
       }
     ]
+  },
+  {
+    code: `
+      const foo = () => 'bar';
+    `
+  },
+  {
+    code: `
+      const foo = () => 'bar';
+    `,
+    options: [
+      {
+        constAllowed: ['ArrowFunctionExpression']
+      }
+    ]
   }
 ];
 
@@ -351,6 +366,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     options: [
       {
+        constAllowed: ['ArrowFunctionExpression']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 30
+      }
+    ]
+  },
+  {
+    code: `
+      const isArray = Array.isArray;
+    `,
+    options: [
+      {
         constAllowed: ['Literal']
       }
     ],
@@ -361,6 +395,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 30
+      }
+    ]
+  },
+  {
+    code: `
+      const pi = 3.14;
+    `,
+    options: [
+      {
+        constAllowed: ['ArrowFunctionExpression']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 16
       }
     ]
   },
@@ -394,6 +447,72 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 5,
         endLine: 1,
         endColumn: 16
+      }
+    ]
+  },
+  {
+    code: `
+      var foo = () => 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      let foo = () => 'bar';
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 5,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = () => 'bar';
+    `,
+    options: [
+      {
+        constAllowed: ['Literal']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = () => 'bar';
+    `,
+    options: [
+      {
+        constAllowed: ['MemberExpression']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 24
       }
     ]
   }
