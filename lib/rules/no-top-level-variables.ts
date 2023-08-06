@@ -7,7 +7,11 @@ import {isTopLevel} from '../helpers';
 
 const violationMessage = 'Variables at the top level are not allowed';
 
-const constAllowedValues = ['Literal', 'MemberExpression'];
+const constAllowedValues = [
+  'ArrowFunctionExpression',
+  'Literal',
+  'MemberExpression'
+];
 const kindValues = ['const', 'let', 'var'];
 
 function isRequireCall(node: CallExpression): boolean {
@@ -64,6 +68,9 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
         let allowedDeclaration: (declaration: VariableDeclarator) => boolean;
         if (node.kind === 'const') {
+          const isArrowFunctionAllowed = options.constAllowed.includes(
+            'ArrowFunctionExpression'
+          );
           const isLiteralAllowed = options.constAllowed.includes('Literal');
           const isMemberExpressionAllowed =
             options.constAllowed.includes('MemberExpression');
@@ -71,6 +78,8 @@ export const noTopLevelVariables: Rule.RuleModule = {
           allowedDeclaration = (declaration) => {
             // type-coverage:ignore-next-line
             switch ((declaration.init as Expression).type) {
+              case 'ArrowFunctionExpression':
+                return isArrowFunctionAllowed;
               case 'CallExpression': {
                 // type-coverage:ignore-next-line
                 return isRequireCall(declaration.init as CallExpression);
