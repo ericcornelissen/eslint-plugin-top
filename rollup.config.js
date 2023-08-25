@@ -8,5 +8,5 @@ module.exports = {
     file: 'index.js',
     format: 'cjs'
   },
-  plugins: [typescript()]
+  plugins: [typescript({module: undefined, moduleResolution: undefined})]
 };
