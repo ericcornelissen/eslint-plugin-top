@@ -55,7 +55,7 @@
     "prettier": "3.0.2",
     "rollup": "3.28.1",
     "ts-node": "10.9.1",
-    "type-coverage": "2.26.0",
+    "type-coverage": "2.26.2",
     "typescript": "5.2.2",
     "yaml-eslint-parser": "1.2.2"
   },
