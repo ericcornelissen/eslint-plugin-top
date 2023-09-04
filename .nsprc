@@ -1,14 +1,2 @@
 {
-  "GHSA-ww39-953v-wcq6": {
-    "active": true,
-    "notes": "ReDoS introduced through transitive dependency of ESLint@6. Since ESLint@6 is only used for compatibility testing the risk is accepted"
-  },
-  "GHSA-j8xg-fqg3-53r7": {
-    "active": true,
-    "notes": "ReDoS introduced through transitive dependency of ESLint@6. Since ESLint@6 is only used for compatibility testing the risk is accepted"
-  },
-  "GHSA-c2qf-rxjj-qqgw": {
-    "active": true,
-    "notes": "ReDoS in various devDependency trees with limited impact. Updates may come in over time."
-  }
 }

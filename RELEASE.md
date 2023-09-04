@@ -10,7 +10,7 @@ follow the guidelines found in this document.
 
 To release a new version follow these steps:
 
-1. [Manually trigger] the [release workflow] from the `main-v1` branch; Use an
+1. [Manually trigger] the [release workflow] from the `main` branch; Use an
    update type in accordance with [Semantic Versioning]. This will create a Pull
    Request that start the release process.
 1. Follow the instructions in the Pull Request description.
@@ -19,13 +19,13 @@ To release a new version follow these steps:
 
 If it's not possible to use automated releases, or if something goes wrong with
 the automatic release process, you can follow these steps to release a new
-version (using `v1.2.3` as an example):
+version (using `v2.4.1` as an example):
 
 1. Make sure that your local copy of the repository is up-to-date, sync:
 
    ```shell
-   git checkout main-v1
-   git pull origin main-v1
+   git checkout main
+   git pull origin main
    ```
 
    Or clone:
@@ -37,15 +37,15 @@ version (using `v1.2.3` as an example):
 1. Update the version number in the package manifest and lockfile:
 
    ```shell
-   npm version v1.2.3 --no-git-tag-version
+   npm version v2.4.1 --no-git-tag-version
    ```
 
    If that fails, change the value of the version field in `package.json` to the
    new version:
 
    ```diff
-   -  "version": "1.2.2",
-   +  "version": "1.2.3",
+   -  "version": "2.4.0",
+   +  "version": "2.4.1",
    ```
 
    and update the version number in `package-lock.json` using `npm install`
@@ -63,7 +63,7 @@ version (using `v1.2.3` as an example):
    ```markdown
    - _No changes yet_
 
-   ## [1.2.3] - YYYY-MM-DD
+   ## [2.4.1] - YYYY-MM-DD
    ```
 
    The date should follow the year-month-day format where single-digit months
@@ -78,7 +78,7 @@ version (using `v1.2.3` as an example):
    git push origin release-$(sha1sum package-lock.json | awk '{print $1}')
    ```
 
-1. Create a Pull Request to merge the release branch into `main-v1`.
+1. Create a Pull Request to merge the release branch into `main`.
 
 1. Merge the Pull Request if the changes look OK and all continuous integration
    checks are passing.
@@ -87,30 +87,30 @@ version (using `v1.2.3` as an example):
    > complete the release process. If not, or only partially, continue following
    > the remaining steps.
 
-1. Immediately after the Pull Request is merged, sync the `main-v1` branch:
+1. Immediately after the Pull Request is merged, sync the `main` branch:
 
    ```shell
-   git checkout main-v1
-   git pull origin main-v1
+   git checkout main
+   git pull origin main
    ```
 
 1. Create a [git tag] for the new version:
 
    ```shell
-   git tag v1.2.3
+   git tag v2.4.1
    ```
 
-1. Update the `v1` branch to point to the same commit as the new tag:
+1. Update the `v2` branch to point to the same commit as the new tag:
 
    ```shell
-   git checkout v1
-   git merge main-v1
+   git checkout v2
+   git merge main
    ```
 
-1. Push the `v1` branch and new tag:
+1. Push the `v2` branch and new tag:
 
    ```shell
-   git push origin v1 v1.2.3
+   git push origin v2 v2.4.1
    ```
 
 1. Publish to [npm]:

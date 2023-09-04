@@ -1,0 +1,60 @@
+name: Weekly
+on:
+  schedule:
+    - cron: '0 4 * * 6'
+  workflow_dispatch: ~
+
+permissions: read-all
+
+jobs:
+  npm-deps:
+    name: Update transitive dependencies
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write # To push a commit
+      pull-requests: write # To open a Pull Request
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - name: Install Node.js
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Create automation token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        id: automation-token
+        with:
+          app_id: ${{ secrets.AUTOMATION_APP_ID }}
+          private_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Update dependencies
+        run: npm update
+      - name: Dedupe dependencies
+        run: npm dedupe
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
+        with:
+          token: ${{ steps.automation-token.outputs.token }}
+          title: Update transitive dependencies
+          body: |
+            _This Pull Request was created automatically_
+          branch: npm-transitive-dependencies
+          labels: dependencies
+          commit-message: Update transitive dependencies
+          add-paths: |
+            package.json
+            package-lock.json

@@ -9,65 +9,35 @@ permissions: read-all
 jobs:
   audit:
     name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main-v1
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
     with:
-      refs: '["main", "main-v1", "v1"]'
+      refs: '["main", "v2"]'
   tooling:
-    name: Tool update ${{ matrix.tool }}
+    name: Update tooling
     runs-on: ubuntu-22.04
     permissions:
       contents: write # To push a commit
       pull-requests: write # To open a Pull Request
-    strategy:
-      fail-fast: false
-      matrix:
-        tool:
-          - actionlint
-          - shellcheck
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
+            actions-results-receiver-production.githubapp.com:443
             api.github.com:443
             github.com:443
             objects.githubusercontent.com:443
-      - name: Checkout repository
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
-      - name: Install tooling
-        uses: asdf-vm/actions/install@6a442392015fbbdd8b48696d41e0051b2698b2e4 # v2.2.0
       - name: Create automation token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
         id: automation-token
         with:
           app_id: ${{ secrets.AUTOMATION_APP_ID }}
           private_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
-      - name: Get latest version
-        id: version
-        run: |
-          LATEST_VERSION="$(asdf latest '${{ matrix.tool }}')"
-          echo "latest=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
-      - name: Install new version
-        run: |
-          asdf install '${{ matrix.tool }}' '${{ steps.version.outputs.latest }}'
-      - name: Apply latest version to .tool-versions
-        run: |
-          asdf local '${{ matrix.tool }}' '${{ steps.version.outputs.latest }}'
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
+      - name: Update tooling
+        uses: ericcornelissen/tool-versions-update-action/pr@dce7e8e82ec984d2fc6f10169c39b0812f8ab932 # v0.3.3
         with:
-          token: ${{ steps.automation-token.outputs.token }}
-          title: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
-          body: |
-            _This Pull Request was created automatically_
-
-            ---
-
-            Bump ${{ matrix.tool }} to v${{ steps.version.outputs.latest }}
-          branch: asdf-${{ matrix.tool }}-${{ steps.version.outputs.latest }}
           labels: dependencies
-          commit-message: Update ${{ matrix.tool }} to ${{ steps.version.outputs.latest }}
-          add-paths: |
-            .tool-versions
+          max: 1
+          token: ${{ steps.automation-token.outputs.token }}

@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - main-v1
 
 permissions: read-all
 
@@ -16,7 +15,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -26,7 +25,7 @@ jobs:
             objects.githubusercontent.com:443
             registry.npmjs.org:443
       - name: Checkout repository
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
           fetch-depth: 0 # To obtain all tags
       - name: Check if version is released
@@ -49,32 +48,38 @@ jobs:
       contents: write # To push refs
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
             github.com:443
       - name: Checkout repository
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
           fetch-depth: 0 # To fetch all major version branches
       - name: Get major version
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
         id: major-version
+        env:
+          VERSION: ${{ needs.check.outputs.version }}
         with:
           result-encoding: string
           script: |
-            const version = "${{ needs.check.outputs.version }}"
+            const version = `${process.env.VERSION}`
             const major = version.replace(/\.\d\.\d$/, "")
             return major
       - name: Publish git tag
+        env:
+          VERSION: ${{ needs.check.outputs.version }}
         run: |
-          git tag '${{ needs.check.outputs.version }}'
-          git push origin '${{ needs.check.outputs.version }}'
+          git tag "$VERSION"
+          git push origin "$VERSION"
       - name: Update major version branch
+        env:
+          MAJOR_VERSION: ${{ steps.major-version.outputs.result }}
         run: |
-          git push origin 'HEAD:${{ steps.major-version.outputs.result }}'
+          git push origin "HEAD:$MAJOR_VERSION"
   npm:
     name: npm
     runs-on: ubuntu-22.04
@@ -88,7 +93,7 @@ jobs:
       url: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -102,9 +107,9 @@ jobs:
             rekor.sigstore.dev:443
             sigstore-tuf-root.storage.googleapis.com:443
       - name: Checkout repository
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
       - name: Install Node.js
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
         with:
           cache: npm
           node-version-file: .nvmrc

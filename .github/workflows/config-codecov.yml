@@ -1,15 +1,14 @@
-name: Config
+name: Config Codecov
 on:
   pull_request:
     paths:
-      - .github/workflows/check-config.yml
+      - .github/workflows/config-codecov.yml
       - .github/codecov.yml
   push:
     branches:
       - main
-      - main-v1
     paths:
-      - .github/workflows/check-config.yml
+      - .github/workflows/config-codecov.yml
       - .github/codecov.yml
 
 permissions: read-all
@@ -20,7 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@128a63446a954579617e875aaab7d2978154e969 # v2.4.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -29,6 +28,6 @@ jobs:
             codecov.io:443
             github.com:443
       - name: Checkout repository
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
       - name: Validate Codecov configuration
-        uses: ericcornelissen/codecov-config-validator-action@79ec876b95be6b652c76279cd8f8f47c68559d3b # v1.0.1
+        uses: ericcornelissen/codecov-config-validator-action@bbb3f8ef45de6f6ce57ea8d566940bdd78b4814a # v1.0.2

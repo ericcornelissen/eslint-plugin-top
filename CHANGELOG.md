@@ -6,6 +6,20 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## [Unreleased]
+
+- _No changes yet_
+
+## [2.1.0] - 2023-08-06
+
+- (`8a7eb63`) Allow top-level assignments of arrow functions to `const`.
+- (`eeb53b4`) Update the license year.
+
+## [2.0.0] - 2023-06-03
+
+- (`c527342`) _(Breaking)_ Drop ESlint v6 and v7 support.
+- (`da04330`) _(Breaking)_ Drop Node.js v12, v14, and v16 support.
+
 ## [1.0.1] - 2023-04-19
 
 - (`63cfe1e`) Add support for Node.js v20.
