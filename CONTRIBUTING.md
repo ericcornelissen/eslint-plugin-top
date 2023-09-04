@@ -20,9 +20,6 @@ relevant sections of this document.
   - [Workflow](#workflow)
   - [Development Details](#development-details)
 
-> **Note** If you want to make a contribution to v1 of the project, please refer
-> to the [Contributing Guidelines for v1].
-
 ---
 
 ## Reporting Issues
@@ -232,7 +229,6 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
-[contributing guidelines for v1]: https://github.com/ericcornelissen/eslint-plugin-top/blob/main-v1/CONTRIBUTING.md
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
