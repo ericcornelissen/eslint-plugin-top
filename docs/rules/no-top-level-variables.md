@@ -1,5 +1,8 @@
 # No top level variables (no-top-level-variables)
 
+> **Warning**: Version 1 of `@ericcornelissen/eslint-plugin-top` is no longer
+> supported.
+
 Disallow top level variables.
 
 Variables at the top level may indicate side effects. It may be initialized by

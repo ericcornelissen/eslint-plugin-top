@@ -1,5 +1,8 @@
 # eslint-plugin-top
 
+> **Warning**: Version 1 of `@ericcornelissen/eslint-plugin-top` is no longer
+> supported.
+
 Disallow side effects at the top level of files.
 
 ## Installation

@@ -1,5 +1,8 @@
 # No top level side effect (no-top-level-side-effects)
 
+> **Warning**: Version 1 of `@ericcornelissen/eslint-plugin-top` is no longer
+> supported.
+
 Disallow top level side effects.
 
 Side effects at the top level can have various negative side effects including
