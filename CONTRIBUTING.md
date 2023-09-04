@@ -1,8 +1,11 @@
 # Contributing Guidelines
 
-> **Warning**: Version 1 of `@ericcornelissen/eslint-plugin-top` is no longer
-> supported. If you want to make a contribution to this project, please refer to
-> the [Contributing Guidelines of the latest version].
+The `@ericcornelissen/eslint-plugin-top` project welcomes contributions and
+corrections of all forms. This includes improvements to the documentation or
+code base, new tests, bug fixes, and implementations of new features. We
+recommend you open an issue before making any substantial changes so you can be
+sure your work won't be rejected. But for small changes, such as fixing a typo,
+you can open a Pull Request directly.
 
 If you plan to make a contribution, please do make sure to read through the
 relevant sections of this document.

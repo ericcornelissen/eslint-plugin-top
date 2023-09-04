@@ -1,8 +1,5 @@
 # eslint-plugin-top
 
-> **Warning**: Version 1 of `@ericcornelissen/eslint-plugin-top` is no longer
-> supported.
-
 Disallow side effects at the top level of files.
 
 ## Installation
@@ -16,7 +13,7 @@ npm install eslint --save-dev
 Then, install `eslint-plugin-top`:
 
 ```shell
-npm install @ericcornelissen/eslint-plugin-top@1 --save-dev
+npm install @ericcornelissen/eslint-plugin-top --save-dev
 ```
 
 ## Usage
