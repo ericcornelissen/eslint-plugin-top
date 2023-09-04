@@ -6,10 +6,6 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## [Unreleased]
-
-- _No changes yet_
-
 ## [1.0.1] - 2023-04-19
 
 - (`63cfe1e`) Add support for Node.js v20.
