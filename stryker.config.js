@@ -19,7 +19,7 @@ module.exports = {
   checkers: ['typescript'],
   tsconfigFile: 'tsconfig.json',
 
-  reporters: ['clear-text', 'dashboard', 'html', 'progress'],
+  reporters: ['clear-text', 'html', 'progress'],
   htmlReporter: {
     fileName: '_reports/mutation/index.html'
   },
