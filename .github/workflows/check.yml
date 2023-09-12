@@ -285,7 +285,6 @@ jobs:
       - name: Run mutation tests
         run: npm run test:mutation
         env:
-          CI: true
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_TOKEN }}
   vet:
     name: Vet
