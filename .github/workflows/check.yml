@@ -261,7 +261,6 @@ jobs:
           allowed-endpoints: >
             api.github.com:443
             artifactcache.actions.githubusercontent.com:443
-            dashboard.stryker-mutator.io:443
             github.com:443
             nodejs.org:443
             objects.githubusercontent.com:443
@@ -284,8 +283,6 @@ jobs:
         run: npm clean-install
       - name: Run mutation tests
         run: npm run test:mutation
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_TOKEN }}
   vet:
     name: Vet
     runs-on: ubuntu-22.04
