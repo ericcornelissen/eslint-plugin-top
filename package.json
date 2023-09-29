@@ -53,7 +53,7 @@
     "mocha": "10.2.0",
     "nve": "16.1.1",
     "prettier": "3.0.3",
-    "rollup": "3.29.2",
+    "rollup": "3.29.4",
     "ts-node": "10.9.1",
     "type-coverage": "2.26.3",
     "typescript": "5.2.2",
