@@ -10,7 +10,7 @@
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericcornelissen/eslint-plugin-top"
+    "url": "git+https://github.com/ericcornelissen/eslint-plugin-top.git"
   },
   "keywords": [
     "eslint",
