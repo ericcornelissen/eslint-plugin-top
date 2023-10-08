@@ -64,6 +64,7 @@
     "prepublishOnly": "npm run build",
     "pretest:compat": "npm run build",
     "pretest:compat-all": "npm run build",
+    "prevet:package.json": "npm run build",
     "_eslint": "eslint --report-unused-disable-directives",
     "_prettier": "prettier ./**/*.{js,json,md,ts,yml} --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
