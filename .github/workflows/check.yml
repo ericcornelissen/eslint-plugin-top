@@ -311,6 +311,9 @@ jobs:
       - name: Vet imports
         if: ${{ failure() || success() }}
         run: npm run vet:imports
+      - name: Vet package manifest
+        if: ${{ failure() || success() }}
+        run: npm run vet:package.json
       - name: Vet types
         if: ${{ failure() || success() }}
         run: npm run vet:types
