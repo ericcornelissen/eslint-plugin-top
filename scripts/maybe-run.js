@@ -7,25 +7,26 @@
  *
  * ## Installation
  *
- * This script is intended to be vendored (put )
+ * This script is intended to be vendored:
  *
- * - Make sure
- * - Create a new file in your project, e.g. `script/maybe-run.js`, and copy
- *   this code into it.
  * - Add `is-ci` as a development dependency (if it is not already) using
  *   `npm install --save-dev is-ci`.
+ * - Create a new file in your project, e.g. `script/maybe-run.js`, and copy
+ *   this code into it.
+ * - Use as `$ node script/maybe-run.js`.
  *
  * ## Description
  *
  * A helper script for Node.js projects to aid in continuously running optional
- * tooling without making that tooling required. When used it will run a command
- * if and only if it is available on the current system, outputting a warning
- * when the command is not found. In a continuous integration context the script
- * will still exit with a non-zero exit code if the command is not found.
+ * tooling (without errors if it is missing). When used it will run the given
+ * command if and only if it is available on the current system, outputting a
+ * warning when the command is not found. In a continuous integration context
+ * the script will still exit with a non-zero exit code if the command is not
+ * found.
  *
  * The target command will be executed in the working directory where this
  * script is invoked. That is, when running `node example-dir/maybe-run.js CMD`,
- * the command will be invoked in the parent directory of example-dir.
+ * the command will be invoked in the parent directory of `example-dir`.
  *
  * For instructions on how to use this script run `node maybe-run.js` (without
  * any further arguments).
