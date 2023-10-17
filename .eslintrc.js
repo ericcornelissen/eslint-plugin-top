@@ -45,11 +45,13 @@ module.exports = {
         '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/no-unsafe-enum-comparison': 'error',
+        '@typescript-eslint/prefer-destructuring': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
         'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
-        'lines-around-comment': 'off' // @typescript-eslint/lines-around-comment used instead
+        'lines-around-comment': 'off', // @typescript-eslint/lines-around-comment used instead
+        'prefer-destructuring': 'off' //@typescript-eslint/prefer-destructuring used instead
       }
     },
     {
