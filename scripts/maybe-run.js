@@ -5,6 +5,9 @@
  *
  * Run a tool if it is present on the PATH, otherwise output a warning.
  *
+ * Retrieved from (and updates available at):
+ * https://gist.github.com/ericcornelissen/6253b63db8c6f6ec6a58cb4d36c8e989
+ *
  * ## Installation
  *
  * This script is intended to be vendored:
