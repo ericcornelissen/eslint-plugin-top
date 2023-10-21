@@ -25,8 +25,8 @@
  * found.
  *
  * The target command will be executed in the working directory where this
- * script is invoked. That is, when running `node example-dir/maybe-run.js CMD`,
- * the command will be invoked in the parent directory of `example-dir`.
+ * script is invoked. That is, when running `node path/to/maybe-run.js CMD`, the
+ * command will be invoked in the directory where `node` is being invoked.
  *
  * For instructions on how to use this script run `node maybe-run.js` (without
  * any further arguments).
@@ -59,8 +59,8 @@ const process = require('node:process');
 const isCI = require('is-ci');
 
 if (process.argv.length < 3) {
-  console.log(
-    'error: Provide a command to try and execute.',
+  console.info(
+    'Provide a command to try and execute.',
     '\n',
     '\nUsage:',
     '\n  node path/to/maybe-run.js [CMD] [ARGS...]'
@@ -69,7 +69,7 @@ if (process.argv.length < 3) {
 }
 
 const cmd = process.argv[2];
-const args = process.argv.slice(3);
+const args = process.argv.slice(3 /*, end */);
 const {status} = cp.spawnSync(cmd, args, {
   cwd: './',
   stdio: 'inherit'
@@ -77,10 +77,13 @@ const {status} = cp.spawnSync(cmd, args, {
 
 if (status === null) {
   if (isCI) {
+    console.error('Command', `'${cmd}'`, 'not found.');
     process.exit(1);
   } else {
     console.warn(
-      `Command '${cmd}' not found, it will not be run.`,
+      'Command',
+      `'${cmd}'`,
+      'not found, it will not be run.',
       'Install it to make this warning go away.'
     );
     process.exit(0);
