@@ -52,7 +52,7 @@
     "licensee": "10.0.0",
     "markdownlint-cli": "0.37.0",
     "mocha": "10.2.0",
-    "nve": "16.1.1",
+    "nve": "17.0.0",
     "prettier": "3.0.3",
     "publint": "0.2.5",
     "rollup": "4.1.5",
