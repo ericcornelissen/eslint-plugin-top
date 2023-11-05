@@ -1,6 +1,7 @@
 .cache/
 .temp/
 _reports/
+checksums.txt
 index.js
 
 # ESLint
