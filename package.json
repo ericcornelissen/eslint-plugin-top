@@ -35,7 +35,7 @@
     "@stryker-mutator/mocha-runner": "7.3.0",
     "@stryker-mutator/typescript-checker": "7.3.0",
     "@types/eslint": "8.44.4",
-    "@types/estree": "1.0.4",
+    "@types/estree": "1.0.5",
     "@types/mocha": "10.0.2",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
