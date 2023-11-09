@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+
 # Release Guidelines
 
 If you need to release a new version of `@ericcornelissen/eslint-plugin-top`,
