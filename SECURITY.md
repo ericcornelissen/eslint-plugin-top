@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+
 # Security Policy
 
 The maintainers of the `@ericcornelissen/eslint-plugin-top` project take

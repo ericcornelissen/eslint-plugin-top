@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+
 # Contributing Guidelines
 
 The `@ericcornelissen/eslint-plugin-top` project welcomes contributions and
