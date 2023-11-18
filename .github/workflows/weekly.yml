@@ -53,6 +53,7 @@ jobs:
           body: |
             _This Pull Request was created automatically_
           branch: npm-transitive-dependencies
+          assignees: ericcornelissen
           labels: dependencies
           commit-message: Update transitive dependencies
           add-paths: |
