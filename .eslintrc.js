@@ -47,7 +47,12 @@ module.exports = {
         '@typescript-eslint/no-unsafe-enum-comparison': 'error',
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
         '@typescript-eslint/prefer-destructuring': 'error',
-        '@typescript-eslint/switch-exhaustiveness-check': 'error',
+        '@typescript-eslint/switch-exhaustiveness-check': [
+          'error',
+          {
+            requireDefaultForNonUnion: true
+          }
+        ],
 
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
         'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
