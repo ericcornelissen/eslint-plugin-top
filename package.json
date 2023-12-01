@@ -31,9 +31,9 @@
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
     "@rollup/plugin-typescript": "11.1.5",
-    "@stryker-mutator/core": "7.3.0",
-    "@stryker-mutator/mocha-runner": "7.3.0",
-    "@stryker-mutator/typescript-checker": "7.3.0",
+    "@stryker-mutator/core": "8.0.0",
+    "@stryker-mutator/mocha-runner": "8.0.0",
+    "@stryker-mutator/typescript-checker": "8.0.0",
     "@types/eslint": "8.44.7",
     "@types/estree": "1.0.4",
     "@types/mocha": "10.0.2",
