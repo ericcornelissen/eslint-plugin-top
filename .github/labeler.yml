@@ -12,6 +12,7 @@ ci:
 dependencies:
   - changed-files:
       - any-glob-to-any-file:
+          - .nvmrc
           - .tool-versions
           - package-lock.json
 
@@ -21,13 +22,30 @@ documentation:
           - docs/*
           - README.md
 
+meta:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/labeler.yml
+          - .editorconfig
+          - .eslintrc.js
+          - .gitattributes
+          - .gitignore
+          - .licensee.json
+          - .markdownlint.yml
+          - .npmrc
+          - .prettierrc.yml
+
 test:
   - changed-files:
       - any-glob-to-any-file:
           - tests/**
           - tests/**/*
+          - .c8rc.json
+          - .mocharc.yml
 
 security:
   - changed-files:
       - any-glob-to-any-file:
+          - .github/codeql.yml
+          - .nsprc
           - SECURITY.md
