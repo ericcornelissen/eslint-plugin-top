@@ -1,23 +1,51 @@
 # Check out Labeler at: https://github.com/actions/labeler
 
 ci:
-  - .github/workflows/*
-  - .github/codecov.yml
-  - .github/codeql.yml
-  - .github/dependabot.yml
-  - .github/labeler.yml
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/*
+          - .github/codecov.yml
+          - .github/codeql.yml
+          - .github/dependabot.yml
+          - .github/labeler.yml
 
 dependencies:
-  - .tool-versions
-  - package-lock.json
+  - changed-files:
+      - any-glob-to-any-file:
+          - .nvmrc
+          - .tool-versions
+          - package-lock.json
 
 documentation:
-  - docs/*
-  - README.md
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/*
+          - README.md
+
+meta:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/labeler.yml
+          - .editorconfig
+          - .eslintrc.js
+          - .gitattributes
+          - .gitignore
+          - .licensee.json
+          - .markdownlint.yml
+          - .npmrc
+          - .prettierrc.yml
 
 test:
-  - tests/**
-  - tests/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - tests/**
+          - tests/**/*
+          - .c8rc.json
+          - .mocharc.yml
 
 security:
-  - SECURITY.md
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/codeql.yml
+          - .nsprc
+          - SECURITY.md
