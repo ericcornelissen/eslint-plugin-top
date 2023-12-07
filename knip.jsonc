@@ -2,8 +2,12 @@
 
 {
   "$schema": "./node_modules/knip/schema.json",
-  "entry": ["lib/index.ts!"],
-  "project": ["lib/**/*.ts!"],
+  "entry": ["lib/index.ts"],
+  "ignore": [],
   "ignoreBinaries": ["actionlint"],
-  "ignoreDependencies": ["@ericcornelissen/eslint-plugin-top"]
+  "ignoreDependencies": ["@ericcornelissen/eslint-plugin-top", "@types/mocha"],
+  "mocha": {
+    "config": ".mocharc.yml",
+    "entry": ["tests/**/*.test.ts"]
+  }
 }
