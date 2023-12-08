@@ -48,7 +48,7 @@
     "eslint-plugin-yml": "1.10.0",
     "eslint-v8": "npm:eslint@8.0.1",
     "is-ci": "3.0.1",
-    "knip": "3.5.1",
+    "knip": "3.6.0",
     "licensee": "10.0.0",
     "markdownlint-cli": "0.37.0",
     "mocha": "10.2.0",
