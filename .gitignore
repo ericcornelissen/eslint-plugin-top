@@ -11,4 +11,5 @@ index.js
 node_modules/
 .npm/
 .node_repl_history
+ericcornelissen-eslint-plugin-top-*.tgz
 npm-debug.log*
