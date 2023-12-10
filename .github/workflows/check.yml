@@ -196,14 +196,23 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Build
-        run: npm run build
+      - name: Simulate publish
+        run: |
+          # Dry run publish to trigger any hooks
+          npm publish --dry-run
+
+          # Pack to produce the archive that would be published
+          npm pack
       - name: Compute checksum
-        run: shasum index.js | tee checksums.txt
+        run: shasum -- *.tgz | tee checksums.txt
       - name: Reset to a clean state
-        run: npm run clean
-      - name: Rebuild
-        run: npm run build
+        run: |
+          npm run clean
+          rm -- *.tgz
+      - name: Simulate publish again
+        run: |
+          npm publish --dry-run
+          npm pack
       - name: Verify checksum
         run: shasum --check checksums.txt --strict
   test:
