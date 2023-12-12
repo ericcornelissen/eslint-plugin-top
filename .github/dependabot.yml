@@ -28,4 +28,5 @@ updates:
     assignees:
       - ericcornelissen
     labels:
+      - ci
       - dependencies
