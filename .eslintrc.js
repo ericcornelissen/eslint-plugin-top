@@ -46,6 +46,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/no-unsafe-enum-comparison': 'error',
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
+        '@typescript-eslint/no-useless-template-literals': 'error',
         '@typescript-eslint/prefer-destructuring': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': [
           'error',
