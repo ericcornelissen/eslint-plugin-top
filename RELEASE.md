@@ -119,6 +119,7 @@ version (using `v2.4.1` as an example):
 
    ```shell
    npm clean-install
+   npm run prepublishOnly
    npm publish
    ```
 

@@ -103,7 +103,7 @@ If you decide to make a contribution, please do use the following workflow:
 
 ### Development Details
 
-Before you start making changes you should run npm install. This ensures your
+Before you start making changes you should run `npm install`. This ensures your
 local development environment is setup and ready to go. All code and tests are
 written in TypeScript, documentation in Markdown, and scripts using JavaScript.
 
