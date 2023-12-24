@@ -4,7 +4,7 @@
   "$schema": "./node_modules/knip/schema.json",
   "entry": ["lib/index.ts"],
   "ignore": [],
-  "ignoreBinaries": ["actionlint"],
+  "ignoreBinaries": [],
   "ignoreDependencies": ["@ericcornelissen/eslint-plugin-top", "@types/mocha"],
   "mocha": {
     "config": ".mocharc.yml",
