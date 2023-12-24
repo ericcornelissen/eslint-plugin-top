@@ -93,6 +93,51 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['ArrowFunctionExpression']
       }
     ]
+  },
+  {
+    code: `
+      var bar = 1337;
+    `,
+    options: [
+      {
+        kind: ['let', 'const']
+      }
+    ]
+  },
+  {
+    code: `
+      export const bar = 1337;
+    `
+  },
+  {
+    code: `
+      const foo = bar;
+    `
+  },
+  {
+    code: `
+      export class ClassName { }
+      export function functionName() { }
+      export function* generatorName() { }
+      export const { name1, name2: name3 } = o;
+      export const [ name4, name5 ] = a;
+    `
+  },
+  {
+    code: `
+      const { name1, name2: name3 } = o;
+      const [ name4, name5 ] = a;
+    `
+  },
+  {
+    code: `
+      const { bar } = foo;
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ]
   }
 ];
 
@@ -511,6 +556,95 @@ const invalid: RuleTester.InvalidTestCase[] = [
         messageId: 'message',
         line: 1,
         column: 7,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      export var foo = "bar";
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 23
+      }
+    ]
+  },
+  {
+    code: `
+      export let bar = 1337;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      export const foo = () => "bar";
+    `,
+    options: [
+      {
+        constAllowed: ['Literal']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 14,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      export var name1, name2;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 17
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 19,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      export let name1, name2;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 17
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 19,
         endLine: 1,
         endColumn: 24
       }

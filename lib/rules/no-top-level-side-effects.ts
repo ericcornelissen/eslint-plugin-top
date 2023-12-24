@@ -1,9 +1,19 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {ExpressionStatement} from 'estree';
+import type {
+  Declaration,
+  ExpressionStatement,
+  Expression,
+  VariableDeclaration
+} from 'estree';
 
 import {isTopLevel} from '../helpers';
+
+type Options = {
+  readonly allowIIFE: boolean;
+  readonly allowSymbol: boolean;
+};
 
 const violationMessage = 'Side effects at the top level are not allowed';
 
@@ -52,6 +62,47 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function sideEffectInExpression(
+  context: Rule.RuleContext,
+  options: Options,
+  expression: Expression
+) {
+  if (expression.type === 'CallExpression') {
+    if (
+      !(
+        expression.callee.type === 'Identifier' &&
+        expression.callee.name === 'Symbol' &&
+        options.allowSymbol
+      )
+    ) {
+      context.report({
+        node: expression,
+        messageId: 'message'
+      });
+    }
+  }
+
+  if (expression.type === 'NewExpression') {
+    context.report({
+      node: expression,
+      messageId: 'message'
+    });
+  }
+}
+
+function sideEffectsInVariableDeclaration(
+  context: Rule.RuleContext,
+  options: Options,
+  node: VariableDeclaration
+) {
+  for (const declaration of node.declarations) {
+    const expression = declaration.init;
+    if (expression !== null && expression !== undefined) {
+      sideEffectInExpression(context, options, expression);
+    }
+  }
+}
+
 export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
@@ -72,15 +123,24 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   create: (context) => {
     // type-coverage:ignore-next-line
     const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = context.options[0]?.allowSymbol;
 
-    const options: {
-      readonly allowIIFE: boolean;
-    } = {
+    const options: Options = {
       allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
+      allowSymbol:
+        typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
     };
 
     return {
+      ExportNamedDeclaration: (node) => {
+        // type-coverage:ignore-next-line
+        const exportDeclaration = node.declaration as Declaration;
+        if (exportDeclaration.type === 'VariableDeclaration') {
+          sideEffectsInVariableDeclaration(context, options, exportDeclaration);
+        }
+      },
       ExpressionStatement: (node) => {
         if (!isTopLevel(node)) {
           return;
@@ -94,10 +154,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             });
           }
         } else if (
-          !isExportsAssignment(node) &&
-          !isExportPropertyAssignment(node) &&
-          !isModuleAssignment(node)
+          isExportsAssignment(node) ||
+          isExportPropertyAssignment(node) ||
+          isModuleAssignment(node)
         ) {
+          if (node.expression.type === 'AssignmentExpression') {
+            sideEffectInExpression(context, options, node.expression.right);
+          }
+        } else {
           context.report({
             node,
             messageId: 'message'
@@ -112,7 +176,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       DoWhileStatement: ifTopLevelReportWith(context),
       SwitchStatement: ifTopLevelReportWith(context),
       ThrowStatement: ifTopLevelReportWith(context),
-      TryStatement: ifTopLevelReportWith(context)
+      TryStatement: ifTopLevelReportWith(context),
+      VariableDeclaration: (node) => {
+        if (isTopLevel(node)) {
+          sideEffectsInVariableDeclaration(context, options, node);
+        }
+      }
     };
   }
 };

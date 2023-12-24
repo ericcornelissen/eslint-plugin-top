@@ -66,6 +66,28 @@ const valid: RuleTester.ValidTestCase[] = [
         }
       }
     `
+  },
+  {
+    code: `
+      export const hello = 'world';
+    `
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `,
+    options: [
+      {
+        allowSymbol: true
+      }
+    ]
   }
 ];
 
@@ -325,6 +347,244 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = console.log('hello world');
+      export const hello = console.log('hello world');
+      var foo1 = console.log('bar1');
+      let foo2 = console.log('bar2');
+      const foo3 = console.log('bar3');
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 44
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 28,
+        endLine: 2,
+        endColumn: 54
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 18,
+        endLine: 3,
+        endColumn: 37
+      },
+      {
+        messageId: 'message',
+        line: 4,
+        column: 18,
+        endLine: 4,
+        endColumn: 37
+      },
+      {
+        messageId: 'message',
+        line: 5,
+        column: 20,
+        endLine: 5,
+        endColumn: 39
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = (function() { })();
+      export const hello = (function() { })();
+      var foo1 = (function() { })();
+      let foo2 = (function() { })();
+      const foo3 = (function() { })();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 36
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 28,
+        endLine: 2,
+        endColumn: 46
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 18,
+        endLine: 3,
+        endColumn: 36
+      },
+      {
+        messageId: 'message',
+        line: 4,
+        column: 18,
+        endLine: 4,
+        endColumn: 36
+      },
+      {
+        messageId: 'message',
+        line: 5,
+        column: 20,
+        endLine: 5,
+        endColumn: 38
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = (() => { })();
+      export const hello = (() => { })();
+      var foo1 = (() => { })();
+      let foo2 = (() => { })();
+      const foo3 = (() => { })();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 31
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 28,
+        endLine: 2,
+        endColumn: 41
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 18,
+        endLine: 3,
+        endColumn: 31
+      },
+      {
+        messageId: 'message',
+        line: 4,
+        column: 18,
+        endLine: 4,
+        endColumn: 31
+      },
+      {
+        messageId: 'message',
+        line: 5,
+        column: 20,
+        endLine: 5,
+        endColumn: 33
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = new HelloWorld();
+      export const hello = new HelloWorld();
+      var foo1 = new Bar();
+      let foo2 = new Bar();
+      const foo3 = new Bar();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 34
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 28,
+        endLine: 2,
+        endColumn: 44
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 18,
+        endLine: 3,
+        endColumn: 27
+      },
+      {
+        messageId: 'message',
+        line: 4,
+        column: 18,
+        endLine: 4,
+        endColumn: 27
+      },
+      {
+        messageId: 'message',
+        line: 5,
+        column: 20,
+        endLine: 5,
+        endColumn: 29
+      }
+    ]
+  },
+  {
+    code: `
+      const f1 = f();
+      export const f2 = f();
+    `,
+    options: [
+      {
+        allowSymbol: true
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 15
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 25,
+        endLine: 2,
+        endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `,
+    options: [
+      {
+        allowSymbol: false
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 20
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 25,
+        endLine: 2,
+        endColumn: 33
       }
     ]
   }
