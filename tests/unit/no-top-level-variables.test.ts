@@ -584,6 +584,48 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 31
       }
     ]
+  },
+  {
+    code: `
+      export var name1, name2;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 17
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 19,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      export let name1, name2;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 17
+      },
+      {
+        messageId: 'message',
+        line: 1,
+        column: 19,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
   }
 ];
 
