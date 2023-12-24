@@ -23,16 +23,18 @@ const constAllowedValues = [
   'FunctionExpression',
   'Literal',
   'MemberExpression',
-  'ObjectExpression'
+  'ObjectExpression',
+  'TemplateLiteral'
 ];
 const kindValues = ['const', 'let', 'var'];
 
 const defaultConstAllowed = [
   'ArrowFunctionExpression',
   'FunctionExpression',
-  'MemberExpression'
+  'MemberExpression',
+  'TemplateLiteral'
 ];
-const alwaysConstAllowed = ['Literal'];
+const alwaysConstAllowed = ['Literal', 'Identifier'];
 
 function isRequireCall(expression: Expression | null | undefined): boolean {
   return (
@@ -71,8 +73,6 @@ function checker(
           // type-coverage:ignore-next-line
           return isRequireCall(expression) || isSymbol(expression);
         }
-        case 'Identifier':
-          return true;
         default:
           return options.constAllowed.includes(t);
       }
