@@ -126,6 +126,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       const { name1, name2: name3 } = o;
+      const [ name4, name5 ] = a;
     `
   },
   {
