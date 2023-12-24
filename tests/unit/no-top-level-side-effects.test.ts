@@ -70,7 +70,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       export const hello = 'world';
-    `,
+    `
   }
 ];
 
