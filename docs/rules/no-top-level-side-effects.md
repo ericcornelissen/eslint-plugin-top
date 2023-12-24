@@ -69,10 +69,12 @@ This rule accepts a configuration object with one option:
 
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions are allowed.
+- `allowSymbol: true` (default) Configure whether top level assignments can call
+  `Symbol()`.
 
 #### allowIIFE
 
-Examples of **correct** code when set to `true`:
+Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
 ```javascript
 (function () {
@@ -98,6 +100,14 @@ Examples of **correct** code when set to `true`:
 
   fetch('/api').then((res) => res.text());
 })();
+```
+
+Examples of **correct** code when `'allowSymbol'` is set to `true`:
+
+```javascript
+var s1 = Symbol();
+let s2 = Symbol();
+const s3 = Symbol();
 ```
 
 ## When Not To Use It
