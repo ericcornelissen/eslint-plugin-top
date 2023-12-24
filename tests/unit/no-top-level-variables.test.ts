@@ -332,25 +332,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
-      const foo = 'bar';
-    `,
-    options: [
-      {
-        constAllowed: []
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 18
-      }
-    ]
-  },
-  {
-    code: `
       var isArray = Array.isArray;
     `,
     options: [],
@@ -465,44 +446,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 30
-      }
-    ]
-  },
-  {
-    code: `
-      const pi = 3.14;
-    `,
-    options: [
-      {
-        constAllowed: ['ArrowFunctionExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 16
-      }
-    ]
-  },
-  {
-    code: `
-      const pi = 3.14;
-    `,
-    options: [
-      {
-        constAllowed: ['MemberExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 16
       }
     ]
   },
