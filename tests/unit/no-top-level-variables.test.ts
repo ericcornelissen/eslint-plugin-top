@@ -93,6 +93,28 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['ArrowFunctionExpression']
       }
     ]
+  },
+  {
+    code: `
+      export const bar = 1337;
+    `
+  },
+  {
+    code: `
+      var bar = 1337;
+    `,
+    options: [
+      {
+        kind: ['let', 'const']
+      }
+    ]
+  },
+  {
+    code: `
+      export class ClassName { }
+      export function functionName() { }
+      export function* generatorName() { }
+    `
   }
 ];
 
@@ -513,6 +535,53 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      export var foo = "bar";
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 23
+      }
+    ]
+  },
+  {
+    code: `
+      export let bar = 1337;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      export const foo = () => "bar";
+    `,
+    options: [
+      {
+        constAllowed: ['Literal']
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 14,
+        endLine: 1,
+        endColumn: 31
       }
     ]
   }

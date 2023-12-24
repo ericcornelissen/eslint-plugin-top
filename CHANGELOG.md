@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`bed2d39`) Report named export declarations for `no-top-level-variables`.
 
 ## [2.1.0] - 2023-08-06
 
