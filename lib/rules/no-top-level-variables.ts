@@ -20,13 +20,18 @@ const violationMessage = 'Variables at the top level are not allowed';
 const constAllowedValues = [
   'ArrayExpression',
   'ArrowFunctionExpression',
+  'FunctionExpression',
   'Literal',
   'MemberExpression',
   'ObjectExpression'
 ];
 const kindValues = ['const', 'let', 'var'];
 
-const defaultConstAllowed = ['ArrowFunctionExpression', 'MemberExpression'];
+const defaultConstAllowed = [
+  'ArrowFunctionExpression',
+  'FunctionExpression',
+  'MemberExpression'
+];
 const alwaysConstAllowed = ['Literal'];
 
 function isRequireCall(expression: Expression | null | undefined): boolean {

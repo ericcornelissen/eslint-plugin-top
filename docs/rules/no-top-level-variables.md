@@ -67,6 +67,17 @@ const answer = () => 42;
 const hello = (name) => `Hello ${name}!`;
 ```
 
+Examples of **correct** code when `'FunctionExpression'` is allowed:
+
+```javascript
+const answer = function () {
+  return 42;
+};
+const hello = function (name) {
+  return `Hello ${name}!`;
+};
+```
+
 Examples of **correct** code when `'Literal'` is allowed:
 
 ```javascript
