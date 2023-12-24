@@ -12,6 +12,7 @@ import {isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowIIFE: boolean;
+  readonly allowSymbol: boolean;
 };
 
 const violationMessage = 'Side effects at the top level are not allowed';
@@ -63,12 +64,25 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
 
 function sideEffectInExpression(
   context: Rule.RuleContext,
+  options: Options,
   expression: Expression
 ) {
-  if (
-    expression.type === 'CallExpression' ||
-    expression.type === 'NewExpression'
-  ) {
+  if (expression.type === 'CallExpression') {
+    if (
+      !(
+        expression.callee.type === 'Identifier' &&
+        expression.callee.name === 'Symbol' &&
+        options.allowSymbol
+      )
+    ) {
+      context.report({
+        node: expression,
+        messageId: 'message'
+      });
+    }
+  }
+
+  if (expression.type === 'NewExpression') {
     context.report({
       node: expression,
       messageId: 'message'
@@ -78,12 +92,13 @@ function sideEffectInExpression(
 
 function sideEffectsInVariableDeclaration(
   context: Rule.RuleContext,
+  options: Options,
   node: VariableDeclaration
 ) {
   for (const declaration of node.declarations) {
     const expression = declaration.init;
     if (expression !== null && expression !== undefined) {
-      sideEffectInExpression(context, expression);
+      sideEffectInExpression(context, options, expression);
     }
   }
 }
@@ -108,10 +123,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   create: (context) => {
     // type-coverage:ignore-next-line
     const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = context.options[0]?.allowSymbol;
 
     const options: Options = {
       allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
+      allowSymbol:
+        typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
     };
 
     return {
@@ -119,7 +138,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         // type-coverage:ignore-next-line
         const exportDeclaration = node.declaration as Declaration;
         if (exportDeclaration.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, exportDeclaration);
+          sideEffectsInVariableDeclaration(context, options, exportDeclaration);
         }
       },
       ExpressionStatement: (node) => {
@@ -140,7 +159,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           isModuleAssignment(node)
         ) {
           if (node.expression.type === 'AssignmentExpression') {
-            sideEffectInExpression(context, node.expression.right);
+            sideEffectInExpression(context, options, node.expression.right);
           }
         } else {
           context.report({
@@ -160,7 +179,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       TryStatement: ifTopLevelReportWith(context),
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
-          sideEffectsInVariableDeclaration(context, node);
+          sideEffectsInVariableDeclaration(context, options, node);
         }
       }
     };
