@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [2.2.1] - 2023-12-24
+
 - (`fced786`) Allow `require()` for `no-top-level-side-effects`.
 - (`c46dec9`) Allow `Symbol()` for `const` in `no-top-level-variables`.
 - (`8e4566b`) Optionally allow top-level `const` assignments of arrays and
