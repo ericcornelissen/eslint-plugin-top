@@ -26,11 +26,8 @@ const constAllowedValues = [
 ];
 const kindValues = ['const', 'let', 'var'];
 
-const defaultConstAllowed = [
-  'ArrowFunctionExpression',
-  'Literal',
-  'MemberExpression'
-];
+const defaultConstAllowed = ['ArrowFunctionExpression', 'MemberExpression'];
+const alwaysConstAllowed = ['Literal'];
 
 function isRequireCall(expression: Expression | null | undefined): boolean {
   return (
@@ -119,8 +116,11 @@ export const noTopLevelVariables: Rule.RuleModule = {
   },
   create: (context) => {
     const options: Options = {
-      // type-coverage:ignore-next-line
-      constAllowed: context.options[0]?.constAllowed || defaultConstAllowed,
+      constAllowed: [
+        ...alwaysConstAllowed,
+        // type-coverage:ignore-next-line
+        ...(context.options[0]?.constAllowed || defaultConstAllowed)
+      ],
       // type-coverage:ignore-next-line
       kind: context.options[0]?.kind || kindValues
     };
