@@ -360,6 +360,36 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 48
       }
     ]
+  },
+  {
+    code: `
+      var foo1 = console.log('bar1');
+      let foo2 = console.log('bar2');
+      const foo3 = console.log('bar3');
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 31
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 18,
+        endLine: 2,
+        endColumn: 37
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 20,
+        endLine: 3,
+        endColumn: 39
+      }
+    ]
   }
 ];
 
