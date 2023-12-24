@@ -158,6 +158,11 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['ArrayExpression']
       }
     ]
+  },
+  {
+    code: `
+      const s = Symbol();
+    `
   }
 ];
 
