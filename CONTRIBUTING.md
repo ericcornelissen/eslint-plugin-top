@@ -177,6 +177,7 @@ ESLint versions and compares the output against known snapshots. You can run
 this test suite using:
 
 ```shell
+npm run build
 npm run test:compat
 ```
 
@@ -185,6 +186,7 @@ runs the compatibility test suite on every supported Node.js version. You can
 also do this locally using:
 
 ```shell
+npm run build
 npm run test:compat-all
 ```
 
