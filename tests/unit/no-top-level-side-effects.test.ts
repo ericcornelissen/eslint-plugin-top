@@ -66,6 +66,11 @@ const valid: RuleTester.ValidTestCase[] = [
         }
       }
     `
+  },
+  {
+    code: `
+      export const hello = 'world';
+    `
   }
 ];
 
@@ -325,6 +330,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = console.log('hello world');
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 18,
+        endLine: 1,
+        endColumn: 44
+      }
+    ]
+  },
+  {
+    code: `
+      export const hello = console.log('hello world');
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 22,
+        endLine: 1,
+        endColumn: 48
       }
     ]
   }
