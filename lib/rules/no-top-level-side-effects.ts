@@ -71,8 +71,8 @@ function sideEffectInExpression(
     if (
       !(
         expression.callee.type === 'Identifier' &&
-        expression.callee.name === 'Symbol' &&
-        options.allowSymbol
+        ((expression.callee.name === 'Symbol' && options.allowSymbol) ||
+          expression.callee.name === 'require')
       )
     ) {
       context.report({

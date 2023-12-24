@@ -88,6 +88,13 @@ const valid: RuleTester.ValidTestCase[] = [
         allowSymbol: true
       }
     ]
+  },
+  {
+    code: `
+      var fs = require('fs');
+      let cp = require('child_process');
+      const path = require('path');
+    `
   }
 ];
 

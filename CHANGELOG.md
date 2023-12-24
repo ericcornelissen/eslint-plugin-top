@@ -10,6 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`fced786`) Allow `require()` for `no-top-level-side-effects`.
 - (`8e4566b`) Optionally allow top-level `const` assignments of arrays and
   objects.
 
