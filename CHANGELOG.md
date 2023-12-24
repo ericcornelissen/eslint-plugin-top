@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [2.2.0] - 2023-12-24
+
 - (`ba81b6d`) Allow top-level `const` assignment from literals.
 - (`bc90491`) Optionally allow `Symbol()` for `no-top-level-side-effects`.
 - (`bed2d39`) Report named export declarations for `no-top-level-variables`.
