@@ -19,11 +19,19 @@ type Options = {
 const violationMessage = 'Variables at the top level are not allowed';
 
 const constAllowedValues = [
+  'ArrayExpression',
+  'ArrowFunctionExpression',
+  'Literal',
+  'MemberExpression',
+  'ObjectExpression'
+];
+const kindValues = ['const', 'let', 'var'];
+
+const defaultConstAllowed = [
   'ArrowFunctionExpression',
   'Literal',
   'MemberExpression'
 ];
-const kindValues = ['const', 'let', 'var'];
 
 function isRequireCall(node: CallExpression): boolean {
   return node.callee.type === 'Identifier' && node.callee.name === 'require';
@@ -40,30 +48,19 @@ function checker(
 
   let allowedDeclaration: (declaration: VariableDeclarator) => boolean;
   if (node.kind === 'const') {
-    const isArrowFunctionAllowed = options.constAllowed.includes(
-      'ArrowFunctionExpression'
-    );
-    const isLiteralAllowed = options.constAllowed.includes('Literal');
-    const isMemberExpressionAllowed =
-      options.constAllowed.includes('MemberExpression');
-
     allowedDeclaration = (declaration) => {
       // type-coverage:ignore-next-line
-      switch ((declaration.init as Expression).type) {
-        case 'ArrowFunctionExpression':
-          return isArrowFunctionAllowed;
+      const t = (declaration.init as Expression).type;
+
+      switch (t) {
         case 'CallExpression': {
           // type-coverage:ignore-next-line
           return isRequireCall(declaration.init as CallExpression);
         }
         case 'Identifier':
           return true;
-        case 'Literal':
-          return isLiteralAllowed;
-        case 'MemberExpression':
-          return isMemberExpressionAllowed;
         default:
-          return false;
+          return options.constAllowed.includes(t);
       }
     };
   } else {
@@ -113,7 +110,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
   create: (context) => {
     const options: Options = {
       // type-coverage:ignore-next-line
-      constAllowed: context.options[0]?.constAllowed || constAllowedValues,
+      constAllowed: context.options[0]?.constAllowed || defaultConstAllowed,
       // type-coverage:ignore-next-line
       kind: context.options[0]?.kind || kindValues
     };
