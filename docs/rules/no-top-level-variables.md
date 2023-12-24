@@ -48,7 +48,7 @@ export default function () {
 This rule accepts a configuration object with two options:
 
 - `constAllowed`: Configure what assignments are allowed for `const`. By default
-  arrow functions, literals, and member expression assignments are allowed.
+  functions, literals, and member expression assignments are allowed.
 - `kind`: Configure which kinds of variables are forbidden. By default all of
   `const`, `let`, and `var` are forbidden.
 
@@ -97,6 +97,12 @@ Examples of **correct** code when `'ObjectExpression'` is allowed:
 
 ```javascript
 const obj = {foo: 'bar'};
+```
+
+Examples of **correct** code when `'TemplateLiteral'` is allowed:
+
+```javascript
+const foo = `bar`;
 ```
 
 #### kind

@@ -182,6 +182,21 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['FunctionExpression']
       }
     ]
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `,
+    options: [
+      {
+        constAllowed: ['TemplateLiteral']
+      }
+    ]
   }
 ];
 
@@ -683,6 +698,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 3,
         endColumn: 8
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 18
       }
     ]
   }
