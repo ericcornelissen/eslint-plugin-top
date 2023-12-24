@@ -61,8 +61,19 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-function isAllowedExpression(expression: Expression) {
-  return expression.type !== 'CallExpression';
+function sideEffectInExpression(
+  context: Rule.RuleContext,
+  expression: Expression
+) {
+  if (
+    expression.type === 'CallExpression' ||
+    expression.type === 'NewExpression'
+  ) {
+    context.report({
+      node: expression,
+      messageId: 'message'
+    });
+  }
 }
 
 function sideEffectsInVariableDeclaration(
@@ -72,12 +83,7 @@ function sideEffectsInVariableDeclaration(
   for (const declaration of node.declarations) {
     const expression = declaration.init;
     if (expression !== null && expression !== undefined) {
-      if (!isAllowedExpression(expression)) {
-        context.report({
-          node: expression,
-          messageId: 'message'
-        });
-      }
+      sideEffectInExpression(context, expression);
     }
   }
 }
@@ -134,12 +140,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           isModuleAssignment(node)
         ) {
           if (node.expression.type === 'AssignmentExpression') {
-            if (!isAllowedExpression(node.expression.right)) {
-              context.report({
-                node: node.expression.right,
-                messageId: 'message'
-              });
-            }
+            sideEffectInExpression(context, node.expression.right);
           }
         } else {
           context.report({
