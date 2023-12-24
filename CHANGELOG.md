@@ -12,8 +12,10 @@ Versioning].
 
 - (`ba81b6d`) Allow top-level `const` assignment from literals.
 - (`bed2d39`) Report named export declarations for `no-top-level-variables`.
-- (`efd1232`) Report side effects in exports for `no-top-level-side-effects`.
-- (`cd61a0a`) Report side effects in variable declarations for
+- (`efd1232`) Report function calls in exports for `no-top-level-side-effects`.
+- (`cd61a0a`) Report function calls in variable declarations for
+  `no-top-level-side-effects`.
+- (`fe11de9`) Report `new` calls in export and variable declarations for
   `no-top-level-side-effects`.
 
 ## [2.1.0] - 2023-08-06
