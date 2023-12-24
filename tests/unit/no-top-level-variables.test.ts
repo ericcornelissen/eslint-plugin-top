@@ -138,6 +138,26 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: []
       }
     ]
+  },
+  {
+    code: `
+      const foo = { bar: "baz" };
+    `,
+    options: [
+      {
+        constAllowed: ['ObjectExpression']
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = ["b", "a", "r"];
+    `,
+    options: [
+      {
+        constAllowed: ['ArrayExpression']
+      }
+    ]
   }
 ];
 
@@ -647,6 +667,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 19,
         endLine: 1,
         endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = { bar: "baz" };
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 27
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = ["b", "a", "r"];
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 28
       }
     ]
   }
