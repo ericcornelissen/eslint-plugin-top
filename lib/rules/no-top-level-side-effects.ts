@@ -1,9 +1,18 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {Declaration, ExpressionStatement, Expression} from 'estree';
+import type {
+  Declaration,
+  ExpressionStatement,
+  Expression,
+  VariableDeclaration
+} from 'estree';
 
 import {isTopLevel} from '../helpers';
+
+type Options = {
+  readonly allowIIFE: boolean;
+};
 
 const violationMessage = 'Side effects at the top level are not allowed';
 
@@ -56,6 +65,23 @@ function isAllowedExpression(expression: Expression) {
   return expression.type !== 'CallExpression';
 }
 
+function sideEffectsInVariableDeclaration(
+  context: Rule.RuleContext,
+  node: VariableDeclaration
+) {
+  for (const declaration of node.declarations) {
+    const expression = declaration.init;
+    if (expression !== null && expression !== undefined) {
+      if (!isAllowedExpression(expression)) {
+        context.report({
+          node: expression,
+          messageId: 'message'
+        });
+      }
+    }
+  }
+}
+
 export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
@@ -77,9 +103,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     // type-coverage:ignore-next-line
     const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
 
-    const options: {
-      readonly allowIIFE: boolean;
-    } = {
+    const options: Options = {
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
@@ -89,17 +113,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         // type-coverage:ignore-next-line
         const exportDeclaration = node.declaration as Declaration;
         if (exportDeclaration.type === 'VariableDeclaration') {
-          for (const declaration of exportDeclaration.declarations) {
-            const expression = declaration.init;
-            if (expression !== null && expression !== undefined) {
-              if (!isAllowedExpression(expression)) {
-                context.report({
-                  node: expression,
-                  messageId: 'message'
-                });
-              }
-            }
-          }
+          sideEffectsInVariableDeclaration(context, exportDeclaration);
         }
       },
       ExpressionStatement: (node) => {
@@ -142,7 +156,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       DoWhileStatement: ifTopLevelReportWith(context),
       SwitchStatement: ifTopLevelReportWith(context),
       ThrowStatement: ifTopLevelReportWith(context),
-      TryStatement: ifTopLevelReportWith(context)
+      TryStatement: ifTopLevelReportWith(context),
+      VariableDeclaration: (node) => {
+        if (isTopLevel(node)) {
+          sideEffectsInVariableDeclaration(context, node);
+        }
+      }
     };
   }
 };
