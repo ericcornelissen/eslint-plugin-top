@@ -4,7 +4,6 @@ import type {Rule} from 'eslint';
 import type {
   Declaration,
   Expression,
-  CallExpression,
   VariableDeclaration,
   VariableDeclarator
 } from 'estree';
@@ -33,8 +32,20 @@ const defaultConstAllowed = [
   'MemberExpression'
 ];
 
-function isRequireCall(node: CallExpression): boolean {
-  return node.callee.type === 'Identifier' && node.callee.name === 'require';
+function isRequireCall(expression: Expression | null | undefined): boolean {
+  return (
+    expression?.type === 'CallExpression' &&
+    expression.callee.type === 'Identifier' &&
+    expression.callee.name === 'require'
+  );
+}
+
+function isSymbol(expression: Expression): boolean {
+  return (
+    expression.type === 'CallExpression' &&
+    expression.callee.type === 'Identifier' &&
+    expression.callee.name === 'Symbol'
+  );
 }
 
 function checker(
@@ -50,12 +61,13 @@ function checker(
   if (node.kind === 'const') {
     allowedDeclaration = (declaration) => {
       // type-coverage:ignore-next-line
-      const t = (declaration.init as Expression).type;
+      const expression = declaration.init as Expression;
+      const t = expression.type;
 
       switch (t) {
         case 'CallExpression': {
           // type-coverage:ignore-next-line
-          return isRequireCall(declaration.init as CallExpression);
+          return isRequireCall(expression) || isSymbol(expression);
         }
         case 'Identifier':
           return true;
@@ -64,9 +76,7 @@ function checker(
       }
     };
   } else {
-    allowedDeclaration = (declaration) =>
-      declaration.init?.type === 'CallExpression' &&
-      isRequireCall(declaration.init);
+    allowedDeclaration = (declaration) => isRequireCall(declaration.init);
   }
 
   node.declarations
