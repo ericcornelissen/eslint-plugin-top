@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: ISC
+// SPDX-License-Identifier: MIT-0
 
 const fs = require('node:fs');
 const path = require('node:path');
