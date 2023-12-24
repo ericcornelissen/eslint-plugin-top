@@ -163,6 +163,25 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const s = Symbol();
     `
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `,
+    options: [
+      {
+        constAllowed: ['FunctionExpression']
+      }
+    ]
   }
 ];
 
@@ -643,6 +662,27 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 3,
+        endColumn: 8
       }
     ]
   }

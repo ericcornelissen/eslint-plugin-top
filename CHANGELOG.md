@@ -11,6 +11,7 @@ Versioning].
 ## [Unreleased]
 
 - (`ebf23c6`) Always allow assignment of literals for `no-top-level-variables`.
+- (`282ff77`) Optionally allow top-level `const` assignments of functions.
 
 ## [2.2.1] - 2023-12-24
 
