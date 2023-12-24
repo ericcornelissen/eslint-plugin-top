@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`8e4566b`) Optionally allow top-level `const` assignments of arrays and
+  objects.
 
 ## [2.2.0] - 2023-12-24
 
