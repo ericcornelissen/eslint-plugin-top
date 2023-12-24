@@ -71,6 +71,23 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       export const hello = 'world';
     `
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `,
+    options: [
+      {
+        allowSymbol: true
+      }
+    ]
   }
 ];
 
@@ -514,6 +531,60 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 20,
         endLine: 5,
         endColumn: 29
+      }
+    ]
+  },
+  {
+    code: `
+      const f1 = f();
+      export const f2 = f();
+    `,
+    options: [
+      {
+        allowSymbol: true
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 15
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 25,
+        endLine: 2,
+        endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      const s1 = Symbol();
+      export const s2 = Symbol();
+    `,
+    options: [
+      {
+        allowSymbol: false
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 12,
+        endLine: 1,
+        endColumn: 20
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 25,
+        endLine: 2,
+        endColumn: 33
       }
     ]
   }
