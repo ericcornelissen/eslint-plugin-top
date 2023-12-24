@@ -11,6 +11,7 @@ Versioning].
 ## [Unreleased]
 
 - (`ba81b6d`) Allow top-level `const` assignment from literals.
+- (`bc90491`) Optionally allow `Symbol()` for `no-top-level-side-effects`.
 - (`bed2d39`) Report named export declarations for `no-top-level-variables`.
 - (`efd1232`) Report function calls in exports for `no-top-level-side-effects`.
 - (`cd61a0a`) Report function calls in variable declarations for
