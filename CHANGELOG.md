@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [2.2.2] - 2023-12-24
+
 - (`ebf23c6`) Always allow assignment of literals for `no-top-level-variables`.
 - (`282ff77`) Optionally allow top-level `const` assignments of functions.
 - (`f130b34`) Optionally allow top-level `const` assignments of template
