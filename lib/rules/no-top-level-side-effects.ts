@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {ExpressionStatement} from 'estree';
+import type {Declaration, ExpressionStatement, Expression} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
@@ -52,6 +52,10 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isAllowedExpression(expression: Expression) {
+  return expression.type !== 'CallExpression';
+}
+
 export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
@@ -81,6 +85,23 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     };
 
     return {
+      ExportNamedDeclaration: (node) => {
+        // type-coverage:ignore-next-line
+        const exportDeclaration = node.declaration as Declaration;
+        if (exportDeclaration.type === 'VariableDeclaration') {
+          for (const declaration of exportDeclaration.declarations) {
+            const expression = declaration.init;
+            if (expression !== null && expression !== undefined) {
+              if (!isAllowedExpression(expression)) {
+                context.report({
+                  node: expression,
+                  messageId: 'message'
+                });
+              }
+            }
+          }
+        }
+      },
       ExpressionStatement: (node) => {
         if (!isTopLevel(node)) {
           return;
@@ -94,10 +115,19 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             });
           }
         } else if (
-          !isExportsAssignment(node) &&
-          !isExportPropertyAssignment(node) &&
-          !isModuleAssignment(node)
+          isExportsAssignment(node) ||
+          isExportPropertyAssignment(node) ||
+          isModuleAssignment(node)
         ) {
+          if (node.expression.type === 'AssignmentExpression') {
+            if (!isAllowedExpression(node.expression.right)) {
+              context.report({
+                node: node.expression.right,
+                messageId: 'message'
+              });
+            }
+          }
+        } else {
           context.report({
             node,
             messageId: 'message'
