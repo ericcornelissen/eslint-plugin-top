@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`ebf23c6`) Always allow assignment of literals for `no-top-level-variables`.
 
 ## [2.2.1] - 2023-12-24
 
