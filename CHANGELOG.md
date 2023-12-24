@@ -10,6 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`ba81b6d`) Allow top-level `const` assignment from literals.
 - (`bed2d39`) Report named export declarations for `no-top-level-variables`.
 
 ## [2.1.0] - 2023-08-06

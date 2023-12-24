@@ -56,6 +56,8 @@ function checker(
           // type-coverage:ignore-next-line
           return isRequireCall(declaration.init as CallExpression);
         }
+        case 'Identifier':
+          return true;
         case 'Literal':
           return isLiteralAllowed;
         case 'MemberExpression':

@@ -96,11 +96,6 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
-      export const bar = 1337;
-    `
-  },
-  {
-    code: `
       var bar = 1337;
     `,
     options: [
@@ -111,10 +106,38 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
+      export const bar = 1337;
+    `
+  },
+  {
+    code: `
+      const foo = bar;
+    `
+  },
+  {
+    code: `
       export class ClassName { }
       export function functionName() { }
       export function* generatorName() { }
+      export const { name1, name2: name3 } = o;
+      export const [ name4, name5 ] = a;
     `
+  },
+  {
+    code: `
+      const { name1, name2: name3 } = o;
+      const [ name4, name5 ] = a;
+    `
+  },
+  {
+    code: `
+      const { bar } = foo;
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ]
   }
 ];
 
