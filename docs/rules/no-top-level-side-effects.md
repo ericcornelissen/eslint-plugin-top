@@ -72,6 +72,8 @@ This rule accepts a configuration object with one option:
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
   one might expect at the top level (such as `require`).
+- `allowedNews` Configure what classes can be instantiated at the top level. Can
+  be any identifier.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
 
@@ -88,6 +90,17 @@ export default f();
 ```
 
 By setting this to an empty list you can disallow all top-level function calls.
+
+#### `allowedNews`
+
+Example of **correct** code when `'Map'` is in the list:
+
+```javascript
+const m = new Map();
+```
+
+By setting this to an empty list you can disallow all top-level class
+instantiations.
 
 #### `allowIIFE`
 

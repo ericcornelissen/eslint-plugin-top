@@ -5,6 +5,7 @@ import type {
   CallExpression,
   ExpressionStatement,
   Expression,
+  NewExpression,
   VariableDeclaration
 } from 'estree';
 
@@ -12,6 +13,7 @@ import {isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
+  readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
 };
 
@@ -21,6 +23,7 @@ const disallowedSideEffect = {
 };
 
 const defaultAllowedCalls = ['BigInt', 'require', 'Symbol'];
+const defaultAllowedNews: string[] = [];
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
@@ -73,6 +76,12 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isNew(expression: NewExpression, name: string): boolean {
+  return (
+    expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
+}
+
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
@@ -84,7 +93,8 @@ function sideEffectInExpression(
     (expression.type === 'CallExpression' &&
       !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
     expression.type === 'ConditionalExpression' ||
-    expression.type === 'NewExpression' ||
+    (expression.type === 'NewExpression' &&
+      !options.allowedNews.some((name) => isNew(expression, name))) ||
     expression.type === 'LogicalExpression' ||
     expression.type === 'TaggedTemplateExpression' ||
     (expression.type === 'TemplateLiteral' &&
@@ -127,6 +137,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             type: 'array',
             minItems: 0
           },
+          allowedNews: {
+            type: 'array',
+            minItems: 0
+          },
           allowIIFE: {
             type: 'boolean'
           }
@@ -142,10 +156,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
 
     const options: Options = {
-      allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
       // type-coverage:ignore-next-line
-      allowedCalls: providedOptions?.allowedCalls || defaultAllowedCalls
+      allowedCalls: providedOptions?.allowedCalls || defaultAllowedCalls,
+      // type-coverage:ignore-next-line
+      allowedNews: providedOptions?.allowedNews || defaultAllowedNews,
+      allowIIFE:
+        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
 
     return {
