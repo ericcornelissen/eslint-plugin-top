@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
+  variables being mutable instead of other side effects.
 
 ## [2.2.2] - 2023-12-24
 
