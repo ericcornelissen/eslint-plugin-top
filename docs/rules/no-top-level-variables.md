@@ -79,6 +79,9 @@ Examples of **correct** code when `'ObjectExpression'` is in the list:
 const hello = {world: '!'};
 ```
 
+Additionally, all others expression types that aren't allowed by default nor
+listed here can be allowed.
+
 #### `kind`
 
 This option allows you to allow the use of any combination of `const`, `let`,
