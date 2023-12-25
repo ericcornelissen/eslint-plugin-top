@@ -67,12 +67,25 @@ module.exports = function () {
 
 This rule accepts a configuration object with one option:
 
+- `allowExports: true` (default) Configure whether top level assignments to
+  `module.exports` and `exports` are allowed, for CommonJS support.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions are allowed.
+- `allowRequire: true` (default) Configure whether top level calls to `require`
+  are allowed, for CommonJS support.
 - `allowSymbol: true` (default) Configure whether top level assignments can call
   `Symbol()`.
 
 #### allowIIFE
+
+Examples of **correct** code when `'allowExports'` is set to `true`:
+
+```javascript
+module.exports = {};
+module.exports.foo = 'bar';
+exports = {};
+exports.foo = 'bar';
+```
 
 Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
@@ -100,6 +113,14 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
   fetch('/api').then((res) => res.text());
 })();
+```
+
+Examples of **correct** code when `'allowRequire'` is set to `true`:
+
+```javascript
+var cp = require('child_process');
+let fs = require('fs');
+const path = require('path');
 ```
 
 Examples of **correct** code when `'allowSymbol'` is set to `true`:
