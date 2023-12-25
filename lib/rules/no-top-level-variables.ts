@@ -29,7 +29,6 @@ const disallowedConst = {
 
 const allowedValues = [
   'ArrayExpression',
-  'ChainExpression',
   'ImportExpression',
   'ObjectExpression',
   'SequenceExpression',
@@ -43,6 +42,7 @@ const allowedAlways = [
   'AwaitExpression',
   'BinaryExpression',
   'CallExpression',
+  'ChainExpression',
   'ConditionalExpression',
   'FunctionExpression',
   'Identifier',

@@ -92,6 +92,7 @@ function sideEffectInExpression(
     expression.type === 'BinaryExpression' ||
     (expression.type === 'CallExpression' &&
       !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
+    expression.type === 'ChainExpression' ||
     expression.type === 'ConditionalExpression' ||
     (expression.type === 'NewExpression' &&
       !options.allowedNews.some((name) => isNew(expression, name))) ||

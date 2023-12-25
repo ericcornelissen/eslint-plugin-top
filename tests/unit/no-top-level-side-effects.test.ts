@@ -906,6 +906,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
       }
     ]
   },
+  {
+    code: `
+      const foo = bar?.baz;
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
+      }
+    ]
+  },
 
   {
     code: `
