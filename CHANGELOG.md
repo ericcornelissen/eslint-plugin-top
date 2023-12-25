@@ -13,8 +13,10 @@ Versioning].
 - (`7b50c22`) Disallow top-level side effects of async calls, binary operations,
   conditional expression, logical operations, tagged template expressions, and
   update expressions for `no-top-level-side-effects`.
-- (`b83307b`) Disallow top-level unary operations in assignments for
-  `no-top-level-side-effects`.
+- (`b83307b`) Disallow top-level unary operations with side effects in
+  assignments for `no-top-level-side-effects`.
+- (`c2866aa`) Disallow top-level template literals with side effects in
+  assignments for `no-top-level-side-effects`.
 - (`33120d8`) Optionally disallow top-level side effect of calling `require`.
 
 ## [2.2.2] - 2023-12-24
