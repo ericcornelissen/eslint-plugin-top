@@ -118,6 +118,6 @@ jobs:
         run: npm clean-install
       - name: Publish to npm
         run: |
-          npm publish --provenance
+          npm publish --ignore-scripts=false --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

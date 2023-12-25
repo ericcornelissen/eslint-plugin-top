@@ -77,7 +77,7 @@ This rule accepts a configuration object with one option:
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
 - `commonjs: false` (default) Configure whether the code being analyzed is, or
-  is partially, CommonJS code. Allows for using `require`, `module.exports` and
+  is partially, CommonJS code. Allows you to use `require`, `module.exports` and
   `exports` at the top level.
 
 #### `allowedCalls`

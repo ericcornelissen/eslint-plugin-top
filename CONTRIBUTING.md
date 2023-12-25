@@ -103,7 +103,7 @@ If you decide to make a contribution, please do use the following workflow:
 
 ### Development Details
 
-Before you start making changes you should run npm install. This ensures your
+Before you start making changes you should run `npm install`. This ensures your
 local development environment is setup and ready to go. All code and tests are
 written in TypeScript, documentation in Markdown, and scripts using JavaScript.
 
@@ -177,6 +177,7 @@ ESLint versions and compares the output against known snapshots. You can run
 this test suite using:
 
 ```shell
+npm run build
 npm run test:compat
 ```
 
@@ -185,6 +186,7 @@ runs the compatibility test suite on every supported Node.js version. You can
 also do this locally using:
 
 ```shell
+npm run build
 npm run test:compat-all
 ```
 
