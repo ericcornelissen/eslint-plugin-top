@@ -1,10 +1,12 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # No top level side effect (no-top-level-side-effects)
 
 Disallow top level side effects.
 
-Side effects at the top level can have various negative side effects including
-but not limited to slow startup times and unexpected behaviour (in particular
-for libraries).
+Side effects at the top level can have some negative consequences such as slow
+startup times and, for libraries, unexpected behavior. This covers top level
+expression as well as assignments.
 
 ## Rule Details
 
@@ -67,12 +69,27 @@ module.exports = function () {
 
 This rule accepts a configuration object with one option:
 
+- `allowedCalls` Configure what function calls are allowed at the top level. Can
+  be any identifier. The default value covers standard JavaScript functions that
+  one might expect at the top level (such as `require`).
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
-  Function Expressions are allowed.
-- `allowSymbol: true` (default) Configure whether top level assignments can call
-  `Symbol()`.
+  Function Expressions (IIFEs) are allowed.
 
-#### allowIIFE
+#### `allowedCalls`
+
+Example of **correct** code when `'f'` is in the list:
+
+```javascript
+function f() {}
+
+f();
+const x = f();
+export default f();
+```
+
+By setting this to an empty list you can disallow all top-level function calls.
+
+#### `allowIIFE`
 
 Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
@@ -100,14 +117,6 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
   fetch('/api').then((res) => res.text());
 })();
-```
-
-Examples of **correct** code when `'allowSymbol'` is set to `true`:
-
-```javascript
-var s1 = Symbol();
-let s2 = Symbol();
-const s3 = Symbol();
 ```
 
 ## When Not To Use It

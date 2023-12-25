@@ -20,7 +20,7 @@ export const snapshots: ReadonlyArray<Snapshot> = [
 `
   },
   {
-    name: 'with top-level-side-effect violation',
+    name: 'with top-level-side-effects violation',
     inp: 'console.log("hello world");',
     out: `
 <text>
