@@ -27,16 +27,32 @@ const disallowedConst = {
   message: 'Use of const at the top level is not allowed'
 };
 
-const allowedValues = ['ArrayExpression', 'ObjectExpression'];
+const allowedValues = [
+  'ArrayExpression',
+  'ChainExpression',
+  'ImportExpression',
+  'ObjectExpression',
+  'SequenceExpression',
+  'ThisExpression',
+  'YieldExpression'
+];
 const allowedDefault: string[] = [];
 const allowedAlways = [
   'ArrowFunctionExpression',
+  'AssignmentExpression',
+  'AwaitExpression',
+  'BinaryExpression',
   'CallExpression',
+  'ConditionalExpression',
   'FunctionExpression',
   'Identifier',
   'Literal',
+  'LogicalExpression',
   'MemberExpression',
-  'TemplateLiteral'
+  'TaggedTemplateExpression',
+  'TemplateLiteral',
+  'UnaryExpression',
+  'UpdateExpression'
 ];
 
 const kindValues = ['const', 'let', 'var'];

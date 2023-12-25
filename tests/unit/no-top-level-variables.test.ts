@@ -54,13 +54,22 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       const leet = 1337;
+      const fooExpr = /bar/;
 
-      const foo1 = 'bar';
-      const foo2 = "bar";
-      const foo3 = \`bar\`;
+      const foo01 = 'bar';
+      const foo02 = "bar";
+      const foo03 = \`bar\`;
+      const foo04 = $\`bar\`;
 
-      const foo = bar;
+      const foo05 = bar;
       const isArray = Array.isArray;
+
+      const foo06 = bar = 1;
+      const foo07 = bar + baz;
+      const foo08 = bar || baz;
+      const foo09 = -bar;
+      const foo10 = i++;
+      const foo11 = bar ? bar : baz;
 
       const f = function() { };
       const g = () => 'bar';
@@ -69,7 +78,11 @@ const valid: RuleTester.ValidTestCase[] = [
       const [ name4, name5 ] = a;
 
       const s = Symbol();
+      const promised = await h();
       const path = require('path');
+
+      const bigNum = 1n;
+      const bigInt = BigInt(1);
     `
   },
   {
@@ -82,13 +95,22 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       export const leet = 1337;
+      export const fooExpr = /bar/;
 
-      export const foo1 = 'bar';
-      export const foo2 = "bar";
-      export const foo3 = \`bar\`;
+      export const foo01 = 'bar';
+      export const foo02 = "bar";
+      export const foo03 = \`bar\`;
+      export const foo04 = $\`bar\`;
 
-      export const foo = bar;
+      export const foo05 = bar;
       export const isArray = Array.isArray;
+
+      export const foo06 = bar = 1;
+      export const foo07 = bar + baz;
+      export const foo08 = bar || baz;
+      export const foo09 = -bar;
+      export const foo10 = i++;
+      export const foo11 = bar ? bar : baz;
 
       export const f = function() { };
       export const g = () => 'bar';
@@ -97,6 +119,10 @@ const valid: RuleTester.ValidTestCase[] = [
       export const [ name4, name5 ] = a;
 
       export const s = Symbol();
+      export const promised = await h();
+
+      export const bigNum = 1n;
+      export const bigInt = BigInt(1);
     `
   },
   {
@@ -400,7 +426,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
 new RuleTester({
   parser,
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2022,
     sourceType: 'module',
     env: {
       es6: true
