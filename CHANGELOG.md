@@ -10,6 +10,8 @@ Versioning].
 
 ## [Unreleased v3]
 
+- (`6a79b0c`) _(Breaking)_ Rework the `no-top-level-side-effects` rule to make
+  it easier to configure.
 - (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
   variables being mutable instead of other side effects.
 

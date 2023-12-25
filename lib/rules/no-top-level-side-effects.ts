@@ -2,7 +2,7 @@
 
 import type {Rule} from 'eslint';
 import type {
-  Declaration,
+  CallExpression,
   ExpressionStatement,
   Expression,
   VariableDeclaration
@@ -11,22 +11,32 @@ import type {
 import {isTopLevel} from '../helpers';
 
 type Options = {
+  readonly allowedCalls: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
-  readonly allowRequire: boolean;
-  readonly allowSymbol: boolean;
 };
 
-const violationMessage = 'Side effects at the top level are not allowed';
+const disallowedSideEffect = {
+  id: '0',
+  message: 'Side effects at the top level are not allowed'
+};
+
+const defaultAllowedCalls = ['BigInt', 'require', 'Symbol'];
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
     if (isTopLevel(node)) {
       context.report({
         node,
-        messageId: 'message'
+        messageId: disallowedSideEffect.id
       });
     }
   };
+}
+
+function isCallTo(expression: CallExpression, name: string): boolean {
+  return (
+    expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
 }
 
 function isExportsAssignment(node: ExpressionStatement): boolean {
@@ -63,38 +73,16 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-function isRequireCall(expression: Expression): boolean {
-  return (
-    expression.type === 'CallExpression' &&
-    expression.callee.type === 'Identifier' &&
-    expression.callee.name === 'require'
-  );
-}
-
-function isSymbolCall(expression: Expression): boolean {
-  return (
-    expression.type === 'CallExpression' &&
-    expression.callee.type === 'Identifier' &&
-    expression.callee.name === 'Symbol'
-  );
-}
-
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
   expression: Expression
 ) {
   if (
-    (options.allowRequire && isRequireCall(expression)) ||
-    (options.allowSymbol && isSymbolCall(expression))
-  ) {
-    return;
-  }
-
-  if (
     expression.type === 'AwaitExpression' ||
     expression.type === 'BinaryExpression' ||
-    expression.type === 'CallExpression' ||
+    (expression.type === 'CallExpression' &&
+      !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
     expression.type === 'ConditionalExpression' ||
     expression.type === 'NewExpression' ||
     expression.type === 'LogicalExpression' ||
@@ -107,7 +95,7 @@ function sideEffectInExpression(
   ) {
     context.report({
       node: expression,
-      messageId: 'message'
+      messageId: disallowedSideEffect.id
     });
   }
 }
@@ -129,19 +117,17 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
-      message: violationMessage
+      [disallowedSideEffect.id]: disallowedSideEffect.message
     },
     schema: [
       {
         type: 'object',
         properties: {
+          allowedCalls: {
+            type: 'array',
+            minItems: 0
+          },
           allowIIFE: {
-            type: 'boolean'
-          },
-          allowRequire: {
-            type: 'boolean'
-          },
-          allowSymbol: {
             type: 'boolean'
           }
         }
@@ -154,26 +140,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
 
     // type-coverage:ignore-next-line
     const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
-    // type-coverage:ignore-next-line
-    const providedAllowRequire: boolean | null = providedOptions?.allowRequire;
-    // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = providedOptions?.allowSymbol;
 
     const options: Options = {
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
-      allowRequire:
-        typeof providedAllowRequire === 'boolean' ? providedAllowRequire : true,
-      allowSymbol:
-        typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
+      // type-coverage:ignore-next-line
+      allowedCalls: providedOptions?.allowedCalls || defaultAllowedCalls
     };
 
     return {
       ExportNamedDeclaration: (node) => {
-        // type-coverage:ignore-next-line
-        const exportDeclaration = node.declaration as Declaration;
-        if (exportDeclaration.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, options, exportDeclaration);
+        if (node.declaration?.type === 'VariableDeclaration') {
+          sideEffectsInVariableDeclaration(context, options, node.declaration);
         }
       },
       ExpressionStatement: (node) => {
@@ -185,7 +163,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           if (!options.allowIIFE) {
             context.report({
               node,
-              messageId: 'message'
+              messageId: disallowedSideEffect.id
             });
           }
         } else if (
@@ -199,24 +177,25 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         } else {
           context.report({
             node,
-            messageId: 'message'
+            messageId: disallowedSideEffect.id
           });
         }
       },
-      IfStatement: ifTopLevelReportWith(context),
-      ForStatement: ifTopLevelReportWith(context),
-      ForInStatement: ifTopLevelReportWith(context),
-      ForOfStatement: ifTopLevelReportWith(context),
-      WhileStatement: ifTopLevelReportWith(context),
-      DoWhileStatement: ifTopLevelReportWith(context),
-      SwitchStatement: ifTopLevelReportWith(context),
-      ThrowStatement: ifTopLevelReportWith(context),
-      TryStatement: ifTopLevelReportWith(context),
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
           sideEffectsInVariableDeclaration(context, options, node);
         }
-      }
+      },
+
+      DoWhileStatement: ifTopLevelReportWith(context),
+      ForInStatement: ifTopLevelReportWith(context),
+      ForOfStatement: ifTopLevelReportWith(context),
+      ForStatement: ifTopLevelReportWith(context),
+      IfStatement: ifTopLevelReportWith(context),
+      SwitchStatement: ifTopLevelReportWith(context),
+      ThrowStatement: ifTopLevelReportWith(context),
+      TryStatement: ifTopLevelReportWith(context),
+      WhileStatement: ifTopLevelReportWith(context)
     };
   }
 };
