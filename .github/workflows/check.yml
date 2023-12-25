@@ -199,7 +199,7 @@ jobs:
       - name: Simulate publish
         run: |
           # Dry run publish to trigger any hooks
-          npm publish --dry-run
+          npm publish --dry-run --ignore-scripts=false
 
           # Pack to produce the archive that would be published
           npm pack
@@ -211,7 +211,7 @@ jobs:
           rm -- *.tgz
       - name: Simulate publish again
         run: |
-          npm publish --dry-run
+          npm publish --dry-run --ignore-scripts=false
           npm pack
       - name: Verify checksum
         run: shasum --check checksums.txt --strict
@@ -292,7 +292,7 @@ jobs:
         with:
           name: index-js
       - name: Run compatibility tests
-        run: npm run test:compat --ignore-scripts
+        run: npm run test:compat
   test-mutation:
     name: Mutation tests
     runs-on: ubuntu-22.04
