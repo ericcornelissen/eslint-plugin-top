@@ -83,6 +83,8 @@ function sideEffectInExpression(
     expression.type === 'NewExpression' ||
     expression.type === 'LogicalExpression' ||
     expression.type === 'TaggedTemplateExpression' ||
+    (expression.type === 'TemplateLiteral' &&
+      expression.expressions.length > 0) ||
     (expression.type === 'UnaryExpression' &&
       expression.argument.type !== 'Literal') ||
     expression.type === 'UpdateExpression'
