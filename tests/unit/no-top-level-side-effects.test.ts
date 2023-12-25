@@ -100,6 +100,11 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const foo = -1;
     `
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `
   }
 ];
 
@@ -714,6 +719,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 13,
         endLine: 1,
         endColumn: 17
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = \`\${bar}\`;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
       }
     ]
   }
