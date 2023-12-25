@@ -207,6 +207,12 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const foo = 1n;
     `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
   }
 ];
 

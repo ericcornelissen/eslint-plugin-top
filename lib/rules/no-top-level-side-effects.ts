@@ -2,7 +2,6 @@
 
 import type {Rule} from 'eslint';
 import type {
-  Declaration,
   ExpressionStatement,
   Expression,
   VariableDeclaration
@@ -154,10 +153,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
 
     return {
       ExportNamedDeclaration: (node) => {
-        // type-coverage:ignore-next-line
-        const exportDeclaration = node.declaration as Declaration;
-        if (exportDeclaration.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, options, exportDeclaration);
+        if (node.declaration?.type === 'VariableDeclaration') {
+          sideEffectsInVariableDeclaration(context, options, node.declaration);
         }
       },
       ExpressionStatement: (node) => {
