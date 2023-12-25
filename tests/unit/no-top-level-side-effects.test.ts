@@ -206,6 +206,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
+      notModule.exports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      module.notExports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
       notExports = {};
     `,
     errors: [
