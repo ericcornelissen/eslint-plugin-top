@@ -14,7 +14,6 @@ import {isTopLevel} from '../helpers';
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
-  readonly allowExports: boolean;
   readonly allowIIFE: boolean;
 };
 
@@ -23,7 +22,7 @@ const disallowedSideEffect = {
   message: 'Side effects at the top level are not allowed'
 };
 
-const defaultAllowedCalls = ['BigInt', 'require', 'Symbol'];
+const defaultAllowedCalls = ['BigInt', 'Symbol'];
 const defaultAllowedNews: string[] = [];
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
@@ -94,6 +93,7 @@ function isNew(expression: NewExpression, name: string): boolean {
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
 }
+
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
@@ -154,10 +154,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             type: 'array',
             minItems: 0
           },
-          allowModuleExports: {
+          allowIIFE: {
             type: 'boolean'
           },
-          allowIIFE: {
+          commonjs: {
             type: 'boolean'
           }
         }
@@ -166,20 +166,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const [provided] = context.options;
-
+    const commonjs: boolean | null = context.options[0]?.commonjs;
     // type-coverage:ignore-next-line
-    const providedAllowExports: boolean | null = provided?.allowModuleExports;
-    // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = provided?.allowIIFE;
+    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
 
     const options: Options = {
+      allowedCalls: [
+        ...(commonjs ? ['require'] : new Set()),
+        // type-coverage:ignore-next-line
+        ...(context.options[0]?.allowedCalls || defaultAllowedCalls)
+      ],
       // type-coverage:ignore-next-line
-      allowedCalls: provided?.allowedCalls || defaultAllowedCalls,
-      // type-coverage:ignore-next-line
-      allowedNews: provided?.allowedNews || defaultAllowedNews,
-      allowExports:
-        typeof providedAllowExports === 'boolean' ? providedAllowExports : true,
+      allowedNews: context.options[0]?.allowedNews || defaultAllowedNews,
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
@@ -203,7 +201,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             });
           }
         } else if (
-          options.allowExports &&
+          commonjs &&
           (isExportsAssignment(node) ||
             isExportPropertyAssignment(node) ||
             isModuleAssignment(node) ||

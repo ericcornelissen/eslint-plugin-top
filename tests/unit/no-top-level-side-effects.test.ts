@@ -148,49 +148,12 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
-      module.exports = {};
-      module.exports.foobar = {};
-      exports = {};
-      exports.foobar = {};
-    `
-  },
-  {
-    code: `
-      module.exports = {};
-      module.exports.foobar = {};
-      exports = {};
-      exports.foobar = {};
-    `,
-    options: [
-      {
-        allowModuleExports: true
-      }
-    ]
-  },
-  {
-    code: `
-      var fs = require('fs');
-      let cp = require('child_process');
-      const path = require('path');
-
       const symbol1 = Symbol();
       export const symbol2 = Symbol();
 
       const bigInt1 = BigInt(1);
       export const bigInt2 = BigInt(2);
     `
-  },
-  {
-    code: `
-      var fs = require('fs');
-      let cp = require('child_process');
-      const path = require('path');
-    `,
-    options: [
-      {
-        allowedCalls: ['require']
-      }
-    ]
   },
   {
     code: `
@@ -233,6 +196,23 @@ const valid: RuleTester.ValidTestCase[] = [
     options: [
       {
         allowIIFE: true
+      }
+    ]
+  },
+  {
+    code: `
+      var fs = require('fs');
+      let cp = require('child_process');
+      const path = require('path');
+
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
+    options: [
+      {
+        commonjs: true
       }
     ]
   }
@@ -360,6 +340,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       export const v7 = (function() { })();
       export const v8 = (() => { })();
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -464,7 +449,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     options: [
       {
-        allowIIFE: true
+        allowIIFE: true,
+        commonjs: true
       }
     ],
     errors: [
@@ -550,6 +536,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       let foo2 = hello_world('bar2');
       const foo3 = hello_world('bar3');
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -605,6 +596,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       let foo2 = console.log('bar2');
       const foo3 = console.log('bar3');
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -662,7 +658,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
     `,
     options: [
       {
-        allowedNews: ['Map', 'Set']
+        allowedNews: ['Map', 'Set'],
+        commonjs: true
       }
     ],
     errors: [
@@ -940,9 +937,47 @@ const invalid: RuleTester.InvalidTestCase[] = [
       exports = {};
       exports.foobar = {};
     `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 21
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 34
+      },
+      {
+        messageId: '0',
+        line: 3,
+        column: 7,
+        endLine: 3,
+        endColumn: 20
+      },
+      {
+        messageId: '0',
+        line: 4,
+        column: 7,
+        endLine: 4,
+        endColumn: 27
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
     options: [
       {
-        allowModuleExports: false
+        commonjs: false
       }
     ],
     errors: [
@@ -980,6 +1015,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     code: `
       notModule.exports = {};
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -994,6 +1034,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     code: `
       notExports = {};
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -1008,6 +1053,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     code: `
       notExports.foobar = {};
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -1022,6 +1072,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     code: `
       notModule.exports.foobar = {};
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
@@ -1036,6 +1091,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
     code: `
       module.notExports.foobar = {};
     `,
+    options: [
+      {
+        commonjs: true
+      }
+    ],
     errors: [
       {
         messageId: '0',
