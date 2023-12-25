@@ -63,9 +63,9 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-function isRequireCall(expression: Expression | null | undefined): boolean {
+function isRequireCall(expression: Expression): boolean {
   return (
-    expression?.type === 'CallExpression' &&
+    expression.type === 'CallExpression' &&
     expression.callee.type === 'Identifier' &&
     expression.callee.name === 'require'
   );
