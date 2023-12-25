@@ -39,6 +39,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       module.exports = {};
+      module.exports.foobar = {};
       exports = {};
       exports.foobar = {};
     `
@@ -200,6 +201,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      notModule.exports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      module.notExports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
       }
     ]
   },
