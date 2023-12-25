@@ -161,6 +161,51 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
+      var fs = require('fs');
+      let cp = require('child_process');
+      const path = require('path');
+    `,
+    options: [
+      {
+        allowedCalls: ['require']
+      }
+    ]
+  },
+  {
+    code: `
+      const symbol1 = Symbol();
+      export const symbol2 = Symbol();
+    `,
+    options: [
+      {
+        allowedCalls: ['Symbol']
+      }
+    ]
+  },
+  {
+    code: `
+      const symbol1 = BigInt();
+      export const symbol2 = BigInt();
+    `,
+    options: [
+      {
+        allowedCalls: ['BigInt']
+      }
+    ]
+  },
+  {
+    code: `
+      const map = new Map();
+      const set = new Set();
+    `,
+    options: [
+      {
+        allowedNews: ['Map', 'Set']
+      }
+    ]
+  },
+  {
+    code: `
       (function() { return ''; })();
       (() => { return ''; })();
     `,
@@ -602,6 +647,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       let foo2 = new Bar();
       const foo3 = new Bar();
     `,
+    options: [
+      {
+        allowedNews: ['Map', 'Set']
+      }
+    ],
     errors: [
       {
         messageId: '0',
