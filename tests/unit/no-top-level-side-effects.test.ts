@@ -39,6 +39,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       module.exports = {};
+      module.exports.foobar = {};
       exports = {};
       exports.foobar = {};
     `
@@ -88,6 +89,29 @@ const valid: RuleTester.ValidTestCase[] = [
         allowSymbol: true
       }
     ]
+  },
+  {
+    code: `
+      var fs = require('fs');
+      let cp = require('child_process');
+      const path = require('path');
+    `
+  },
+  {
+    code: `
+      const foo = -1;
+    `
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
   }
 ];
 
@@ -177,6 +201,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      notModule.exports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      module.notExports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
       }
     ]
   },
@@ -587,13 +639,158 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 33
       }
     ]
+  },
+  {
+    code: `
+      const path = require('path');
+    `,
+    options: [
+      {
+        allowRequire: false
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 14,
+        endLine: 1,
+        endColumn: 29
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = await bar();
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = 1 + 2;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 18
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = x > 1 ? "a" : "b";
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 30
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = bar || baz;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 23
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = f\`bar\`;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 19
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = i++;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 16
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = -bar;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 17
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = \`\${bar}\`;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = bar?.baz;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
+      }
+    ]
   }
 ];
 
 new RuleTester({
   parser,
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module'
   }
 }).run('no-top-level-side-effects', noTopLevelSideEffects, {

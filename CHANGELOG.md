@@ -10,6 +10,39 @@ Versioning].
 
 ## [Unreleased]
 
+- (`2f2bb41`) Disallow top-level side effects of optional changing for
+  `no-top-level-side-effects`.
+- (`2f2bb41`) Fix bug where `module.exports.property`-like assignments were not
+  allowed by `no-top-level-side-effects`.
+
+## [2.3.0] - 2023-12-25
+
+- (`7b50c22`) Disallow top-level side effects of async calls, binary operations,
+  conditional expression, logical operations, tagged template expressions, and
+  update expressions for `no-top-level-side-effects`.
+- (`b83307b`) Disallow top-level unary operations with side effects in
+  assignments for `no-top-level-side-effects`.
+- (`c2866aa`) Disallow top-level template literals with side effects in
+  assignments for `no-top-level-side-effects`.
+- (`2458d81`) Fix runtime errors due to export statements.
+- (`33120d8`) Optionally disallow top-level side effect of calling `require`.
+
+## [2.2.2] - 2023-12-24
+
+- (`ebf23c6`) Always allow assignment of literals for `no-top-level-variables`.
+- (`282ff77`) Optionally allow top-level `const` assignments of functions.
+- (`f130b34`) Optionally allow top-level `const` assignments of template
+  literals.
+
+## [2.2.1] - 2023-12-24
+
+- (`fced786`) Allow `require()` for `no-top-level-side-effects`.
+- (`c46dec9`) Allow `Symbol()` for `const` in `no-top-level-variables`.
+- (`8e4566b`) Optionally allow top-level `const` assignments of arrays and
+  objects.
+
+## [2.2.0] - 2023-12-24
+
 - (`ba81b6d`) Allow top-level `const` assignment from literals.
 - (`bc90491`) Optionally allow `Symbol()` for `no-top-level-side-effects`.
 - (`bed2d39`) Report named export declarations for `no-top-level-variables`.

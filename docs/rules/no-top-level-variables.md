@@ -48,17 +48,34 @@ export default function () {
 This rule accepts a configuration object with two options:
 
 - `constAllowed`: Configure what assignments are allowed for `const`. By default
-  arrow functions, literals, and member expression assignments are allowed.
+  functions, literals, and member expression assignments are allowed.
 - `kind`: Configure which kinds of variables are forbidden. By default all of
   `const`, `let`, and `var` are forbidden.
 
 #### constAllowed
+
+Examples of **correct** code when `'ArrayExpression'` is allowed:
+
+```javascript
+const arr = [1, 2, 3];
+```
 
 Examples of **correct** code when `'ArrowFunctionExpression'` is allowed:
 
 ```javascript
 const answer = () => 42;
 const hello = (name) => `Hello ${name}!`;
+```
+
+Examples of **correct** code when `'FunctionExpression'` is allowed:
+
+```javascript
+const answer = function () {
+  return 42;
+};
+const hello = function (name) {
+  return `Hello ${name}!`;
+};
 ```
 
 Examples of **correct** code when `'Literal'` is allowed:
@@ -74,6 +91,18 @@ Examples of **correct** code when `'MemberExpression'` is allowed:
 ```javascript
 const parse = JSON.parse;
 const map = Array.prototype.map;
+```
+
+Examples of **correct** code when `'ObjectExpression'` is allowed:
+
+```javascript
+const obj = {foo: 'bar'};
+```
+
+Examples of **correct** code when `'TemplateLiteral'` is allowed:
+
+```javascript
+const foo = `bar`;
 ```
 
 #### kind

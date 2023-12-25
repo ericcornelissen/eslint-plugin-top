@@ -2,16 +2,16 @@
 
 import type {Rule} from 'eslint';
 import type {
-  Declaration,
   ExpressionStatement,
   Expression,
   VariableDeclaration
 } from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowIIFE: boolean;
+  readonly allowRequire: boolean;
   readonly allowSymbol: boolean;
 };
 
@@ -62,27 +62,45 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isModulePropertyAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'MemberExpression' &&
+    node.expression.left.object.type === 'MemberExpression' &&
+    node.expression.left.object.object.type === 'Identifier' &&
+    node.expression.left.object.object.name === 'module' &&
+    node.expression.left.object.property.type === 'Identifier' &&
+    node.expression.left.object.property.name === 'exports'
+  );
+}
+
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
   expression: Expression
 ) {
-  if (expression.type === 'CallExpression') {
-    if (
-      !(
-        expression.callee.type === 'Identifier' &&
-        expression.callee.name === 'Symbol' &&
-        options.allowSymbol
-      )
-    ) {
-      context.report({
-        node: expression,
-        messageId: 'message'
-      });
-    }
+  if (
+    (options.allowRequire && isRequireCall(expression)) ||
+    (options.allowSymbol && isSymbolCall(expression))
+  ) {
+    return;
   }
 
-  if (expression.type === 'NewExpression') {
+  if (
+    expression.type === 'AwaitExpression' ||
+    expression.type === 'BinaryExpression' ||
+    expression.type === 'CallExpression' ||
+    expression.type === 'ChainExpression' ||
+    expression.type === 'ConditionalExpression' ||
+    expression.type === 'NewExpression' ||
+    expression.type === 'LogicalExpression' ||
+    expression.type === 'TaggedTemplateExpression' ||
+    (expression.type === 'TemplateLiteral' &&
+      expression.expressions.length > 0) ||
+    (expression.type === 'UnaryExpression' &&
+      expression.argument.type !== 'Literal') ||
+    expression.type === 'UpdateExpression'
+  ) {
     context.report({
       node: expression,
       messageId: 'message'
@@ -115,6 +133,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         properties: {
           allowIIFE: {
             type: 'boolean'
+          },
+          allowRequire: {
+            type: 'boolean'
+          },
+          allowSymbol: {
+            type: 'boolean'
           }
         }
       }
@@ -122,23 +146,28 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    const [providedOptions] = context.options;
+
     // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = context.options[0]?.allowSymbol;
+    const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
+    // type-coverage:ignore-next-line
+    const providedAllowRequire: boolean | null = providedOptions?.allowRequire;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = providedOptions?.allowSymbol;
 
     const options: Options = {
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
+      allowRequire:
+        typeof providedAllowRequire === 'boolean' ? providedAllowRequire : true,
       allowSymbol:
         typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
     };
 
     return {
       ExportNamedDeclaration: (node) => {
-        // type-coverage:ignore-next-line
-        const exportDeclaration = node.declaration as Declaration;
-        if (exportDeclaration.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, options, exportDeclaration);
+        if (node.declaration?.type === 'VariableDeclaration') {
+          sideEffectsInVariableDeclaration(context, options, node.declaration);
         }
       },
       ExpressionStatement: (node) => {
@@ -156,7 +185,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         } else if (
           isExportsAssignment(node) ||
           isExportPropertyAssignment(node) ||
-          isModuleAssignment(node)
+          isModuleAssignment(node) ||
+          isModulePropertyAssignment(node)
         ) {
           if (node.expression.type === 'AssignmentExpression') {
             sideEffectInExpression(context, options, node.expression.right);

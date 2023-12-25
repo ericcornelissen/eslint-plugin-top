@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {
-  Declaration,
-  Expression,
-  CallExpression,
-  VariableDeclaration,
-  VariableDeclarator
-} from 'estree';
+import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
 
 type Options = {
   readonly constAllowed: ReadonlyArray<string>;
@@ -19,15 +13,24 @@ type Options = {
 const violationMessage = 'Variables at the top level are not allowed';
 
 const constAllowedValues = [
+  'ArrayExpression',
   'ArrowFunctionExpression',
+  'ChainExpression',
+  'FunctionExpression',
   'Literal',
-  'MemberExpression'
+  'MemberExpression',
+  'ObjectExpression',
+  'TemplateLiteral'
 ];
 const kindValues = ['const', 'let', 'var'];
 
-function isRequireCall(node: CallExpression): boolean {
-  return node.callee.type === 'Identifier' && node.callee.name === 'require';
-}
+const defaultConstAllowed = [
+  'ArrowFunctionExpression',
+  'FunctionExpression',
+  'MemberExpression',
+  'TemplateLiteral'
+];
+const alwaysConstAllowed = ['Literal', 'Identifier'];
 
 function checker(
   context: Rule.RuleContext,
@@ -40,36 +43,22 @@ function checker(
 
   let allowedDeclaration: (declaration: VariableDeclarator) => boolean;
   if (node.kind === 'const') {
-    const isArrowFunctionAllowed = options.constAllowed.includes(
-      'ArrowFunctionExpression'
-    );
-    const isLiteralAllowed = options.constAllowed.includes('Literal');
-    const isMemberExpressionAllowed =
-      options.constAllowed.includes('MemberExpression');
-
     allowedDeclaration = (declaration) => {
       // type-coverage:ignore-next-line
-      switch ((declaration.init as Expression).type) {
-        case 'ArrowFunctionExpression':
-          return isArrowFunctionAllowed;
+      const expression = declaration.init as Expression;
+      const t = expression.type;
+
+      switch (t) {
         case 'CallExpression': {
           // type-coverage:ignore-next-line
-          return isRequireCall(declaration.init as CallExpression);
+          return isRequireCall(expression) || isSymbolCall(expression);
         }
-        case 'Identifier':
-          return true;
-        case 'Literal':
-          return isLiteralAllowed;
-        case 'MemberExpression':
-          return isMemberExpressionAllowed;
         default:
-          return false;
+          return options.constAllowed.includes(t);
       }
     };
   } else {
-    allowedDeclaration = (declaration) =>
-      declaration.init?.type === 'CallExpression' &&
-      isRequireCall(declaration.init);
+    allowedDeclaration = (declaration) => isRequireCall(declaration.init);
   }
 
   node.declarations
@@ -112,18 +101,19 @@ export const noTopLevelVariables: Rule.RuleModule = {
   },
   create: (context) => {
     const options: Options = {
-      // type-coverage:ignore-next-line
-      constAllowed: context.options[0]?.constAllowed || constAllowedValues,
+      constAllowed: [
+        ...alwaysConstAllowed,
+        // type-coverage:ignore-next-line
+        ...(context.options[0]?.constAllowed || defaultConstAllowed)
+      ],
       // type-coverage:ignore-next-line
       kind: context.options[0]?.kind || kindValues
     };
 
     return {
       ExportNamedDeclaration: (node) => {
-        // type-coverage:ignore-next-line
-        const declaration = node.declaration as Declaration;
-        if (declaration.type === 'VariableDeclaration') {
-          checker(context, options, declaration);
+        if (node.declaration?.type === 'VariableDeclaration') {
+          checker(context, options, node.declaration);
         }
       },
       VariableDeclaration: (node) => {

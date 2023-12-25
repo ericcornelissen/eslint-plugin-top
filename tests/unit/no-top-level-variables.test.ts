@@ -138,6 +138,91 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: []
       }
     ]
+  },
+  {
+    code: `
+      const foo = { bar: "baz" };
+    `,
+    options: [
+      {
+        constAllowed: ['ObjectExpression']
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = ["b", "a", "r"];
+    `,
+    options: [
+      {
+        constAllowed: ['ArrayExpression']
+      }
+    ]
+  },
+  {
+    code: `
+      const s = Symbol();
+    `
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `,
+    options: [
+      {
+        constAllowed: ['FunctionExpression']
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `,
+    options: [
+      {
+        constAllowed: ['TemplateLiteral']
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = /bar/;
+    `
+  },
+  {
+    code: `
+      const foo = 1n;
+    `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
+  },
+  {
+    code: `
+      const chain = foo?.bar;
+    `,
+    options: [
+      {
+        constAllowed: ['ChainExpression']
+      }
+    ]
   }
 ];
 
@@ -307,25 +392,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
-      const foo = 'bar';
-    `,
-    options: [
-      {
-        constAllowed: []
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 18
-      }
-    ]
-  },
-  {
-    code: `
       var isArray = Array.isArray;
     `,
     options: [],
@@ -440,44 +506,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 30
-      }
-    ]
-  },
-  {
-    code: `
-      const pi = 3.14;
-    `,
-    options: [
-      {
-        constAllowed: ['ArrowFunctionExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 16
-      }
-    ]
-  },
-  {
-    code: `
-      const pi = 3.14;
-    `,
-    options: [
-      {
-        constAllowed: ['MemberExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 16
       }
     ]
   },
@@ -649,13 +677,95 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 24
       }
     ]
+  },
+  {
+    code: `
+      const foo = { bar: "baz" };
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 27
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = ["b", "a", "r"];
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 28
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = function() {
+        return 'bar';
+      }
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 3,
+        endColumn: 8
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = \`bar\`;
+    `,
+    options: [
+      {
+        constAllowed: []
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 18
+      }
+    ]
+  },
+  {
+    code: `
+      const chain = foo?.bar;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 23
+      }
+    ]
   }
 ];
 
 new RuleTester({
   parser,
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2022,
     sourceType: 'module',
     env: {
       es6: true
