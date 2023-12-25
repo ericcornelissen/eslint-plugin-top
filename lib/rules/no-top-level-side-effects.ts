@@ -12,6 +12,7 @@ import {isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowIIFE: boolean;
+  readonly allowRequire: boolean;
   readonly allowSymbol: boolean;
 };
 
@@ -62,27 +63,48 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isRequireCall(expression: Expression | null | undefined): boolean {
+  return (
+    expression?.type === 'CallExpression' &&
+    expression.callee.type === 'Identifier' &&
+    expression.callee.name === 'require'
+  );
+}
+
+function isSymbolCall(expression: Expression): boolean {
+  return (
+    expression.type === 'CallExpression' &&
+    expression.callee.type === 'Identifier' &&
+    expression.callee.name === 'Symbol'
+  );
+}
+
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
   expression: Expression
 ) {
-  if (expression.type === 'CallExpression') {
-    if (
-      !(
-        expression.callee.type === 'Identifier' &&
-        ((expression.callee.name === 'Symbol' && options.allowSymbol) ||
-          expression.callee.name === 'require')
-      )
-    ) {
-      context.report({
-        node: expression,
-        messageId: 'message'
-      });
-    }
+  if (
+    (options.allowRequire && isRequireCall(expression)) ||
+    (options.allowSymbol && isSymbolCall(expression))
+  ) {
+    return;
   }
 
-  if (expression.type === 'NewExpression') {
+  if (
+    expression.type === 'AwaitExpression' ||
+    expression.type === 'BinaryExpression' ||
+    expression.type === 'CallExpression' ||
+    expression.type === 'ConditionalExpression' ||
+    expression.type === 'NewExpression' ||
+    expression.type === 'LogicalExpression' ||
+    expression.type === 'TaggedTemplateExpression' ||
+    (expression.type === 'TemplateLiteral' &&
+      expression.expressions.length > 0) ||
+    (expression.type === 'UnaryExpression' &&
+      expression.argument.type !== 'Literal') ||
+    expression.type === 'UpdateExpression'
+  ) {
     context.report({
       node: expression,
       messageId: 'message'
@@ -115,6 +137,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         properties: {
           allowIIFE: {
             type: 'boolean'
+          },
+          allowRequire: {
+            type: 'boolean'
+          },
+          allowSymbol: {
+            type: 'boolean'
           }
         }
       }
@@ -122,13 +150,20 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    const [providedOptions] = context.options;
+
     // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = context.options[0]?.allowSymbol;
+    const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
+    // type-coverage:ignore-next-line
+    const providedAllowRequire: boolean | null = providedOptions?.allowRequire;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = providedOptions?.allowSymbol;
 
     const options: Options = {
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
+      allowRequire:
+        typeof providedAllowRequire === 'boolean' ? providedAllowRequire : true,
       allowSymbol:
         typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
     };

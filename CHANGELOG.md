@@ -8,10 +8,21 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## [Unreleased]
+## [Unreleased v3]
 
 - (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
   variables being mutable instead of other side effects.
+
+## [Unreleased v2]
+
+- (`7b50c22`) Disallow top-level side effects of async calls, binary operations,
+  conditional expression, logical operations, tagged template expressions, and
+  update expressions for `no-top-level-side-effects`.
+- (`b83307b`) Disallow top-level unary operations with side effects in
+  assignments for `no-top-level-side-effects`.
+- (`c2866aa`) Disallow top-level template literals with side effects in
+  assignments for `no-top-level-side-effects`.
+- (`33120d8`) Optionally disallow top-level side effect of calling `require`.
 
 ## [2.2.2] - 2023-12-24
 
