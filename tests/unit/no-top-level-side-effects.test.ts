@@ -148,6 +148,27 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `
+  },
+  {
+    code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
+    options: [
+      {
+        allowModuleExports: true
+      }
+    ]
+  },
+  {
+    code: `
       var fs = require('fs');
       let cp = require('child_process');
       const path = require('path');
@@ -214,14 +235,6 @@ const valid: RuleTester.ValidTestCase[] = [
         allowIIFE: true
       }
     ]
-  },
-
-  {
-    code: `
-      module.exports = {};
-      exports = {};
-      exports.foobar = {};
-    `
   }
 ];
 
@@ -906,7 +919,63 @@ const invalid: RuleTester.InvalidTestCase[] = [
       }
     ]
   },
-
+  {
+    code: `
+      const foo = bar?.baz;
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
+    options: [
+      {
+        allowModuleExports: false
+      }
+    ],
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 21
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 34
+      },
+      {
+        messageId: '0',
+        line: 3,
+        column: 7,
+        endLine: 3,
+        endColumn: 20
+      },
+      {
+        messageId: '0',
+        line: 4,
+        column: 7,
+        endLine: 4,
+        endColumn: 27
+      }
+    ]
+  },
   {
     code: `
       notModule.exports = {};
@@ -946,6 +1015,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 24
+      }
+    ]
+  },
+  {
+    code: `
+      notModule.exports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      module.notExports.foobar = {};
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 31
       }
     ]
   }

@@ -70,6 +70,7 @@ const valid: RuleTester.ValidTestCase[] = [
       const unary = -bar;
       const update = i++;
       const ternary = bar ? bar : baz;
+      const chain = foo?.bar;
 
       const f = function() { };
       const g = () => 'bar';
@@ -110,6 +111,7 @@ const valid: RuleTester.ValidTestCase[] = [
       export const unary = -bar;
       export const update = i++;
       export const ternary = bar ? bar : baz;
+      export const chain = foo?.bar;
 
       export const f = function() { };
       export const g = () => 'bar';

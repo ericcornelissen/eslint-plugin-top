@@ -14,6 +14,7 @@ import {isTopLevel} from '../helpers';
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
+  readonly allowExports: boolean;
   readonly allowIIFE: boolean;
 };
 
@@ -76,12 +77,23 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isModulePropertyAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'MemberExpression' &&
+    node.expression.left.object.type === 'MemberExpression' &&
+    node.expression.left.object.object.type === 'Identifier' &&
+    node.expression.left.object.object.name === 'module' &&
+    node.expression.left.object.property.type === 'Identifier' &&
+    node.expression.left.object.property.name === 'exports'
+  );
+}
+
 function isNew(expression: NewExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
 }
-
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
@@ -92,6 +104,7 @@ function sideEffectInExpression(
     expression.type === 'BinaryExpression' ||
     (expression.type === 'CallExpression' &&
       !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
+    expression.type === 'ChainExpression' ||
     expression.type === 'ConditionalExpression' ||
     (expression.type === 'NewExpression' &&
       !options.allowedNews.some((name) => isNew(expression, name))) ||
@@ -141,6 +154,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             type: 'array',
             minItems: 0
           },
+          allowModuleExports: {
+            type: 'boolean'
+          },
           allowIIFE: {
             type: 'boolean'
           }
@@ -150,16 +166,20 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const [providedOptions] = context.options;
+    const [provided] = context.options;
 
     // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
+    const providedAllowExports: boolean | null = provided?.allowModuleExports;
+    // type-coverage:ignore-next-line
+    const providedAllowIIFE: boolean | null = provided?.allowIIFE;
 
     const options: Options = {
       // type-coverage:ignore-next-line
-      allowedCalls: providedOptions?.allowedCalls || defaultAllowedCalls,
+      allowedCalls: provided?.allowedCalls || defaultAllowedCalls,
       // type-coverage:ignore-next-line
-      allowedNews: providedOptions?.allowedNews || defaultAllowedNews,
+      allowedNews: provided?.allowedNews || defaultAllowedNews,
+      allowExports:
+        typeof providedAllowExports === 'boolean' ? providedAllowExports : true,
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
     };
@@ -183,9 +203,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             });
           }
         } else if (
-          isExportsAssignment(node) ||
-          isExportPropertyAssignment(node) ||
-          isModuleAssignment(node)
+          options.allowExports &&
+          (isExportsAssignment(node) ||
+            isExportPropertyAssignment(node) ||
+            isModuleAssignment(node) ||
+            isModulePropertyAssignment(node))
         ) {
           if (node.expression.type === 'AssignmentExpression') {
             sideEffectInExpression(context, options, node.expression.right);
