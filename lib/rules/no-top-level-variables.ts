@@ -8,7 +8,7 @@ import type {
   VariableDeclarator
 } from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
 
 type Options = {
   readonly constAllowed: ReadonlyArray<string>;
@@ -36,22 +36,6 @@ const defaultConstAllowed = [
 ];
 const alwaysConstAllowed = ['Literal', 'Identifier'];
 
-function isRequireCall(expression: Expression | null | undefined): boolean {
-  return (
-    expression?.type === 'CallExpression' &&
-    expression.callee.type === 'Identifier' &&
-    expression.callee.name === 'require'
-  );
-}
-
-function isSymbol(expression: Expression): boolean {
-  return (
-    expression.type === 'CallExpression' &&
-    expression.callee.type === 'Identifier' &&
-    expression.callee.name === 'Symbol'
-  );
-}
-
 function checker(
   context: Rule.RuleContext,
   options: Options,
@@ -71,7 +55,7 @@ function checker(
       switch (t) {
         case 'CallExpression': {
           // type-coverage:ignore-next-line
-          return isRequireCall(expression) || isSymbol(expression);
+          return isRequireCall(expression) || isSymbolCall(expression);
         }
         default:
           return options.constAllowed.includes(t);

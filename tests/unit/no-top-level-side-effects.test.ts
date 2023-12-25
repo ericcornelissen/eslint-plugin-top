@@ -594,6 +594,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 33
       }
     ]
+  },
+  {
+    code: `
+      const path = require('path');
+    `,
+    options: [
+      {
+        allowRequire: false
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 14,
+        endLine: 1,
+        endColumn: 29
+      }
+    ]
   }
 ];
 

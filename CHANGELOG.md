@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`33120d8`) Optionally disallow top-level side effect of calling `require`.
 
 ## [2.2.2] - 2023-12-24
 

@@ -8,10 +8,11 @@ import type {
   VariableDeclaration
 } from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowIIFE: boolean;
+  readonly allowRequire: boolean;
   readonly allowSymbol: boolean;
 };
 
@@ -67,22 +68,17 @@ function sideEffectInExpression(
   options: Options,
   expression: Expression
 ) {
-  if (expression.type === 'CallExpression') {
-    if (
-      !(
-        expression.callee.type === 'Identifier' &&
-        ((expression.callee.name === 'Symbol' && options.allowSymbol) ||
-          expression.callee.name === 'require')
-      )
-    ) {
-      context.report({
-        node: expression,
-        messageId: 'message'
-      });
-    }
+  if (
+    (options.allowRequire && isRequireCall(expression)) ||
+    (options.allowSymbol && isSymbolCall(expression))
+  ) {
+    return;
   }
 
-  if (expression.type === 'NewExpression') {
+  if (
+    expression.type === 'CallExpression' ||
+    expression.type === 'NewExpression'
+  ) {
     context.report({
       node: expression,
       messageId: 'message'
@@ -115,6 +111,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         properties: {
           allowIIFE: {
             type: 'boolean'
+          },
+          allowRequire: {
+            type: 'boolean'
+          },
+          allowSymbol: {
+            type: 'boolean'
           }
         }
       }
@@ -122,13 +124,20 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    const [providedOptions] = context.options;
+
     // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = context.options[0]?.allowSymbol;
+    const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
+    // type-coverage:ignore-next-line
+    const providedAllowRequire: boolean | null = providedOptions?.allowRequire;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = providedOptions?.allowSymbol;
 
     const options: Options = {
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
+      allowRequire:
+        typeof providedAllowRequire === 'boolean' ? providedAllowRequire : true,
       allowSymbol:
         typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
     };
