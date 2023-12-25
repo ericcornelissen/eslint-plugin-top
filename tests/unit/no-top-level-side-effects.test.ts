@@ -95,6 +95,11 @@ const valid: RuleTester.ValidTestCase[] = [
       let cp = require('child_process');
       const path = require('path');
     `
+  },
+  {
+    code: `
+      const foo = -1;
+    `
   }
 ];
 
@@ -695,6 +700,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 13,
         endLine: 1,
         endColumn: 16
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = -bar;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 17
       }
     ]
   }
