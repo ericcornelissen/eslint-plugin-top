@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [2.3.1] - 2023-12-25
+
 - (`2f2bb41`) Disallow top-level side effects of optional changing for
   `no-top-level-side-effects`.
 - (`2f2bb41`) Fix bug where `module.exports.property`-like assignments were not
