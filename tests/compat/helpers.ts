@@ -22,6 +22,9 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
       '--no-eslintrc',
       // Lint from stdin
       '--stdin',
+      // Allow modern (ES6) syntax
+      '--env',
+      'es6',
       // Configure this plugin
       '--plugin',
       '@ericcornelissen/top',

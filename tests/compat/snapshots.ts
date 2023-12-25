@@ -8,13 +8,14 @@ interface Snapshot {
 
 export const snapshots: ReadonlyArray<Snapshot> = [
   {
-    name: 'with top-level-variables violation',
-    inp: 'var foo = "bar";',
+    name: 'with no-top-level-variables violations',
+    inp: 'const foo = ["bar"];var hello = ["world", "!"];',
     out: `
 <text>
-  1:5  error  Variables at the top level are not allowed  @ericcornelissen/top/no-top-level-variables
+  1:7   error  Variables at the top level are not allowed  @ericcornelissen/top/no-top-level-variables
+  1:21  error  Use of var at the top level is not allowed  @ericcornelissen/top/no-top-level-variables
 
-✖ 1 problem (1 error, 0 warnings)
+✖ 2 problems (2 errors, 0 warnings)
 
 `
   },
