@@ -10,6 +10,7 @@ import type {
 import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
 
 type Options = {
+  readonly allowExports: boolean;
   readonly allowIIFE: boolean;
   readonly allowRequire: boolean;
   readonly allowSymbol: boolean;
@@ -131,6 +132,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       {
         type: 'object',
         properties: {
+          allowModuleExports: {
+            type: 'boolean'
+          },
           allowIIFE: {
             type: 'boolean'
           },
@@ -146,16 +150,20 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const [providedOptions] = context.options;
+    const [provided] = context.options;
 
     // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = providedOptions?.allowIIFE;
+    const providedAllowExports: boolean | null = provided?.allowModuleExports;
     // type-coverage:ignore-next-line
-    const providedAllowRequire: boolean | null = providedOptions?.allowRequire;
+    const providedAllowIIFE: boolean | null = provided?.allowIIFE;
     // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = providedOptions?.allowSymbol;
+    const providedAllowRequire: boolean | null = provided?.allowRequire;
+    // type-coverage:ignore-next-line
+    const providedAllowSymbol: boolean | null = provided?.allowSymbol;
 
     const options: Options = {
+      allowExports:
+        typeof providedAllowExports === 'boolean' ? providedAllowExports : true,
       allowIIFE:
         typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
       allowRequire:
@@ -183,10 +191,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             });
           }
         } else if (
-          isExportsAssignment(node) ||
-          isExportPropertyAssignment(node) ||
-          isModuleAssignment(node) ||
-          isModulePropertyAssignment(node)
+          options.allowExports &&
+          (isExportsAssignment(node) ||
+            isExportPropertyAssignment(node) ||
+            isModuleAssignment(node) ||
+            isModulePropertyAssignment(node))
         ) {
           if (node.expression.type === 'AssignmentExpression') {
             sideEffectInExpression(context, options, node.expression.right);

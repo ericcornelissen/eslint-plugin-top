@@ -112,6 +112,19 @@ const valid: RuleTester.ValidTestCase[] = [
       const name1 = 0;
       export { name1 };
     `
+  },
+  {
+    code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
+    options: [
+      {
+        allowModuleExports: true
+      }
+    ]
   }
 ];
 
@@ -782,6 +795,49 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 13,
         endLine: 1,
         endColumn: 21
+      }
+    ]
+  },
+  {
+    code: `
+      module.exports = {};
+      module.exports.foobar = {};
+      exports = {};
+      exports.foobar = {};
+    `,
+    options: [
+      {
+        allowModuleExports: false
+      }
+    ],
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 21
+      },
+      {
+        messageId: 'message',
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 34
+      },
+      {
+        messageId: 'message',
+        line: 3,
+        column: 7,
+        endLine: 3,
+        endColumn: 20
+      },
+      {
+        messageId: 'message',
+        line: 4,
+        column: 7,
+        endLine: 4,
+        endColumn: 27
       }
     ]
   }
