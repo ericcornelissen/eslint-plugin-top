@@ -39,6 +39,7 @@ const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
       module.exports = {};
+      module.exports.foobar = {};
       exports = {};
       exports.foobar = {};
     `
