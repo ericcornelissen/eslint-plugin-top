@@ -62,6 +62,18 @@ function isModuleAssignment(node: ExpressionStatement): boolean {
   );
 }
 
+function isModulePropertyAssignment(node: ExpressionStatement): boolean {
+  return (
+    node.expression.type === 'AssignmentExpression' &&
+    node.expression.left.type === 'MemberExpression' &&
+    node.expression.left.object.type === 'MemberExpression' &&
+    node.expression.left.object.object.type === 'Identifier' &&
+    node.expression.left.object.object.name === 'module' &&
+    node.expression.left.object.property.type === 'Identifier' &&
+    node.expression.left.object.property.name === 'exports'
+  );
+}
+
 function sideEffectInExpression(
   context: Rule.RuleContext,
   options: Options,
@@ -172,7 +184,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         } else if (
           isExportsAssignment(node) ||
           isExportPropertyAssignment(node) ||
-          isModuleAssignment(node)
+          isModuleAssignment(node) ||
+          isModulePropertyAssignment(node)
         ) {
           if (node.expression.type === 'AssignmentExpression') {
             sideEffectInExpression(context, options, node.expression.right);
