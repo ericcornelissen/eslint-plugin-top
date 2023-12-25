@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`2f2bb41`) Disallow top-level side effects of optional changing for
+  `no-top-level-side-effects`.
 
 ## [2.3.0] - 2023-12-25
 
