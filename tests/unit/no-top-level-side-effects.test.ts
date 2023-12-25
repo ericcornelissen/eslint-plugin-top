@@ -105,6 +105,12 @@ const valid: RuleTester.ValidTestCase[] = [
     code: `
       const foo = \`bar\`;
     `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
   }
 ];
 
