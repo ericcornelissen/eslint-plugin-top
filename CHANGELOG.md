@@ -16,6 +16,8 @@ Versioning].
   variables being mutable instead of other side effects.
 - (`a3c513e`) Allow for configuring which classes can be instantiated at the top
   level for `no-top-level-side-effects`.
+- (`7dd470f`) Disallow top-level side effects of optional changing for
+  `no-top-level-side-effects`.
 
 ## [Unreleased v2]
 
