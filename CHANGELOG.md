@@ -19,6 +19,10 @@ Versioning].
 
 ## [Unreleased v2]
 
+- _No changes yet_
+
+## [2.3.0] - 2023-12-25
+
 - (`7b50c22`) Disallow top-level side effects of async calls, binary operations,
   conditional expression, logical operations, tagged template expressions, and
   update expressions for `no-top-level-side-effects`.
