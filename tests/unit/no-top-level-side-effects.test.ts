@@ -38,21 +38,23 @@ const valid: RuleTester.ValidTestCase[] = [
       function* generatorName() { }
 
       const leet = 1337;
-      const bigInt = 1n;
+      const leetBig = 1337n;
       const negative = -1;
 
-      const foo1 = 'bar';
-      const foo2 = "bar";
-      const foo3 = \`bar\`;
+      const regularExpression = /bar/;
 
-      const foo = bar;
+      const str1 = 'bar';
+      const str2 = "bar";
+      const str3 = \`bar\`;
+
+      const identifier = bar;
       const isArray = Array.isArray;
 
       const f = function() { };
       const g = () => 'bar';
 
-      const { name1, name2: name3 } = o;
-      const [ name4, name5 ] = a;
+      const { o1, o2: o3 } = o;
+      const [ a1, a2 ] = a;
     `
   },
   {
@@ -70,26 +72,28 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
-      export class ClassName { }
-      export function functionName() { }
-      export function* generatorName() { }
+      class ClassName { }
+      function functionName() { }
+      function* generatorName() { }
 
-      export const leet = 1337;
-      export const bigInt = 1n;
-      export const negative = -1;
+      const leet = 1337;
+      const leetBig = 1337n;
+      const negative = -1;
 
-      export const foo1 = 'bar';
-      export const foo2 = "bar";
-      export const foo3 = \`bar\`;
+      const regularExpression = /bar/;
 
-      export const foo = bar;
-      export const isArray = Array.isArray;
+      const str1 = 'bar';
+      const str2 = "bar";
+      const str3 = \`bar\`;
 
-      export const f = function() { };
-      export const g = () => 'bar';
+      const identifier = bar;
+      const isArray = Array.isArray;
 
-      export const { o1, o2: o3 } = o;
-      export const [ a1, a2 ] = a;
+      const f = function() { };
+      const g = () => 'bar';
+
+      const { o1, o2: o3 } = o;
+      const [ a1, a2 ] = a;
 
       const name1 = 0, name2 = 0, name3 = 0;
       export { name1, name2 as name2a, name3 as "name 3" };
@@ -172,12 +176,6 @@ const valid: RuleTester.ValidTestCase[] = [
       module.exports = {};
       exports = {};
       exports.foobar = {};
-    `
-  },
-  {
-    code: `
-      const name1 = 0;
-      export { name1 };
     `
   }
 ];

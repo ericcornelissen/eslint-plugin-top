@@ -49,40 +49,39 @@ const valid: RuleTester.ValidTestCase[] = [
       class ClassName { }
       function functionName() { }
       function* generatorName() { }
-    `
-  },
-  {
-    code: `
+
       const leet = 1337;
-      const fooExpr = /bar/;
+      const leetBig = 1337n;
+      const negative = -1;
 
-      const foo01 = 'bar';
-      const foo02 = "bar";
-      const foo03 = \`bar\`;
-      const foo04 = $\`bar\`;
+      const regularExpression = /bar/;
 
-      const foo05 = bar;
+      const str1 = 'bar';
+      const str2 = "bar";
+      const str3 = \`bar\`;
+      const str4 = $\`bar\`;
+
+      const identifier = bar;
       const isArray = Array.isArray;
 
-      const foo06 = bar = 1;
-      const foo07 = bar + baz;
-      const foo08 = bar || baz;
-      const foo09 = -bar;
-      const foo10 = i++;
-      const foo11 = bar ? bar : baz;
+      const assignment = bar = 1;
+      const binary = bar + baz;
+      const logical = bar || baz;
+      const unary = -bar;
+      const update = i++;
+      const ternary = bar ? bar : baz;
 
       const f = function() { };
       const g = () => 'bar';
 
-      const { name1, name2: name3 } = o;
-      const [ name4, name5 ] = a;
+      const { o1, o2: o3 } = o;
+      const [ a1, a2 ] = a;
 
-      const s = Symbol();
-      const promised = await h();
-      const path = require('path');
-
-      const bigNum = 1n;
+      const symbol = Symbol();
       const bigInt = BigInt(1);
+
+      const path = require('path');
+      const promised = await h();
     `
   },
   {
@@ -90,39 +89,88 @@ const valid: RuleTester.ValidTestCase[] = [
       export class ClassName { }
       export function functionName() { }
       export function* generatorName() { }
-    `
-  },
-  {
-    code: `
+
       export const leet = 1337;
-      export const fooExpr = /bar/;
+      export const leetBig = 1337n;
+      export const negative = -1;
 
-      export const foo01 = 'bar';
-      export const foo02 = "bar";
-      export const foo03 = \`bar\`;
-      export const foo04 = $\`bar\`;
+      export const regularExpression = /bar/;
 
-      export const foo05 = bar;
+      export const str1 = 'bar';
+      export const str2 = "bar";
+      export const str3 = \`bar\`;
+      export const str4 = $\`bar\`;
+
+      export const identifier = bar;
       export const isArray = Array.isArray;
 
-      export const foo06 = bar = 1;
-      export const foo07 = bar + baz;
-      export const foo08 = bar || baz;
-      export const foo09 = -bar;
-      export const foo10 = i++;
-      export const foo11 = bar ? bar : baz;
+      export const assignment = bar = 1;
+      export const binary = bar + baz;
+      export const logical = bar || baz;
+      export const unary = -bar;
+      export const update = i++;
+      export const ternary = bar ? bar : baz;
 
       export const f = function() { };
       export const g = () => 'bar';
 
-      export const { name1, name2: name3 } = o;
-      export const [ name4, name5 ] = a;
+      export const { o1, o2: o3 } = o;
+      export const [ a1, a2 ] = a;
 
-      export const s = Symbol();
+      export const symbol = Symbol();
+      export const bigInt = BigInt(1);
+
       export const promised = await h();
 
-      export const bigNum = 1n;
-      export const bigInt = BigInt(1);
+      const name1 = 0, name2 = 0, name3 = 0;
+      export { name1, name2 as name2a, name3 as "name 3" };
+
+      export * from "module-name";
+      export * as name4 from "module-name";
+      export { name5, name6 } from "module-name";
+      export { import1 as name7, import2 as name8, name9 } from "module-name";
+      export { default as name10, name11 } from "module-name";
+    `
+  },
+  {
+    code: `
+      const x = 0;
+      export { x as default };
+    `
+  },
+  {
+    code: `
+      export { default } from "module-name";
+    `
+  },
+  {
+    code: `
+      export default class ClassName { }
+    `
+  },
+  {
+    code: `
+      export default function f() { }
+    `
+  },
+  {
+    code: `
+      export default function* g() { }
+    `
+  },
+  {
+    code: `
+      export default class { }
+    `
+  },
+  {
+    code: `
+      export default function() { }
+    `
+  },
+  {
+    code: `
+      export default function* () { }
     `
   },
   {
@@ -144,22 +192,6 @@ const valid: RuleTester.ValidTestCase[] = [
         allowed: ['ObjectExpression']
       }
     ]
-  },
-  {
-    code: `
-      const foo = /bar/;
-    `
-  },
-  {
-    code: `
-      const foo = 1n;
-    `
-  },
-  {
-    code: `
-      const name1 = 0;
-      export { name1 };
-    `
   }
 ];
 
