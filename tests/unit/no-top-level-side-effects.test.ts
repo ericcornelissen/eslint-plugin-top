@@ -173,6 +173,12 @@ const valid: RuleTester.ValidTestCase[] = [
       exports = {};
       exports.foobar = {};
     `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
   }
 ];
 

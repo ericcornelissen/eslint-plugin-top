@@ -144,6 +144,22 @@ const valid: RuleTester.ValidTestCase[] = [
         allowed: ['ObjectExpression']
       }
     ]
+  },
+  {
+    code: `
+      const foo = /bar/;
+    `
+  },
+  {
+    code: `
+      const foo = 1n;
+    `
+  },
+  {
+    code: `
+      const name1 = 0;
+      export { name1 };
+    `
   }
 ];
 

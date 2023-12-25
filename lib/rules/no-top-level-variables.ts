@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {Declaration, VariableDeclaration} from 'estree';
+import type {VariableDeclaration} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
@@ -133,10 +133,8 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
     return {
       ExportNamedDeclaration: (node) => {
-        // type-coverage:ignore-next-line
-        const declaration = node.declaration as Declaration;
-        if (declaration.type === 'VariableDeclaration') {
-          checker(context, options, declaration);
+        if (node.declaration?.type === 'VariableDeclaration') {
+          checker(context, options, node.declaration);
         }
       },
       VariableDeclaration: (node) => {

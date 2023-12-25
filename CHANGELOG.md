@@ -24,6 +24,7 @@ Versioning].
   assignments for `no-top-level-side-effects`.
 - (`c2866aa`) Disallow top-level template literals with side effects in
   assignments for `no-top-level-side-effects`.
+- (`2458d81`) Fix runtime errors due to export statements.
 - (`33120d8`) Optionally disallow top-level side effect of calling `require`.
 
 ## [2.2.2] - 2023-12-24
