@@ -213,6 +213,16 @@ const valid: RuleTester.ValidTestCase[] = [
       const name1 = 0;
       export { name1 };
     `
+  },
+  {
+    code: `
+      const chain = foo?.bar;
+    `,
+    options: [
+      {
+        constAllowed: ['ChainExpression']
+      }
+    ]
   }
 ];
 
@@ -733,6 +743,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 7,
         endLine: 1,
         endColumn: 18
+      }
+    ]
+  },
+  {
+    code: `
+      const chain = foo?.bar;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 23
       }
     ]
   }
