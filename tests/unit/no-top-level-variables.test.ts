@@ -197,6 +197,16 @@ const valid: RuleTester.ValidTestCase[] = [
         constAllowed: ['TemplateLiteral']
       }
     ]
+  },
+  {
+    code: `
+      const foo = /bar/;
+    `
+  },
+  {
+    code: `
+      const foo = 1n;
+    `
   }
 ];
 
@@ -725,7 +735,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
 new RuleTester({
   parser,
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2022,
     sourceType: 'module',
     env: {
       es6: true
