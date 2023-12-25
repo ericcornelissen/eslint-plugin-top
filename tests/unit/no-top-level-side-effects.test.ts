@@ -741,6 +741,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 21
       }
     ]
+  },
+  {
+    code: `
+      const foo = bar?.baz;
+    `,
+    errors: [
+      {
+        messageId: 'message',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 21
+      }
+    ]
   }
 ];
 

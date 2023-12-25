@@ -15,6 +15,7 @@ const violationMessage = 'Variables at the top level are not allowed';
 const constAllowedValues = [
   'ArrayExpression',
   'ArrowFunctionExpression',
+  'ChainExpression',
   'FunctionExpression',
   'Literal',
   'MemberExpression',

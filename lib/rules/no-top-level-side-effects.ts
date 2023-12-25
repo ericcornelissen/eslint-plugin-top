@@ -78,6 +78,7 @@ function sideEffectInExpression(
     expression.type === 'AwaitExpression' ||
     expression.type === 'BinaryExpression' ||
     expression.type === 'CallExpression' ||
+    expression.type === 'ChainExpression' ||
     expression.type === 'ConditionalExpression' ||
     expression.type === 'NewExpression' ||
     expression.type === 'LogicalExpression' ||
