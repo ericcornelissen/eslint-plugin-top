@@ -211,6 +211,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             sideEffectInExpression(context, options, node.expression.right);
           }
         } else {
+          if (
+            commonjs &&
+            node.expression.type === 'CallExpression' &&
+            isCallTo(node.expression, 'require')
+          ) {
+            return;
+          }
+
           context.report({
             node,
             messageId: disallowedSideEffect.id
