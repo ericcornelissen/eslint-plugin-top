@@ -10,6 +10,41 @@ type Options = {
   readonly kind: ReadonlyArray<string>;
 };
 
+const allowedOption = {
+  enum: [
+    'ArrayExpression',
+    'ImportExpression',
+    'ObjectExpression',
+    'SequenceExpression',
+    'ThisExpression',
+    'YieldExpression'
+  ],
+  default: [],
+  always: [
+    'ArrowFunctionExpression',
+    'AssignmentExpression',
+    'AwaitExpression',
+    'BinaryExpression',
+    'CallExpression',
+    'ChainExpression',
+    'ConditionalExpression',
+    'FunctionExpression',
+    'Identifier',
+    'Literal',
+    'LogicalExpression',
+    'MemberExpression',
+    'TaggedTemplateExpression',
+    'TemplateLiteral',
+    'UnaryExpression',
+    'UpdateExpression'
+  ]
+};
+
+const kindOption = {
+  enum: ['const', 'let', 'var'],
+  default: ['const']
+};
+
 const disallowedAssignment = {
   id: '0',
   message: 'Variables at the top level are not allowed'
@@ -27,48 +62,23 @@ const disallowedConst = {
   message: 'Use of const at the top level is not allowed'
 };
 
-const allowedValues = [
-  'ArrayExpression',
-  'ImportExpression',
-  'ObjectExpression',
-  'SequenceExpression',
-  'ThisExpression',
-  'YieldExpression'
-];
-const allowedDefault: string[] = [];
-const allowedAlways = [
-  'ArrowFunctionExpression',
-  'AssignmentExpression',
-  'AwaitExpression',
-  'BinaryExpression',
-  'CallExpression',
-  'ChainExpression',
-  'ConditionalExpression',
-  'FunctionExpression',
-  'Identifier',
-  'Literal',
-  'LogicalExpression',
-  'MemberExpression',
-  'TaggedTemplateExpression',
-  'TemplateLiteral',
-  'UnaryExpression',
-  'UpdateExpression'
-];
-
-const kindValues = ['const', 'let', 'var'];
-const kindDefault = ['const'];
-
 function checker(
   context: Rule.RuleContext,
   options: Options,
   node: VariableDeclaration
 ) {
   if (!options.kind.includes(node.kind)) {
-    let messageId = disallowedVar.id;
-    if (node.kind === 'let') {
-      messageId = disallowedLet.id;
-    } else if (node.kind === 'const') {
-      messageId = disallowedConst.id;
+    let messageId;
+    switch (node.kind) {
+      case 'var':
+        messageId = disallowedVar.id;
+        break;
+      case 'let':
+        messageId = disallowedLet.id;
+        break;
+      case 'const':
+        messageId = disallowedConst.id;
+        break;
     }
 
     context.report({node, messageId});
@@ -94,9 +104,9 @@ export const noTopLevelVariables: Rule.RuleModule = {
     type: 'problem',
     messages: {
       [disallowedAssignment.id]: disallowedAssignment.message,
-      [disallowedVar.id]: disallowedVar.message,
+      [disallowedConst.id]: disallowedConst.message,
       [disallowedLet.id]: disallowedLet.message,
-      [disallowedConst.id]: disallowedConst.message
+      [disallowedVar.id]: disallowedVar.message
     },
     schema: [
       {
@@ -106,14 +116,14 @@ export const noTopLevelVariables: Rule.RuleModule = {
             type: 'array',
             minItems: 0,
             items: {
-              enum: allowedValues
+              enum: allowedOption.enum
             }
           },
           kind: {
             type: 'array',
             minItems: 0,
             items: {
-              enum: kindValues
+              enum: kindOption.enum
             }
           }
         }
@@ -123,12 +133,12 @@ export const noTopLevelVariables: Rule.RuleModule = {
   create: (context) => {
     const options: Options = {
       allowed: [
-        ...allowedAlways,
+        ...allowedOption.always,
         // type-coverage:ignore-next-line
-        ...(context.options[0]?.allowed || allowedDefault)
+        ...(context.options[0]?.allowed || allowedOption.default)
       ],
       // type-coverage:ignore-next-line
-      kind: context.options[0]?.kind || kindDefault
+      kind: context.options[0]?.kind || kindOption.default
     };
 
     return {
