@@ -60,8 +60,7 @@ module.exports = {
 This rule accepts a configuration object with two options:
 
 - `allowed`: Configure what kind of assignments are allowed. Some assignments
-  are always allowed and some assignments are never allowed. The configurable
-  assignments are described below.
+  are always allowed, others need to be allowed explicitly.
 - `kind`: Configure which kinds of variables are allowed. By default only
   `const` variables are allowed.
 
@@ -79,41 +78,39 @@ Examples of **correct** code when `'ObjectExpression'` is in the list:
 const hello = {world: '!'};
 ```
 
-Additionally, all others expression types that aren't allowed by default nor
-listed here can be allowed.
+Additionally, all others expression types that aren't always allowed can be
+allowed, those are `ImportExpression`, `SequenceExpression`, `ThisExpression`,
+`YieldExpression`.
 
 #### `kind`
-
-This option allows you to allow the use of any combination of `const`, `let`,
-and `var` at the top-level in your code base. Unless there is a historical or
-compatibility reason to allow `var` or `let`, it is recommended to only allow
-`const`.
-
-By setting this to an empty list you can disallow all top-level variables.
 
 Examples of **correct** code when `'const'` is in the list:
 
 ```javascript
-var answer = 42;
-let foo = 'bar';
+const answer = 42;
+const foo = 'bar';
 const path = require('path');
 ```
 
 Examples of **correct** code when `'let'` is in the list:
 
 ```javascript
-var answer = 42;
+let answer = 42;
 let foo = 'bar';
-const path = require('path');
+let path = require('path');
 ```
 
 Examples of **correct** code when `'var'` is in the list:
 
 ```javascript
 var answer = 42;
-let foo = 'bar';
-const path = require('path');
+var foo = 'bar';
+var path = require('path');
 ```
+
+Unless there is a historical or compatibility reason to allow `var` or `let`, it
+is recommended to only allow `const`. By setting this to an empty list you can
+disallow all top-level variables.
 
 ## When Not To Use It
 

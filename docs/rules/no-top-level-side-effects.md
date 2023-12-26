@@ -21,7 +21,7 @@ console.log('hello world');
 ```javascript
 if (typeof Array.prototype.map !== 'function') {
   Array.prototype.map = () => {
-    /* Implement polyfill */
+    // Implement polyfill
   };
 }
 ```
@@ -73,11 +73,11 @@ This rule accepts a configuration object with one option:
   be any identifier. The default value covers standard JavaScript functions that
   one might expect at the top level (such as `Bigint` and `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
-  be any identifier.
+  be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
 - `commonjs: false` (default) Configure whether the code being analyzed is, or
-  is partially, CommonJS code. Allows you to use `require`, `module.exports` and
+  is partially, CommonJS code. Allows the use `require`, `module.exports` and
   `exports` at the top level.
 
 #### `allowedCalls`
@@ -87,8 +87,8 @@ Example of **correct** code when `'f'` is in the list:
 ```javascript
 function f() {}
 
-f();
 const x = f();
+export const y = f();
 export default f();
 ```
 
@@ -140,6 +140,7 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 Examples of **correct** code when `'commonjs'` is set to `true`:
 
 ```javascript
+require('dotenv');
 var cp = require('child_process');
 let fs = require('fs');
 const path = require('path');
