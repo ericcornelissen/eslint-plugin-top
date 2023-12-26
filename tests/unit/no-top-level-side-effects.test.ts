@@ -168,8 +168,8 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
-      const symbol1 = BigInt();
-      export const symbol2 = BigInt();
+      const bigInt1 = BigInt();
+      export const bigInt2 = BigInt();
     `,
     options: [
       {
@@ -201,6 +201,7 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
+      require('dotenv');
       var fs = require('fs');
       let cp = require('child_process');
       const path = require('path');
@@ -774,8 +775,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
-      const s1 = Symbol();
-      export const s2 = Symbol();
+      const symbol1 = Symbol();
+      export const symbol2 = Symbol();
+
+      const bigInt1 = BigInt();
+      export const bigInt2 = BigInt();
     `,
     options: [
       {
@@ -786,35 +790,30 @@ const invalid: RuleTester.InvalidTestCase[] = [
       {
         messageId: '0',
         line: 1,
-        column: 12,
+        column: 17,
         endLine: 1,
-        endColumn: 20
+        endColumn: 25
       },
       {
         messageId: '0',
         line: 2,
-        column: 25,
+        column: 30,
         endLine: 2,
-        endColumn: 33
-      }
-    ]
-  },
-  {
-    code: `
-      const path = require('path');
-    `,
-    options: [
-      {
-        allowedCalls: []
-      }
-    ],
-    errors: [
+        endColumn: 38
+      },
       {
         messageId: '0',
-        line: 1,
-        column: 14,
-        endLine: 1,
-        endColumn: 29
+        line: 4,
+        column: 23,
+        endLine: 4,
+        endColumn: 31
+      },
+      {
+        messageId: '0',
+        line: 5,
+        column: 30,
+        endLine: 5,
+        endColumn: 38
       }
     ]
   },
@@ -970,6 +969,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
   },
   {
     code: `
+      require('dotenv');
+      var fs = require('fs');
+      let cp = require('child_process');
+      const path = require('path');
+
       module.exports = {};
       module.exports.foobar = {};
       exports = {};
@@ -986,27 +990,55 @@ const invalid: RuleTester.InvalidTestCase[] = [
         line: 1,
         column: 1,
         endLine: 1,
-        endColumn: 21
+        endColumn: 19
       },
       {
         messageId: '0',
         line: 2,
-        column: 7,
+        column: 16,
         endLine: 2,
-        endColumn: 34
+        endColumn: 29
       },
       {
         messageId: '0',
         line: 3,
-        column: 7,
+        column: 16,
         endLine: 3,
-        endColumn: 20
+        endColumn: 40
       },
       {
         messageId: '0',
         line: 4,
-        column: 7,
+        column: 20,
         endLine: 4,
+        endColumn: 35
+      },
+      {
+        messageId: '0',
+        line: 6,
+        column: 7,
+        endLine: 6,
+        endColumn: 27
+      },
+      {
+        messageId: '0',
+        line: 7,
+        column: 7,
+        endLine: 7,
+        endColumn: 34
+      },
+      {
+        messageId: '0',
+        line: 8,
+        column: 7,
+        endLine: 8,
+        endColumn: 20
+      },
+      {
+        messageId: '0',
+        line: 9,
+        column: 7,
+        endLine: 9,
         endColumn: 27
       }
     ]
