@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - main-v2
 
 permissions: read-all
 
