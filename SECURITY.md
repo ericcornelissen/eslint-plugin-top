@@ -14,11 +14,12 @@ security updates.
 
 | Version | End-of-life |
 | ------: | :---------- |
-|   2.x.x | -           |
+|   3.x.x | -           |
+|   2.x.x | 2024-03-26  |
 |   1.x.x | 2023-09-01  |
 |   0.x.x | 2023-05-26  |
 
-_This table only includes information on versions `<3.0.0`._
+_This table only includes information on versions `<4.0.0`._
 
 ## Reporting a Vulnerability
 
@@ -56,8 +57,9 @@ Try to include as many of the following items as possible in a security report:
 
 ## Advisories
 
-> **Note**: Advisories will be created only for vulnerabilities present in
-> released versions of the project.
+> [!NOTE]
+> Advisories will be created only for vulnerabilities present in released
+> versions of the project.
 
 | ID  | Date | Affected versions | Patched versions |
 | :-- | :--- | :---------------- | :--------------- |

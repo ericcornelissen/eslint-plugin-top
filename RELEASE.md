@@ -21,7 +21,7 @@ To release a new version follow these steps:
 
 If it's not possible to use automated releases, or if something goes wrong with
 the automatic release process, you can follow these steps to release a new
-version (using `v2.4.1` as an example):
+version (using `v3.1.4` as an example):
 
 1. Make sure that your local copy of the repository is up-to-date, sync:
 
@@ -39,15 +39,15 @@ version (using `v2.4.1` as an example):
 1. Update the version number in the package manifest and lockfile:
 
    ```shell
-   npm version v2.4.1 --no-git-tag-version
+   npm version v3.1.4 --no-git-tag-version
    ```
 
    If that fails, change the value of the version field in `package.json` to the
    new version:
 
    ```diff
-   -  "version": "2.4.0",
-   +  "version": "2.4.1",
+   -  "version": "3.1.4",
+   +  "version": "3.1.3",
    ```
 
    and update the version number in `package-lock.json` using `npm install`
@@ -85,9 +85,10 @@ version (using `v2.4.1` as an example):
 1. Merge the Pull Request if the changes look OK and all continuous integration
    checks are passing.
 
-   > **Note**: At this point, the continuous delivery automation may pick up and
-   > complete the release process. If not, or only partially, continue following
-   > the remaining steps.
+   > [!NOTE]
+   > At this point, the continuous delivery automation may pick up and complete
+   > the release process. If not, or only partially, continue following the
+   > remaining steps.
 
 1. Immediately after the Pull Request is merged, sync the `main` branch:
 
@@ -99,20 +100,20 @@ version (using `v2.4.1` as an example):
 1. Create a [git tag] for the new version:
 
    ```shell
-   git tag v2.4.1
+   git tag v3.1.4
    ```
 
-1. Update the `v2` branch to point to the same commit as the new tag:
+1. Update the `v3` branch to point to the same commit as the new tag:
 
    ```shell
-   git checkout v2
+   git checkout v3
    git merge main
    ```
 
-1. Push the `v2` branch and new tag:
+1. Push the `v3` branch and new tag:
 
    ```shell
-   git push origin v2 v2.4.1
+   git push origin v3 v3.1.4
    ```
 
 1. Publish to [npm]:
