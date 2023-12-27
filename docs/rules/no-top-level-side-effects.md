@@ -67,11 +67,11 @@ module.exports = function () {
 
 ### Options
 
-This rule accepts a configuration object with one option:
+This rule accepts a configuration object with four options:
 
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
-  one might expect at the top level (such as `Bigint` and `Symbol`).
+  one might expect at the top level (such as `BigInt` and `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
   be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
