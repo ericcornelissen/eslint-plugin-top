@@ -22,6 +22,10 @@ relevant sections of this document.
   - [Workflow](#workflow)
   - [Development Details](#development-details)
 
+> [!NOTE]
+> If you want to make a contribution to v2 of the project, please refer to the
+> [Contributing Guidelines for v2].
+
 ---
 
 ## Reporting Issues
@@ -76,8 +80,9 @@ When you open a Pull Request that implements an issue make sure to link to that
 issue in the Pull Request description and explain how you implemented the issue
 as clearly as possible.
 
-> **Note** If you, for whatever reason, can no longer continue your contribution
-> please share this in the issue or your Pull Request. This gives others the
+> [!NOTE]
+> If you, for whatever reason, can no longer continue your contribution please
+> share this in the issue or your Pull Request. This gives others the
 > opportunity to work on it. If we don't hear from you for an extended period of
 > time we may decide to allow others to work on the issue you were assigned to.
 
@@ -233,6 +238,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
+[contributing guidelines for v2]: https://github.com/ericcornelissen/eslint-plugin-top/blob/main-v2/CONTRIBUTING.md
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
