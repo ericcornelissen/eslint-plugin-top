@@ -46,8 +46,8 @@ version (using `v3.1.4` as an example):
    new version:
 
    ```diff
-   -  "version": "3.1.4",
-   +  "version": "3.1.3",
+   -  "version": "3.1.3",
+   +  "version": "3.1.4",
    ```
 
    and update the version number in `package-lock.json` using `npm install`
