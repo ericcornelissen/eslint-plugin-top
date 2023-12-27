@@ -8,7 +8,7 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## [Unreleased v3]
+## [Unreleased]
 
 - (`6a79b0c`) _(Breaking)_ Rework the `no-top-level-side-effects` rule to make
   it easier to configure.
@@ -16,10 +16,6 @@ Versioning].
   variables being mutable instead of other side effects.
 - (`a3c513e`) Allow for configuring which classes can be instantiated at the top
   level for `no-top-level-side-effects`.
-
-## [Unreleased v2]
-
-- _No changes yet_
 
 ## [2.3.1] - 2023-12-25
 

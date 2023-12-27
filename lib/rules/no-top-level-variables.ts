@@ -68,7 +68,7 @@ function checker(
   node: VariableDeclaration
 ) {
   if (!options.kind.includes(node.kind)) {
-    let messageId;
+    let messageId: string | null;
     switch (node.kind) {
       case 'var':
         messageId = disallowedVar.id;
