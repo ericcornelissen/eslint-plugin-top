@@ -15,15 +15,20 @@ type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
+  readonly commonjs: boolean;
+};
+
+const allowedCallsOption = {
+  default: ['BigInt', 'Symbol']
+};
+const allowedNewsOption = {
+  default: []
 };
 
 const disallowedSideEffect = {
   id: '0',
   message: 'Side effects at the top level are not allowed'
 };
-
-const defaultAllowedCalls = ['BigInt', 'Symbol'];
-const defaultAllowedNews: string[] = [];
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
@@ -94,7 +99,7 @@ function isNew(expression: NewExpression, name: string): boolean {
   );
 }
 
-function sideEffectInExpression(
+function checkExpression(
   context: Rule.RuleContext,
   options: Options,
   expression: Expression
@@ -123,7 +128,7 @@ function sideEffectInExpression(
   }
 }
 
-function sideEffectsInVariableDeclaration(
+function checkVariableDeclaration(
   context: Rule.RuleContext,
   options: Options,
   node: VariableDeclaration
@@ -131,7 +136,7 @@ function sideEffectsInVariableDeclaration(
   for (const declaration of node.declarations) {
     const expression = declaration.init;
     if (expression !== null && expression !== undefined) {
-      sideEffectInExpression(context, options, expression);
+      checkExpression(context, options, expression);
     }
   }
 }
@@ -166,57 +171,41 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const commonjs: boolean | null = context.options[0]?.commonjs;
-    // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = context.options[0]?.allowIIFE;
+    const provided: Partial<Options> = context.options[0];
 
     const options: Options = {
       allowedCalls: [
-        ...(commonjs ? ['require'] : new Set()),
-        // type-coverage:ignore-next-line
-        ...(context.options[0]?.allowedCalls || defaultAllowedCalls)
+        ...(provided?.commonjs ? ['require'] : ([] as never[])),
+        ...(provided?.allowedCalls || allowedCallsOption.default)
       ],
-      // type-coverage:ignore-next-line
-      allowedNews: context.options[0]?.allowedNews || defaultAllowedNews,
-      allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false
+      allowedNews: provided?.allowedNews || allowedNewsOption.default,
+      allowIIFE: provided?.allowIIFE || false,
+      commonjs: provided?.commonjs || false
     };
 
     return {
-      ExportNamedDeclaration: (node) => {
-        if (node.declaration?.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, options, node.declaration);
-        }
-      },
       ExpressionStatement: (node) => {
-        if (!isTopLevel(node)) {
-          return;
-        }
-
-        if (isIIFE(node)) {
-          if (!options.allowIIFE) {
-            context.report({
-              node,
-              messageId: disallowedSideEffect.id
-            });
-          }
-        } else if (
-          commonjs &&
-          (isExportsAssignment(node) ||
-            isExportPropertyAssignment(node) ||
-            isModuleAssignment(node) ||
-            isModulePropertyAssignment(node))
-        ) {
-          if (node.expression.type === 'AssignmentExpression') {
-            sideEffectInExpression(context, options, node.expression.right);
-          }
-        } else {
-          if (
-            commonjs &&
-            node.expression.type === 'CallExpression' &&
-            isCallTo(node.expression, 'require')
-          ) {
+        if (isTopLevel(node)) {
+          if (options.allowIIFE && isIIFE(node)) {
             return;
+          }
+
+          if (options.commonjs) {
+            if (
+              node.expression.type === 'CallExpression' &&
+              isCallTo(node.expression, 'require')
+            ) {
+              return;
+            } else if (
+              node.expression.type === 'AssignmentExpression' &&
+              (isExportsAssignment(node) ||
+                isExportPropertyAssignment(node) ||
+                isModuleAssignment(node) ||
+                isModulePropertyAssignment(node))
+            ) {
+              checkExpression(context, options, node.expression.right);
+              return;
+            }
           }
 
           context.report({
@@ -225,9 +214,15 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+
+      ExportNamedDeclaration: (node) => {
+        if (node.declaration?.type === 'VariableDeclaration') {
+          checkVariableDeclaration(context, options, node.declaration);
+        }
+      },
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
-          sideEffectsInVariableDeclaration(context, options, node);
+          checkVariableDeclaration(context, options, node);
         }
       },
 

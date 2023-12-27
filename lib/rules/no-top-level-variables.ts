@@ -39,7 +39,6 @@ const allowedOption = {
     'UpdateExpression'
   ]
 };
-
 const kindOption = {
   enum: ['const', 'let', 'var'],
   default: ['const']
@@ -62,7 +61,7 @@ const disallowedConst = {
   message: 'Use of const at the top level is not allowed'
 };
 
-function checker(
+function checkVariableDeclaration(
   context: Rule.RuleContext,
   options: Options,
   node: VariableDeclaration
@@ -131,25 +130,26 @@ export const noTopLevelVariables: Rule.RuleModule = {
     ]
   },
   create: (context) => {
+    // type-coverage:ignore-next-line
+    const provided: Partial<Options> = context.options[0];
+
     const options: Options = {
       allowed: [
         ...allowedOption.always,
-        // type-coverage:ignore-next-line
-        ...(context.options[0]?.allowed || allowedOption.default)
+        ...(provided?.allowed || allowedOption.default)
       ],
-      // type-coverage:ignore-next-line
-      kind: context.options[0]?.kind || kindOption.default
+      kind: provided?.kind || kindOption.default
     };
 
     return {
       ExportNamedDeclaration: (node) => {
         if (node.declaration?.type === 'VariableDeclaration') {
-          checker(context, options, node.declaration);
+          checkVariableDeclaration(context, options, node.declaration);
         }
       },
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
-          checker(context, options, node);
+          checkVariableDeclaration(context, options, node);
         }
       }
     };
