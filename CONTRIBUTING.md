@@ -2,6 +2,11 @@
 
 # Contributing Guidelines
 
+> [!NOTE]
+> This document covers contributing to v2 of this project. If you want to make a
+> contribution to the latest version of the project check out the
+> [Contributing Guidelines on `main`].
+
 The `@ericcornelissen/eslint-plugin-top` project welcomes contributions and
 corrections of all forms. This includes improvements to the documentation or
 code base, new tests, bug fixes, and implementations of new features. We
@@ -76,8 +81,9 @@ When you open a Pull Request that implements an issue make sure to link to that
 issue in the Pull Request description and explain how you implemented the issue
 as clearly as possible.
 
-> **Note** If you, for whatever reason, can no longer continue your contribution
-> please share this in the issue or your Pull Request. This gives others the
+> [!NOTE]
+> If you, for whatever reason, can no longer continue your contribution please
+> share this in the issue or your Pull Request. This gives others the
 > opportunity to work on it. If we don't hear from you for an extended period of
 > time we may decide to allow others to work on the issue you were assigned to.
 
@@ -96,10 +102,10 @@ To be able to contribute you need the following tooling:
 If you decide to make a contribution, please do use the following workflow:
 
 - Fork the repository.
-- Create a new branch from the latest `main`.
+- Create a new branch from the latest `main-v2`.
 - Make your changes on the new branch.
 - Commit to the new branch and push the commit(s).
-- Open a Pull Request against `main`.
+- Open a Pull Request against `main-v2`.
 
 ### Development Details
 
@@ -233,6 +239,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
+[contributing guidelines on `main`]: https://github.com/ericcornelissen/eslint-plugin-top/blob/main/CONTRIBUTING.md
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
