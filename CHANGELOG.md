@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.0.0] - 2023-12-27
+
 - (`6a79b0c`) _(Breaking)_ Rework the `no-top-level-side-effects` rule to make
   it easier to configure.
 - (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
