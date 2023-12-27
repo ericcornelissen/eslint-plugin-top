@@ -18,8 +18,6 @@ Versioning].
   it easier to configure.
 - (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
   variables being mutable instead of other side effects.
-- (`a3c513e`) Allow for configuring which classes can be instantiated at the top
-  level for `no-top-level-side-effects`.
 
 ## [2.3.1] - 2023-12-25
 
