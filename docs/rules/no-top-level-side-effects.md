@@ -1,10 +1,12 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # No top level side effect (no-top-level-side-effects)
 
 Disallow top level side effects.
 
-Side effects at the top level can have various negative side effects including
-but not limited to slow startup times and unexpected behaviour (in particular
-for libraries).
+Side effects at the top level can have some negative consequences such as slow
+startup times and, for libraries, unexpected behavior. This covers top level
+expression as well as assignments.
 
 ## Rule Details
 
@@ -19,7 +21,7 @@ console.log('hello world');
 ```javascript
 if (typeof Array.prototype.map !== 'function') {
   Array.prototype.map = () => {
-    /* Implement polyfill */
+    // Implement polyfill
   };
 }
 ```
@@ -65,27 +67,45 @@ module.exports = function () {
 
 ### Options
 
-This rule accepts a configuration object with one option:
+This rule accepts a configuration object with four options:
 
-- `allowExports: true` (default) Configure whether top level assignments to
-  `module.exports` and `exports` are allowed, for CommonJS support.
+- `allowedCalls` Configure what function calls are allowed at the top level. Can
+  be any identifier. The default value covers standard JavaScript functions that
+  one might expect at the top level (such as `BigInt` and `Symbol`).
+- `allowedNews` Configure what classes can be instantiated at the top level. Can
+  be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
-  Function Expressions are allowed.
-- `allowRequire: true` (default) Configure whether top level calls to `require`
-  are allowed, for CommonJS support.
-- `allowSymbol: true` (default) Configure whether top level assignments can call
-  `Symbol()`.
+  Function Expressions (IIFEs) are allowed.
+- `commonjs: false` (default) Configure whether the code being analyzed is, or
+  is partially, CommonJS code. Allows the use `require`, `module.exports` and
+  `exports` at the top level.
 
-#### allowIIFE
+#### `allowedCalls`
 
-Examples of **correct** code when `'allowExports'` is set to `true`:
+Example of **correct** code when `'f'` is in the list:
 
 ```javascript
-module.exports = {};
-module.exports.foo = 'bar';
-exports = {};
-exports.foo = 'bar';
+function f() {}
+
+const x = f();
+export const y = f();
+export default f();
 ```
+
+By setting this to an empty list you can disallow all top-level function calls.
+
+#### `allowedNews`
+
+Example of **correct** code when `'Map'` is in the list:
+
+```javascript
+const m = new Map();
+```
+
+By setting this to an empty list you can disallow all top-level class
+instantiations.
+
+#### `allowIIFE`
 
 Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
@@ -115,20 +135,20 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 })();
 ```
 
-Examples of **correct** code when `'allowRequire'` is set to `true`:
+#### `commonjs`
+
+Examples of **correct** code when `'commonjs'` is set to `true`:
 
 ```javascript
+require('dotenv');
 var cp = require('child_process');
 let fs = require('fs');
 const path = require('path');
-```
 
-Examples of **correct** code when `'allowSymbol'` is set to `true`:
-
-```javascript
-var s1 = Symbol();
-let s2 = Symbol();
-const s3 = Symbol();
+module.exports = {};
+module.exports.foo = 'bar';
+exports = {};
+exports.foo = 'bar';
 ```
 
 ## When Not To Use It

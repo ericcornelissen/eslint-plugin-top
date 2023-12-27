@@ -1,98 +1,128 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
+import type {VariableDeclaration} from 'estree';
 
-import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
+import {isTopLevel} from '../helpers';
 
 type Options = {
-  readonly constAllowed: ReadonlyArray<string>;
+  readonly allowed: ReadonlyArray<string>;
   readonly kind: ReadonlyArray<string>;
 };
 
-const violationMessage = 'Variables at the top level are not allowed';
+const allowedOption = {
+  enum: [
+    'ArrayExpression',
+    'ImportExpression',
+    'ObjectExpression',
+    'SequenceExpression',
+    'ThisExpression',
+    'YieldExpression'
+  ],
+  default: [],
+  always: [
+    'ArrowFunctionExpression',
+    'AssignmentExpression',
+    'AwaitExpression',
+    'BinaryExpression',
+    'CallExpression',
+    'ChainExpression',
+    'ConditionalExpression',
+    'FunctionExpression',
+    'Identifier',
+    'Literal',
+    'LogicalExpression',
+    'MemberExpression',
+    'TaggedTemplateExpression',
+    'TemplateLiteral',
+    'UnaryExpression',
+    'UpdateExpression'
+  ]
+};
+const kindOption = {
+  enum: ['const', 'let', 'var'],
+  default: ['const']
+};
 
-const constAllowedValues = [
-  'ArrayExpression',
-  'ArrowFunctionExpression',
-  'ChainExpression',
-  'FunctionExpression',
-  'Literal',
-  'MemberExpression',
-  'ObjectExpression',
-  'TemplateLiteral'
-];
-const kindValues = ['const', 'let', 'var'];
+const disallowedAssignment = {
+  id: '0',
+  message: 'Variables at the top level are not allowed'
+};
+const disallowedVar = {
+  id: '1',
+  message: 'Use of var at the top level is not allowed'
+};
+const disallowedLet = {
+  id: '2',
+  message: 'Use of let at the top level is not allowed'
+};
+const disallowedConst = {
+  id: '3',
+  message: 'Use of const at the top level is not allowed'
+};
 
-const defaultConstAllowed = [
-  'ArrowFunctionExpression',
-  'FunctionExpression',
-  'MemberExpression',
-  'TemplateLiteral'
-];
-const alwaysConstAllowed = ['Literal', 'Identifier'];
-
-function checker(
+function checkVariableDeclaration(
   context: Rule.RuleContext,
   options: Options,
   node: VariableDeclaration
 ) {
-  if (!Array.from(options.kind).includes(node.kind)) {
-    return;
-  }
+  if (!options.kind.includes(node.kind)) {
+    let messageId: string | null;
+    switch (node.kind) {
+      case 'var':
+        messageId = disallowedVar.id;
+        break;
+      case 'let':
+        messageId = disallowedLet.id;
+        break;
+      case 'const':
+        messageId = disallowedConst.id;
+        break;
+    }
 
-  let allowedDeclaration: (declaration: VariableDeclarator) => boolean;
-  if (node.kind === 'const') {
-    allowedDeclaration = (declaration) => {
-      // type-coverage:ignore-next-line
-      const expression = declaration.init as Expression;
-      const t = expression.type;
-
-      switch (t) {
-        case 'CallExpression': {
-          // type-coverage:ignore-next-line
-          return isRequireCall(expression) || isSymbolCall(expression);
-        }
-        default:
-          return options.constAllowed.includes(t);
-      }
-    };
+    context.report({node, messageId});
   } else {
-    allowedDeclaration = (declaration) => isRequireCall(declaration.init);
-  }
-
-  node.declarations
-    .filter((declaration) => !allowedDeclaration(declaration))
-    .forEach((declaration) => {
-      context.report({
-        node: declaration,
-        messageId: 'message'
+    node.declarations
+      .filter(
+        (declaration) =>
+          declaration.init === null ||
+          declaration.init === undefined ||
+          !options.allowed.includes(declaration.init.type)
+      )
+      .forEach((declaration) => {
+        context.report({
+          node: declaration,
+          messageId: disallowedAssignment.id
+        });
       });
-    });
+  }
 }
 
 export const noTopLevelVariables: Rule.RuleModule = {
   meta: {
     type: 'problem',
     messages: {
-      message: violationMessage
+      [disallowedAssignment.id]: disallowedAssignment.message,
+      [disallowedConst.id]: disallowedConst.message,
+      [disallowedLet.id]: disallowedLet.message,
+      [disallowedVar.id]: disallowedVar.message
     },
     schema: [
       {
         type: 'object',
         properties: {
-          constAllowed: {
+          allowed: {
             type: 'array',
             minItems: 0,
             items: {
-              enum: constAllowedValues
+              enum: allowedOption.enum
             }
           },
           kind: {
             type: 'array',
-            minItems: 1,
+            minItems: 0,
             items: {
-              enum: kindValues
+              enum: kindOption.enum
             }
           }
         }
@@ -100,25 +130,26 @@ export const noTopLevelVariables: Rule.RuleModule = {
     ]
   },
   create: (context) => {
+    // type-coverage:ignore-next-line
+    const provided: Partial<Options> = context.options[0];
+
     const options: Options = {
-      constAllowed: [
-        ...alwaysConstAllowed,
-        // type-coverage:ignore-next-line
-        ...(context.options[0]?.constAllowed || defaultConstAllowed)
+      allowed: [
+        ...allowedOption.always,
+        ...(provided?.allowed || allowedOption.default)
       ],
-      // type-coverage:ignore-next-line
-      kind: context.options[0]?.kind || kindValues
+      kind: provided?.kind || kindOption.default
     };
 
     return {
       ExportNamedDeclaration: (node) => {
         if (node.declaration?.type === 'VariableDeclaration') {
-          checker(context, options, node.declaration);
+          checkVariableDeclaration(context, options, node.declaration);
         }
       },
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
-          checker(context, options, node);
+          checkVariableDeclaration(context, options, node);
         }
       }
     };

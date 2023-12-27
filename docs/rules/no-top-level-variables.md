@@ -1,135 +1,116 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # No top level variables (no-top-level-variables)
 
 Disallow top level variables.
 
-Variables at the top level may indicate side effects. It may be initialized by
-means of a function call, which is a side effect. Or it may be used as state in
-the functions or methods of the module, which means it's used for side effects.
-
-As such, `const` is handled differently from `let` and `var` since it's value is
-not meant to be mutated.
+Variables at the top level may indicate side effects because it may be used as
+state in functions or methods. As such, `const` is the only kind of top-level
+variable allowed by default, and it can only be assigned certain values.
 
 ## Rule Details
 
-This rule lets you control top level variable assignments.
+This rule lets you control top level variables.
 
 Examples of **incorrect** code for this rule:
 
 ```javascript
 var answer = 42;
 let foo = 'bar';
-const list = new Array();
+const arr = [];
 ```
 
 Examples of **correct** code for this rule:
 
 ```javascript
-var fs = require('node:fs');
-let path = require('node:path');
-const util = require('node:util');
-```
-
-```javascript
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import * as util from 'node:util';
 
 const leet = 1337;
+const l33t = leet;
+
+function f() {
+  var answer = 42;
+}
+
+const g = () => {
+  let foo = 'bar';
+};
+
+const h = function () {
+  const arr = [];
+};
 
 export default function () {
-  var answer = 42;
-  let foo = 'bar';
-  const list = new Array();
+  // ...
 }
+
+export const foo = 'bar';
+```
+
+```javascript
+const util = require('node:util');
+
+module.exports = {
+  foo: 'bar'
+};
 ```
 
 ### Options
 
 This rule accepts a configuration object with two options:
 
-- `constAllowed`: Configure what assignments are allowed for `const`. By default
-  functions, literals, and member expression assignments are allowed.
-- `kind`: Configure which kinds of variables are forbidden. By default all of
-  `const`, `let`, and `var` are forbidden.
+- `allowed`: Configure what kind of assignments are allowed. Some assignments
+  are always allowed, others need to be allowed explicitly.
+- `kind`: Configure which kinds of variables are allowed. By default only
+  `const` variables are allowed.
 
-#### constAllowed
+#### `allowed`
 
-Examples of **correct** code when `'ArrayExpression'` is allowed:
+Examples of **correct** code when `'ArrayExpression'` is in the list:
 
 ```javascript
 const arr = [1, 2, 3];
 ```
 
-Examples of **correct** code when `'ArrowFunctionExpression'` is allowed:
+Examples of **correct** code when `'ObjectExpression'` is in the list:
 
 ```javascript
-const answer = () => 42;
-const hello = (name) => `Hello ${name}!`;
+const hello = {world: '!'};
 ```
 
-Examples of **correct** code when `'FunctionExpression'` is allowed:
+Additionally, all others expression types that aren't always allowed can be
+allowed, those are `ImportExpression`, `SequenceExpression`, `ThisExpression`,
+`YieldExpression`.
 
-```javascript
-const answer = function () {
-  return 42;
-};
-const hello = function (name) {
-  return `Hello ${name}!`;
-};
-```
+#### `kind`
 
-Examples of **correct** code when `'Literal'` is allowed:
+Examples of **correct** code when `'const'` is in the list:
 
 ```javascript
 const answer = 42;
-const hello = 'world!';
-const NULL = null;
+const foo = 'bar';
+const path = require('path');
 ```
 
-Examples of **correct** code when `'MemberExpression'` is allowed:
-
-```javascript
-const parse = JSON.parse;
-const map = Array.prototype.map;
-```
-
-Examples of **correct** code when `'ObjectExpression'` is allowed:
-
-```javascript
-const obj = {foo: 'bar'};
-```
-
-Examples of **correct** code when `'TemplateLiteral'` is allowed:
-
-```javascript
-const foo = `bar`;
-```
-
-#### kind
-
-Examples of **correct** code when `'const'` is not in the list:
-
-```javascript
-const answer = 42;
-const list = new Array();
-const foobar = JSON.parse('{"foo":"bar"}');
-```
-
-Examples of **correct** code when `'let'` is not in the list:
+Examples of **correct** code when `'let'` is in the list:
 
 ```javascript
 let answer = 42;
-let list = new Array();
-let foobar = JSON.parse('{"foo":"bar"}');
+let foo = 'bar';
+let path = require('path');
 ```
 
-Examples of **correct** code when `'var'` is not in the list:
+Examples of **correct** code when `'var'` is in the list:
 
 ```javascript
 var answer = 42;
-var list = new Array();
-var foobar = JSON.parse('{"foo":"bar"}');
+var foo = 'bar';
+var path = require('path');
 ```
+
+Unless there is a historical or compatibility reason to allow `var` or `let`, it
+is recommended to only allow `const`. By setting this to an empty list you can
+disallow all top-level variables.
 
 ## When Not To Use It
 
