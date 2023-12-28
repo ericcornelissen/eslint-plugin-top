@@ -76,6 +76,9 @@ This rule accepts a configuration object with four options:
   be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
+- `allowDerived: false` (default) Configure whether derivations - binary,
+  logical, or unary operations on values and variables - are allowed at the top
+  level.
 - `commonjs: false` (default) Configure whether the code being analyzed is, or
   is partially, CommonJS code. Allows the use `require`, `module.exports` and
   `exports` at the top level.
@@ -133,6 +136,47 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
   fetch('/api').then((res) => res.text());
 })();
+```
+
+#### `allowDerived`
+
+Examples of **correct** code when `'allowDerived'` is set to `true`:
+
+```javascript
+const a = 0; // (always allowed)
+const b = 1; // (always allowed)
+
+const b01 = a == b;
+const b02 = a != b;
+const b03 = a === b;
+const b04 = a !== b;
+const b05 = a < b;
+const b06 = a <= b;
+const b07 = a > b;
+const b08 = a >= b;
+const b09 = a << b;
+const b10 = a >> b;
+const b11 = a >>> b;
+const b12 = a + b;
+const b13 = a - b;
+const b14 = a * b;
+const b15 = a / b;
+const b16 = a % b;
+const b17 = a ** b;
+const b18 = a | b;
+const b19 = a ^ b;
+const b20 = a & b;
+const b21 = a in b;
+const b22 = a instanceof b;
+
+const l01 = a && b;
+const l02 = a || b;
+const l03 = a ?? b;
+
+const u01 = -a;
+const u02 = +a;
+const u03 = !a;
+const u04 = ~a;
 ```
 
 #### `commonjs`

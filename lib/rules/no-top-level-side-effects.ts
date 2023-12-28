@@ -15,6 +15,7 @@ type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
+  readonly allowDerived: boolean;
   readonly commonjs: boolean;
 };
 
@@ -106,19 +107,20 @@ function checkExpression(
 ) {
   if (
     expression.type === 'AwaitExpression' ||
-    expression.type === 'BinaryExpression' ||
+    (expression.type === 'BinaryExpression' && !options.allowDerived) ||
     (expression.type === 'CallExpression' &&
       !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
     expression.type === 'ChainExpression' ||
     expression.type === 'ConditionalExpression' ||
     (expression.type === 'NewExpression' &&
       !options.allowedNews.some((name) => isNew(expression, name))) ||
-    expression.type === 'LogicalExpression' ||
+    (expression.type === 'LogicalExpression' && !options.allowDerived) ||
     expression.type === 'TaggedTemplateExpression' ||
     (expression.type === 'TemplateLiteral' &&
       expression.expressions.length > 0) ||
     (expression.type === 'UnaryExpression' &&
-      expression.argument.type !== 'Literal') ||
+      expression.argument.type !== 'Literal' &&
+      !options.allowDerived) ||
     expression.type === 'UpdateExpression'
   ) {
     context.report({
@@ -162,6 +164,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           allowIIFE: {
             type: 'boolean'
           },
+          allowDerived: {
+            type: 'boolean'
+          },
           commonjs: {
             type: 'boolean'
           }
@@ -180,6 +185,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       ],
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || false,
+      allowDerived: provided?.allowDerived || false,
       commonjs: provided?.commonjs || false
     };
 

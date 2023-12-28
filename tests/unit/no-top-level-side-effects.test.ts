@@ -216,6 +216,46 @@ const valid: RuleTester.ValidTestCase[] = [
         commonjs: true
       }
     ]
+  },
+  {
+    code: `
+      const b01 = a == b;
+      const b02 = a != b;
+      const b03 = a === b;
+      const b04 = a !== b;
+      const b05 = a < b;
+      const b06 = a <= b;
+      const b07 = a > b;
+      const b08 = a >= b;
+      const b09 = a << b;
+      const b10 = a >> b;
+      const b11 = a >>> b;
+      const b12 = a + b;
+      const b13 = a - b;
+      const b14 = a * b;
+      const b15 = a / b;
+      const b16 = a % b;
+      const b17 = a ** b;
+      const b18 = a | b;
+      const b19 = a ^ b;
+      const b20 = a & b;
+      const b21 = a in b;
+      const b22 = a instanceof b;
+
+      const l01 = a && b;
+      const l02 = a || b;
+      const l03 = a ?? b;
+
+      const u01 = -a;
+      const u02 = +a;
+      const u03 = !a;
+      const u04 = ~a;
+    `,
+    options: [
+      {
+        allowDerived: true
+      }
+    ]
   }
 ];
 
@@ -1135,6 +1175,247 @@ const invalid: RuleTester.InvalidTestCase[] = [
         column: 1,
         endLine: 1,
         endColumn: 31
+      }
+    ]
+  },
+  {
+    code: `
+      const b01 = a == b;
+      const b02 = a != b;
+      const b03 = a === b;
+      const b04 = a !== b;
+      const b05 = a < b;
+      const b06 = a <= b;
+      const b07 = a > b;
+      const b08 = a >= b;
+      const b09 = a << b;
+      const b10 = a >> b;
+      const b11 = a >>> b;
+      const b12 = a + b;
+      const b13 = a - b;
+      const b14 = a * b;
+      const b15 = a / b;
+      const b16 = a % b;
+      const b17 = a ** b;
+      const b18 = a | b;
+      const b19 = a ^ b;
+      const b20 = a & b;
+      const b21 = a in b;
+      const b22 = a instanceof b;
+
+      const l01 = a && b;
+      const l02 = a || b;
+      const l03 = a ?? b;
+
+      const u01 = -a;
+      const u02 = +a;
+      const u03 = !a;
+      const u04 = ~a;
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 13,
+        endLine: 1,
+        endColumn: 19
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 19,
+        endLine: 2,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 3,
+        column: 19,
+        endLine: 3,
+        endColumn: 26
+      },
+      {
+        messageId: '0',
+        line: 4,
+        column: 19,
+        endLine: 4,
+        endColumn: 26
+      },
+      {
+        messageId: '0',
+        line: 5,
+        column: 19,
+        endLine: 5,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 6,
+        column: 19,
+        endLine: 6,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 7,
+        column: 19,
+        endLine: 7,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 8,
+        column: 19,
+        endLine: 8,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 9,
+        column: 19,
+        endLine: 9,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 10,
+        column: 19,
+        endLine: 10,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 11,
+        column: 19,
+        endLine: 11,
+        endColumn: 26
+      },
+      {
+        messageId: '0',
+        line: 12,
+        column: 19,
+        endLine: 12,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 13,
+        column: 19,
+        endLine: 13,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 14,
+        column: 19,
+        endLine: 14,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 15,
+        column: 19,
+        endLine: 15,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 16,
+        column: 19,
+        endLine: 16,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 17,
+        column: 19,
+        endLine: 17,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 18,
+        column: 19,
+        endLine: 18,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 19,
+        column: 19,
+        endLine: 19,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 20,
+        column: 19,
+        endLine: 20,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 21,
+        column: 19,
+        endLine: 21,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 22,
+        column: 19,
+        endLine: 22,
+        endColumn: 33
+      },
+      {
+        messageId: '0',
+        line: 24,
+        column: 19,
+        endLine: 24,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 25,
+        column: 19,
+        endLine: 25,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 26,
+        column: 19,
+        endLine: 26,
+        endColumn: 25
+      },
+
+      {
+        messageId: '0',
+        line: 28,
+        column: 19,
+        endLine: 28,
+        endColumn: 21
+      },
+      {
+        messageId: '0',
+        line: 29,
+        column: 19,
+        endLine: 29,
+        endColumn: 21
+      },
+      {
+        messageId: '0',
+        line: 30,
+        column: 19,
+        endLine: 30,
+        endColumn: 21
+      },
+      {
+        messageId: '0',
+        line: 31,
+        column: 19,
+        endLine: 31,
+        endColumn: 21
       }
     ]
   }
