@@ -54,7 +54,7 @@
     "markdownlint-cli": "0.38.0",
     "mocha": "10.2.0",
     "nve": "17.0.0",
-    "prettier": "3.1.0",
+    "prettier": "3.1.1",
     "publint": "0.2.5",
     "rollup": "4.9.1",
     "ts-node": "10.9.2",
