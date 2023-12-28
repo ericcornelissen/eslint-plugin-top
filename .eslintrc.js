@@ -91,6 +91,7 @@ module.exports = {
     {
       files: [
         '.github/**/*.yml',
+        '.lockfile-lintrc.yml',
         '.markdownlint.yml',
         '.mocharc.yml',
         '.prettierrc.yml',
