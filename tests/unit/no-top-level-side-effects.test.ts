@@ -1418,6 +1418,89 @@ const invalid: RuleTester.InvalidTestCase[] = [
         endColumn: 21
       }
     ]
+  },
+  {
+    code: `
+      const bLeft = f() + b;
+      const bRight = a - g();
+      const bBoth = f() * g();
+
+      const lLeft = f() && b;
+      const lRight = a || g();
+      const lBoth = f() ?? g();
+
+      const u = -f();
+    `,
+    options: [
+      {
+        allowDerived: true
+      }
+    ],
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 15,
+        endLine: 1,
+        endColumn: 18
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 26,
+        endLine: 2,
+        endColumn: 29
+      },
+      {
+        messageId: '0',
+        line: 3,
+        column: 21,
+        endLine: 3,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 3,
+        column: 27,
+        endLine: 3,
+        endColumn: 30
+      },
+      {
+        messageId: '0',
+        line: 5,
+        column: 21,
+        endLine: 5,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 6,
+        column: 27,
+        endLine: 6,
+        endColumn: 30
+      },
+      {
+        messageId: '0',
+        line: 7,
+        column: 21,
+        endLine: 7,
+        endColumn: 24
+      },
+      {
+        messageId: '0',
+        line: 7,
+        column: 28,
+        endLine: 7,
+        endColumn: 31
+      },
+      {
+        messageId: '0',
+        line: 9,
+        column: 18,
+        endLine: 9,
+        endColumn: 21
+      }
+    ]
   }
 ];
 
