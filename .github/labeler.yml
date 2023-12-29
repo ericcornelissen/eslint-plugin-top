@@ -19,7 +19,8 @@ dependencies:
 documentation:
   - changed-files:
       - any-glob-to-any-file:
-          - docs/*
+          - docs/**
+          - docs/**/*
           - README.md
 
 meta:
