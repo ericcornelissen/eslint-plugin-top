@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`b833db9`) Add option to allow deriving values at the top level as a side
+  effect.
 
 ## [3.0.0] - 2023-12-27
 

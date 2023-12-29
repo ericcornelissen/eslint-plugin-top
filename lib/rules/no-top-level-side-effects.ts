@@ -15,6 +15,7 @@ type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
+  readonly allowDerived: boolean;
   readonly commonjs: boolean;
 };
 
@@ -104,27 +105,70 @@ function checkExpression(
   options: Options,
   expression: Expression
 ) {
-  if (
-    expression.type === 'AwaitExpression' ||
-    expression.type === 'BinaryExpression' ||
-    (expression.type === 'CallExpression' &&
-      !options.allowedCalls.some((name) => isCallTo(expression, name))) ||
-    expression.type === 'ChainExpression' ||
-    expression.type === 'ConditionalExpression' ||
-    (expression.type === 'NewExpression' &&
-      !options.allowedNews.some((name) => isNew(expression, name))) ||
-    expression.type === 'LogicalExpression' ||
-    expression.type === 'TaggedTemplateExpression' ||
-    (expression.type === 'TemplateLiteral' &&
-      expression.expressions.length > 0) ||
-    (expression.type === 'UnaryExpression' &&
-      expression.argument.type !== 'Literal') ||
-    expression.type === 'UpdateExpression'
-  ) {
+  const report = () => {
     context.report({
       node: expression,
       messageId: disallowedSideEffect.id
     });
+  };
+
+  switch (expression.type) {
+    case 'AwaitExpression':
+    case 'ChainExpression':
+    case 'ConditionalExpression':
+    case 'TaggedTemplateExpression':
+    case 'UpdateExpression':
+      report();
+      break;
+
+    case 'BinaryExpression':
+    case 'LogicalExpression':
+      if (options.allowDerived) {
+        checkExpression(context, options, expression.left);
+        checkExpression(context, options, expression.right);
+        return;
+      }
+
+      report();
+      break;
+
+    case 'CallExpression':
+      if (options.allowedCalls.some((name) => isCallTo(expression, name))) {
+        return;
+      }
+
+      report();
+      break;
+    case 'NewExpression':
+      if (options.allowedNews.some((name) => isNew(expression, name))) {
+        return;
+      }
+
+      report();
+      break;
+
+    case 'TemplateLiteral':
+      if (expression.expressions.length === 0) {
+        return;
+      }
+
+      report();
+      break;
+
+    case 'UnaryExpression':
+      if (expression.argument.type === 'Literal') {
+        return;
+      }
+
+      if (options.allowDerived) {
+        checkExpression(context, options, expression.argument);
+        return;
+      }
+
+      report();
+      break;
+
+    default:
   }
 }
 
@@ -162,6 +206,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           allowIIFE: {
             type: 'boolean'
           },
+          allowDerived: {
+            type: 'boolean'
+          },
           commonjs: {
             type: 'boolean'
           }
@@ -180,6 +227,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       ],
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || false,
+      allowDerived: provided?.allowDerived || false,
       commonjs: provided?.commonjs || false
     };
 
