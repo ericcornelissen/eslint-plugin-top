@@ -14,7 +14,7 @@ Versioning].
 
 ## [3.1.0] - 2023-12-29
 
-- (`b833db9`) Add option to allow deriving values at the top level as a side
+- (`efdf44f`) Add option to allow deriving values at the top level as a side
   effect.
 
 ## [3.0.0] - 2023-12-27
