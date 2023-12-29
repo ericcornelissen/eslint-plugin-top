@@ -4,6 +4,7 @@
   "version": "3.0.0",
   "license": "ISC",
   "exports": "./index.js",
+  "type": "commonjs",
   "engines": {
     "node": "18.x || 20.x"
   },
