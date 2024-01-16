@@ -38,6 +38,7 @@ module.exports = {
             multilineDetection: 'brackets'
           }
         ],
+        '@typescript-eslint/no-array-delete': 'error',
         '@typescript-eslint/no-confusing-void-expression': 'error',
         '@typescript-eslint/no-duplicate-type-constituents': 'error',
         '@typescript-eslint/no-import-type-side-effects': 'error',
@@ -48,6 +49,7 @@ module.exports = {
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
         '@typescript-eslint/no-useless-template-literals': 'error',
         '@typescript-eslint/prefer-destructuring': 'error',
+        '@typescript-eslint/prefer-promise-reject-errors': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': [
           'error',
           {
@@ -59,7 +61,8 @@ module.exports = {
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
         'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
         'lines-around-comment': 'off', // @typescript-eslint/lines-around-comment used instead
-        'prefer-destructuring': 'off' //@typescript-eslint/prefer-destructuring used instead
+        'prefer-destructuring': 'off', //@typescript-eslint/prefer-destructuring used instead
+        'prefer-promise-reject-errors': 'off' // @typescript-eslint/prefer-promise-reject-errors use instead
       }
     },
     {
