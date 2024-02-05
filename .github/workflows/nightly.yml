@@ -36,7 +36,7 @@ jobs:
           app_id: ${{ secrets.AUTOMATION_APP_ID }}
           private_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Update tooling
-        uses: ericcornelissen/tool-versions-update-action/pr@4717f7d99f8721a9cd04a55d79876ea59b0c3f2b # v1.0.0
+        uses: ericcornelissen/tool-versions-update-action/pr@12883acb5088f717cb11c3b1f45857256fe9bf0b # v1.1.1
         with:
           assignees: ericcornelissen
           labels: dependencies
