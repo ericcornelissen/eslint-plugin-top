@@ -49,6 +49,7 @@ module.exports = {
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
         '@typescript-eslint/no-useless-template-literals': 'error',
         '@typescript-eslint/prefer-destructuring': 'error',
+        '@typescript-eslint/prefer-find': 'error',
         '@typescript-eslint/prefer-promise-reject-errors': 'error',
         '@typescript-eslint/switch-exhaustiveness-check': [
           'error',
