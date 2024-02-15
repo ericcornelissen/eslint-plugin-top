@@ -51,7 +51,7 @@
     "is-ci": "3.0.1",
     "knip": "4.3.1",
     "licensee": "10.0.0",
-    "lockfile-lint": "4.12.1",
+    "lockfile-lint": "4.13.1",
     "markdownlint-cli": "0.39.0",
     "mocha": "10.2.0",
     "nve": "17.0.0",
