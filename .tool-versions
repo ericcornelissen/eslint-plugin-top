@@ -1,5 +1,5 @@
 # Check out asdf at: https://asdf-vm.com/
 # Check out rtx at: https://github.com/jdxcode/rtx
 
-actionlint 1.6.26
+actionlint 1.6.27
 shellcheck 0.9.0
