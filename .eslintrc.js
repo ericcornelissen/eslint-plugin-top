@@ -20,6 +20,7 @@ module.exports = {
       },
       rules: {
         '@typescript-eslint/block-spacing': 'error',
+        '@typescript-eslint/consistent-return': 'error',
         '@typescript-eslint/consistent-type-exports': 'error',
         '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/key-spacing': 'error',
@@ -60,6 +61,7 @@ module.exports = {
         ],
 
         'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
+        'consistent-return': 'off', // @typescript-eslint/consistent-return used instead
         'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
         'lines-around-comment': 'off', // @typescript-eslint/lines-around-comment used instead
         'prefer-destructuring': 'off', //@typescript-eslint/prefer-destructuring used instead
