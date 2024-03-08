@@ -7,7 +7,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  extends: ['eslint:recommended', 'plugin:eslint-plugin/all'],
+  extends: ['eslint:recommended'],
   plugins: ['@typescript-eslint'],
   env: {
     node: true
@@ -15,6 +15,7 @@ module.exports = {
   overrides: [
     {
       files: ['lib/**/*.ts'],
+      extends: ['plugin:eslint-plugin/all'],
       parserOptions: {
         project: './tsconfig.json'
       },

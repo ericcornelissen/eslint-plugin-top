@@ -101,11 +101,9 @@ function checkVariableDeclaration(
 export const noTopLevelVariables: Rule.RuleModule = {
   meta: {
     type: 'problem',
-    messages: {
-      [disallowedAssignment.id]: disallowedAssignment.message,
-      [disallowedConst.id]: disallowedConst.message,
-      [disallowedLet.id]: disallowedLet.message,
-      [disallowedVar.id]: disallowedVar.message
+    docs: {
+      description: 'disallow top level variables',
+      url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-variables.md'
     },
     schema: [
       {
@@ -127,7 +125,13 @@ export const noTopLevelVariables: Rule.RuleModule = {
           }
         }
       }
-    ]
+    ],
+    messages: {
+      [disallowedAssignment.id]: disallowedAssignment.message,
+      [disallowedConst.id]: disallowedConst.message,
+      [disallowedLet.id]: disallowedLet.message,
+      [disallowedVar.id]: disallowedVar.message
+    }
   },
   create: (context) => {
     // type-coverage:ignore-next-line
