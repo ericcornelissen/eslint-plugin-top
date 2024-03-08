@@ -188,8 +188,9 @@ function checkVariableDeclaration(
 export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
-    messages: {
-      [disallowedSideEffect.id]: disallowedSideEffect.message
+    docs: {
+      description: 'disallow top level side effects',
+      url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-side-effects.md'
     },
     schema: [
       {
@@ -214,7 +215,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           }
         }
       }
-    ]
+    ],
+    messages: {
+      [disallowedSideEffect.id]: disallowedSideEffect.message
+    }
   },
   create: (context) => {
     // type-coverage:ignore-next-line
