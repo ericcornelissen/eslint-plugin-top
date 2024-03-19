@@ -43,6 +43,13 @@ module.exports = {
         '@typescript-eslint/no-array-delete': 'error',
         '@typescript-eslint/no-confusing-void-expression': 'error',
         '@typescript-eslint/no-duplicate-type-constituents': 'error',
+        '@typescript-eslint/no-floating-promises': [
+          'error',
+          {
+            ignoreIIFE: false,
+            ignoreVoid: false
+          }
+        ],
         '@typescript-eslint/no-import-type-side-effects': 'error',
         '@typescript-eslint/no-mixed-enums': 'error',
         '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
@@ -54,6 +61,18 @@ module.exports = {
         '@typescript-eslint/prefer-find': 'error',
         '@typescript-eslint/prefer-promise-reject-errors': 'error',
         '@typescript-eslint/prefer-string-starts-ends-with': 'error',
+        '@typescript-eslint/restrict-template-expressions': [
+          'error',
+          {
+            allowAny: false,
+            allowArray: false,
+            allowBoolean: true,
+            allowNever: false,
+            allowNullish: false,
+            allowNumber: true,
+            allowRegExp: false
+          }
+        ],
         '@typescript-eslint/switch-exhaustiveness-check': [
           'error',
           {
