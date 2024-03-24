@@ -2,10 +2,9 @@
 
 # Security Policy
 
-The maintainers of the `@ericcornelissen/eslint-plugin-top` project take
-security issues seriously. We appreciate your efforts to responsibly disclose
-your findings. Due to the non-funded and open-source nature of the project, we
-take a best-efforts approach when it comes to engaging with security reports.
+Version 2 of `@ericcornelissen/eslint-plugin-top` is no longer supported. If you
+found a potential vulnerability in it, please report this publicly. For example
+in the public repository of the project.
 
 ## Supported Versions
 
@@ -20,45 +19,7 @@ security updates.
 
 _This table only includes information on versions `<3.0.0`._
 
-## Reporting a Vulnerability
-
-To report a security issue in the latest version of a supported version range,
-either (in order of preference):
-
-- [Report it through GitHub][new github advisory], or
-- Send an email to [security@ericcornelissen.dev] with the terms "SECURITY" and
-  "eslint-plugin-top" in the subject line.
-
-Please do not open a regular issue or Pull Request in the public repository.
-
-To report a security issue in an unsupported version of the project, or if the
-latest version of a supported version range isn't affected, please report it
-publicly. For example, as a regular issue in the public repository. If in doubt,
-report the issue privately.
-
-[new github advisory]: https://github.com/ericcornelissen/eslint-plugin-top/security/advisories/new
-[security@ericcornelissen.dev]: mailto:security@ericcornelissen.dev?subject=SECURITY%20%28eslint-plugin-top%29
-
-### What to Include in a Report
-
-Try to include as many of the following items as possible in a security report:
-
-- An explanation of the issue
-- A proof of concept exploit
-- A suggested severity
-- Relevant [CWE] identifiers
-- The latest affected version
-- The earliest affected version
-- A suggested patch
-- An automated regression test
-
-[cwe]: https://cwe.mitre.org/
-
 ## Advisories
-
-> [!NOTE]
-> Advisories will be created only for vulnerabilities present in released
-> versions of the project.
 
 | ID  | Date | Affected versions | Patched versions |
 | :-- | :--- | :---------------- | :--------------- |

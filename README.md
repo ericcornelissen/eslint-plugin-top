@@ -1,5 +1,10 @@
 # eslint-plugin-top
 
+> [!WARNING]
+> Version 2 of `@ericcornelissen/eslint-plugin-top` is end-of-life (EOL) since
+> 2024-03-26. No support for this version will be provided going forward. You
+> can upgrade to the latest version instead.
+
 Disallow side effects at the top level of files.
 
 ## Installation
