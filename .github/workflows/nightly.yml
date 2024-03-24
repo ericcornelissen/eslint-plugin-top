@@ -11,7 +11,7 @@ jobs:
     name: Audit
     uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
     with:
-      refs: '["main", "main-v2", "v2", "v3"]'
+      refs: '["main", "v3"]'
   tooling:
     name: Update tooling
     runs-on: ubuntu-22.04
