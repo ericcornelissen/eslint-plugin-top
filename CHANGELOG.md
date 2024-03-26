@@ -8,7 +8,7 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## [Unreleased]
+## [2.3.2] - 2024-03-26
 
 - (`16964e0`) Add end-of-life messaging to the documentation.
 
