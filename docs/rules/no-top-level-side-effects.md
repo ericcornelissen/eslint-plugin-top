@@ -1,5 +1,10 @@
 # No top level side effect (no-top-level-side-effects)
 
+> [!WARNING]
+> Version 2 of `@ericcornelissen/eslint-plugin-top` is end-of-life (EOL) since
+> 2024-03-26. No support for this version will be provided going forward. You
+> can upgrade to the latest version instead.
+
 Disallow top level side effects.
 
 Side effects at the top level can have various negative side effects including

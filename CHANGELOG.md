@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`16964e0`) Add end-of-life messaging to the documentation.
 
 ## [2.3.1] - 2023-12-25
 
