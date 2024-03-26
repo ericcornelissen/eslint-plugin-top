@@ -2,31 +2,50 @@
 
 import type {Rule} from 'eslint';
 import type {
+  CallExpression,
   ExpressionStatement,
   Expression,
+  NewExpression,
   VariableDeclaration
 } from 'estree';
 
-import {isRequireCall, isSymbolCall, isTopLevel} from '../helpers';
+import {isTopLevel} from '../helpers';
 
 type Options = {
-  readonly allowExports: boolean;
+  readonly allowedCalls: ReadonlyArray<string>;
+  readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
-  readonly allowRequire: boolean;
-  readonly allowSymbol: boolean;
+  readonly allowDerived: boolean;
+  readonly commonjs: boolean;
 };
 
-const violationMessage = 'Side effects at the top level are not allowed';
+const allowedCallsOption = {
+  default: ['BigInt', 'Symbol']
+};
+const allowedNewsOption = {
+  default: []
+};
+
+const disallowedSideEffect = {
+  id: '0',
+  message: 'Side effects at the top level are not allowed'
+};
 
 function ifTopLevelReportWith(context: Rule.RuleContext) {
   return (node: Rule.Node) => {
     if (isTopLevel(node)) {
       context.report({
         node,
-        messageId: 'message'
+        messageId: disallowedSideEffect.id
       });
     }
   };
+}
+
+function isCallTo(expression: CallExpression, name: string): boolean {
+  return (
+    expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
 }
 
 function isExportsAssignment(node: ExpressionStatement): boolean {
@@ -75,41 +94,85 @@ function isModulePropertyAssignment(node: ExpressionStatement): boolean {
   );
 }
 
-function sideEffectInExpression(
+function isNew(expression: NewExpression, name: string): boolean {
+  return (
+    expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
+}
+
+function checkExpression(
   context: Rule.RuleContext,
   options: Options,
   expression: Expression
 ) {
-  if (
-    (options.allowRequire && isRequireCall(expression)) ||
-    (options.allowSymbol && isSymbolCall(expression))
-  ) {
-    return;
-  }
-
-  if (
-    expression.type === 'AwaitExpression' ||
-    expression.type === 'BinaryExpression' ||
-    expression.type === 'CallExpression' ||
-    expression.type === 'ChainExpression' ||
-    expression.type === 'ConditionalExpression' ||
-    expression.type === 'NewExpression' ||
-    expression.type === 'LogicalExpression' ||
-    expression.type === 'TaggedTemplateExpression' ||
-    (expression.type === 'TemplateLiteral' &&
-      expression.expressions.length > 0) ||
-    (expression.type === 'UnaryExpression' &&
-      expression.argument.type !== 'Literal') ||
-    expression.type === 'UpdateExpression'
-  ) {
+  const report = () => {
     context.report({
       node: expression,
-      messageId: 'message'
+      messageId: disallowedSideEffect.id
     });
+  };
+
+  switch (expression.type) {
+    case 'AwaitExpression':
+    case 'ChainExpression':
+    case 'ConditionalExpression':
+    case 'TaggedTemplateExpression':
+    case 'UpdateExpression':
+      report();
+      break;
+
+    case 'BinaryExpression':
+    case 'LogicalExpression':
+      if (options.allowDerived) {
+        checkExpression(context, options, expression.left);
+        checkExpression(context, options, expression.right);
+        return;
+      }
+
+      report();
+      break;
+
+    case 'CallExpression':
+      if (options.allowedCalls.some((name) => isCallTo(expression, name))) {
+        return;
+      }
+
+      report();
+      break;
+    case 'NewExpression':
+      if (options.allowedNews.some((name) => isNew(expression, name))) {
+        return;
+      }
+
+      report();
+      break;
+
+    case 'TemplateLiteral':
+      if (expression.expressions.length === 0) {
+        return;
+      }
+
+      report();
+      break;
+
+    case 'UnaryExpression':
+      if (expression.argument.type === 'Literal') {
+        return;
+      }
+
+      if (options.allowDerived) {
+        checkExpression(context, options, expression.argument);
+        return;
+      }
+
+      report();
+      break;
+
+    default:
   }
 }
 
-function sideEffectsInVariableDeclaration(
+function checkVariableDeclaration(
   context: Rule.RuleContext,
   options: Options,
   node: VariableDeclaration
@@ -117,7 +180,7 @@ function sideEffectsInVariableDeclaration(
   for (const declaration of node.declarations) {
     const expression = declaration.init;
     if (expression !== null && expression !== undefined) {
-      sideEffectInExpression(context, options, expression);
+      checkExpression(context, options, expression);
     }
   }
 }
@@ -125,102 +188,105 @@ function sideEffectsInVariableDeclaration(
 export const noTopLevelSideEffects: Rule.RuleModule = {
   meta: {
     type: 'problem',
-    messages: {
-      message: violationMessage
+    docs: {
+      description: 'disallow top level side effects',
+      url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-side-effects.md'
     },
     schema: [
       {
         type: 'object',
         properties: {
-          allowModuleExports: {
-            type: 'boolean'
+          allowedCalls: {
+            type: 'array',
+            minItems: 0
+          },
+          allowedNews: {
+            type: 'array',
+            minItems: 0
           },
           allowIIFE: {
             type: 'boolean'
           },
-          allowRequire: {
+          allowDerived: {
             type: 'boolean'
           },
-          allowSymbol: {
+          commonjs: {
             type: 'boolean'
           }
         }
       }
-    ]
+    ],
+    messages: {
+      [disallowedSideEffect.id]: disallowedSideEffect.message
+    }
   },
   create: (context) => {
     // type-coverage:ignore-next-line
-    const [provided] = context.options;
-
-    // type-coverage:ignore-next-line
-    const providedAllowExports: boolean | null = provided?.allowModuleExports;
-    // type-coverage:ignore-next-line
-    const providedAllowIIFE: boolean | null = provided?.allowIIFE;
-    // type-coverage:ignore-next-line
-    const providedAllowRequire: boolean | null = provided?.allowRequire;
-    // type-coverage:ignore-next-line
-    const providedAllowSymbol: boolean | null = provided?.allowSymbol;
+    const provided: Partial<Options> = context.options[0];
 
     const options: Options = {
-      allowExports:
-        typeof providedAllowExports === 'boolean' ? providedAllowExports : true,
-      allowIIFE:
-        typeof providedAllowIIFE === 'boolean' ? providedAllowIIFE : false,
-      allowRequire:
-        typeof providedAllowRequire === 'boolean' ? providedAllowRequire : true,
-      allowSymbol:
-        typeof providedAllowSymbol === 'boolean' ? providedAllowSymbol : true
+      allowedCalls: [
+        ...(provided?.commonjs ? ['require'] : ([] as never[])),
+        ...(provided?.allowedCalls || allowedCallsOption.default)
+      ],
+      allowedNews: provided?.allowedNews || allowedNewsOption.default,
+      allowIIFE: provided?.allowIIFE || false,
+      allowDerived: provided?.allowDerived || false,
+      commonjs: provided?.commonjs || false
     };
 
     return {
-      ExportNamedDeclaration: (node) => {
-        if (node.declaration?.type === 'VariableDeclaration') {
-          sideEffectsInVariableDeclaration(context, options, node.declaration);
-        }
-      },
       ExpressionStatement: (node) => {
-        if (!isTopLevel(node)) {
-          return;
-        }
+        if (isTopLevel(node)) {
+          if (options.allowIIFE && isIIFE(node)) {
+            return;
+          }
 
-        if (isIIFE(node)) {
-          if (!options.allowIIFE) {
-            context.report({
-              node,
-              messageId: 'message'
-            });
+          if (options.commonjs) {
+            if (
+              node.expression.type === 'CallExpression' &&
+              isCallTo(node.expression, 'require')
+            ) {
+              return;
+            } else if (
+              node.expression.type === 'AssignmentExpression' &&
+              (isExportsAssignment(node) ||
+                isExportPropertyAssignment(node) ||
+                isModuleAssignment(node) ||
+                isModulePropertyAssignment(node))
+            ) {
+              checkExpression(context, options, node.expression.right);
+              return;
+            }
           }
-        } else if (
-          options.allowExports &&
-          (isExportsAssignment(node) ||
-            isExportPropertyAssignment(node) ||
-            isModuleAssignment(node) ||
-            isModulePropertyAssignment(node))
-        ) {
-          if (node.expression.type === 'AssignmentExpression') {
-            sideEffectInExpression(context, options, node.expression.right);
-          }
-        } else {
+
           context.report({
             node,
-            messageId: 'message'
+            messageId: disallowedSideEffect.id
           });
         }
       },
-      IfStatement: ifTopLevelReportWith(context),
-      ForStatement: ifTopLevelReportWith(context),
+
+      ExportNamedDeclaration: (node) => {
+        if (node.declaration?.type === 'VariableDeclaration') {
+          checkVariableDeclaration(context, options, node.declaration);
+        }
+      },
+      VariableDeclaration: (node) => {
+        if (isTopLevel(node)) {
+          checkVariableDeclaration(context, options, node);
+        }
+      },
+
+      DoWhileStatement: ifTopLevelReportWith(context),
       ForInStatement: ifTopLevelReportWith(context),
       ForOfStatement: ifTopLevelReportWith(context),
-      WhileStatement: ifTopLevelReportWith(context),
-      DoWhileStatement: ifTopLevelReportWith(context),
+      ForStatement: ifTopLevelReportWith(context),
+      IfStatement: ifTopLevelReportWith(context),
       SwitchStatement: ifTopLevelReportWith(context),
       ThrowStatement: ifTopLevelReportWith(context),
       TryStatement: ifTopLevelReportWith(context),
-      VariableDeclaration: (node) => {
-        if (isTopLevel(node)) {
-          sideEffectsInVariableDeclaration(context, options, node);
-        }
-      }
+      WhileStatement: ifTopLevelReportWith(context)
     };
   }
 };

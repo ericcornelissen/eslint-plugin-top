@@ -8,6 +8,22 @@ in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## [Unreleased]
+
+- _No changes yet_
+
+## [3.1.0] - 2023-12-29
+
+- (`efdf44f`) Add option to allow deriving values at the top level as a side
+  effect.
+
+## [3.0.0] - 2023-12-27
+
+- (`6a79b0c`) _(Breaking)_ Rework the `no-top-level-side-effects` rule to make
+  it easier to configure.
+- (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
+  variables being mutable instead of other side effects.
+
 ## [2.3.2] - 2024-03-26
 
 - (`16964e0`) Add end-of-life messaging to the documentation.

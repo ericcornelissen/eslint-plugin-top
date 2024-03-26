@@ -9,34 +9,22 @@ import {noTopLevelVariables} from '../../lib/rules/no-top-level-variables';
 const valid: RuleTester.ValidTestCase[] = [
   {
     code: `
-      export default function () {
+      function fVar() {
         var foo = 'bar';
       }
-    `
-  },
-  {
-    code: `
-      export default function () {
+      function fLet() {
         let foo = 'bar';
       }
-    `
-  },
-  {
-    code: `
-      export default function () {
+      function fConst() {
         const foo = 'bar';
       }
     `
   },
   {
     code: `
-      const path = require('path');
-    `
-  },
-  {
-    code: `
-      const foo = 'bar';
-      export default function () {}
+      var path = require('path');
+      var foo1 = 'bar';
+      export var foo2 = 'bar';
     `,
     options: [
       {
@@ -46,72 +34,55 @@ const valid: RuleTester.ValidTestCase[] = [
   },
   {
     code: `
-      const bar = 1337;
-    `
+      let path = require('path');
+      let foo1 = 'bar';
+      export let foo2 = 'bar';
+    `,
+    options: [
+      {
+        kind: ['let']
+      }
+    ]
   },
   {
     code: `
-      const path = require('path'), foo = 'bar';
-    `
-  },
-  {
-    code: `
+      class ClassName { }
+      function functionName() { }
+      function* generatorName() { }
+
+      const leet = 1337;
+      const leetBig = 1337n;
+      const negative = -1;
+
+      const regularExpression = /bar/;
+
+      const str1 = 'bar';
+      const str2 = "bar";
+      const str3 = \`bar\`;
+      const str4 = $\`bar\`;
+
+      const identifier = bar;
       const isArray = Array.isArray;
-    `
-  },
-  {
-    code: `
-      const pi = 3.14;
-    `,
-    options: [
-      {
-        constAllowed: ['Literal']
-      }
-    ]
-  },
-  {
-    code: `
-      const isArray = Array.isArray;
-    `,
-    options: [
-      {
-        constAllowed: ['MemberExpression']
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = () => 'bar';
-    `
-  },
-  {
-    code: `
-      const foo = () => 'bar';
-    `,
-    options: [
-      {
-        constAllowed: ['ArrowFunctionExpression']
-      }
-    ]
-  },
-  {
-    code: `
-      var bar = 1337;
-    `,
-    options: [
-      {
-        kind: ['let', 'const']
-      }
-    ]
-  },
-  {
-    code: `
-      export const bar = 1337;
-    `
-  },
-  {
-    code: `
-      const foo = bar;
+
+      const assignment = bar = 1;
+      const binary = bar + baz;
+      const logical = bar || baz;
+      const unary = -bar;
+      const update = i++;
+      const ternary = bar ? bar : baz;
+      const chain = foo?.bar;
+
+      const f = function() { };
+      const g = () => 'bar';
+
+      const { o1, o2: o3 } = o;
+      const [ a1, a2 ] = a;
+
+      const symbol = Symbol();
+      const bigInt = BigInt(1);
+
+      const path = require('path');
+      const promised = await h();
     `
   },
   {
@@ -119,23 +90,98 @@ const valid: RuleTester.ValidTestCase[] = [
       export class ClassName { }
       export function functionName() { }
       export function* generatorName() { }
-      export const { name1, name2: name3 } = o;
-      export const [ name4, name5 ] = a;
+
+      export const leet = 1337;
+      export const leetBig = 1337n;
+      export const negative = -1;
+
+      export const regularExpression = /bar/;
+
+      export const str1 = 'bar';
+      export const str2 = "bar";
+      export const str3 = \`bar\`;
+      export const str4 = $\`bar\`;
+
+      export const identifier = bar;
+      export const isArray = Array.isArray;
+
+      export const assignment = bar = 1;
+      export const binary = bar + baz;
+      export const logical = bar || baz;
+      export const unary = -bar;
+      export const update = i++;
+      export const ternary = bar ? bar : baz;
+      export const chain = foo?.bar;
+
+      export const f = function() { };
+      export const g = () => 'bar';
+
+      export const { o1, o2: o3 } = o;
+      export const [ a1, a2 ] = a;
+
+      export const symbol = Symbol();
+      export const bigInt = BigInt(1);
+
+      export const promised = await h();
+
+      const name1 = 0, name2 = 0, name3 = 0;
+      export { name1, name2 as name2a, name3 as "name 3" };
+
+      export * from "module-name";
+      export * as name4 from "module-name";
+      export { name5, name6 } from "module-name";
+      export { import1 as name7, import2 as name8, name9 } from "module-name";
+      export { default as name10, name11 } from "module-name";
     `
   },
   {
     code: `
-      const { name1, name2: name3 } = o;
-      const [ name4, name5 ] = a;
+      const x = 0;
+      export { x as default };
     `
   },
   {
     code: `
-      const { bar } = foo;
+      export { default } from "module-name";
+    `
+  },
+  {
+    code: `
+      export default class ClassName { }
+    `
+  },
+  {
+    code: `
+      export default function f() { }
+    `
+  },
+  {
+    code: `
+      export default function* g() { }
+    `
+  },
+  {
+    code: `
+      export default class { }
+    `
+  },
+  {
+    code: `
+      export default function() { }
+    `
+  },
+  {
+    code: `
+      export default function* () { }
+    `
+  },
+  {
+    code: `
+      const foo = ["b", "a", "r"];
     `,
     options: [
       {
-        constAllowed: []
+        allowed: ['ArrayExpression']
       }
     ]
   },
@@ -145,82 +191,7 @@ const valid: RuleTester.ValidTestCase[] = [
     `,
     options: [
       {
-        constAllowed: ['ObjectExpression']
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = ["b", "a", "r"];
-    `,
-    options: [
-      {
-        constAllowed: ['ArrayExpression']
-      }
-    ]
-  },
-  {
-    code: `
-      const s = Symbol();
-    `
-  },
-  {
-    code: `
-      const foo = function() {
-        return 'bar';
-      }
-    `
-  },
-  {
-    code: `
-      const foo = function() {
-        return 'bar';
-      }
-    `,
-    options: [
-      {
-        constAllowed: ['FunctionExpression']
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = \`bar\`;
-    `
-  },
-  {
-    code: `
-      const foo = \`bar\`;
-    `,
-    options: [
-      {
-        constAllowed: ['TemplateLiteral']
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = /bar/;
-    `
-  },
-  {
-    code: `
-      const foo = 1n;
-    `
-  },
-  {
-    code: `
-      const name1 = 0;
-      export { name1 };
-    `
-  },
-  {
-    code: `
-      const chain = foo?.bar;
-    `,
-    options: [
-      {
-        constAllowed: ['ChainExpression']
+        allowed: ['ObjectExpression']
       }
     ]
   }
@@ -229,534 +200,274 @@ const valid: RuleTester.ValidTestCase[] = [
 const invalid: RuleTester.InvalidTestCase[] = [
   {
     code: `
-      var foo = 'bar';
-      export default function () {}
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 16
-      }
-    ]
-  },
-  {
-    code: `
-      let foo = 'bar';
-      export default function () {}
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 16
-      }
-    ]
-  },
-  {
-    code: `
-      var foobar = 'bar';
-      const foo = 'bar';
-      export default function () {}
+      var foo1 = 'bar';
+      let foo2 = 'bar';
+      const foo3 = 'bar';
     `,
     options: [
       {
-        kind: ['var']
+        kind: []
       }
     ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '1',
         line: 1,
-        column: 5,
+        column: 1,
         endLine: 1,
-        endColumn: 19
-      }
-    ]
-  },
-  {
-    code: `
-      var foo;
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 8
-      }
-    ]
-  },
-  {
-    code: `
-      var foo = 'bar', hello = 'world';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 16
+        endColumn: 18
       },
       {
-        messageId: 'message',
-        line: 1,
-        column: 18,
-        endLine: 1,
-        endColumn: 33
-      }
-    ]
-  },
-  {
-    code: `
-      let foo = 'bar', hello = 'world';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 16
-      },
-      {
-        messageId: 'message',
-        line: 1,
-        column: 18,
-        endLine: 1,
-        endColumn: 33
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = 'bar', hello = world();
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 20,
-        endLine: 1,
-        endColumn: 35
-      }
-    ]
-  },
-  {
-    code: `
-      var path = require('path'), foo = 'bar';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 29,
-        endLine: 1,
-        endColumn: 40
-      }
-    ]
-  },
-  {
-    code: `
-      let path = require('path'), foo = 'bar';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 29,
-        endLine: 1,
-        endColumn: 40
-      }
-    ]
-  },
-  {
-    code: `
-      const path = require('path'), foo = bar();
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 31,
-        endLine: 1,
-        endColumn: 42
-      }
-    ]
-  },
-  {
-    code: `
-      var isArray = Array.isArray;
-    `,
-    options: [],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 28
-      }
-    ]
-  },
-  {
-    code: `
-      let isArray = Array.isArray;
-    `,
-    options: [],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 28
-      }
-    ]
-  },
-  {
-    code: `
-      const isArray = Array.isArray;
-    `,
-    options: [
-      {
-        constAllowed: []
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 30
-      }
-    ]
-  },
-  {
-    code: `
-      {
-        let foo = 'bar';
-      }
-    `,
-    options: [],
-    errors: [
-      {
-        messageId: 'message',
+        messageId: '2',
         line: 2,
-        column: 13,
+        column: 7,
         endLine: 2,
         endColumn: 24
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = new Bar();
-    `,
-    options: [],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 22
-      }
-    ]
-  },
-  {
-    code: `
-      const isArray = Array.isArray;
-    `,
-    options: [
-      {
-        constAllowed: ['ArrowFunctionExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 30
-      }
-    ]
-  },
-  {
-    code: `
-      const isArray = Array.isArray;
-    `,
-    options: [
-      {
-        constAllowed: ['Literal']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 30
-      }
-    ]
-  },
-  {
-    code: `
-      var foo = bar();
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 16
-      }
-    ]
-  },
-  {
-    code: `
-      var foo = () => 'bar';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 22
-      }
-    ]
-  },
-  {
-    code: `
-      let foo = () => 'bar';
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 5,
-        endLine: 1,
-        endColumn: 22
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = () => 'bar';
-    `,
-    options: [
-      {
-        constAllowed: ['Literal']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 24
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = () => 'bar';
-    `,
-    options: [
-      {
-        constAllowed: ['MemberExpression']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
-        endColumn: 24
-      }
-    ]
-  },
-  {
-    code: `
-      export var foo = "bar";
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 12,
-        endLine: 1,
-        endColumn: 23
-      }
-    ]
-  },
-  {
-    code: `
-      export let bar = 1337;
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 12,
-        endLine: 1,
-        endColumn: 22
-      }
-    ]
-  },
-  {
-    code: `
-      export const foo = () => "bar";
-    `,
-    options: [
-      {
-        constAllowed: ['Literal']
-      }
-    ],
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 14,
-        endLine: 1,
-        endColumn: 31
-      }
-    ]
-  },
-  {
-    code: `
-      export var name1, name2;
-    `,
-    errors: [
-      {
-        messageId: 'message',
-        line: 1,
-        column: 12,
-        endLine: 1,
-        endColumn: 17
       },
       {
-        messageId: 'message',
-        line: 1,
-        column: 19,
-        endLine: 1,
-        endColumn: 24
+        messageId: '3',
+        line: 3,
+        column: 7,
+        endLine: 3,
+        endColumn: 26
       }
     ]
   },
   {
     code: `
-      export let name1, name2;
+      {var foo1 = 'bar';}
+      {let foo2 = 'bar';}
+      {const foo3 = 'bar';}
     `,
+    options: [
+      {
+        kind: []
+      }
+    ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '1',
         line: 1,
-        column: 12,
+        column: 2,
         endLine: 1,
-        endColumn: 17
+        endColumn: 19
       },
       {
-        messageId: 'message',
-        line: 1,
-        column: 19,
-        endLine: 1,
-        endColumn: 24
-      }
-    ]
-  },
-  {
-    code: `
-      const foo = { bar: "baz" };
-    `,
-    errors: [
+        messageId: '2',
+        line: 2,
+        column: 8,
+        endLine: 2,
+        endColumn: 25
+      },
       {
-        messageId: 'message',
-        line: 1,
-        column: 7,
-        endLine: 1,
+        messageId: '3',
+        line: 3,
+        column: 8,
+        endLine: 3,
         endColumn: 27
       }
     ]
   },
   {
     code: `
-      const foo = ["b", "a", "r"];
+      export var foo1 = 'bar';
+      export let foo2 = 'bar';
+      export const foo3 = 'bar';
     `,
+    options: [
+      {
+        kind: []
+      }
+    ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '1',
         line: 1,
-        column: 7,
+        column: 8,
         endLine: 1,
-        endColumn: 28
+        endColumn: 25
+      },
+      {
+        messageId: '2',
+        line: 2,
+        column: 14,
+        endLine: 2,
+        endColumn: 31
+      },
+      {
+        messageId: '3',
+        line: 3,
+        column: 14,
+        endLine: 3,
+        endColumn: 33
       }
     ]
   },
   {
     code: `
-      const foo = function() {
-        return 'bar';
+      export var name1, name2;
+      export let name3, name4;
+    `,
+    errors: [
+      {
+        messageId: '1',
+        line: 1,
+        column: 8,
+        endLine: 1,
+        endColumn: 25
+      },
+      {
+        messageId: '2',
+        line: 2,
+        column: 14,
+        endLine: 2,
+        endColumn: 31
       }
+    ]
+  },
+  {
+    code: `
+      var foo1 = 'bar', hello1 = 'world';
+      let foo2 = 'bar', hello2 = 'world';
+      const foo3 = 'bar', hello3 = 'world';
     `,
     options: [
       {
-        constAllowed: []
+        kind: []
       }
     ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '1',
         line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 36
+      },
+      {
+        messageId: '2',
+        line: 2,
+        column: 7,
+        endLine: 2,
+        endColumn: 42
+      },
+      {
+        messageId: '3',
+        line: 3,
         column: 7,
         endLine: 3,
-        endColumn: 8
+        endColumn: 44
       }
     ]
   },
   {
     code: `
-      const foo = \`bar\`;
+      const foo = {bar: "baz"};
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 25
+      }
+    ]
+  },
+  {
+    code: `
+      const foo = {bar: "baz"}, hello = {world: "!"};
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 7,
+        endLine: 1,
+        endColumn: 25
+      },
+      {
+        messageId: '0',
+        line: 1,
+        column: 27,
+        endLine: 1,
+        endColumn: 47
+      }
+    ]
+  },
+  {
+    code: `
+      const path = require('path'), foo1 = {};
+      const foo2 = {}, fs = require('fs');
+    `,
+    errors: [
+      {
+        messageId: '0',
+        line: 1,
+        column: 31,
+        endLine: 1,
+        endColumn: 40
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 13,
+        endLine: 2,
+        endColumn: 22
+      }
+    ]
+  },
+  {
+    code: `
+      const arr = [];
+      const foo = ["b", "a", "r"];
     `,
     options: [
       {
-        constAllowed: []
+        allowed: ['ObjectExpression']
       }
     ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '0',
         line: 1,
         column: 7,
         endLine: 1,
-        endColumn: 18
+        endColumn: 15
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 13,
+        endLine: 2,
+        endColumn: 34
       }
     ]
   },
   {
     code: `
-      const chain = foo?.bar;
+      const obj = {};
+      const foo = { bar: "baz" };
     `,
+    options: [
+      {
+        allowed: ['ArrayExpression']
+      }
+    ],
     errors: [
       {
-        messageId: 'message',
+        messageId: '0',
         line: 1,
         column: 7,
         endLine: 1,
-        endColumn: 23
+        endColumn: 15
+      },
+      {
+        messageId: '0',
+        line: 2,
+        column: 13,
+        endLine: 2,
+        endColumn: 33
       }
     ]
   }

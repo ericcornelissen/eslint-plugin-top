@@ -1,15 +1,12 @@
-# No top level side effect (no-top-level-side-effects)
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-> [!WARNING]
-> Version 2 of `@ericcornelissen/eslint-plugin-top` is end-of-life (EOL) since
-> 2024-03-26. No support for this version will be provided going forward. You
-> can upgrade to the latest version instead.
+# No top level side effect (no-top-level-side-effects)
 
 Disallow top level side effects.
 
-Side effects at the top level can have various negative side effects including
-but not limited to slow startup times and unexpected behaviour (in particular
-for libraries).
+Side effects at the top level can have some negative consequences such as slow
+startup times and, for libraries, unexpected behavior. This covers top level
+expression as well as assignments.
 
 ## Rule Details
 
@@ -24,7 +21,7 @@ console.log('hello world');
 ```javascript
 if (typeof Array.prototype.map !== 'function') {
   Array.prototype.map = () => {
-    /* Implement polyfill */
+    // Implement polyfill
   };
 }
 ```
@@ -70,27 +67,48 @@ module.exports = function () {
 
 ### Options
 
-This rule accepts a configuration object with one option:
+This rule accepts a configuration object with four options:
 
-- `allowExports: true` (default) Configure whether top level assignments to
-  `module.exports` and `exports` are allowed, for CommonJS support.
+- `allowedCalls` Configure what function calls are allowed at the top level. Can
+  be any identifier. The default value covers standard JavaScript functions that
+  one might expect at the top level (such as `BigInt` and `Symbol`).
+- `allowedNews` Configure what classes can be instantiated at the top level. Can
+  be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
-  Function Expressions are allowed.
-- `allowRequire: true` (default) Configure whether top level calls to `require`
-  are allowed, for CommonJS support.
-- `allowSymbol: true` (default) Configure whether top level assignments can call
-  `Symbol()`.
+  Function Expressions (IIFEs) are allowed.
+- `allowDerived: false` (default) Configure whether derivations - binary,
+  logical, or unary operations on values and variables - are allowed at the top
+  level.
+- `commonjs: false` (default) Configure whether the code being analyzed is, or
+  is partially, CommonJS code. Allows the use `require`, `module.exports` and
+  `exports` at the top level.
 
-#### allowIIFE
+#### `allowedCalls`
 
-Examples of **correct** code when `'allowExports'` is set to `true`:
+Example of **correct** code when `'f'` is in the list:
 
 ```javascript
-module.exports = {};
-module.exports.foo = 'bar';
-exports = {};
-exports.foo = 'bar';
+function f() {}
+
+const x = f();
+export const y = f();
+export default f();
 ```
+
+By setting this to an empty list you can disallow all top-level function calls.
+
+#### `allowedNews`
+
+Example of **correct** code when `'Map'` is in the list:
+
+```javascript
+const m = new Map();
+```
+
+By setting this to an empty list you can disallow all top-level class
+instantiations.
+
+#### `allowIIFE`
 
 Examples of **correct** code when `'allowIIFE'` is set to `true`:
 
@@ -120,20 +138,61 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 })();
 ```
 
-Examples of **correct** code when `'allowRequire'` is set to `true`:
+#### `allowDerived`
+
+Examples of **correct** code when `'allowDerived'` is set to `true`:
 
 ```javascript
+const a = 0; // (always allowed)
+const b = 1; // (always allowed)
+
+const b01 = a == b;
+const b02 = a != b;
+const b03 = a === b;
+const b04 = a !== b;
+const b05 = a < b;
+const b06 = a <= b;
+const b07 = a > b;
+const b08 = a >= b;
+const b09 = a << b;
+const b10 = a >> b;
+const b11 = a >>> b;
+const b12 = a + b;
+const b13 = a - b;
+const b14 = a * b;
+const b15 = a / b;
+const b16 = a % b;
+const b17 = a ** b;
+const b18 = a | b;
+const b19 = a ^ b;
+const b20 = a & b;
+const b21 = a in b;
+const b22 = a instanceof b;
+
+const l01 = a && b;
+const l02 = a || b;
+const l03 = a ?? b;
+
+const u01 = -a;
+const u02 = +a;
+const u03 = !a;
+const u04 = ~a;
+```
+
+#### `commonjs`
+
+Examples of **correct** code when `'commonjs'` is set to `true`:
+
+```javascript
+require('dotenv');
 var cp = require('child_process');
 let fs = require('fs');
 const path = require('path');
-```
 
-Examples of **correct** code when `'allowSymbol'` is set to `true`:
-
-```javascript
-var s1 = Symbol();
-let s2 = Symbol();
-const s3 = Symbol();
+module.exports = {};
+module.exports.foo = 'bar';
+exports = {};
+exports.foo = 'bar';
 ```
 
 ## When Not To Use It

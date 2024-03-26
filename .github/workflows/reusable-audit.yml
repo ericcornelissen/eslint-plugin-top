@@ -19,7 +19,7 @@ jobs:
         ref: ${{ fromJSON(inputs.refs) }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
           disable-sudo: true
           egress-policy: block
@@ -48,29 +48,3 @@ jobs:
       - name: Audit production npm dependencies
         if: ${{ startsWith(matrix.ref, 'v') }}
         run: npm run audit:runtime
-  secrets:
-    name: Secrets
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
-        with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            actions-results-receiver-production.githubapp.com:80
-            api.github.com:443
-            artifactcache.actions.githubusercontent.com:443
-            github.com:443
-            objects.githubusercontent.com:443
-      - name: Checkout repository
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-        with:
-          fetch-depth: 0
-      - name: Scan for secrets
-        uses: gitleaks/gitleaks-action@e7168103501562d92f3f52e2c69c253cff74438d # v2.3.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_ENABLE_COMMENTS: false
-          GITLEAKS_ENABLE_SUMMARY: true
-          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false

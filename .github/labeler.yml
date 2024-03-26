@@ -19,7 +19,8 @@ dependencies:
 documentation:
   - changed-files:
       - any-glob-to-any-file:
-          - docs/*
+          - docs/**
+          - docs/**/*
           - README.md
 
 meta:
@@ -31,6 +32,7 @@ meta:
           - .gitattributes
           - .gitignore
           - .licensee.json
+          - .lockfile-lintrc.yml
           - .markdownlint.yml
           - .npmrc
           - .prettierrc.yml

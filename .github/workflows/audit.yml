@@ -1,11 +1,13 @@
 name: Audit
 on:
-  pull_request: ~
+  pull_request:
+    paths:
+      - .github/workflows/audit.yml
+      - .nsprc
+      - package-lock.json
   push:
     branches:
       - main
-      - main-v2
-      - v2
       - v3
 
 permissions: read-all
@@ -13,4 +15,4 @@ permissions: read-all
 jobs:
   audit:
     name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main-v2
+    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
