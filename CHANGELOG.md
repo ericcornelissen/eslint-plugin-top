@@ -24,6 +24,10 @@ Versioning].
 - (`207ad89`) _(Breaking)_ Rework the `no-top-level-variables` rule to focus on
   variables being mutable instead of other side effects.
 
+## [2.3.2] - 2024-03-26
+
+- (`16964e0`) Add end-of-life messaging to the documentation.
+
 ## [2.3.1] - 2023-12-25
 
 - (`2f2bb41`) Disallow top-level side effects of optional changing for
