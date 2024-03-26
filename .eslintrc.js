@@ -57,6 +57,13 @@ module.exports = {
         '@typescript-eslint/no-unsafe-enum-comparison': 'error',
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
         '@typescript-eslint/no-useless-template-literals': 'error',
+        '@typescript-eslint/only-throw-error': [
+          'error',
+          {
+            allowThrowingAny: false,
+            allowThrowingUnknown: false
+          }
+        ],
         '@typescript-eslint/prefer-destructuring': 'error',
         '@typescript-eslint/prefer-find': 'error',
         '@typescript-eslint/prefer-promise-reject-errors': 'error',
@@ -85,6 +92,7 @@ module.exports = {
         'consistent-return': 'off', // @typescript-eslint/consistent-return used instead
         'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
         'lines-around-comment': 'off', // @typescript-eslint/lines-around-comment used instead
+        'no-throw-literal': 'off', // @typescript-eslint/only-throw-error used instead
         'prefer-destructuring': 'off', //@typescript-eslint/prefer-destructuring used instead
         'prefer-promise-reject-errors': 'off' // @typescript-eslint/prefer-promise-reject-errors use instead
       }
