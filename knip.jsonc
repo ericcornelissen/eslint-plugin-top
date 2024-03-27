@@ -5,7 +5,11 @@
   "entry": ["lib/index.ts"],
   "ignore": [],
   "ignoreBinaries": [],
-  "ignoreDependencies": ["@ericcornelissen/eslint-plugin-top", "@types/mocha"],
+  "ignoreDependencies": [
+    "@ericcornelissen/eslint-plugin-top",
+    "@types/mocha",
+    "ts-node"
+  ],
   "mocha": {
     "config": ".mocharc.yml",
     "entry": ["tests/**/*.test.ts"]
