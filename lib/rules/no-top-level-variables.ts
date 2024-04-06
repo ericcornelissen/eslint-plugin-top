@@ -134,8 +134,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
     }
   },
   create: (context) => {
-    // type-coverage:ignore-next-line
-    const provided: Partial<Options> = context.options[0];
+    const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
       allowed: [
