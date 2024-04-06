@@ -316,12 +316,6 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `export const symbol = Symbol();`
-    },
-    {
-      code: `const bigInt = BigInt(1);`
-    },
-    {
-      code: `export const bigInt = BigInt(1);`
     }
   ],
   ...[
@@ -1266,6 +1260,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 2,
           endLine: 1,
           endColumn: 29
+        }
+      ]
+    }
+  ],
+  ...[
+    {
+      code: `const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `export const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 23,
+          endLine: 1,
+          endColumn: 31
         }
       ]
     }
