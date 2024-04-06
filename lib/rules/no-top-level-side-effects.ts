@@ -20,7 +20,7 @@ type Options = {
 };
 
 const allowedCallsOption = {
-  default: ['BigInt', 'Symbol']
+  default: ['Symbol']
 };
 const allowedNewsOption = {
   default: []
