@@ -60,7 +60,7 @@
     "rollup": "4.13.0",
     "ts-node": "10.9.2",
     "type-coverage": "2.27.1",
-    "typescript": "5.4.4",
+    "typescript": "5.4.5",
     "yaml-eslint-parser": "1.2.2"
   },
   "scripts": {
