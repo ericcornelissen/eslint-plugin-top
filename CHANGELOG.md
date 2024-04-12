@@ -10,8 +10,14 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.2.0] - 2024-04-12
+
+- (`8028f58`) Add support for ESLint v9.
 - (`38fe16e`) Disallow calling `BigInt` with the `no-top-level-side-effects`
   rule by default.
+- (`19d1136`) Add docs metadata to all rules.
 
 ## [3.1.0] - 2023-12-29
 
