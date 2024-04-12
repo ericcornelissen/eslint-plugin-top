@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.2.0] - 2024-04-12
+
 - (`38fe16e`) Disallow calling `BigInt` with the `no-top-level-side-effects`
   rule by default.
 
