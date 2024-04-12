@@ -7,7 +7,8 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
   const projectRoot = path.resolve('.');
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
-    8: path.resolve(nodeModules, 'eslint-v8', 'bin', 'eslint.js')
+    8: path.resolve(nodeModules, 'eslint-v8', 'bin', 'eslint.js'),
+    9: path.resolve(nodeModules, 'eslint-v9', 'bin', 'eslint.js')
   }[version];
 
   if (!eslintCli) {
@@ -19,12 +20,11 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
     [
       eslintCli,
       // Avoid interference from a local ESLint configuration file
-      '--no-eslintrc',
+      version <= 8 ? '--no-eslintrc' : '--no-config-lookup',
       // Lint from stdin
       '--stdin',
       // Allow modern (ES6) syntax
-      '--env',
-      'es6',
+      ...(version <= 8 ? ['--env', 'es6'] : []),
       // Configure this plugin
       '--plugin',
       '@ericcornelissen/top',
