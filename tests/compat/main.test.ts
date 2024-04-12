@@ -5,7 +5,7 @@ import * as assert from 'node:assert';
 import {runEslint} from './helpers';
 import {snapshots} from './snapshots';
 
-const eslintVersions: ReadonlyArray<number> = [8];
+const eslintVersions: ReadonlyArray<number> = [8, 9];
 
 describe('compatibility', function () {
   for (const snapshot of snapshots) {
