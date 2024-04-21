@@ -18,6 +18,30 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ## Usage
 
+### New Config (since ESLint v9)
+
+Import from `@ericcornelissen/eslint-plugin-top` and use it as a plugin. Then
+configure the rules you want to use in the rules section:
+
+```javascript
+import top from '@ericcornelissen/eslint-plugin-top';
+
+export default [
+  {
+    plugins: {top},
+    rules: {
+      'top/no-top-level-side-effects': 'error',
+      'top/no-top-level-variables': 'error'
+    }
+  }
+];
+```
+
+Note that the rule prefix (`top` in the example) must match the name of the key
+used in the plugins object.
+
+### Legacy Config (before ESLint v9)
+
 First, add `@ericcornelissen/top` to the plugins section of your `.eslintrc`
 configuration file. You must omit the `eslint-plugin-` infix:
 

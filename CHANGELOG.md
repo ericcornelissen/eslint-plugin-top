@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`bfacef9`) Add usage documentation for new ESLint configuration syntax.
 
 ## [3.2.0] - 2024-04-12
 
