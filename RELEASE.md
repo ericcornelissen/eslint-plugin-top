@@ -65,7 +65,7 @@ version (using `v3.1.4` as an example):
    ```markdown
    - _No changes yet_
 
-   ## [2.4.1] - YYYY-MM-DD
+   ## [3.1.4] - YYYY-MM-DD
    ```
 
    The date should follow the year-month-day format where single-digit months
