@@ -1,7 +1,7 @@
 {
   "name": "@ericcornelissen/eslint-plugin-top",
   "description": "Disallow side effects at the top level of files",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "license": "ISC",
   "exports": "./index.js",
   "type": "commonjs",
