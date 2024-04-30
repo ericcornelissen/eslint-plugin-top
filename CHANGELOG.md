@@ -10,6 +10,11 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.2.1] - 2024-04-30
+
+- (`5ebc009`) Add support for Node.js v22.
 - (`bfacef9`) Add usage documentation for new ESLint configuration syntax.
 
 ## [3.2.0] - 2024-04-12
