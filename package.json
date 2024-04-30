@@ -6,7 +6,7 @@
   "exports": "./index.js",
   "type": "commonjs",
   "engines": {
-    "node": "18.x || 20.x"
+    "node": "18.x || 20.x || 22.x"
   },
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
@@ -86,7 +86,7 @@
     "lint:yml": "npm run _eslint -- . --ext .yml",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
-    "test:compat-all": "nve 18.0.0,20.0.0 npm run test:compat",
+    "test:compat-all": "nve 18.0.0,20.0.0,22.0.0 npm run test:compat",
     "test:mutation": "stryker run stryker.config.js",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run format:check && npm run lint && npm run test && npm run vet",
