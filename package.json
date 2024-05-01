@@ -58,7 +58,7 @@
     "nve": "17.0.0",
     "prettier": "3.2.5",
     "publint": "0.2.7",
-    "rollup": "4.16.1",
+    "rollup": "4.17.2",
     "ts-node": "10.9.2",
     "type-coverage": "2.28.1",
     "typescript": "5.4.5",
