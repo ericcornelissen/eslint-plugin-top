@@ -53,7 +53,7 @@
     "knip": "5.6.1",
     "licensee": "10.0.0",
     "lockfile-lint": "4.12.1",
-    "markdownlint-cli": "0.39.0",
+    "markdownlint-cli": "0.40.0",
     "mocha": "10.2.0",
     "nve": "17.0.0",
     "prettier": "3.2.5",
