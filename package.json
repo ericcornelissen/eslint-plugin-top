@@ -80,7 +80,7 @@
     "lint:ci": "node scripts/maybe-run.js actionlint",
     "lint:json": "npm run _eslint -- . --ext .json",
     "lint:md": "npm run lint:md:text && npm run lint:md:code",
-    "lint:md:code": "npm run _eslint -- **/*.md --ext .md,.javascript,.json,.yml",
+    "lint:md:code": "npm run _eslint -- **/*.md --ext .md,.js,.json,.yml",
     "lint:md:text": "markdownlint --dot --ignore-path .gitignore .",
     "lint:ts": "npm run _eslint -- . --ext .ts",
     "lint:yml": "npm run _eslint -- . --ext .yml",

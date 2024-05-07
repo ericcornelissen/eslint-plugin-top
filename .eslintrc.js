@@ -200,7 +200,7 @@ module.exports = {
       processor: 'markdown/markdown'
     },
     {
-      files: ['**/*.md/*.javascript'],
+      files: ['**/*.md/*.js'],
       rules: {
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
