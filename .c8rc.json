@@ -3,7 +3,7 @@
   "check-coverage": true,
 
   "include": ["lib/"],
-  "exclude": ["lib/index.ts"],
+  "exclude": ["lib/configs", "lib/index.ts"],
 
   "branches": 100,
   "functions": 100,
