@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.3.0] - 2024-05-09
+
 - (`be6a4af`) Provide a preset strict configuration.
 
 ## [3.2.2] - 2024-05-09
