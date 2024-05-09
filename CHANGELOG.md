@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`e81b7af`) Provide a recommended configuration.
 
 ## [3.2.1] - 2024-04-30
 

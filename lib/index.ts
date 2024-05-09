@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: ISC
 
+import {configRecommended} from './configs/recommended';
 import {noTopLevelSideEffects} from './rules/no-top-level-side-effects';
 import {noTopLevelVariables} from './rules/no-top-level-variables';
 
@@ -13,4 +14,11 @@ import {noTopLevelVariables} from './rules/no-top-level-variables';
 export const rules = {
   'no-top-level-variables': noTopLevelVariables,
   'no-top-level-side-effects': noTopLevelSideEffects
+};
+
+/**
+ * @public
+ */
+export const configs = {
+  recommended: configRecommended
 };
