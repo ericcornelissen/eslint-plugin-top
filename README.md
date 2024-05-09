@@ -20,19 +20,21 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ### New Config (since ESLint v9)
 
-Import from `@ericcornelissen/eslint-plugin-top` and use it as a plugin or use
-the preset configuration, e.g.:
+Import from `@ericcornelissen/eslint-plugin-top` and use one of the preset
+configuration, e.g.:
 
 ```javascript
 import top from '@ericcornelissen/eslint-plugin-top';
 
 export default [
-  top.configs.recommended
+  top.configs.recommended,
+  // or
+  top.configs.strict
   // ...
 ];
 ```
 
-Or configure the rules you want to use in the rules section:
+Or configure the rules you want to use in the rules section, e.g.:
 
 ```javascript
 import top from '@ericcornelissen/eslint-plugin-top';
