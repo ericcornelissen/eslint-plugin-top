@@ -7,6 +7,10 @@ security issues seriously. We appreciate your efforts to responsibly disclose
 your findings. Due to the non-funded and open-source nature of the project, we
 take a best-efforts approach when it comes to engaging with security reports.
 
+This document should be considered expired after 2024-11-05. If you are reading
+this after that date you should try to find an up-to-date version in the
+official source repository.
+
 ## Supported Versions
 
 The table below shows which versions of the project are currently supported with
