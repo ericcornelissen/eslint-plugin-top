@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # eslint-plugin-top
 
 Disallow side effects at the top level of files.
