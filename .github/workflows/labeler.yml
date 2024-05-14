@@ -9,7 +9,7 @@ jobs:
     name: Label
     permissions:
       pull-requests: write # To assign labels
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden runner
         uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
