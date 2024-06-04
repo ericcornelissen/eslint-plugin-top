@@ -224,20 +224,12 @@ jobs:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
         with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            api.codecov.io:443
-            api.github.com:443
-            artifactcache.actions.githubusercontent.com:443
-            cli.codecov.io:443
-            codecov.io:443
-            github.com:443
-            nodejs.org:443
-            objects.githubusercontent.com:443
-            registry.npmjs.org:443
-            storage.googleapis.com:443
-            uploader.codecov.io:443
+          egress-policy: audit
+      - name: Initialize Energy Estimation
+        uses: green-coding-solutions/eco-ci-energy-estimation@7333e9a8e8036e5bf69d59dc8bb63d984b0f55c8 # v3.1
+        continue-on-error: true
+        with:
+          task: start-measurement
       - name: Checkout repository
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: Install Node.js
@@ -247,6 +239,12 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
+      - name: Energy Estimation for 'setup'
+        uses: green-coding-solutions/eco-ci-energy-estimation@7333e9a8e8036e5bf69d59dc8bb63d984b0f55c8 # v3.1
+        continue-on-error: true
+        with:
+          task: get-measurement
+          label: setup
       - name: Run tests with coverage
         run: npm run coverage
       - name: Upload coverage to Codecov
@@ -256,6 +254,17 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           file: ./_reports/coverage/lcov.info
+      - name: Energy Estimation for 'test'
+        uses: green-coding-solutions/eco-ci-energy-estimation@7333e9a8e8036e5bf69d59dc8bb63d984b0f55c8 # v3.1
+        continue-on-error: true
+        with:
+          task: get-measurement
+          label: test
+      - name: Eco-CI Results
+        uses: green-coding-solutions/eco-ci-energy-estimation@7333e9a8e8036e5bf69d59dc8bb63d984b0f55c8 # v3.1
+        continue-on-error: true
+        with:
+          task: display-results
   test-compat:
     name: Compatibility tests
     runs-on: ubuntu-22.04
