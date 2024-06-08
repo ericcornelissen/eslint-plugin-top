@@ -4,7 +4,6 @@ ci:
   - changed-files:
       - any-glob-to-any-file:
           - .github/workflows/*
-          - .github/codecov.yml
           - .github/codeql.yml
           - .github/dependabot.yml
           - .github/labeler.yml
