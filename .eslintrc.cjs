@@ -130,7 +130,6 @@ module.exports = {
         '.github/**/*.yml',
         '.lockfile-lintrc.yml',
         '.markdownlint.yml',
-        '.mocharc.yml',
         '.prettierrc.yml',
         '**/*.md/*.yml'
       ],

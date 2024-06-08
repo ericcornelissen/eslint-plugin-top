@@ -42,7 +42,7 @@ test:
           - tests/**
           - tests/**/*
           - .c8rc.json
-          - .mocharc.yml
+          - .mocharc.cjs
 
 security:
   - changed-files:

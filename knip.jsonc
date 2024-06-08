@@ -11,7 +11,7 @@
     "tsx"
   ],
   "mocha": {
-    "config": ".mocharc.yml",
+    "config": ".mocharc.cjs",
     "entry": ["tests/**/*.test.ts"]
   }
 }

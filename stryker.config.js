@@ -12,7 +12,7 @@ export default {
 
   testRunner: 'mocha',
   mochaOptions: {
-    config: '.mocharc.yml',
+    config: '.mocharc.cjs',
     spec: ['tests/unit/*.test.ts']
   },
 
