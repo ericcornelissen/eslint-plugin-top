@@ -3,7 +3,7 @@
 
 # Except the ones we want to publish
 !docs/
-!index.js
+!index.cjs
 !LICENSE
 !package.json
 !README.md

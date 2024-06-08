@@ -2,7 +2,7 @@
 .temp/
 _reports/
 checksums.txt
-index.js
+index.cjs
 
 # ESLint
 .eslintcache

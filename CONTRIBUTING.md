@@ -229,7 +229,7 @@ You can do this locally by running:
 npm run build
 ```
 
-This will create a file called `index.js`. Note that this file ignored by git.
+This will create a file called `index.cjs`. Note that this file ignored by git.
 
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit

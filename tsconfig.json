@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es2022"],
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
     "rootDir": "./lib",
     "strict": true,
     "noImplicitAny": true,

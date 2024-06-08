@@ -56,10 +56,10 @@
  * SOFTWARE.
  */
 
-const cp = require('node:child_process');
-const process = require('node:process');
+import cp from 'node:child_process';
+import process from 'node:process';
 
-const isCI = require('is-ci');
+import isCI from 'is-ci';
 
 if (process.argv.length < 3) {
   console.info(

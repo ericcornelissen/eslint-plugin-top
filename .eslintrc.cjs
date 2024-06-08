@@ -220,6 +220,6 @@ module.exports = {
     '.temp/',
     '_reports/',
     'node_modules/',
-    'index.js'
+    'index.cjs'
   ]
 };

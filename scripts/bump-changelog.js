@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT-0
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 const STR_UNRELEASED = '## [Unreleased]';
 const STR_NO_CHANGES = '- _No changes yet_';

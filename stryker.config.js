@@ -1,6 +1,10 @@
 // Check out StrykerJS at: https://stryker-mutator.io/
 
-module.exports = {
+import * as process from 'node:process';
+
+process.env.NODE_OPTIONS = '--import=tsx/esm';
+
+export default {
   coverageAnalysis: 'perTest',
   inPlace: false,
   ignoreStatic: true,
@@ -9,7 +13,7 @@ module.exports = {
   testRunner: 'mocha',
   mochaOptions: {
     config: '.mocharc.yml',
-    spec: ['tests/unit/**/*.test.ts']
+    spec: ['tests/unit/*.test.ts']
   },
 
   incremental: true,

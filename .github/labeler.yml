@@ -27,7 +27,7 @@ meta:
       - any-glob-to-any-file:
           - .github/labeler.yml
           - .editorconfig
-          - .eslintrc.js
+          - .eslintrc.cjs
           - .gitattributes
           - .gitignore
           - .licensee.json

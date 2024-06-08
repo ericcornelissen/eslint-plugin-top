@@ -1,5 +1,3 @@
 # Check out Mocha at: https://mochajs.org/
 
-extension:
-  - ts
-require: ts-node/register
+import: tsx/esm
