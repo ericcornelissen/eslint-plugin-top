@@ -108,6 +108,7 @@ module.exports = {
       files: [
         '.github/**/*.json',
         '.licensee.json',
+        '.c8rc.json',
         'knip.json',
         'package-lock.json',
         'package.json',
