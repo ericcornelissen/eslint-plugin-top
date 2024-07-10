@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.3.1] - 2024-07-10
+
 - (`a8f0bfd`) Allow `"strict mode";` for `no-top-level-side-effects` rule.
 
 ## [3.3.0] - 2024-05-09
