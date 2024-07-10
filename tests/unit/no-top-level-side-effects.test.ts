@@ -702,7 +702,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 10
         }
       ]
-    },
+    }
   ],
   ...[
     {
