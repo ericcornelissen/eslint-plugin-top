@@ -242,6 +242,13 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             return;
           }
 
+          if (
+            node.expression.type === 'Literal' &&
+            node.expression.value === 'use strict'
+          ) {
+            return;
+          }
+
           if (options.commonjs) {
             if (
               node.expression.type === 'CallExpression' &&

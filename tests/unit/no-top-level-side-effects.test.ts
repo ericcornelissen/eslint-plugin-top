@@ -129,6 +129,24 @@ const valid: RuleTester.ValidTestCase[] = [
           }
         }
       `
+    },
+    {
+      code: `
+        "use strict";
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        'use strict';
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
     }
   ],
   ...[
@@ -667,6 +685,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 3,
+          endColumn: 10
+        }
+      ]
+    },
+    {
+      code: `
+        "foobar";
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
           endColumn: 10
         }
       ]
