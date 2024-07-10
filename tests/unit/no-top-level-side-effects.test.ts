@@ -129,6 +129,24 @@ const valid: RuleTester.ValidTestCase[] = [
           }
         }
       `
+    },
+    {
+      code: `
+        "use strict";
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        'use strict';
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
     }
   ],
   ...[
