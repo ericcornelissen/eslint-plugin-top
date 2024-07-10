@@ -688,7 +688,21 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 10
         }
       ]
-    }
+    },
+    {
+      code: `
+        "foobar";
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 10
+        }
+      ]
+    },
   ],
   ...[
     {
