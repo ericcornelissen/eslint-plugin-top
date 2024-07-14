@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   audit:
     name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
+    uses: ./.github/workflows/reusable-audit.yml
     with:
       refs: '["main", "v3"]'
   tooling:
