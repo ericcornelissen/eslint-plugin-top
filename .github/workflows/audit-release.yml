@@ -1,22 +1,15 @@
-name: Audit
+name: Audit (release)
 on:
-  workflow_call:
-    inputs:
-      refs:
-        default: '[""]'
-        required: false
-        type: string
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch: ~
 
 permissions: read-all
 
 jobs:
-  npm:
-    name: npm
+  v3:
+    name: v3
     runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        ref: ${{ fromJSON(inputs.refs) }}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
@@ -34,7 +27,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
         with:
-          ref: ${{ matrix.ref }}
+          ref: v3
       - name: Install Node.js
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
@@ -42,9 +35,5 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Audit all npm dependencies
-        if: ${{ !startsWith(matrix.ref, 'v') }}
-        run: npm run audit
       - name: Audit production npm dependencies
-        if: ${{ startsWith(matrix.ref, 'v') }}
         run: npm run audit:runtime
