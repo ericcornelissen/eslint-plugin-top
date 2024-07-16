@@ -9,14 +9,15 @@ import type {
   VariableDeclaration
 } from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isInESModule, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
   readonly allowDerived: boolean;
-  readonly commonjs: boolean;
+  readonly commonjs: boolean | undefined;
+  readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
 const allowedCallsOption = {
@@ -103,6 +104,7 @@ function isNew(expression: NewExpression, name: string): boolean {
 function checkExpression(
   context: Rule.RuleContext,
   options: Options,
+  node: Rule.Node,
   expression: Expression
 ) {
   const report = () => {
@@ -124,8 +126,8 @@ function checkExpression(
     case 'BinaryExpression':
     case 'LogicalExpression':
       if (options.allowDerived) {
-        checkExpression(context, options, expression.left);
-        checkExpression(context, options, expression.right);
+        checkExpression(context, options, node, expression.left);
+        checkExpression(context, options, node, expression.right);
         return;
       }
 
@@ -133,6 +135,10 @@ function checkExpression(
       break;
 
     case 'CallExpression':
+      if (options.isCommonjs(node) && isCallTo(expression, 'require')) {
+        return;
+      }
+
       if (options.allowedCalls.some((name) => isCallTo(expression, name))) {
         return;
       }
@@ -161,7 +167,7 @@ function checkExpression(
       }
 
       if (options.allowDerived) {
-        checkExpression(context, options, expression.argument);
+        checkExpression(context, options, node, expression.argument);
         return;
       }
 
@@ -175,12 +181,12 @@ function checkExpression(
 function checkVariableDeclaration(
   context: Rule.RuleContext,
   options: Options,
-  node: VariableDeclaration
+  node: Rule.Node,
+  declaration: VariableDeclaration
 ) {
-  for (const declaration of node.declarations) {
-    const expression = declaration.init;
-    if (expression !== null && expression !== undefined) {
-      checkExpression(context, options, expression);
+  for (const {init} of declaration.declarations) {
+    if (init !== null && init !== undefined) {
+      checkExpression(context, options, node, init);
     }
   }
 }
@@ -225,14 +231,13 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowedCalls: [
-        ...(provided?.commonjs ? ['require'] : ([] as never[])),
-        ...(provided?.allowedCalls || allowedCallsOption.default)
-      ],
+      allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || false,
       allowDerived: provided?.allowDerived || false,
-      commonjs: provided?.commonjs || false
+      commonjs: provided?.commonjs,
+      isCommonjs: (node) =>
+        options.commonjs === undefined ? !isInESModule(node) : options.commonjs
     };
 
     return {
@@ -249,7 +254,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             return;
           }
 
-          if (options.commonjs) {
+          if (options.isCommonjs(node)) {
             if (
               node.expression.type === 'CallExpression' &&
               isCallTo(node.expression, 'require')
@@ -262,7 +267,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
                 isModuleAssignment(node) ||
                 isModulePropertyAssignment(node))
             ) {
-              checkExpression(context, options, node.expression.right);
+              checkExpression(context, options, node, node.expression.right);
               return;
             }
           }
@@ -276,12 +281,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
 
       ExportNamedDeclaration: (node) => {
         if (node.declaration?.type === 'VariableDeclaration') {
-          checkVariableDeclaration(context, options, node.declaration);
+          checkVariableDeclaration(context, options, node, node.declaration);
         }
       },
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
-          checkVariableDeclaration(context, options, node);
+          checkVariableDeclaration(context, options, node, node);
         }
       },
 
