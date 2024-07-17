@@ -67,7 +67,7 @@ module.exports = function () {
 
 ### Options
 
-This rule accepts a configuration object with four options:
+This rule accepts a configuration object with five options:
 
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
@@ -79,9 +79,10 @@ This rule accepts a configuration object with four options:
 - `allowDerived: false` (default) Configure whether derivations - binary,
   logical, or unary operations on values and variables - are allowed at the top
   level.
-- `commonjs: false` (default) Configure whether the code being analyzed is, or
-  is partially, CommonJS code. Allows the use `require`, `module.exports` and
-  `exports` at the top level.
+- `commonjs` Configure whether the code being analyzed is, or is partially,
+  CommonJS code. If not specified it will use ESLint hints to determine if a
+  given piece of code is written in CommonJS or not. For CommonJS it allows for
+  the use of `require`, `module.exports`, and `exports` at the top level.
 
 #### `allowedCalls`
 

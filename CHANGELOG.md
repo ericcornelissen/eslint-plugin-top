@@ -10,7 +10,9 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`edac7cc`) Automatically determine if analysis should set `commonjs: true`
+  for the `no-top-level-side-effects` rule based on ESLint hints (if `commonjs`
+  is not explicitly configured).
 
 ## [3.3.1] - 2024-07-10
 
