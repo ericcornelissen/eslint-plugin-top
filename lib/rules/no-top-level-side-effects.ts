@@ -9,7 +9,7 @@ import type {
   VariableDeclaration
 } from 'estree';
 
-import {isInESModule, isTopLevel} from '../helpers';
+import {IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
@@ -237,7 +237,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       allowDerived: provided?.allowDerived || false,
       commonjs: provided?.commonjs,
       isCommonjs: (node) =>
-        options.commonjs === undefined ? !isInESModule(node) : options.commonjs
+        options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
     };
 
     return {
