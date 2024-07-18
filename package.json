@@ -57,7 +57,7 @@
     "mocha": "10.2.0",
     "nve": "18.0.0",
     "prettier": "3.3.3",
-    "publint": "0.2.8",
+    "publint": "0.2.9",
     "rollup": "4.18.0",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.1",
