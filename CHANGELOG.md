@@ -10,13 +10,13 @@ Versioning].
 
 ## [Unreleased]
 
-- (`edac7cc`) Automatically determine if analysis should set `commonjs: true`
+- (`5cab9a9`) Automatically determine if analysis should set `commonjs: true`
   for the `no-top-level-side-effects` rule based on ESLint hints (if `commonjs`
   is not explicitly configured).
 
 ## [3.3.1] - 2024-07-10
 
-- (`a8f0bfd`) Allow `"strict mode";` for `no-top-level-side-effects` rule.
+- (`6e1a298`) Allow `"strict mode";` for `no-top-level-side-effects` rule.
 
 ## [3.3.0] - 2024-05-09
 
