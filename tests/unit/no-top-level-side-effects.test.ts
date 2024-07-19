@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: ISC
 
+import type {Linter} from 'eslint';
+
 import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 
@@ -38,6 +40,17 @@ const options: {
   },
   noCommonjs: {
     commonjs: false
+  }
+};
+
+const parserOptions: {
+  [key: string]: Linter.ParserOptions;
+} = {
+  sourceTypeModule: {
+    sourceType: 'module'
+  },
+  sourceTypeScript: {
+    sourceType: 'script'
   }
 };
 
@@ -127,6 +140,24 @@ const valid: RuleTester.ValidTestCase[] = [
           while (i<10) {
             i++;
           }
+        }
+      `
+    },
+    {
+      code: `
+        "use strict";
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        'use strict';
+
+        function foobar() {
+          // Nothing to do
         }
       `
     }
@@ -390,6 +421,82 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs]
+    }
+  ],
+  ...[
+    {
+      code: `require('dotenv'); // non-module autodetect`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `var fs = require('fs');`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `let cp = require('child_process');`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `const path = require('path');`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `module.exports = {};`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `module.exports.foobar = {};`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `exports = {};`,
+      parserOptions: parserOptions.sourceTypeScript
+    },
+    {
+      code: `exports.foobar = {};`,
+      parserOptions: parserOptions.sourceTypeScript
+    }
+  ],
+  ...[
+    {
+      code: `require('dotenv'); // module autodetect w/ commonjs: true`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `var fs = require('fs');`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `let cp = require('child_process');`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `const path = require('path');`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `module.exports = {};`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `module.exports.foobar = {};`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `exports = {};`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
+    },
+    {
+      code: `exports.foobar = {};`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeModule
     }
   ],
   ...[
@@ -667,6 +774,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 3,
+          endColumn: 10
+        }
+      ]
+    },
+    {
+      code: `
+        "foobar";
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
           endColumn: 10
         }
       ]
@@ -1587,6 +1708,226 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports.foobar = {};`,
       options: [options.noCommonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    }
+  ],
+  ...[
+    {
+      code: `require('dotenv'); // module autodetect`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `var fs = require('fs');`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `let cp = require('child_process');`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 34
+        }
+      ]
+    },
+    {
+      code: `const path = require('path');`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `module.exports = {};`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `module.exports.foobar = {};`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `exports = {};`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 14
+        }
+      ]
+    },
+    {
+      code: `exports.foobar = {};`,
+      parserOptions: parserOptions.sourceTypeModule,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    }
+  ],
+  ...[
+    {
+      code: `require('dotenv'); // non-module autodetect w/ commonjs: false`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `var fs = require('fs');`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `let cp = require('child_process');`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 34
+        }
+      ]
+    },
+    {
+      code: `const path = require('path');`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `module.exports = {};`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `module.exports.foobar = {};`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `exports = {};`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 14
+        }
+      ]
+    },
+    {
+      code: `exports.foobar = {};`,
+      options: [options.noCommonjs],
+      parserOptions: parserOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',

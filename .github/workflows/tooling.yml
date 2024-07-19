@@ -1,4 +1,4 @@
-name: Nightly
+name: Tooling
 on:
   schedule:
     - cron: '0 3 * * *'
@@ -7,13 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  audit:
-    name: Audit
-    uses: ericcornelissen/eslint-plugin-top/.github/workflows/reusable-audit.yml@main
-    with:
-      refs: '["main", "v3"]'
-  tooling:
-    name: Update tooling
+  update:
+    name: Update
     runs-on: ubuntu-24.04
     permissions:
       contents: write # To push a commit
