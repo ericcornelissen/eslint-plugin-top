@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: ISC
 
-import type {Linter} from 'eslint';
+import type { Linter } from 'eslint';
 
 import * as parser from '@typescript-eslint/parser';
-import {RuleTester} from 'eslint';
+import { RuleTester } from 'eslint';
 
-import {trimTestCases} from './helpers';
-import {noTopLevelSideEffects} from '../../lib/rules/no-top-level-side-effects';
+import { trimTestCases } from './helpers';
+import { noTopLevelSideEffects } from '../../lib/rules/no-top-level-side-effects';
 
 const options: {
   [key: string]: {
@@ -652,6 +652,28 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
+    }
+  ],
+  ...[
+    {
+      code: `const x = { foo: ok() };`,
+      options: [{ allowedCalls: ['ok'] }],
+    },
+    {
+      code: `const x = { ...ok() };`,
+      options: [{ allowedCalls: ['ok'] }],
+    },
+    {
+      code: `const x = () => ({ foo: ok() });`,
+      options: [],
+    },
+    {
+      code: `const x = () => ({ ...ok() });`,
+      options: [],
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      options: [{ allowedNews: ['Foo'] }],
     }
   ]
 ];
@@ -2499,7 +2521,101 @@ const invalid: RuleTester.InvalidTestCase[] = [
         }
       ]
     }
-  ]
+  ],
+  ...[
+    {
+      code: `const x = { foo: bad() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: { nested: { bar: bad() } } };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 35,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: bad(), bar: worse(), baz: worst() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 30,
+          endLine: 1,
+          endColumn: 37
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 44,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: ok(), bar: fine(), baz: notThis() };`,
+      options: [{ allowedCalls: ['ok', 'fine'] }],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 42,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { ...bad() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    }
+  ],
 ];
 
 new RuleTester({
@@ -2510,5 +2626,5 @@ new RuleTester({
   }
 }).run('no-top-level-side-effects', noTopLevelSideEffects, {
   valid: valid.map(trimTestCases),
-  invalid: invalid.map(trimTestCases)
+  invalid: invalid.map(trimTestCases),
 });
