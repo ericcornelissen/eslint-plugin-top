@@ -61,7 +61,7 @@
     "rollup": "4.18.0",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.1",
-    "typescript": "5.5.3",
+    "typescript": "5.5.4",
     "yaml-eslint-parser": "1.2.2"
   },
   "scripts": {
