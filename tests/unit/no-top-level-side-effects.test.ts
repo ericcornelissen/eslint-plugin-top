@@ -94,9 +94,11 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        function foobar() {
+        async function foobar() {
           if (foo) {
             bar();
+          } else {
+            await baz();
           }
         }
       `
@@ -145,6 +147,23 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
+        function foobar() {
+          const binaryExpression0 = 1 + 2;
+          const logicalExpression0 = true || false;
+          const conditionalExpression0 = foo ? bar : baz;
+          const string0 = 'foobar';
+          const string1 = "foobar";
+          const string2 = \`foobar\`;
+          const string3 = \`foo\${bar}\`;
+          const string4 = $\`foobar\`;
+          const unaryExpression0 = -1;
+          const unaryExpression1 = -binaryExpression;
+          const chainExpression0 = foo?.bar;
+        }
+      `
+    },
+    {
+      code: `
         "use strict";
 
         function foobar() {
@@ -155,6 +174,24 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         'use strict';
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        "foobar";
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        42;
 
         function foobar() {
           // Nothing to do
@@ -780,15 +817,15 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `
-        "foobar";
+        const taggedTemplateString = $\`foobar\`;
       `,
       errors: [
         {
           messageId: '0',
           line: 1,
-          column: 1,
+          column: 30,
           endLine: 1,
-          endColumn: 10
+          endColumn: 39
         }
       ]
     }
@@ -802,7 +839,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 31
+          endColumn: 30
         }
       ]
     },
@@ -814,7 +851,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 14
+          endColumn: 13
         }
       ]
     },
@@ -1092,7 +1129,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 28
+          endColumn: 27
         }
       ]
     },
@@ -1167,7 +1204,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 28
+          endColumn: 27
         }
       ]
     },
@@ -1243,7 +1280,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 18
+          endColumn: 17
         }
       ]
     },
@@ -1327,7 +1364,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 55
+          endColumn: 54
         }
       ]
     },
@@ -1339,7 +1376,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 21
+          endColumn: 20
         }
       ]
     },
@@ -1366,7 +1403,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 28
+          endColumn: 27
         }
       ]
     }
@@ -1380,7 +1417,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 2,
           endLine: 1,
-          endColumn: 29
+          endColumn: 28
         }
       ]
     }
@@ -1623,7 +1660,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },
@@ -1729,7 +1766,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },
@@ -1836,7 +1873,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },

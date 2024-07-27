@@ -146,11 +146,6 @@ export const noTopLevelVariables: Rule.RuleModule = {
     };
 
     return {
-      ExportNamedDeclaration: (node) => {
-        if (node.declaration?.type === 'VariableDeclaration') {
-          checkVariableDeclaration(context, options, node.declaration);
-        }
-      },
       VariableDeclaration: (node) => {
         if (isTopLevel(node)) {
           checkVariableDeclaration(context, options, node);

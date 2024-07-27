@@ -10,6 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
+- (`f878f23`) Allow literals at the top level.
 - (`edac7cc`) Automatically determine if analysis should set `commonjs: true`
   for the `no-top-level-side-effects` rule based on ESLint hints (if `commonjs`
   is not explicitly configured).
