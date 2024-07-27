@@ -94,9 +94,11 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        function foobar() {
+        async function foobar() {
           if (foo) {
             bar();
+          } else {
+            await baz();
           }
         }
       `
@@ -148,12 +150,15 @@ const valid: RuleTester.ValidTestCase[] = [
         function foobar() {
           const binaryExpression0 = 1 + 2;
           const logicalExpression0 = true || false;
+          const conditionalExpression0 = foo ? bar : baz;
           const string0 = 'foobar';
           const string1 = "foobar";
           const string2 = \`foobar\`;
           const string3 = \`foo\${bar}\`;
+          const string4 = $\`foobar\`;
           const unaryExpression0 = -1;
           const unaryExpression1 = -binaryExpression;
+          const chainExpression0 = foo?.bar;
         }
       `
     },
@@ -807,6 +812,20 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 3,
           endColumn: 10
+        }
+      ]
+    },
+    {
+      code: `
+        const taggedTemplateString = $\`foobar\`;
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 30,
+          endLine: 1,
+          endColumn: 39
         }
       ]
     }
