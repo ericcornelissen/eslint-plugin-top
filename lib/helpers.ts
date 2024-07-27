@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-import type { Rule } from 'eslint';
+import type {Rule} from 'eslint';
 
 const topLevelTypes = new Set([
   'ArrayExpression',
@@ -13,6 +13,8 @@ const topLevelTypes = new Set([
   'LogicalExpression',
   'NewExpression',
   'ObjectExpression',
+  'Property',
+  'SpreadElement',
   'UnaryExpression',
   'VariableDeclaration',
   'VariableDeclarator'

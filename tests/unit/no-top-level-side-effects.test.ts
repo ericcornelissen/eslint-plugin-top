@@ -660,8 +660,44 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [{ allowedCalls: ['ok'] }],
     },
     {
+      code: `const x = {};`,
+      options: [],
+    },
+    {
+      code: `const x = { foo: 123 };`,
+      options: [],
+    },
+    {
+      code: `const x = { foo: 123, bar: 'baz' };`,
+      options: [],
+    },
+    {
+      code: `const x = { foo: () => 123 };`,
+      options: [],
+    },
+    {
+      code: `const x = { foo: require('./config') };`,
+      options: [options.commonjs],
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      options: [options.allowIIFE]
+    },
+    {
+      code: `const x = { foo: function*() { yield true } };`,
+      options: [],
+    },
+    {
+      code: `const x = { foo() { return 123 } };`,
+      options: [],
+    },
+    {
       code: `const x = { ...ok() };`,
       options: [{ allowedCalls: ['ok'] }],
+    },
+    {
+      code: `const x = { ...foo };`,
+      options: [],
     },
     {
       code: `const x = () => ({ foo: ok() });`,
@@ -674,7 +710,15 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const x = { foo: new Foo() };`,
       options: [{ allowedNews: ['Foo'] }],
-    }
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      options: [options.allowDerived],
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      options: [],
+    },
   ]
 ];
 
@@ -2614,7 +2658,72 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 27
         }
       ]
-    }
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 44
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: await bar() };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `module.exports = { foo: { bar: bad() } };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 32,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo()]: true };`,
+      options: [],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
   ],
 ];
 

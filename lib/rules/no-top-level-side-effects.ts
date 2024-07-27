@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: ISC
 
-import type { Rule } from 'eslint';
-import type { CallExpression, NewExpression, AssignmentExpression, Expression } from 'estree';
+import type {Rule} from 'eslint';
+import type {CallExpression, NewExpression, AssignmentExpression} from 'estree';
 
-import { IsCommonJs, isTopLevel } from '../helpers';
+import {IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowedCalls: ReadonlyArray<string>;
@@ -74,83 +74,6 @@ function isNew(expression: NewExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
-}
-
-function checkExpression(
-  context: Rule.RuleContext,
-  options: Options,
-  node: Rule.Node,
-  expression: Expression
-) {
-  const report = () => {
-    context.report({
-      node: expression,
-      messageId: disallowedSideEffect.id
-    });
-  };
-
-  switch (expression.type) {
-    case 'AwaitExpression':
-    case 'ChainExpression':
-    case 'ConditionalExpression':
-    case 'TaggedTemplateExpression':
-    case 'UpdateExpression':
-      report();
-      break;
-
-    case 'BinaryExpression':
-    case 'LogicalExpression':
-      if (options.allowDerived) {
-        checkExpression(context, options, node, expression.left);
-        checkExpression(context, options, node, expression.right);
-        return;
-      }
-
-      report();
-      break;
-
-    case 'CallExpression':
-      if (options.isCommonjs(node) && isCallTo(expression, 'require')) {
-        return;
-      }
-
-      if (options.allowedCalls.some((name) => isCallTo(expression, name))) {
-        return;
-      }
-
-      report();
-      break;
-    case 'NewExpression':
-      if (options.allowedNews.some((name) => isNew(expression, name))) {
-        return;
-      }
-
-      report();
-      break;
-
-    case 'TemplateLiteral':
-      if (expression.expressions.length === 0) {
-        return;
-      }
-
-      report();
-      break;
-
-    case 'UnaryExpression':
-      if (expression.argument.type === 'Literal') {
-        return;
-      }
-
-      if (options.allowDerived) {
-        checkExpression(context, options, node, expression.argument);
-        return;
-      }
-
-      report();
-      break;
-
-    default:
-  }
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -253,7 +176,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         if (
           options.allowIIFE &&
           isIIFE(node) &&
-          node.parent.type === 'ExpressionStatement'
+          ['ExpressionStatement', 'Property'].includes(node.parent.type)
         ) {
           return;
         }
@@ -418,28 +341,6 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           context.report({
             node,
             messageId: disallowedSideEffect.id
-          });
-        }
-      },
-      ObjectExpression: (node) => {
-        if (isTopLevel(node)) {
-          node.properties.forEach(property => {
-            if (property.type === 'SpreadElement') {
-              checkExpression(context, options, node, property.argument);
-              return;
-            }
-
-            switch (property.value.type) {
-              case 'Identifier':
-              case 'ObjectPattern':
-              case 'ArrayPattern':
-              case 'RestElement':
-              case 'AssignmentPattern':
-              case 'MemberExpression':
-                return;
-              default:
-                checkExpression(context, options, node, property.value);
-            }
           });
         }
       },
