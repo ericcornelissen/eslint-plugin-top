@@ -726,6 +726,46 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const f = () => ({ [bar()]: true });`
     }
+  ],
+  ...[
+    {
+      code: `const arr = [];`
+    },
+    {
+      code: `const arr = ["foobar"];`
+    },
+    {
+      code: `const arr = [3, 14, 'pi'];`
+    },
+    {
+      code: `const arr = [[3, 1], [4]];`
+    },
+    {
+      code: `const arr = [{ pi: 3.14 }];`
+    },
+    {
+      code: `const arr = [ok()];`,
+      options: [{allowedCalls: ['ok']}]
+    },
+    {
+      code: `const arr = [new Foo()];`,
+      options: [{allowedNews: ['Foo']}]
+    },
+    {
+      code: `const arr = [require('foobar')];`,
+      options: [options.commonjs]
+    },
+    {
+      code: `
+        const arr1 = [3, 1];
+        const arr2 = [...arr1, 4];
+      `,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const arr = [...ok()];`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    }
   ]
 ];
 
@@ -2758,6 +2798,175 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 18,
           endLine: 1,
           endColumn: 44
+        }
+      ]
+    }
+  ],
+  ...[
+    {
+      code: `const arr = [foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const arr = [new Foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const arr = [await foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const arr = [3+14];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const arr = [(function() {})()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const arr = [(() => {})()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 26
+        }
+      ]
+    },
+    {
+      code: `module.exports = [foo()];`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `module.exports.foobar = [foo()];`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 26,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `exports = [foo()];`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `exports.foobar = [foo()];`,
+      options: [options.commonjs],
+      parserOptions: parserOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const arr = [3, [foo(), 1], 4];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `
+        const arr1 = [3, 1];
+        const arr2 = [...arr1, 4];
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 23,
+          endLine: 2,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const arr = [...foo()];`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 17,
+          endLine: 1,
+          endColumn: 22
         }
       ]
     }
