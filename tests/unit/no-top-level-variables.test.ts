@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: ISC
 
 import * as parser from '@typescript-eslint/parser';
-import { RuleTester } from 'eslint';
+import {RuleTester} from 'eslint';
 
-import { trimTestCases } from './helpers';
-import { noTopLevelVariables } from '../../lib/rules/no-top-level-variables';
+import {trimTestCases} from './helpers';
+import {noTopLevelVariables} from '../../lib/rules/no-top-level-variables';
 
 const options: {
   [key: string]: {

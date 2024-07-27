@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: ISC
 
-import type { Linter } from 'eslint';
+import type {Linter} from 'eslint';
 
 import * as parser from '@typescript-eslint/parser';
-import { RuleTester } from 'eslint';
+import {RuleTester} from 'eslint';
 
-import { trimTestCases } from './helpers';
-import { noTopLevelSideEffects } from '../../lib/rules/no-top-level-side-effects';
+import {trimTestCases} from './helpers';
+import {noTopLevelSideEffects} from '../../lib/rules/no-top-level-side-effects';
 
 const options: {
   [key: string]: {
