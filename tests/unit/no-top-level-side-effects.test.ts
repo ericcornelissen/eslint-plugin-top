@@ -680,10 +680,6 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     },
     {
-      code: `const x = { foo: (function(){ return 1 })() };`,
-      options: [options.allowIIFE]
-    },
-    {
       code: `const x = { foo: function*() { yield true } };`
     },
     {
@@ -2751,6 +2747,19 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 14,
           endLine: 1,
           endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 44
         }
       ]
     }

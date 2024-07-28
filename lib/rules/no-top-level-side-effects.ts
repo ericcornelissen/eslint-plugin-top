@@ -176,7 +176,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         if (
           options.allowIIFE &&
           isIIFE(node) &&
-          ['ExpressionStatement', 'Property'].includes(node.parent.type)
+          node.parent.type === 'ExpressionStatement'
         ) {
           return;
         }
