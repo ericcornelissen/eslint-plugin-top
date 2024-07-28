@@ -23,7 +23,7 @@ const allowedNewsOption = {
 
 const disallowedSideEffect = {
   id: '0',
-  message: 'Side effects at the top level are not allowed',
+  message: 'Side effects at the top level are not allowed'
 };
 
 function isCallTo(expression: CallExpression, name: string): boolean {
@@ -268,6 +268,28 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      Property: (node) => {
+        if (isTopLevel(node)) {
+          if (node.computed) {
+            if (options.allowDerived) return;
+
+            context.report({
+              node: node.key,
+              messageId: disallowedSideEffect.id
+            });
+          }
+        }
+      },
+      SpreadElement: (node) => {
+        if (options.allowDerived) return;
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
       SwitchStatement: (node) => {
         if (isTopLevel(node)) {
           context.report({
@@ -343,7 +365,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             messageId: disallowedSideEffect.id
           });
         }
-      },
+      }
     };
   }
 };

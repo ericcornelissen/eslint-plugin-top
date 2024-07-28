@@ -657,68 +657,74 @@ const valid: RuleTester.ValidTestCase[] = [
   ...[
     {
       code: `const x = { foo: ok() };`,
-      options: [{ allowedCalls: ['ok'] }],
+      options: [{allowedCalls: ['ok']}]
     },
     {
-      code: `const x = {};`,
-      options: [],
+      code: `const x = {};`
     },
     {
-      code: `const x = { foo: 123 };`,
-      options: [],
+      code: `const x = { foo: 123 };`
     },
     {
-      code: `const x = { foo: 123, bar: 'baz' };`,
-      options: [],
+      code: `const x = { foo: 123 + 345 };`,
+      options: [options.allowDerived]
     },
     {
-      code: `const x = { foo: () => 123 };`,
-      options: [],
+      code: `const x = { foo: 123, bar: 'baz' };`
+    },
+    {
+      code: `const x = { foo: () => 123 };`
     },
     {
       code: `const x = { foo: require('./config') };`,
-      options: [options.commonjs],
+      options: [options.commonjs]
     },
     {
       code: `const x = { foo: (function(){ return 1 })() };`,
       options: [options.allowIIFE]
     },
     {
-      code: `const x = { foo: function*() { yield true } };`,
-      options: [],
+      code: `const x = { foo: function*() { yield true } };`
     },
     {
-      code: `const x = { foo() { return 123 } };`,
-      options: [],
+      code: `const x = { foo() { return 123 } };`
     },
     {
       code: `const x = { ...ok() };`,
-      options: [{ allowedCalls: ['ok'] }],
+      options: [{allowedCalls: ['ok'], ...options.allowDerived}]
     },
     {
       code: `const x = { ...foo };`,
-      options: [],
+      options: [options.allowDerived]
     },
     {
-      code: `const x = () => ({ foo: ok() });`,
-      options: [],
+      code: `const x = () => ({ foo: ok() });`
     },
     {
-      code: `const x = () => ({ ...ok() });`,
-      options: [],
+      code: `const x = () => ({ ...ok() });`
     },
     {
       code: `const x = { foo: new Foo() };`,
-      options: [{ allowedNews: ['Foo'] }],
+      options: [{allowedNews: ['Foo']}]
     },
     {
       code: `const x = { foo: 40 + 2 };`,
-      options: [options.allowDerived],
+      options: [options.allowDerived]
     },
     {
       code: `const x = { [foo]: true };`,
-      options: [],
+      options: [options.allowDerived]
     },
+    {
+      code: `const x = function() { return { [foo]: true }; };`
+    },
+    {
+      code: `const x = { [foo()]: true };`,
+      options: [{allowedCalls: ['foo'], ...options.allowDerived}]
+    },
+    {
+      code: `const x = function() { return { [foo()]: true }; };`
+    }
   ]
 ];
 
@@ -2622,7 +2628,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: ok(), bar: fine(), baz: notThis() };`,
-      options: [{ allowedCalls: ['ok', 'fine'] }],
+      options: [{allowedCalls: ['ok', 'fine']}],
       errors: [
         {
           messageId: '0',
@@ -2635,7 +2641,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { ...bad() };`,
-      options: [],
+      options: [options.allowDerived],
       errors: [
         {
           messageId: '0',
@@ -2713,7 +2719,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { [foo()]: true };`,
-      options: [],
+      options: [options.allowDerived],
       errors: [
         {
           messageId: '0',
@@ -2723,8 +2729,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 19
         }
       ]
-    },
-  ],
+    }
+  ]
 ];
 
 new RuleTester({
@@ -2735,5 +2741,5 @@ new RuleTester({
   }
 }).run('no-top-level-side-effects', noTopLevelSideEffects, {
   valid: valid.map(trimTestCases),
-  invalid: invalid.map(trimTestCases),
+  invalid: invalid.map(trimTestCases)
 });
