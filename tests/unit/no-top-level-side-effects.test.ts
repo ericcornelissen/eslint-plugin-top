@@ -2718,6 +2718,30 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const x = { ...foo };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
       code: `const x = { [foo()]: true };`,
       options: [options.allowDerived],
       errors: [
