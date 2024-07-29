@@ -13,6 +13,8 @@ const topLevelTypes = new Set([
   'LogicalExpression',
   'NewExpression',
   'ObjectExpression',
+  'Property',
+  'SpreadElement',
   'UnaryExpression',
   'VariableDeclaration',
   'VariableDeclarator'

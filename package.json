@@ -67,7 +67,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "_eslint": "eslint --report-unused-disable-directives",
-    "_prettier": "prettier ./**/*.{js,json,jsonc,md,ts,yml} --ignore-path .gitignore",
+    "_prettier": "prettier \"**/*.{js,json,jsonc,md,ts,yml}\" --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
     "audit:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.js",

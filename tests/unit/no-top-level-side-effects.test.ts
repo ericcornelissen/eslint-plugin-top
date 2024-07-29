@@ -653,6 +653,79 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
     }
+  ],
+  ...[
+    {
+      code: `const x = {};`
+    },
+    {
+      code: `const x = { foo: 123 };`
+    },
+    {
+      code: `const x = { foo: 123, bar: 'baz' };`
+    },
+    {
+      code: `const x = { foo: () => 123 };`
+    },
+    {
+      code: `const x = { foo: function() { return true; } };`
+    },
+    {
+      code: `const x = { foo: function*() { yield true; } };`
+    },
+    {
+      code: `const x = { foo() { return 123; } };`
+    },
+    {
+      code: `const x = { foo: ok() };`,
+      options: [{allowedCalls: ['ok']}]
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      options: [{allowedNews: ['Foo']}]
+    },
+    {
+      code: `const x = { foo: require('./config') };`,
+      options: [options.commonjs]
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { ...foo };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { ...ok() };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
+      code: `const x = { [ok()]: true };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
+      code: `const f = () => ({ foo: 3 + 14 });`
+    },
+    {
+      code: `const f = () => ({ foo: bar() });`
+    },
+    {
+      code: `const f = () => ({ ...foo });`
+    },
+    {
+      code: `const f = () => ({ ...bar() });`
+    },
+    {
+      code: `const f = () => ({ [foo]: true });`
+    },
+    {
+      code: `const f = () => ({ [bar()]: true });`
+    }
   ]
 ];
 
@@ -2496,6 +2569,195 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 12,
           endLine: 1,
           endColumn: 15
+        }
+      ]
+    }
+  ],
+  ...[
+    {
+      code: `const x = { foo: bad() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: { nested: { bar: bad() } } };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 35,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: bad(), bar: worse(), baz: worst() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 30,
+          endLine: 1,
+          endColumn: 37
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 44,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: ok(), bar: fine(), baz: notThis() };`,
+      options: [{allowedCalls: ['ok', 'fine']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 42,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { ...bad() };`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 44
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: await bar() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `module.exports = { foo: { bar: bad() } };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 32,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const x = { ...foo };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo()]: true };`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 44
         }
       ]
     }

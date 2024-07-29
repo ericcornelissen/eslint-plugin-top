@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- (`f878f23`) Make the `no-top-level-side-effects` report side effects inside
+  top-level objects.
+- (`9f32d1d`) Make the `no-top-level-side-effects` report derived object values
+  when `allowDerived: false` (i.e. `{[foo]:42}` and `{...foo}`).
 - (`f878f23`) Allow literals at the top level.
 - (`edac7cc`) Automatically determine if analysis should set `commonjs: true`
   for the `no-top-level-side-effects` rule based on ESLint hints (if `commonjs`

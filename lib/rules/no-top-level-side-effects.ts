@@ -268,6 +268,30 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      Property: (node) => {
+        if (options.allowDerived || !node.computed) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node: node.key,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      SpreadElement: (node) => {
+        if (options.allowDerived) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
       SwitchStatement: (node) => {
         if (isTopLevel(node)) {
           context.report({
