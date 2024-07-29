@@ -10,18 +10,23 @@ Versioning].
 
 ## [Unreleased]
 
-- (`f878f23`) Make the `no-top-level-side-effects` report side effects inside
+- _No changes yet_
+
+## [3.4.0] - 2024-07-29
+
+- (`f878f23`) Make `no-top-level-side-effects` report side effects inside
   top-level objects.
-- (`9f32d1d`) Make the `no-top-level-side-effects` report derived object values
+- (`9f32d1d`) Make `no-top-level-side-effects` report derived object values
   when `allowDerived: false` (i.e. `{[foo]:42}` and `{...foo}`).
-- (`f878f23`) Allow literals at the top level.
-- (`edac7cc`) Automatically determine if analysis should set `commonjs: true`
+- (`f878f23`) Make `no-top-level-side-effects` stop reporting literals at the
+  top level.
+- (`5cab9a9`) Automatically determine if analysis should set `commonjs: true`
   for the `no-top-level-side-effects` rule based on ESLint hints (if `commonjs`
   is not explicitly configured).
 
 ## [3.3.1] - 2024-07-10
 
-- (`a8f0bfd`) Allow `"strict mode";` for `no-top-level-side-effects` rule.
+- (`6e1a298`) Allow `"strict mode";` for `no-top-level-side-effects` rule.
 
 ## [3.3.0] - 2024-05-09
 
@@ -29,7 +34,7 @@ Versioning].
 
 ## [3.2.2] - 2024-05-09
 
-- (`e81b7af`) Provide a recommended configuration.
+- (`e81b7af`) Provide a preset recommended configuration.
 
 ## [3.2.1] - 2024-04-30
 
