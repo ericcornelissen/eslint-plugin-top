@@ -269,19 +269,21 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       Property: (node) => {
-        if (isTopLevel(node)) {
-          if (node.computed) {
-            if (options.allowDerived) return;
+        if (options.allowDerived || !node.computed) {
+          return;
+        }
 
-            context.report({
-              node: node.key,
-              messageId: disallowedSideEffect.id
-            });
-          }
+        if (isTopLevel(node)) {
+          context.report({
+            node: node.key,
+            messageId: disallowedSideEffect.id
+          });
         }
       },
       SpreadElement: (node) => {
-        if (options.allowDerived) return;
+        if (options.allowDerived) {
+          return;
+        }
 
         if (isTopLevel(node)) {
           context.report({

@@ -656,18 +656,10 @@ const valid: RuleTester.ValidTestCase[] = [
   ],
   ...[
     {
-      code: `const x = { foo: ok() };`,
-      options: [{allowedCalls: ['ok']}]
-    },
-    {
       code: `const x = {};`
     },
     {
       code: `const x = { foo: 123 };`
-    },
-    {
-      code: `const x = { foo: 123 + 345 };`,
-      options: [options.allowDerived]
     },
     {
       code: `const x = { foo: 123, bar: 'baz' };`
@@ -676,35 +668,32 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const x = { foo: () => 123 };`
     },
     {
-      code: `const x = { foo: require('./config') };`,
-      options: [options.commonjs]
+      code: `const x = { foo: function() { return true; } };`
     },
     {
-      code: `const x = { foo: function*() { yield true } };`
+      code: `const x = { foo: function*() { yield true; } };`
     },
     {
-      code: `const x = { foo() { return 123 } };`
+      code: `const x = { foo() { return 123; } };`
     },
     {
-      code: `const x = { ...ok() };`,
-      options: [{allowedCalls: ['ok'], ...options.allowDerived}]
-    },
-    {
-      code: `const x = { ...foo };`,
-      options: [options.allowDerived]
-    },
-    {
-      code: `const x = () => ({ foo: ok() });`
-    },
-    {
-      code: `const x = () => ({ ...ok() });`
+      code: `const x = { foo: ok() };`,
+      options: [{allowedCalls: ['ok']}]
     },
     {
       code: `const x = { foo: new Foo() };`,
       options: [{allowedNews: ['Foo']}]
     },
     {
+      code: `const x = { foo: require('./config') };`,
+      options: [options.commonjs]
+    },
+    {
       code: `const x = { foo: 40 + 2 };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { ...foo };`,
       options: [options.allowDerived]
     },
     {
@@ -712,14 +701,30 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowDerived]
     },
     {
-      code: `const x = function() { return { [foo]: true }; };`
+      code: `const x = { ...ok() };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
-      code: `const x = { [foo()]: true };`,
-      options: [{allowedCalls: ['foo'], ...options.allowDerived}]
+      code: `const x = { [ok()]: true };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
-      code: `const x = function() { return { [foo()]: true }; };`
+      code: `const f = () => ({ foo: 3 + 14 });`
+    },
+    {
+      code: `const f = () => ({ foo: bar() });`
+    },
+    {
+      code: `const f = () => ({ ...foo });`
+    },
+    {
+      code: `const f = () => ({ ...bar() });`
+    },
+    {
+      code: `const f = () => ({ [foo]: true });`
+    },
+    {
+      code: `const f = () => ({ [bar()]: true });`
     }
   ]
 ];
@@ -2571,7 +2576,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ...[
     {
       code: `const x = { foo: bad() };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2584,7 +2588,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: { nested: { bar: bad() } } };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2597,7 +2600,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: bad(), bar: worse(), baz: worst() };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2650,7 +2652,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: new Foo() };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2663,7 +2664,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: (function(){ return 1 })() };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2676,7 +2676,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: 40 + 2 };`,
-      options: [],
       errors: [
         {
           messageId: '0',
@@ -2689,7 +2688,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const x = { foo: await bar() };`,
-      options: [],
       errors: [
         {
           messageId: '0',
