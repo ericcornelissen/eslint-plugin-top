@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.4.0] - 2024-07-29
+
 - (`f878f23`) Make the `no-top-level-side-effects` report side effects inside
   top-level objects.
 - (`9f32d1d`) Make the `no-top-level-side-effects` report derived object values
