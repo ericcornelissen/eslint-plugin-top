@@ -55,6 +55,7 @@ const parserOptions: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
+  // Control flow
   ...[
     {
       code: `
@@ -144,24 +145,11 @@ const valid: RuleTester.ValidTestCase[] = [
           }
         }
       `
-    },
-    {
-      code: `
-        function foobar() {
-          const binaryExpression0 = 1 + 2;
-          const logicalExpression0 = true || false;
-          const conditionalExpression0 = foo ? bar : baz;
-          const string0 = 'foobar';
-          const string1 = "foobar";
-          const string2 = \`foobar\`;
-          const string3 = \`foo\${bar}\`;
-          const string4 = $\`foobar\`;
-          const unaryExpression0 = -1;
-          const unaryExpression1 = -binaryExpression;
-          const chainExpression0 = foo?.bar;
-        }
-      `
-    },
+    }
+  ],
+
+  // Literal expressions
+  ...[
     {
       code: `
         "use strict";
@@ -199,6 +187,8 @@ const valid: RuleTester.ValidTestCase[] = [
       `
     }
   ],
+
+  // Basic declarations
   ...[
     {
       code: `class ClassName { }`
@@ -247,8 +237,24 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const [ a1, a2 ] = a;`
+    },
+    {
+      code: `
+        function f() {
+          const s = \`foo\${bar}\`;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const s = $\`foobar\`;
+        }
+      `
     }
   ],
+
+  // Import declarations
   ...[
     {
       code: `import defaultExport1 from "module-name";`
@@ -278,55 +284,9 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `import "module-name";`
     }
   ],
+
+  // Export declarations
   ...[
-    {
-      code: `class ClassName { }`
-    },
-    {
-      code: `function functionName() { }`
-    },
-    {
-      code: `function* generatorName() { }`
-    },
-    {
-      code: `const leet = 1337;`
-    },
-    {
-      code: `const leetBig = 1337n;`
-    },
-    {
-      code: `const negative = -1;`
-    },
-    {
-      code: `const regularExpression = /bar/;`
-    },
-    {
-      code: `const str1 = 'bar';`
-    },
-    {
-      code: `const str2 = "bar";`
-    },
-    {
-      code: `const str3 = \`bar\`;`
-    },
-    {
-      code: `const identifier = bar;`
-    },
-    {
-      code: `const isArray = Array.isArray;`
-    },
-    {
-      code: `const f = function() { };`
-    },
-    {
-      code: `const g = () => 'bar';`
-    },
-    {
-      code: `const { o1, o2: o3 } = o;`
-    },
-    {
-      code: `const [ a1, a2 ] = a;`
-    },
     {
       code: `
         const name1 = 0, name2 = 0, name3 = 0;
@@ -347,9 +307,7 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `export { default as name1, name2 } from "module-name";`
-    }
-  ],
-  ...[
+    },
     {
       code: `
         const x = 0;
@@ -378,6 +336,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export default function* () { }`
     }
   ],
+
+  // Default function calls
   ...[
     {
       code: `const symbol = Symbol();`
@@ -386,6 +346,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export const symbol = Symbol();`
     }
   ],
+
+  // Configured function calls
   ...[
     {
       code: `const symbol = Symbol();`,
@@ -394,9 +356,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `export const symbol = Symbol();`,
       options: [options.allowCallSymbol]
-    }
-  ],
-  ...[
+    },
     {
       code: `const bigInt = BigInt();`,
       options: [options.allowCallBigInt]
@@ -406,6 +366,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowCallBigInt]
     }
   ],
+
+  // Configured constructors
   ...[
     {
       code: `const map = new Map();`,
@@ -416,6 +378,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowNewMapAndSet]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE)
   ...[
     {
       code: `(function() { return ''; })();`,
@@ -426,6 +390,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowIIFE]
     }
   ],
+
+  // Commonjs, explicitly configured
   ...[
     {
       code: `require('dotenv');`,
@@ -460,9 +426,11 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     }
   ],
+
+  // Commonjs, source type scripts
   ...[
     {
-      code: `require('dotenv'); // non-module autodetect`,
+      code: `require('dotenv');`,
       parserOptions: parserOptions.sourceTypeScript
     },
     {
@@ -494,9 +462,11 @@ const valid: RuleTester.ValidTestCase[] = [
       parserOptions: parserOptions.sourceTypeScript
     }
   ],
+
+  // Commonjs, explicitly configured & source type script
   ...[
     {
-      code: `require('dotenv'); // module autodetect w/ commonjs: true`,
+      code: `require('dotenv');`,
       options: [options.commonjs],
       parserOptions: parserOptions.sourceTypeModule
     },
@@ -536,6 +506,8 @@ const valid: RuleTester.ValidTestCase[] = [
       parserOptions: parserOptions.sourceTypeModule
     }
   ],
+
+  // Derived values
   ...[
     {
       code: `const b01 = a == b;`,
@@ -652,8 +624,45 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `
+        function f() {
+          const binaryExpression = a + b;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const logicalExpression = a || b;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const conditionalExpression = foo ? bar : baz;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const unaryExpression = -a;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const chainExpression = foo?.bar;
+        }
+      `
     }
   ],
+
+  // Object declarations
   ...[
     {
       code: `const x = {};`
@@ -727,6 +736,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const f = () => ({ [bar()]: true });`
     }
   ],
+
+  // Array declarations
   ...[
     {
       code: `const arr = [];`
@@ -770,6 +781,7 @@ const valid: RuleTester.ValidTestCase[] = [
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Control flow
   ...[
     {
       code: `
@@ -927,7 +939,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 10
         }
       ]
-    },
+    }
+  ],
+
+  // Basic declarations
+  ...[
     {
       code: `
         const taggedTemplateString = $\`foobar\`;
@@ -943,6 +959,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE), when not allowed
   ...[
     {
       code: `(function() { return ''; })();`,
@@ -1091,6 +1109,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE), when allowed
   ...[
     {
       code: `var x = (function() { })();`,
@@ -1231,8 +1251,23 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `console.log('hello world');`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
     }
   ],
+
+  // Function calls
   ...[
     {
       code: `hello_world('hello world');`,
@@ -1306,8 +1341,60 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `export const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 23,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const symbol = Symbol();`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `export const symbol = Symbol();`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 23,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
     }
   ],
+
+  // Method calls
   ...[
     {
       code: `console.log('hello world');`,
@@ -1383,6 +1470,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Constructors
   ...[
     {
       code: `new HelloWorld();`,
@@ -1468,6 +1557,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // await/Promises
   ...[
     {
       code: `fetch('/api').then(res=>res.text()).then(console.log);`,
@@ -1506,21 +1597,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
-  ...[
-    {
-      code: `console.log('hello world');`,
-      options: [options.allowIIFE],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 1,
-          endColumn: 27
-        }
-      ]
-    }
-  ],
+
+  // Block statements
   ...[
     {
       code: `{console.log('hello world');}`,
@@ -1535,184 +1613,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
-  ...[
-    {
-      code: `const bigInt = BigInt();`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const bigInt = BigInt();`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    }
-  ],
-  ...[
-    {
-      code: `const symbol = Symbol();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const symbol = Symbol();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    },
-    {
-      code: `const bigInt = BigInt();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const bigInt = BigInt();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    }
-  ],
-  ...[
-    {
-      code: `const foo = 1 + 2;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 18
-        }
-      ]
-    },
-    {
-      code: `const foo = x > 1 ? "a" : "b";`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 30
-        }
-      ]
-    },
-    {
-      code: `const foo = bar || baz;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 23
-        }
-      ]
-    },
-    {
-      code: `const foo = f\`bar\`;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 19
-        }
-      ]
-    },
-    {
-      code: `const foo = i++;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 16
-        }
-      ]
-    },
-    {
-      code: `const foo = -bar;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 17
-        }
-      ]
-    },
-    {
-      code: `const foo = \`\${bar}\`;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 21
-        }
-      ]
-    },
-    {
-      code: `const foo = bar?.baz;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 21
-        }
-      ]
-    }
-  ],
+
+  // Commonjs, default
   ...[
     {
       code: `module.exports = {};`,
@@ -1763,6 +1665,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, explicitly configured
   ...[
     {
       code: `require('dotenv');`,
@@ -1869,9 +1773,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, source type module
   ...[
     {
-      code: `require('dotenv'); // module autodetect`,
+      code: `require('dotenv');`,
       parserOptions: parserOptions.sourceTypeModule,
       errors: [
         {
@@ -1975,9 +1881,11 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, explicitly configured & source type script
   ...[
     {
-      code: `require('dotenv'); // non-module autodetect w/ commonjs: false`,
+      code: `require('dotenv');`,
       options: [options.noCommonjs],
       parserOptions: parserOptions.sourceTypeScript,
       errors: [
@@ -2089,6 +1997,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, edge cases
   ...[
     {
       code: `notModule.exports = {};`,
@@ -2156,6 +2066,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Derived values
   ...[
     {
       code: `const b01 = a == b;`,
@@ -2504,8 +2416,106 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 15
         }
       ]
+    },
+    {
+      code: `const foo = 1 + 2;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const foo = x > 1 ? "a" : "b";`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const foo = bar || baz;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const foo = f\`bar\`;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = i++;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
+      code: `const foo = -bar;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `const foo = \`\${bar}\`;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const foo = bar?.baz;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
     }
   ],
+
+  // Derived values with side effects
   ...[
     {
       code: `const bLeft = f() + b;`,
@@ -2613,6 +2623,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Object declarations
   ...[
     {
       code: `const x = { foo: bad() };`,
@@ -2802,6 +2814,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Array declarations
   ...[
     {
       code: `const arr = [foo()];`,
