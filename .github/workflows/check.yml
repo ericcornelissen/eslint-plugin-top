@@ -65,12 +65,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@5cf07d8b700b67e235fbb65cbc84f69c0cf10464 # v3.25.14
+        uses: github/codeql-action/init@afb54ba388a7dca6ecae48f608c4ff05ff4cc77a # v3.25.15
         with:
           config-file: ./.github/codeql.yml
           languages: javascript
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@5cf07d8b700b67e235fbb65cbc84f69c0cf10464 # v3.25.14
+        uses: github/codeql-action/analyze@afb54ba388a7dca6ecae48f608c4ff05ff4cc77a # v3.25.15
   formatting:
     name: Formatting
     runs-on: ubuntu-22.04
