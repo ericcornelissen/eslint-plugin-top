@@ -30,6 +30,7 @@ const options: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
+  // Non-top-level variables
   ...[
     {
       code: `
@@ -53,6 +54,8 @@ const valid: RuleTester.ValidTestCase[] = [
       `
     }
   ],
+
+  // Top-level variables
   ...[
     {
       code: `
@@ -71,6 +74,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.kindLet]
     }
   ],
+
+  // Basic declarations
   ...[
     {
       code: `class ClassName { }`
@@ -157,6 +162,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const promised = await h();`
     }
   ],
+
+  // Export declarations
   ...[
     {
       code: `export class ClassName { }`
@@ -288,6 +295,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export default function* () { }`
     }
   ],
+
+  // Object/Array declarations
   ...[
     {
       code: `const foo = ["b", "a", "r"];`,
@@ -301,6 +310,7 @@ const valid: RuleTester.ValidTestCase[] = [
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Top-level variables
   ...[
     {
       code: `var foo = 'bar';`,
@@ -342,6 +352,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Block statements
   ...[
     {
       code: `{var foo = 'bar';}`,
@@ -383,6 +395,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Export declarations
   ...[
     {
       code: `export var foo = 'bar';`,
@@ -422,9 +436,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 26
         }
       ]
-    }
-  ],
-  ...[
+    },
     {
       code: `export var name1, name2;`,
       errors: [
@@ -450,6 +462,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Multi-variable declarations
   ...[
     {
       code: `var foo = 'bar', hello = 'world';`,
@@ -491,6 +505,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Object declarations
   ...[
     {
       code: `const foo = {bar: "baz"};`,
@@ -524,6 +540,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Mixed multi-variable declarations
   ...[
     {
       code: `const path = require('path'), foo1 = {};`,
@@ -550,6 +568,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Array/Object declarations with configuration
   ...[
     {
       code: `const arr = [];`,
