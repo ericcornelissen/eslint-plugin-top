@@ -163,6 +163,34 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
+  // Import declarations
+  ...[
+    {
+      code: `import defaultExport1 from "module-name";`
+    },
+    {
+      code: `import * as all1 from "module-name";`
+    },
+    {
+      code: `import { export1, export2 } from "module-name";`
+    },
+    {
+      code: `import { export3 as alias1, export4 } from "module-name";`
+    },
+    {
+      code: `import { default as alias2, export5 } from "module-name";`
+    },
+    {
+      code: `import { "string name" as alias3 } from "module-name";`
+    },
+    {
+      code: `import defaultExport2, { export6 } from "module-name";`
+    },
+    {
+      code: `import defaultExport3, * as all2 from "module-name";`
+    }
+  ],
+
   // Export declarations
   ...[
     {
