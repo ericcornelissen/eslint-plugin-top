@@ -1391,6 +1391,52 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
     }
   ],
 
