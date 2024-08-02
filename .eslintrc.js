@@ -20,26 +20,9 @@ module.exports = {
         project: './tsconfig.json'
       },
       rules: {
-        '@typescript-eslint/block-spacing': 'error',
         '@typescript-eslint/consistent-return': 'error',
         '@typescript-eslint/consistent-type-exports': 'error',
         '@typescript-eslint/consistent-type-imports': 'error',
-        '@typescript-eslint/key-spacing': 'error',
-        '@typescript-eslint/lines-around-comment': 'error',
-        '@typescript-eslint/member-delimiter-style': [
-          'error',
-          {
-            multiline: {
-              delimiter: 'semi',
-              requireLast: true
-            },
-            singleline: {
-              delimiter: 'semi',
-              requireLast: true
-            },
-            multilineDetection: 'brackets'
-          }
-        ],
         '@typescript-eslint/no-array-delete': 'error',
         '@typescript-eslint/no-confusing-void-expression': 'error',
         '@typescript-eslint/no-duplicate-type-constituents': 'error',
@@ -56,7 +39,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/no-unsafe-enum-comparison': 'error',
         '@typescript-eslint/no-unsafe-unary-minus': 'error',
-        '@typescript-eslint/no-useless-template-literals': 'error',
+        '@typescript-eslint/no-unnecessary-template-expression': 'error',
         '@typescript-eslint/only-throw-error': [
           'error',
           {
@@ -88,10 +71,7 @@ module.exports = {
           }
         ],
 
-        'block-spacing': 'off', // @typescript-eslint/block-spacing used instead
         'consistent-return': 'off', // @typescript-eslint/consistent-return used instead
-        'key-spacing': 'off', // @typescript-eslint/key-spacing used instead
-        'lines-around-comment': 'off', // @typescript-eslint/lines-around-comment used instead
         'no-throw-literal': 'off', // @typescript-eslint/only-throw-error used instead
         'prefer-destructuring': 'off', //@typescript-eslint/prefer-destructuring used instead
         'prefer-promise-reject-errors': 'off' // @typescript-eslint/prefer-promise-reject-errors use instead
