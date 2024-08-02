@@ -32,6 +32,9 @@ const options: {
   allowNewMapAndSet: {
     allowedNews: ['Map', 'Set']
   },
+  allowNoNews: {
+    allowedNews: []
+  },
   allowIIFE: {
     allowIIFE: true
   },
@@ -1437,6 +1440,52 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 20
         }
       ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: ['foo'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: ['bar'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
     }
   ],
 
@@ -1512,6 +1561,98 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 13,
           endLine: 1,
           endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [options.allowNoNews],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
         }
       ]
     }
