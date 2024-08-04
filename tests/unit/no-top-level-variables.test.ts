@@ -11,6 +11,9 @@ const options: {
     kind?: string[];
   };
 } = {
+  kindConst: {
+    kind: ['const']
+  },
   kindLet: {
     kind: ['let']
   },
@@ -71,6 +74,14 @@ const valid: RuleTester.ValidTestCase[] = [
         export let foo2 = 'bar';
       `,
       options: [options.kindLet]
+    },
+    {
+      code: `
+        const path = require('path');
+        const foo1 = 'bar';
+        export const foo2 = 'bar';
+      `,
+      options: [options.kindConst]
     }
   ],
 
@@ -159,6 +170,34 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const promised = await h();`
+    }
+  ],
+
+  // Import declarations
+  ...[
+    {
+      code: `import defaultExport1 from "module-name";`
+    },
+    {
+      code: `import * as all1 from "module-name";`
+    },
+    {
+      code: `import { export1, export2 } from "module-name";`
+    },
+    {
+      code: `import { export3 as alias1, export4 } from "module-name";`
+    },
+    {
+      code: `import { default as alias2, export5 } from "module-name";`
+    },
+    {
+      code: `import { "string name" as alias3 } from "module-name";`
+    },
+    {
+      code: `import defaultExport2, { export6 } from "module-name";`
+    },
+    {
+      code: `import defaultExport3, * as all2 from "module-name";`
     }
   ],
 
@@ -304,6 +343,26 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const foo = { bar: "baz" };`,
       options: [options.allowObject]
+    }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      options: [{allowed: ['ImportExpression']}]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      options: [{allowed: ['SequenceExpression']}]
+    },
+    {
+      code: `const foo = this;`,
+      options: [{allowed: ['ThisExpression']}]
+    },
+    {
+      code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
+      options: [{allowed: ['YieldExpression']}]
     }
   ]
 ];
@@ -619,6 +678,46 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 7,
           endLine: 1,
           endColumn: 27
+        }
+      ]
+    }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = this;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 17
         }
       ]
     }

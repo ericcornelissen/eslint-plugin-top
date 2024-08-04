@@ -31,6 +31,9 @@ const options: {
   allowNewMapAndSet: {
     allowedNews: ['Map', 'Set']
   },
+  allowNoNews: {
+    allowedNews: []
+  },
   allowIIFE: {
     allowIIFE: true
   },
@@ -417,12 +420,28 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     },
     {
+      code: `module.exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `module.exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
+    },
+    {
       code: `exports = {};`,
       options: [options.commonjs]
     },
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs]
+    },
+    {
+      code: `exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
     }
   ],
 
@@ -597,6 +616,10 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowDerived]
     },
     {
+      code: `const b23 = ok() == b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
       code: `const l01 = a && b;`,
       options: [options.allowDerived]
     },
@@ -607,6 +630,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const l03 = a ?? b;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const l04 = ok() && b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
       code: `const u01 = -a;`,
@@ -623,6 +650,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const u05 = -ok();`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
       code: `
@@ -1390,6 +1421,98 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: ['foo'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: ['bar'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
     }
   ],
 
@@ -1465,6 +1588,98 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 13,
           endLine: 1,
           endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [options.allowNoNews],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
         }
       ]
     }
