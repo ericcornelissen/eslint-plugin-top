@@ -420,12 +420,28 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     },
     {
+      code: `module.exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `module.exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
+    },
+    {
       code: `exports = {};`,
       options: [options.commonjs]
     },
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs]
+    },
+    {
+      code: `exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
     }
   ],
 
@@ -600,6 +616,10 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowDerived]
     },
     {
+      code: `const b23 = ok() == b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
       code: `const l01 = a && b;`,
       options: [options.allowDerived]
     },
@@ -610,6 +630,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const l03 = a ?? b;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const l04 = ok() && b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
       code: `const u01 = -a;`,
@@ -626,6 +650,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const u05 = -ok();`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
       code: `
