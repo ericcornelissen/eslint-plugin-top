@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: ISC
 
-import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 
 import {trimTestCases} from './helpers';
@@ -626,16 +625,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ]
 ];
 
-new RuleTester({
-  parser,
-  parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module',
-    env: {
-      es6: true
-    }
-  }
-}).run('no-top-level-variables', noTopLevelVariables, {
+new RuleTester().run('no-top-level-variables', noTopLevelVariables, {
   valid: valid.map(trimTestCases),
   invalid: invalid.map(trimTestCases)
 });
