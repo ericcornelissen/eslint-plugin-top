@@ -2,7 +2,7 @@
 
 import type {Rule} from 'eslint';
 
-const topLevelTypes = new Set([
+const topLevelTypes = [
   'ArrayExpression',
   'AssignmentExpression',
   'BinaryExpression',
@@ -18,7 +18,7 @@ const topLevelTypes = new Set([
   'UnaryExpression',
   'VariableDeclaration',
   'VariableDeclarator'
-]);
+];
 
 export function IsCommonJs(node: Rule.Node) {
   while (node.type !== 'Program') {
@@ -29,7 +29,7 @@ export function IsCommonJs(node: Rule.Node) {
 
 export function isTopLevel(node: Rule.Node) {
   let scope = node.parent;
-  while (topLevelTypes.has(scope.type)) {
+  while (topLevelTypes.includes(scope.type)) {
     scope = scope.parent;
   }
   return scope.type === 'Program';

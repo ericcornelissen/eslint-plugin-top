@@ -2,7 +2,6 @@
 
 import type {Linter} from 'eslint';
 
-import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 
 import {trimTestCases} from './helpers';
@@ -46,7 +45,7 @@ const options: {
   }
 };
 
-const parserOptions: {
+const languageOptions: {
   [key: string]: Linter.ParserOptions;
 } = {
   sourceTypeModule: {
@@ -434,35 +433,35 @@ const valid: RuleTester.ValidTestCase[] = [
   ...[
     {
       code: `require('dotenv');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `var fs = require('fs');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `let cp = require('child_process');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `const path = require('path');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `module.exports = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `module.exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `exports = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     }
   ],
 
@@ -471,42 +470,42 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `require('dotenv');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `var fs = require('fs');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `let cp = require('child_process');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `const path = require('path');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `module.exports = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `module.exports.foobar = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `exports = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     }
   ],
 
@@ -1965,7 +1964,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ...[
     {
       code: `require('dotenv');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1978,7 +1977,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `var fs = require('fs');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1991,7 +1990,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `let cp = require('child_process');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2004,7 +2003,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const path = require('path');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2017,7 +2016,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `module.exports = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2030,7 +2029,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `module.exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2043,7 +2042,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `exports = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2056,7 +2055,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -2074,7 +2073,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `require('dotenv');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2088,7 +2087,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `var fs = require('fs');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2102,7 +2101,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `let cp = require('child_process');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2116,7 +2115,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `const path = require('path');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2130,7 +2129,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `module.exports = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2144,7 +2143,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `module.exports.foobar = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2158,7 +2157,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -2172,7 +2171,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports.foobar = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -3092,7 +3091,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `module.exports.foobar = [foo()];`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -3106,7 +3105,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports = [foo()];`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -3120,7 +3119,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports.foobar = [foo()];`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -3174,13 +3173,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ]
 ];
 
-new RuleTester({
-  parser,
-  parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module'
-  }
-}).run('no-top-level-side-effects', noTopLevelSideEffects, {
+new RuleTester().run('no-top-level-side-effects', noTopLevelSideEffects, {
   valid: valid.map(trimTestCases),
   invalid: invalid.map(trimTestCases)
 });
