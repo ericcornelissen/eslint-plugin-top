@@ -79,8 +79,11 @@ const hello = {world: '!'};
 ```
 
 Additionally, all others expression types that aren't always allowed can be
-allowed, those are `ImportExpression`, `SequenceExpression`, `ThisExpression`,
-`YieldExpression`.
+allowed, those are:
+
+- `ImportExpression` (e.g. `import('path');`)
+- `SequenceExpression` (e.g. `(3, 14);`)
+- `ThisExpression` (e.g. `this;`)
 
 #### `kind`
 

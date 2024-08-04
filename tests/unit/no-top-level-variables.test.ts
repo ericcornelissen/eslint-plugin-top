@@ -334,6 +334,26 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const foo = { bar: "baz" };`,
       options: [options.allowObject]
     }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      options: [{allowed: ['ImportExpression']}]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      options: [{allowed: ['SequenceExpression']}]
+    },
+    {
+      code: `const foo = this;`,
+      options: [{allowed: ['ThisExpression']}]
+    },
+    {
+      code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
+      options: [{allowed: ['YieldExpression']}]
+    }
   ]
 ];
 
@@ -648,6 +668,46 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 7,
           endLine: 1,
           endColumn: 27
+        }
+      ]
+    }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = this;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 17
         }
       ]
     }
