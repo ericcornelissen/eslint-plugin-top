@@ -11,6 +11,9 @@ const options: {
     kind?: string[];
   };
 } = {
+  kindConst: {
+    kind: ['const']
+  },
   kindLet: {
     kind: ['let']
   },
@@ -71,6 +74,14 @@ const valid: RuleTester.ValidTestCase[] = [
         export let foo2 = 'bar';
       `,
       options: [options.kindLet]
+    },
+    {
+      code: `
+        const path = require('path');
+        const foo1 = 'bar';
+        export const foo2 = 'bar';
+      `,
+      options: [options.kindConst]
     }
   ],
 
