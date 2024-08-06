@@ -1221,6 +1221,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const x = await (function() {return new Promise()})();`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 54
+        }
+      ]
+    },
+    {
+      code: `const x = await (() => new Promise())();`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
       code: `module.exports = (function() { })();`,
       options: [
         {
@@ -1283,7 +1309,267 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
-      code: `console.log('hello world');`,
+      code: `const foo = (function() {return 3})() + 14;`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 38
+        }
+      ]
+    },
+    {
+      code: `const foo = 3 + (() => 14)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 17,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const foo = -(function() {return 42})();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
+      code: `const foo = -(() => 42)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 26
+        }
+      ]
+    },
+    {
+      code: `const foo = (function() {return true})() || false;`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 41
+        }
+      ]
+    },
+    {
+      code: `const foo = true || (() => false)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 36
+        }
+      ]
+    },
+    {
+      code: `const foo = Symbol((function() {})());`,
+      options: [{...options.allowIIFE, ...options.allowCallSymbol}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const foo = Symbol((() => {})());`,
+      options: [{...options.allowIIFE, ...options.allowCallSymbol}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const foo = new Map((function() {})());`,
+      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 38
+        }
+      ]
+    },
+    {
+      code: `const foo = new Set((() => {})());`,
+      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 33
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: (function() {})() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: (() => {})() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const foo = { [(function() {})()]: "bar" };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 33
+        }
+      ]
+    },
+    {
+      code: `const foo = { [(() => {})()]: "bar" };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const foo = { ...(function() {})() };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 35
+        }
+      ]
+    },
+    {
+      code: `const foo = { ...(() => {})() };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const x = [(function() {})()];`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = [(() => {})()];`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = [...(function() {})()];`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const x = [...(() => {})()];`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `console.log('not an IIFE, but still not allowed');`,
       options: [options.allowIIFE],
       errors: [
         {
@@ -1291,7 +1577,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 27
+          endColumn: 50
         }
       ]
     }
@@ -2941,6 +3227,18 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const x = { foo: (() => 1)() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
       code: `const x = { foo: 40 + 2 };`,
       errors: [
         {
@@ -3011,19 +3309,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 14,
           endLine: 1,
           endColumn: 19
-        }
-      ]
-    },
-    {
-      code: `const x = { foo: (function(){ return 1 })() };`,
-      options: [options.allowIIFE],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 18,
-          endLine: 1,
-          endColumn: 44
         }
       ]
     }
