@@ -142,8 +142,14 @@ Examples of **correct** code when `'allowIIFE'` is set to `true`:
 Examples of **incorrect** code when `'allowIIFE'` is set to `true`:
 
 ```javascript
-const x = (() => {
-  /* ... */
+const foo = (function () {
+  // anything
+})();
+```
+
+```javascript
+const bar = (() => {
+  // anything
 })();
 ```
 
@@ -152,9 +158,6 @@ const x = (() => {
 Examples of **correct** code when `'allowDerived'` is set to `true`:
 
 ```javascript
-const a = 0; // (always allowed)
-const b = 1; // (always allowed)
-
 const b01 = a == b;
 const b02 = a != b;
 const b03 = a === b;
