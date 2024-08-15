@@ -54,7 +54,7 @@
     "licensee": "10.0.0",
     "lockfile-lint": "4.12.1",
     "markdownlint-cli": "0.40.0",
-    "mocha": "10.7.0",
+    "mocha": "10.7.3",
     "nve": "18.0.0",
     "prettier": "3.3.3",
     "publint": "0.2.9",
