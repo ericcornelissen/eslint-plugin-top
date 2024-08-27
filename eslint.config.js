@@ -35,6 +35,7 @@ module.exports = [
       'tseslint/consistent-type-imports': 'error',
       'tseslint/no-array-delete': 'error',
       'tseslint/no-confusing-void-expression': 'error',
+      'tseslint/no-deprecated': 'error',
       'tseslint/no-duplicate-type-constituents': 'error',
       'tseslint/no-floating-promises': [
         'error',
