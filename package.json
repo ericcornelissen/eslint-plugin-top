@@ -51,7 +51,7 @@
     "eslint-v9": "npm:eslint@9.0.0",
     "is-ci": "3.0.1",
     "knip": "5.27.3",
-    "licensee": "10.0.0",
+    "licensee": "11.1.0",
     "lockfile-lint": "4.12.1",
     "markdownlint-cli": "0.40.0",
     "mocha": "10.7.0",
