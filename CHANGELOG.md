@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`aaa56b7`) Always allow for `ImportExpression`, `SequenceExpression`, and
+  `ThisExpression` for `no-top-level-variables`.
 
 ## [3.4.0] - 2024-07-29
 
