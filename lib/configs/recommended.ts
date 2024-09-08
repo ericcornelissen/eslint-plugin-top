@@ -11,8 +11,7 @@ export const configRecommended = {
         allowedCalls: ['Symbol'],
         allowedNews: ['Map', 'Set'],
         allowIIFE: false,
-        allowDerived: false,
-        commonjs: true
+        allowDerived: false
       }
     ],
     'top/no-top-level-variables': [
