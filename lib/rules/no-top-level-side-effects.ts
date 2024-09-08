@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {
-  CallExpression,
-  ExpressionStatement,
-  Expression,
-  NewExpression,
-  VariableDeclaration
-} from 'estree';
+import type {CallExpression, NewExpression, AssignmentExpression} from 'estree';
 
 import {IsCommonJs, isTopLevel} from '../helpers';
 
@@ -32,66 +26,47 @@ const disallowedSideEffect = {
   message: 'Side effects at the top level are not allowed'
 };
 
-function ifTopLevelReportWith(context: Rule.RuleContext) {
-  return (node: Rule.Node) => {
-    if (isTopLevel(node)) {
-      context.report({
-        node,
-        messageId: disallowedSideEffect.id
-      });
-    }
-  };
-}
-
 function isCallTo(expression: CallExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
 }
 
-function isExportsAssignment(node: ExpressionStatement): boolean {
+function isExportsAssignment(node: AssignmentExpression): boolean {
+  return node.left.type === 'Identifier' && node.left.name === 'exports';
+}
+
+function isExportPropertyAssignment(node: AssignmentExpression): boolean {
   return (
-    node.expression.type === 'AssignmentExpression' &&
-    node.expression.left.type === 'Identifier' &&
-    node.expression.left.name === 'exports'
+    node.left.type === 'MemberExpression' &&
+    node.left.object.type === 'Identifier' &&
+    node.left.object.name === 'exports'
   );
 }
 
-function isExportPropertyAssignment(node: ExpressionStatement): boolean {
+function isIIFE(node: CallExpression): boolean {
   return (
-    node.expression.type === 'AssignmentExpression' &&
-    node.expression.left.type === 'MemberExpression' &&
-    node.expression.left.object.type === 'Identifier' &&
-    node.expression.left.object.name === 'exports'
+    node.callee.type === 'ArrowFunctionExpression' ||
+    node.callee.type === 'FunctionExpression'
   );
 }
 
-function isIIFE(node: ExpressionStatement): boolean {
+function isModuleAssignment(node: AssignmentExpression): boolean {
   return (
-    node.expression.type === 'CallExpression' &&
-    (node.expression.callee.type === 'ArrowFunctionExpression' ||
-      node.expression.callee.type === 'FunctionExpression')
+    node.left.type === 'MemberExpression' &&
+    node.left.object.type === 'Identifier' &&
+    node.left.object.name === 'module'
   );
 }
 
-function isModuleAssignment(node: ExpressionStatement): boolean {
+function isModulePropertyAssignment(node: AssignmentExpression): boolean {
   return (
-    node.expression.type === 'AssignmentExpression' &&
-    node.expression.left.type === 'MemberExpression' &&
-    node.expression.left.object.type === 'Identifier' &&
-    node.expression.left.object.name === 'module'
-  );
-}
-
-function isModulePropertyAssignment(node: ExpressionStatement): boolean {
-  return (
-    node.expression.type === 'AssignmentExpression' &&
-    node.expression.left.type === 'MemberExpression' &&
-    node.expression.left.object.type === 'MemberExpression' &&
-    node.expression.left.object.object.type === 'Identifier' &&
-    node.expression.left.object.object.name === 'module' &&
-    node.expression.left.object.property.type === 'Identifier' &&
-    node.expression.left.object.property.name === 'exports'
+    node.left.type === 'MemberExpression' &&
+    node.left.object.type === 'MemberExpression' &&
+    node.left.object.object.type === 'Identifier' &&
+    node.left.object.object.name === 'module' &&
+    node.left.object.property.type === 'Identifier' &&
+    node.left.object.property.name === 'exports'
   );
 }
 
@@ -99,96 +74,6 @@ function isNew(expression: NewExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
-}
-
-function checkExpression(
-  context: Rule.RuleContext,
-  options: Options,
-  node: Rule.Node,
-  expression: Expression
-) {
-  const report = () => {
-    context.report({
-      node: expression,
-      messageId: disallowedSideEffect.id
-    });
-  };
-
-  switch (expression.type) {
-    case 'AwaitExpression':
-    case 'ChainExpression':
-    case 'ConditionalExpression':
-    case 'TaggedTemplateExpression':
-    case 'UpdateExpression':
-      report();
-      break;
-
-    case 'BinaryExpression':
-    case 'LogicalExpression':
-      if (options.allowDerived) {
-        checkExpression(context, options, node, expression.left);
-        checkExpression(context, options, node, expression.right);
-        return;
-      }
-
-      report();
-      break;
-
-    case 'CallExpression':
-      if (options.isCommonjs(node) && isCallTo(expression, 'require')) {
-        return;
-      }
-
-      if (options.allowedCalls.some((name) => isCallTo(expression, name))) {
-        return;
-      }
-
-      report();
-      break;
-    case 'NewExpression':
-      if (options.allowedNews.some((name) => isNew(expression, name))) {
-        return;
-      }
-
-      report();
-      break;
-
-    case 'TemplateLiteral':
-      if (expression.expressions.length === 0) {
-        return;
-      }
-
-      report();
-      break;
-
-    case 'UnaryExpression':
-      if (expression.argument.type === 'Literal') {
-        return;
-      }
-
-      if (options.allowDerived) {
-        checkExpression(context, options, node, expression.argument);
-        return;
-      }
-
-      report();
-      break;
-
-    default:
-  }
-}
-
-function checkVariableDeclaration(
-  context: Rule.RuleContext,
-  options: Options,
-  node: Rule.Node,
-  declaration: VariableDeclaration
-) {
-  for (const {init} of declaration.declarations) {
-    if (init !== null && init !== undefined) {
-      checkExpression(context, options, node, init);
-    }
-  }
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -241,64 +126,248 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     };
 
     return {
-      ExpressionStatement: (node) => {
+      AssignmentExpression: (node) => {
+        if (
+          options.isCommonjs(node) &&
+          (isExportsAssignment(node) ||
+            isExportPropertyAssignment(node) ||
+            isModuleAssignment(node) ||
+            isModulePropertyAssignment(node))
+        ) {
+          return;
+        }
+
         if (isTopLevel(node)) {
-          if (options.allowIIFE && isIIFE(node)) {
-            return;
-          }
-
-          if (
-            node.expression.type === 'Literal' &&
-            node.expression.value === 'use strict'
-          ) {
-            return;
-          }
-
-          if (options.isCommonjs(node)) {
-            if (
-              node.expression.type === 'CallExpression' &&
-              isCallTo(node.expression, 'require')
-            ) {
-              return;
-            } else if (
-              node.expression.type === 'AssignmentExpression' &&
-              (isExportsAssignment(node) ||
-                isExportPropertyAssignment(node) ||
-                isModuleAssignment(node) ||
-                isModulePropertyAssignment(node))
-            ) {
-              checkExpression(context, options, node, node.expression.right);
-              return;
-            }
-          }
-
+          context.report({
+            node: node.parent,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      AwaitExpression: (node) => {
+        if (isTopLevel(node)) {
           context.report({
             node,
             messageId: disallowedSideEffect.id
           });
         }
       },
-
-      ExportNamedDeclaration: (node) => {
-        if (node.declaration?.type === 'VariableDeclaration') {
-          checkVariableDeclaration(context, options, node, node.declaration);
+      BinaryExpression: (node) => {
+        if (options.allowDerived) {
+          return;
         }
-      },
-      VariableDeclaration: (node) => {
+
         if (isTopLevel(node)) {
-          checkVariableDeclaration(context, options, node, node);
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
         }
       },
+      CallExpression: (node) => {
+        if (options.isCommonjs(node) && isCallTo(node, 'require')) {
+          return;
+        }
 
-      DoWhileStatement: ifTopLevelReportWith(context),
-      ForInStatement: ifTopLevelReportWith(context),
-      ForOfStatement: ifTopLevelReportWith(context),
-      ForStatement: ifTopLevelReportWith(context),
-      IfStatement: ifTopLevelReportWith(context),
-      SwitchStatement: ifTopLevelReportWith(context),
-      ThrowStatement: ifTopLevelReportWith(context),
-      TryStatement: ifTopLevelReportWith(context),
-      WhileStatement: ifTopLevelReportWith(context)
+        if (options.allowedCalls.some((name) => isCallTo(node, name))) {
+          return;
+        }
+
+        if (
+          options.allowIIFE &&
+          isIIFE(node) &&
+          node.parent.type === 'ExpressionStatement'
+        ) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ChainExpression: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ConditionalExpression: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      DoWhileStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ForInStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ForOfStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ForStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      IfStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      LogicalExpression: (node) => {
+        if (options.allowDerived) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      NewExpression: (node) => {
+        if (options.allowedNews.some((name) => isNew(node, name))) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      Property: (node) => {
+        if (options.allowDerived || !node.computed) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node: node.key,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      SpreadElement: (node) => {
+        if (options.allowDerived) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      SwitchStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      TaggedTemplateExpression: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      TemplateLiteral: (node) => {
+        if (node.expressions.length === 0) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      ThrowStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      TryStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      UnaryExpression: (node) => {
+        if (node.argument.type === 'Literal') {
+          return;
+        }
+
+        if (options.allowDerived) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      UpdateExpression: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
+      WhileStatement: (node) => {
+        if (isTopLevel(node)) {
+          context.report({
+            node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      }
     };
   }
 };

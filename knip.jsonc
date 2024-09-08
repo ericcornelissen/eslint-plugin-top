@@ -8,7 +8,8 @@
   "ignoreDependencies": [
     "@ericcornelissen/eslint-plugin-top",
     "@types/mocha",
-    "ts-node"
+    "ts-node",
+    "yaml-eslint-parser"
   ],
   "mocha": {
     "config": ".mocharc.yml",

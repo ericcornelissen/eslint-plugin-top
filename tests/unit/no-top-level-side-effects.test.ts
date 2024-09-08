@@ -2,7 +2,6 @@
 
 import type {Linter} from 'eslint';
 
-import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 
 import {trimTestCases} from './helpers';
@@ -32,6 +31,9 @@ const options: {
   allowNewMapAndSet: {
     allowedNews: ['Map', 'Set']
   },
+  allowNoNews: {
+    allowedNews: []
+  },
   allowIIFE: {
     allowIIFE: true
   },
@@ -43,7 +45,7 @@ const options: {
   }
 };
 
-const parserOptions: {
+const languageOptions: {
   [key: string]: Linter.ParserOptions;
 } = {
   sourceTypeModule: {
@@ -55,6 +57,7 @@ const parserOptions: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
+  // Control flow
   ...[
     {
       code: `
@@ -94,9 +97,11 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        function foobar() {
+        async function foobar() {
           if (foo) {
             bar();
+          } else {
+            await baz();
           }
         }
       `
@@ -142,7 +147,11 @@ const valid: RuleTester.ValidTestCase[] = [
           }
         }
       `
-    },
+    }
+  ],
+
+  // Literal expressions
+  ...[
     {
       code: `
         "use strict";
@@ -160,8 +169,28 @@ const valid: RuleTester.ValidTestCase[] = [
           // Nothing to do
         }
       `
+    },
+    {
+      code: `
+        "foobar";
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
+    },
+    {
+      code: `
+        42;
+
+        function foobar() {
+          // Nothing to do
+        }
+      `
     }
   ],
+
+  // Basic declarations
   ...[
     {
       code: `class ClassName { }`
@@ -210,8 +239,24 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const [ a1, a2 ] = a;`
+    },
+    {
+      code: `
+        function f() {
+          const s = \`foo\${bar}\`;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const s = $\`foobar\`;
+        }
+      `
     }
   ],
+
+  // Import declarations
   ...[
     {
       code: `import defaultExport1 from "module-name";`
@@ -241,55 +286,9 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `import "module-name";`
     }
   ],
+
+  // Export declarations
   ...[
-    {
-      code: `class ClassName { }`
-    },
-    {
-      code: `function functionName() { }`
-    },
-    {
-      code: `function* generatorName() { }`
-    },
-    {
-      code: `const leet = 1337;`
-    },
-    {
-      code: `const leetBig = 1337n;`
-    },
-    {
-      code: `const negative = -1;`
-    },
-    {
-      code: `const regularExpression = /bar/;`
-    },
-    {
-      code: `const str1 = 'bar';`
-    },
-    {
-      code: `const str2 = "bar";`
-    },
-    {
-      code: `const str3 = \`bar\`;`
-    },
-    {
-      code: `const identifier = bar;`
-    },
-    {
-      code: `const isArray = Array.isArray;`
-    },
-    {
-      code: `const f = function() { };`
-    },
-    {
-      code: `const g = () => 'bar';`
-    },
-    {
-      code: `const { o1, o2: o3 } = o;`
-    },
-    {
-      code: `const [ a1, a2 ] = a;`
-    },
     {
       code: `
         const name1 = 0, name2 = 0, name3 = 0;
@@ -310,9 +309,7 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `export { default as name1, name2 } from "module-name";`
-    }
-  ],
-  ...[
+    },
     {
       code: `
         const x = 0;
@@ -341,6 +338,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export default function* () { }`
     }
   ],
+
+  // Default function calls
   ...[
     {
       code: `const symbol = Symbol();`
@@ -349,6 +348,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export const symbol = Symbol();`
     }
   ],
+
+  // Configured function calls
   ...[
     {
       code: `const symbol = Symbol();`,
@@ -357,9 +358,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `export const symbol = Symbol();`,
       options: [options.allowCallSymbol]
-    }
-  ],
-  ...[
+    },
     {
       code: `const bigInt = BigInt();`,
       options: [options.allowCallBigInt]
@@ -369,6 +368,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowCallBigInt]
     }
   ],
+
+  // Configured constructors
   ...[
     {
       code: `const map = new Map();`,
@@ -379,6 +380,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowNewMapAndSet]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE)
   ...[
     {
       code: `(function() { return ''; })();`,
@@ -389,6 +392,8 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowIIFE]
     }
   ],
+
+  // Commonjs, explicitly configured
   ...[
     {
       code: `require('dotenv');`,
@@ -415,90 +420,112 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     },
     {
+      code: `module.exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `module.exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
+    },
+    {
       code: `exports = {};`,
       options: [options.commonjs]
     },
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs]
+    },
+    {
+      code: `exports.foo = bar();`,
+      options: [{...options.commonjs, allowedCalls: ['bar']}]
+    },
+    {
+      code: `exports.foo = new Bar();`,
+      options: [{...options.commonjs, allowedNews: ['Bar']}]
     }
   ],
+
+  // Commonjs, source type scripts
   ...[
     {
-      code: `require('dotenv'); // non-module autodetect`,
-      parserOptions: parserOptions.sourceTypeScript
+      code: `require('dotenv');`,
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `var fs = require('fs');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `let cp = require('child_process');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `const path = require('path');`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `module.exports = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `module.exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `exports = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeScript
+      languageOptions: languageOptions.sourceTypeScript
     }
   ],
+
+  // Commonjs, explicitly configured & source type script
   ...[
     {
-      code: `require('dotenv'); // module autodetect w/ commonjs: true`,
+      code: `require('dotenv');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `var fs = require('fs');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `let cp = require('child_process');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `const path = require('path');`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `module.exports = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `module.exports.foobar = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `exports = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs],
-      parserOptions: parserOptions.sourceTypeModule
+      languageOptions: languageOptions.sourceTypeModule
     }
   ],
+
+  // Derived values
   ...[
     {
       code: `const b01 = a == b;`,
@@ -589,6 +616,10 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.allowDerived]
     },
     {
+      code: `const b23 = ok() == b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
       code: `const l01 = a && b;`,
       options: [options.allowDerived]
     },
@@ -599,6 +630,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const l03 = a ?? b;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const l04 = ok() && b;`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
       code: `const u01 = -a;`,
@@ -615,11 +650,168 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const u04 = ~a;`,
       options: [options.allowDerived]
+    },
+    {
+      code: `const u05 = -ok();`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
+      code: `
+        function f() {
+          const binaryExpression = a + b;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const logicalExpression = a || b;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const conditionalExpression = foo ? bar : baz;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const unaryExpression = -a;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const chainExpression = foo?.bar;
+        }
+      `
+    }
+  ],
+
+  // Object declarations
+  ...[
+    {
+      code: `const x = {};`
+    },
+    {
+      code: `const x = { foo: 123 };`
+    },
+    {
+      code: `const x = { foo: 123, bar: 'baz' };`
+    },
+    {
+      code: `const x = { foo: () => 123 };`
+    },
+    {
+      code: `const x = { foo: function() { return true; } };`
+    },
+    {
+      code: `const x = { foo: function*() { yield true; } };`
+    },
+    {
+      code: `const x = { foo() { return 123; } };`
+    },
+    {
+      code: `const x = { foo: ok() };`,
+      options: [{allowedCalls: ['ok']}]
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      options: [{allowedNews: ['Foo']}]
+    },
+    {
+      code: `const x = { foo: require('./config') };`,
+      options: [options.commonjs]
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { ...foo };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const x = { ...ok() };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
+      code: `const x = { [ok()]: true };`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    },
+    {
+      code: `const f = () => ({ foo: 3 + 14 });`
+    },
+    {
+      code: `const f = () => ({ foo: bar() });`
+    },
+    {
+      code: `const f = () => ({ ...foo });`
+    },
+    {
+      code: `const f = () => ({ ...bar() });`
+    },
+    {
+      code: `const f = () => ({ [foo]: true });`
+    },
+    {
+      code: `const f = () => ({ [bar()]: true });`
+    }
+  ],
+
+  // Array declarations
+  ...[
+    {
+      code: `const arr = [];`
+    },
+    {
+      code: `const arr = ["foobar"];`
+    },
+    {
+      code: `const arr = [3, 14, 'pi'];`
+    },
+    {
+      code: `const arr = [[3, 1], [4]];`
+    },
+    {
+      code: `const arr = [{ pi: 3.14 }];`
+    },
+    {
+      code: `const arr = [ok()];`,
+      options: [{allowedCalls: ['ok']}]
+    },
+    {
+      code: `const arr = [new Foo()];`,
+      options: [{allowedNews: ['Foo']}]
+    },
+    {
+      code: `const arr = [require('foobar')];`,
+      options: [options.commonjs]
+    },
+    {
+      code: `
+        const arr1 = [3, 1];
+        const arr2 = [...arr1, 4];
+      `,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const arr = [...ok()];`,
+      options: [{...options.allowDerived, allowedCalls: ['ok']}]
     }
   ]
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Control flow
   ...[
     {
       code: `
@@ -777,22 +969,28 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 10
         }
       ]
-    },
+    }
+  ],
+
+  // Basic declarations
+  ...[
     {
       code: `
-        "foobar";
+        const taggedTemplateString = $\`foobar\`;
       `,
       errors: [
         {
           messageId: '0',
           line: 1,
-          column: 1,
+          column: 30,
           endLine: 1,
-          endColumn: 10
+          endColumn: 39
         }
       ]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE), when not allowed
   ...[
     {
       code: `(function() { return ''; })();`,
@@ -802,7 +1000,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 31
+          endColumn: 30
         }
       ]
     },
@@ -814,7 +1012,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 14
+          endColumn: 13
         }
       ]
     },
@@ -941,6 +1139,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Immediately Invoked Functions Expressions (IIFE), when allowed
   ...[
     {
       code: `var x = (function() { })();`,
@@ -1021,6 +1221,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const x = await (function() {return new Promise()})();`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 54
+        }
+      ]
+    },
+    {
+      code: `const x = await (() => new Promise())();`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
       code: `module.exports = (function() { })();`,
       options: [
         {
@@ -1081,8 +1307,283 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const foo = (function() {return 3})() + 14;`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 38
+        }
+      ]
+    },
+    {
+      code: `const foo = 3 + (() => 14)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 17,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const foo = -(function() {return 42})();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
+      code: `const foo = -(() => 42)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 26
+        }
+      ]
+    },
+    {
+      code: `const foo = (function() {return true})() || false;`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 41
+        }
+      ]
+    },
+    {
+      code: `const foo = true || (() => false)();`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 36
+        }
+      ]
+    },
+    {
+      code: `const foo = Symbol((function() {})());`,
+      options: [{...options.allowIIFE, ...options.allowCallSymbol}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const foo = Symbol((() => {})());`,
+      options: [{...options.allowIIFE, ...options.allowCallSymbol}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const foo = new Map((function() {})());`,
+      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 38
+        }
+      ]
+    },
+    {
+      code: `const foo = new Set((() => {})());`,
+      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 21,
+          endLine: 1,
+          endColumn: 33
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: (function() {})() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: (() => {})() };`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const foo = { [(function() {})()]: "bar" };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 33
+        }
+      ]
+    },
+    {
+      code: `const foo = { [(() => {})()]: "bar" };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const foo = { ...(function() {})() };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 35
+        }
+      ]
+    },
+    {
+      code: `const foo = { ...(() => {})() };`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const x = [(function() {})()];`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = [(() => {})()];`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = [...(function() {})()];`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `const x = [...(() => {})()];`,
+      options: [{...options.allowIIFE, ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `console.log('not an IIFE, but still not allowed');`,
+      options: [options.allowIIFE],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 50
+        }
+      ]
     }
   ],
+
+  // Function calls
   ...[
     {
       code: `hello_world('hello world');`,
@@ -1092,7 +1593,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 28
+          endColumn: 27
         }
       ]
     },
@@ -1156,8 +1657,152 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `export const bigInt = BigInt();`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 23,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const symbol = Symbol();`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `export const symbol = Symbol();`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 23,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [{allowedCalls: ['bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = foo(bar());`,
+      options: [options.allowNoCalls],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 21
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: ['foo'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: ['bar'], allowedNews: []}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
     }
   ],
+
+  // Method calls
   ...[
     {
       code: `console.log('hello world');`,
@@ -1167,7 +1812,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 28
+          endColumn: 27
         }
       ]
     },
@@ -1231,8 +1876,102 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [{allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(new Bar());`,
+      options: [options.allowNoNews],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 29
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 28
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Foo']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = foo(new Bar());`,
+      options: [{allowedCalls: [], allowedNews: ['Bar']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const x = new Foo(bar());`,
+      options: [{...options.allowNoCalls, ...options.allowNoNews}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 25
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
     }
   ],
+
+  // Constructors
   ...[
     {
       code: `new HelloWorld();`,
@@ -1243,7 +1982,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 18
+          endColumn: 17
         }
       ]
     },
@@ -1318,6 +2057,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // await/Promises
   ...[
     {
       code: `fetch('/api').then(res=>res.text()).then(console.log);`,
@@ -1327,7 +2068,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 55
+          endColumn: 54
         }
       ]
     },
@@ -1339,7 +2080,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 21
+          endColumn: 20
         }
       ]
     },
@@ -1356,21 +2097,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
-  ...[
-    {
-      code: `console.log('hello world');`,
-      options: [options.allowIIFE],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 1,
-          endColumn: 28
-        }
-      ]
-    }
-  ],
+
+  // Block statements
   ...[
     {
       code: `{console.log('hello world');}`,
@@ -1380,189 +2108,13 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 2,
           endLine: 1,
-          endColumn: 29
+          endColumn: 28
         }
       ]
     }
   ],
-  ...[
-    {
-      code: `const bigInt = BigInt();`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const bigInt = BigInt();`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    }
-  ],
-  ...[
-    {
-      code: `const symbol = Symbol();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const symbol = Symbol();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    },
-    {
-      code: `const bigInt = BigInt();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 16,
-          endLine: 1,
-          endColumn: 24
-        }
-      ]
-    },
-    {
-      code: `export const bigInt = BigInt();`,
-      options: [options.allowNoCalls],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 23,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    }
-  ],
-  ...[
-    {
-      code: `const foo = 1 + 2;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 18
-        }
-      ]
-    },
-    {
-      code: `const foo = x > 1 ? "a" : "b";`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 30
-        }
-      ]
-    },
-    {
-      code: `const foo = bar || baz;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 23
-        }
-      ]
-    },
-    {
-      code: `const foo = f\`bar\`;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 19
-        }
-      ]
-    },
-    {
-      code: `const foo = i++;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 16
-        }
-      ]
-    },
-    {
-      code: `const foo = -bar;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 17
-        }
-      ]
-    },
-    {
-      code: `const foo = \`\${bar}\`;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 21
-        }
-      ]
-    },
-    {
-      code: `const foo = bar?.baz;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 13,
-          endLine: 1,
-          endColumn: 21
-        }
-      ]
-    }
-  ],
+
+  // Commonjs, default
   ...[
     {
       code: `module.exports = {};`,
@@ -1613,6 +2165,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, explicitly configured
   ...[
     {
       code: `require('dotenv');`,
@@ -1623,7 +2177,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },
@@ -1719,23 +2273,25 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, source type module
   ...[
     {
-      code: `require('dotenv'); // module autodetect`,
-      parserOptions: parserOptions.sourceTypeModule,
+      code: `require('dotenv');`,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },
     {
       code: `var fs = require('fs');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1748,7 +2304,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `let cp = require('child_process');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1761,7 +2317,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const path = require('path');`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1774,7 +2330,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `module.exports = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1787,7 +2343,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `module.exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1800,7 +2356,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `exports = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1813,7 +2369,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `exports.foobar = {};`,
-      parserOptions: parserOptions.sourceTypeModule,
+      languageOptions: languageOptions.sourceTypeModule,
       errors: [
         {
           messageId: '0',
@@ -1825,25 +2381,27 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, explicitly configured & source type script
   ...[
     {
-      code: `require('dotenv'); // non-module autodetect w/ commonjs: false`,
+      code: `require('dotenv');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 19
+          endColumn: 18
         }
       ]
     },
     {
       code: `var fs = require('fs');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1857,7 +2415,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `let cp = require('child_process');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1871,7 +2429,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `const path = require('path');`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1885,7 +2443,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `module.exports = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1899,7 +2457,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `module.exports.foobar = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1913,7 +2471,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1927,7 +2485,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     {
       code: `exports.foobar = {};`,
       options: [options.noCommonjs],
-      parserOptions: parserOptions.sourceTypeScript,
+      languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
           messageId: '0',
@@ -1939,6 +2497,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Commonjs, edge cases
   ...[
     {
       code: `notModule.exports = {};`,
@@ -2006,6 +2566,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Derived values
   ...[
     {
       code: `const b01 = a == b;`,
@@ -2354,8 +2916,106 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 15
         }
       ]
+    },
+    {
+      code: `const foo = 1 + 2;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const foo = x > 1 ? "a" : "b";`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const foo = bar || baz;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const foo = f\`bar\`;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = i++;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
+      code: `const foo = -bar;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `const foo = \`\${bar}\`;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const foo = bar?.baz;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
     }
   ],
+
+  // Derived values with side effects
   ...[
     {
       code: `const bLeft = f() + b;`,
@@ -2462,16 +3122,371 @@ const invalid: RuleTester.InvalidTestCase[] = [
         }
       ]
     }
+  ],
+
+  // Object declarations
+  ...[
+    {
+      code: `const x = { foo: bad() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: { nested: { bar: bad() } } };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 35,
+          endLine: 1,
+          endColumn: 40
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: bad(), bar: worse(), baz: worst() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 30,
+          endLine: 1,
+          endColumn: 37
+        },
+        {
+          messageId: '0',
+          line: 1,
+          column: 44,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: ok(), bar: fine(), baz: notThis() };`,
+      options: [{allowedCalls: ['ok', 'fine']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 42,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    },
+    {
+      code: `const x = { ...bad() };`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: new Foo() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: (function(){ return 1 })() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 44
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: (() => 1)() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: 40 + 2 };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const x = { foo: await bar() };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `module.exports = { foo: { bar: bad() } };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 32,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `const x = { ...foo };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo]: true };`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `const x = { [foo()]: true };`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    }
+  ],
+
+  // Array declarations
+  ...[
+    {
+      code: `const arr = [foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const arr = [new Foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const arr = [await foo()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `const arr = [3+14];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const arr = [(function() {})()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const arr = [(() => {})()];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 26
+        }
+      ]
+    },
+    {
+      code: `module.exports = [foo()];`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `module.exports.foobar = [foo()];`,
+      options: [options.commonjs],
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 26,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `exports = [foo()];`,
+      options: [options.commonjs],
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `exports.foobar = [foo()];`,
+      options: [options.commonjs],
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `const arr = [3, [foo(), 1], 4];`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 18,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `
+        const arr1 = [3, 1];
+        const arr2 = [...arr1, 4];
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 23,
+          endLine: 2,
+          endColumn: 30
+        }
+      ]
+    },
+    {
+      code: `const arr = [...foo()];`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 17,
+          endLine: 1,
+          endColumn: 22
+        }
+      ]
+    }
   ]
 ];
 
-new RuleTester({
-  parser,
-  parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module'
-  }
-}).run('no-top-level-side-effects', noTopLevelSideEffects, {
+new RuleTester().run('no-top-level-side-effects', noTopLevelSideEffects, {
   valid: valid.map(trimTestCases),
   invalid: invalid.map(trimTestCases)
 });

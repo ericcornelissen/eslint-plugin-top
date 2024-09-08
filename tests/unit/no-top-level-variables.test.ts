@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: ISC
 
-import * as parser from '@typescript-eslint/parser';
 import {RuleTester} from 'eslint';
 
 import {trimTestCases} from './helpers';
@@ -12,6 +11,9 @@ const options: {
     kind?: string[];
   };
 } = {
+  kindConst: {
+    kind: ['const']
+  },
   kindLet: {
     kind: ['let']
   },
@@ -30,6 +32,7 @@ const options: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
+  // Non-top-level variables
   ...[
     {
       code: `
@@ -53,6 +56,8 @@ const valid: RuleTester.ValidTestCase[] = [
       `
     }
   ],
+
+  // Top-level variables
   ...[
     {
       code: `
@@ -69,8 +74,18 @@ const valid: RuleTester.ValidTestCase[] = [
         export let foo2 = 'bar';
       `,
       options: [options.kindLet]
+    },
+    {
+      code: `
+        const path = require('path');
+        const foo1 = 'bar';
+        export const foo2 = 'bar';
+      `,
+      options: [options.kindConst]
     }
   ],
+
+  // Basic declarations
   ...[
     {
       code: `class ClassName { }`
@@ -157,6 +172,36 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const promised = await h();`
     }
   ],
+
+  // Import declarations
+  ...[
+    {
+      code: `import defaultExport1 from "module-name";`
+    },
+    {
+      code: `import * as all1 from "module-name";`
+    },
+    {
+      code: `import { export1, export2 } from "module-name";`
+    },
+    {
+      code: `import { export3 as alias1, export4 } from "module-name";`
+    },
+    {
+      code: `import { default as alias2, export5 } from "module-name";`
+    },
+    {
+      code: `import { "string name" as alias3 } from "module-name";`
+    },
+    {
+      code: `import defaultExport2, { export6 } from "module-name";`
+    },
+    {
+      code: `import defaultExport3, * as all2 from "module-name";`
+    }
+  ],
+
+  // Export declarations
   ...[
     {
       code: `export class ClassName { }`
@@ -288,6 +333,8 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `export default function* () { }`
     }
   ],
+
+  // Object/Array declarations
   ...[
     {
       code: `const foo = ["b", "a", "r"];`,
@@ -297,10 +344,31 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const foo = { bar: "baz" };`,
       options: [options.allowObject]
     }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      options: [{allowed: ['ImportExpression']}]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      options: [{allowed: ['SequenceExpression']}]
+    },
+    {
+      code: `const foo = this;`,
+      options: [{allowed: ['ThisExpression']}]
+    },
+    {
+      code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
+      options: [{allowed: ['YieldExpression']}]
+    }
   ]
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Top-level variables
   ...[
     {
       code: `var foo = 'bar';`,
@@ -342,6 +410,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Block statements
   ...[
     {
       code: `{var foo = 'bar';}`,
@@ -383,6 +453,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Export declarations
   ...[
     {
       code: `export var foo = 'bar';`,
@@ -422,9 +494,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 26
         }
       ]
-    }
-  ],
-  ...[
+    },
     {
       code: `export var name1, name2;`,
       errors: [
@@ -450,6 +520,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Multi-variable declarations
   ...[
     {
       code: `var foo = 'bar', hello = 'world';`,
@@ -491,6 +563,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Object declarations
   ...[
     {
       code: `const foo = {bar: "baz"};`,
@@ -524,6 +598,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Mixed multi-variable declarations
   ...[
     {
       code: `const path = require('path'), foo1 = {};`,
@@ -550,6 +626,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     }
   ],
+
+  // Array/Object declarations with configuration
   ...[
     {
       code: `const arr = [];`,
@@ -603,19 +681,50 @@ const invalid: RuleTester.InvalidTestCase[] = [
         }
       ]
     }
+  ],
+
+  // Configurable allowed declarations
+  ...[
+    {
+      code: `const foo = import('path');`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `const foo = (3, 5);`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = this;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    }
   ]
 ];
 
-new RuleTester({
-  parser,
-  parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module',
-    env: {
-      es6: true
-    }
-  }
-}).run('no-top-level-variables', noTopLevelVariables, {
+new RuleTester().run('no-top-level-variables', noTopLevelVariables, {
   valid: valid.map(trimTestCases),
   invalid: invalid.map(trimTestCases)
 });
