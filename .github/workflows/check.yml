@@ -11,7 +11,7 @@ permissions: read-all
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
@@ -44,7 +44,7 @@ jobs:
           retention-days: 1
   codeql:
     name: CodeQL
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - build
     permissions:
@@ -73,7 +73,7 @@ jobs:
         uses: github/codeql-action/analyze@4dd16135b69a43b6c8efb853346f8437d92d3c93 # v3.26.6
   formatting:
     name: Formatting
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
@@ -100,7 +100,7 @@ jobs:
         run: npm run format:check -- --log-level debug
   licenses:
     name: Licenses
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
@@ -127,7 +127,7 @@ jobs:
         run: npm run license-check
   lint:
     name: Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
@@ -171,7 +171,7 @@ jobs:
         run: npm run lint:yml -- --debug
   reproducible:
     name: Reproducible build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - build
     steps:
@@ -217,7 +217,7 @@ jobs:
         run: shasum --check checksums.txt --strict
   test:
     name: Test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - build
     steps:
@@ -246,7 +246,7 @@ jobs:
         run: npm run coverage
   test-compat:
     name: Compatibility tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - test
     strategy:
@@ -288,7 +288,7 @@ jobs:
         run: npm run test:compat
   test-mutation:
     name: Mutation tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - test
     steps:
@@ -324,7 +324,7 @@ jobs:
         run: npm run test:mutation
   vet:
     name: Vet
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
