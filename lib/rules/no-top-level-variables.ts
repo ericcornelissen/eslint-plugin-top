@@ -30,11 +30,14 @@ const allowedOption = {
     'ConditionalExpression',
     'FunctionExpression',
     'Identifier',
+    'ImportExpression',
     'Literal',
     'LogicalExpression',
     'MemberExpression',
+    'SequenceExpression',
     'TaggedTemplateExpression',
     'TemplateLiteral',
+    'ThisExpression',
     'UnaryExpression',
     'UpdateExpression'
   ]

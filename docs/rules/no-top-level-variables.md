@@ -78,13 +78,6 @@ Examples of **correct** code when `'ObjectExpression'` is in the list:
 const hello = {world: '!'};
 ```
 
-Additionally, all others expression types that aren't always allowed can be
-allowed, those are:
-
-- `ImportExpression` (e.g. `import('path');`)
-- `SequenceExpression` (e.g. `(3, 14);`)
-- `ThisExpression` (e.g. `this;`)
-
 #### `kind`
 
 Examples of **correct** code when `'const'` is in the list:

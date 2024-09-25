@@ -349,15 +349,33 @@ const valid: RuleTester.ValidTestCase[] = [
   // Configurable allowed declarations
   ...[
     {
-      code: `const foo = import('path');`,
+      code: `const foo = import('path');`
+    },
+    {
+      code: `const foo = (3, 5);`
+    },
+    {
+      code: `const foo = this;`
+    },
+    {
+      code: `
+        // Validate that 'ImportExpression' is not rejected as an allowed expression type
+        const foo = import('path');
+      `,
       options: [{allowed: ['ImportExpression']}]
     },
     {
-      code: `const foo = (3, 5);`,
+      code: `
+        // Validate that 'SequenceExpression' is not rejected as an allowed expression type
+        const foo = (3, 5);
+      `,
       options: [{allowed: ['SequenceExpression']}]
     },
     {
-      code: `const foo = this;`,
+      code: `
+        // Validate that 'ThisExpression' is not rejected as an allowed expression type
+        const foo = this;
+      `,
       options: [{allowed: ['ThisExpression']}]
     },
     {
@@ -678,46 +696,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 7,
           endLine: 1,
           endColumn: 27
-        }
-      ]
-    }
-  ],
-
-  // Configurable allowed declarations
-  ...[
-    {
-      code: `const foo = import('path');`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 27
-        }
-      ]
-    },
-    {
-      code: `const foo = (3, 5);`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 19
-        }
-      ]
-    },
-    {
-      code: `const foo = this;`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 17
         }
       ]
     }

@@ -22,8 +22,8 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ### New Config (since ESLint v9)
 
-Import from `@ericcornelissen/eslint-plugin-top` and use one of the preset
-configuration, e.g.:
+Import from `@ericcornelissen/eslint-plugin-top` and use one of the [preset
+configurations](#preset-configurations), e.g.:
 
 ```javascript
 import top from '@ericcornelissen/eslint-plugin-top';
@@ -77,6 +77,13 @@ rules:
 
 - [`no-top-level-side-effects`]
 - [`no-top-level-variables`]
+
+## Preset Configurations
+
+- `recommended`: disallow top level variables while allowing mutable values and
+  disallows top level side effects except for creating things like `Symbol`s.
+- `strict`: disallow all top level variables and side effects except for
+  importing other files.
 
 ---
 
