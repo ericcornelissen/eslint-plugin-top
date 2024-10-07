@@ -312,7 +312,7 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
       - name: Cache Stryker incremental report
-        uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4.0.1
+        uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2 # v4.1.0
         with:
           path: .cache/stryker-incremental.json
           key: mutation-${{ github.run_number }}
