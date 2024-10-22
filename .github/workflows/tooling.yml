@@ -33,7 +33,6 @@ jobs:
       - name: Update tooling
         uses: ericcornelissen/tool-versions-update-action/pr@040e69dec221145526b552d9a74e410851aaed23 # v1.1.3
         with:
-          assignees: ericcornelissen
           labels: dependencies
           max: 1
           pr-body: |
