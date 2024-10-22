@@ -3,7 +3,7 @@
 const tsparser = require('@typescript-eslint/parser');
 const tseslint = require('@typescript-eslint/eslint-plugin');
 const eslintPlugin = require('eslint-plugin-eslint-plugin');
-const json = require('eslint-plugin-json');
+const json = require('@eslint/json').default;
 const markdown = require('eslint-plugin-markdown');
 const yml = require('eslint-plugin-yml');
 
@@ -21,6 +21,7 @@ module.exports = [
     }
   },
   {
+    name: 'TypeScript Code',
     files: ['lib/**/*.ts'],
     plugins: {tseslint},
     languageOptions: {
@@ -89,6 +90,7 @@ module.exports = [
     }
   },
   {
+    name: 'Tests',
     files: ['tests/**/*'],
     plugins: {tseslint},
     rules: {
@@ -96,27 +98,25 @@ module.exports = [
     }
   },
   {
-    ...json.configs['recommended'],
+    name: 'JSON',
     files: [
       '.github/**/*.json',
       '.licensee.json',
       '.c8rc.json',
       'knip.json',
-      'package-lock.json',
       'package.json',
       'tsconfig.json',
       '**/*.md/*.json'
     ],
+    plugins: {json},
+    language: 'json/json',
     rules: {
-      'json/*': [
-        'error',
-        {
-          allowComments: false
-        }
-      ]
+      'json/no-duplicate-keys': ['error'],
+      'json/no-empty-keys': ['error']
     }
   },
   {
+    name: 'YAML',
     files: [
       '.github/**/*.yml',
       '.lockfile-lintrc.yml',
@@ -184,7 +184,11 @@ module.exports = [
       'yml/vue-custom-block/no-parsing-error': 'off'
     }
   },
-  eslintPlugin.configs['flat/recommended'],
+  {
+    name: 'ESLint Plugin',
+    ...eslintPlugin.configs['flat/recommended'],
+    files: ['**/*.ts']
+  },
 
   {
     ignores: ['.cache/', '.temp/', '_reports/', 'node_modules/', 'index.js']
