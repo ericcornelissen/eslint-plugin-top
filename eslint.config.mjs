@@ -1,14 +1,14 @@
 // Check out ESLint at: https://eslint.org/
 
-const tsparser = require('@typescript-eslint/parser');
-const tseslint = require('@typescript-eslint/eslint-plugin');
-const eslintPlugin = require('eslint-plugin-eslint-plugin');
-const json = require('eslint-plugin-json');
-const markdown = require('eslint-plugin-markdown');
-const yml = require('eslint-plugin-yml');
+import tsparser from '@typescript-eslint/parser';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+import json from '@eslint/json';
+import markdown from '@eslint/markdown';
+import yml from 'eslint-plugin-yml';
 
-module.exports = [
-  ...markdown.configs['recommended'],
+export default [
+  ...markdown.configs['processor'],
   ...yml.configs['flat/base'],
 
   {
@@ -21,12 +21,13 @@ module.exports = [
     }
   },
   {
+    name: 'TypeScript Code',
     files: ['lib/**/*.ts'],
     plugins: {tseslint},
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
-        tsconfigRootDir: __dirname
+        tsconfigRootDir: '.'
       }
     },
     rules: {
@@ -89,6 +90,7 @@ module.exports = [
     }
   },
   {
+    name: 'Tests',
     files: ['tests/**/*'],
     plugins: {tseslint},
     rules: {
@@ -96,27 +98,25 @@ module.exports = [
     }
   },
   {
-    ...json.configs['recommended'],
+    name: 'JSON',
     files: [
       '.github/**/*.json',
       '.licensee.json',
       '.c8rc.json',
       'knip.json',
-      'package-lock.json',
       'package.json',
       'tsconfig.json',
       '**/*.md/*.json'
     ],
+    plugins: {json},
+    language: 'json/json',
     rules: {
-      'json/*': [
-        'error',
-        {
-          allowComments: false
-        }
-      ]
+      'json/no-duplicate-keys': ['error'],
+      'json/no-empty-keys': ['error']
     }
   },
   {
+    name: 'YAML',
     files: [
       '.github/**/*.yml',
       '.lockfile-lintrc.yml',
@@ -184,7 +184,11 @@ module.exports = [
       'yml/vue-custom-block/no-parsing-error': 'off'
     }
   },
-  eslintPlugin.configs['flat/recommended'],
+  {
+    name: 'ESLint Plugin',
+    ...eslintPlugin.configs['flat/recommended'],
+    files: ['**/*.ts']
+  },
 
   {
     ignores: ['.cache/', '.temp/', '_reports/', 'node_modules/', 'index.js']

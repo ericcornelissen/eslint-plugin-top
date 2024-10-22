@@ -31,6 +31,8 @@
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
+    "@eslint/json": "0.5.0",
+    "@eslint/markdown": "6.2.1",
     "@rollup/plugin-typescript": "12.1.0",
     "@stryker-mutator/core": "8.6.0",
     "@stryker-mutator/mocha-runner": "8.6.0",
@@ -44,8 +46,6 @@
     "c8": "10.1.1",
     "eslint": "9.13.0",
     "eslint-plugin-eslint-plugin": "6.2.0",
-    "eslint-plugin-json": "4.0.0",
-    "eslint-plugin-markdown": "5.0.0",
     "eslint-plugin-yml": "1.13.2",
     "eslint-v8": "npm:eslint@8.0.1",
     "eslint-v9": "npm:eslint@9.0.0",
@@ -66,8 +66,8 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "_eslint": "eslint --config eslint.config.js --report-unused-disable-directives",
-    "_prettier": "prettier \"**/*.{js,json,jsonc,md,ts,yml}\" --ignore-path .gitignore",
+    "_eslint": "eslint --config eslint.config.mjs --report-unused-disable-directives",
+    "_prettier": "prettier \"**/*.{js,json,jsonc,md,mjs,ts,yml}\" --ignore-path .gitignore",
     "audit": "better-npm-audit audit",
     "audit:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.js",
