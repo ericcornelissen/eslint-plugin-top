@@ -1,0 +1,22 @@
+[
+  {
+    "reason": "this dependency is only used for compatibility testing",
+    "pkg": "eslint-v8@8.0.1",
+    "transitive": true
+  },
+  {
+    "reason": "this dependency is only used for compatibility testing",
+    "pkg": "eslint-v9@9.0.0",
+    "transitive": true
+  },
+  {
+    "reason": "the deprecation has been reviewed and is tracked in https://github.com/mochajs/mocha/issues/5148",
+    "pkg": "mocha@10.7.0",
+    "transitive": true
+  },
+  {
+    "reason": "the deprecation has been reviewed and is tracked in https://github.com/bluwy/publint/issues/11",
+    "pkg": "publint@0.2.12",
+    "transitive": true
+  }
+]

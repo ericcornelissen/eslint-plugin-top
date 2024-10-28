@@ -19,6 +19,7 @@
   "packages": {
     "atomically": "2.0.3",
     "deep-freeze": "0.0.1",
+    "depreman": "0.1.0",
     "filter-iterator": "0.0.1",
     "identity-function": "1.0.0",
     "stubborn-fs": "1.2.5",
