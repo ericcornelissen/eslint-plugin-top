@@ -347,9 +347,6 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Vet deprecations
-        if: ${{ failure() || success() }}
-        run: npm run vet:deprecations
       - name: Vet imports
         if: ${{ failure() || success() }}
         run: npm run vet:imports

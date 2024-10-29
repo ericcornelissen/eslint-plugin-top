@@ -1,22 +1,27 @@
-[
-  {
-    "reason": "this dependency is only used for compatibility testing",
-    "pkg": "eslint-v8@8.0.1",
-    "transitive": true
+{
+  "eslint-v8@8.0.1": {
+    "*": {
+      "#ignore": "this dependency is only used for compatibility testing"
+    }
   },
-  {
-    "reason": "this dependency is only used for compatibility testing",
-    "pkg": "eslint-v9@9.0.0",
-    "transitive": true
+  "eslint-v9@9.0.0": {
+    "*": {
+      "#ignore": "this dependency is only used for compatibility testing"
+    }
   },
-  {
-    "reason": "the deprecation has been reviewed and is tracked in https://github.com/mochajs/mocha/issues/5148",
-    "pkg": "mocha@10.7.0",
-    "transitive": true
+  "mocha@^10.7.0": {
+    "glob@^8.0.0": {
+      "#ignore": "tracked in https://github.com/mochajs/mocha/issues/5148",
+      "inflight@^1.0.0": {
+        "#ignore": "tracked in https://github.com/mochajs/mocha/issues/5148"
+      }
+    }
   },
-  {
-    "reason": "the deprecation has been reviewed and is tracked in https://github.com/bluwy/publint/issues/11",
-    "pkg": "publint@0.2.12",
-    "transitive": true
+  "publint@^0.2.12": {
+    "npm-packlist@5.1.3": {
+      "*": {
+        "#ignore": "tracked in https://github.com/bluwy/publint/issues/11"
+      }
+    }
   }
-]
+}
