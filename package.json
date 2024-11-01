@@ -47,7 +47,7 @@
     "depreman": "0.2.0",
     "eslint": "9.13.0",
     "eslint-plugin-eslint-plugin": "6.3.0",
-    "eslint-plugin-yml": "1.13.2",
+    "eslint-plugin-yml": "1.15.0",
     "eslint-v8": "npm:eslint@8.0.1",
     "eslint-v9": "npm:eslint@9.0.0",
     "is-ci": "3.0.1",
