@@ -198,13 +198,13 @@ npm run test:compat-all
 To scan for vulnerabilities in all npm dependencies, run:
 
 ```shell
-npm run audit
+npm run audit:vulnerabilities
 ```
 
 To scan for vulnerabilities in runtime npm dependencies only, run:
 
 ```shell
-npm run audit:runtime
+npm run audit:vulnerabilities:runtime
 ```
 
 Both use [better-npm-audit] to audit dependencies, which allows for having
@@ -218,6 +218,17 @@ project uses [licensee]. To validate the project dependencies' licenses, run:
 ```shell
 npm run license-check
 ```
+
+##### Deprecations
+
+To check for deprecations in all npm dependencies, run:
+
+```shell
+npm run audit:deprecations
+```
+
+This uses [depreman] to audit deprecation warnings, which allows for having
+exceptions defined in the `.ndmrc` file.
 
 #### Building
 
@@ -234,6 +245,7 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
+[depreman]: https://github.com/ericcornelissen/depreman
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
 [eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
