@@ -36,4 +36,4 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Audit production npm dependencies
-        run: npm run audit:runtime
+        run: npm run audit:vulnerabilities:runtime
