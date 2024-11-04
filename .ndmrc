@@ -1,10 +1,11 @@
 {
-  "eslint-v8@8.0.1": {
+  "eslint@8.0.1": {
+    "#ignore": "this dependency is only used for compatibility testing",
     "*": {
       "#ignore": "this dependency is only used for compatibility testing"
     }
   },
-  "eslint-v9@9.0.0": {
+  "eslint@9.0.0": {
     "*": {
       "#ignore": "this dependency is only used for compatibility testing"
     }
