@@ -69,6 +69,7 @@
     "prepublishOnly": "npm run build",
     "_eslint": "eslint --config eslint.config.mjs --report-unused-disable-directives",
     "_prettier": "prettier \"**/*.{js,json,jsonc,md,mjs,ts,yml}\" --ignore-path .gitignore",
+    "audit": "npm run audit:deprecations && npm run audit:vulnerabilities",
     "audit:deprecations": "depreman --errors-only",
     "audit:vulnerabilities": "better-npm-audit audit",
     "audit:vulnerabilities:runtime": "better-npm-audit audit --production",
