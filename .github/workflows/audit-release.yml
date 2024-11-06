@@ -35,5 +35,5 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Audit production npm dependencies
-        run: npm run audit:vulnerabilities:runtime
+      - name: Audit for vulnerabilities
+        run: npm run audit:runtime
