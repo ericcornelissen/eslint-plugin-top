@@ -70,5 +70,5 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Audit all npm dependencies
+      - name: Audit for vulnerabilities
         run: npm run audit:vulnerabilities
