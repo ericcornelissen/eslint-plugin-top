@@ -28,9 +28,6 @@ const options: {
   allowNoCalls: {
     allowedCalls: []
   },
-  allowNewMapAndSet: {
-    allowedNews: ['Map', 'Set']
-  },
   allowNoNews: {
     allowedNews: []
   },
@@ -373,11 +370,35 @@ const valid: RuleTester.ValidTestCase[] = [
   ...[
     {
       code: `const map = new Map();`,
-      options: [options.allowNewMapAndSet]
+      options: [
+        {
+          allowedNews: ['Map']
+        }
+      ]
     },
     {
       code: `const set = new Set();`,
-      options: [options.allowNewMapAndSet]
+      options: [
+        {
+          allowedNews: ['Set']
+        }
+      ]
+    },
+    {
+      code: `const map = new WeakMap();`,
+      options: [
+        {
+          allowedNews: ['WeakMap']
+        }
+      ]
+    },
+    {
+      code: `const map = new WeakSet();`,
+      options: [
+        {
+          allowedNews: ['WeakSet']
+        }
+      ]
     }
   ],
 
@@ -1414,7 +1435,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const foo = new Map((function() {})());`,
-      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      options: [{...options.allowIIFE, allowedNews: ['Map']}],
       errors: [
         {
           messageId: '0',
@@ -1427,7 +1448,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const foo = new Set((() => {})());`,
-      options: [{...options.allowIIFE, ...options.allowNewMapAndSet}],
+      options: [{...options.allowIIFE, allowedNews: ['Set']}],
       errors: [
         {
           messageId: '0',
@@ -1975,7 +1996,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ...[
     {
       code: `new HelloWorld();`,
-      options: [options.allowNewMapAndSet],
+      options: [{allowedNews: ['Set', 'Map']}],
       errors: [
         {
           messageId: '0',
@@ -1990,8 +2011,8 @@ const invalid: RuleTester.InvalidTestCase[] = [
       code: `module.exports = new HelloWorld();`,
       options: [
         {
-          ...options.allowNewMapAndSet,
-          ...options.commonjs
+          ...options.commonjs,
+          allowedNews: ['Set', 'Map']
         }
       ],
       errors: [
@@ -2006,7 +2027,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `export const hello = new HelloWorld();`,
-      options: [options.allowNewMapAndSet],
+      options: [{allowedNews: ['Set', 'Map']}],
       errors: [
         {
           messageId: '0',
@@ -2019,7 +2040,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `var foo = new Bar();`,
-      options: [options.allowNewMapAndSet],
+      options: [{allowedNews: ['Set', 'Map']}],
       errors: [
         {
           messageId: '0',
@@ -2032,7 +2053,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `let foo = new Bar();`,
-      options: [options.allowNewMapAndSet],
+      options: [{allowedNews: ['Set', 'Map']}],
       errors: [
         {
           messageId: '0',
@@ -2045,7 +2066,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `const foo = new Bar();`,
-      options: [options.allowNewMapAndSet],
+      options: [{allowedNews: ['Set', 'Map']}],
       errors: [
         {
           messageId: '0',
