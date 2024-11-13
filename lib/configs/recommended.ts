@@ -9,7 +9,7 @@ export const configRecommended = {
       'error',
       {
         allowedCalls: ['Symbol'],
-        allowedNews: ['Map', 'Set'],
+        allowedNews: ['Map', 'Set', 'WeakMap', 'WeakSet'],
         allowIIFE: false,
         allowDerived: false
       }

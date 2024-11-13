@@ -10,8 +10,9 @@ Versioning].
 
 ## [Unreleased]
 
-- (`aaa56b7`) Always allow for `ImportExpression`, `SequenceExpression`, and
+- (`aaa56b7`) Always allow `ImportExpression`, `SequenceExpression`, and
   `ThisExpression` for `no-top-level-variables`.
+- (`56d7a83`) Allow top-level `WeakMap` and `WeakSet` in recommended config.
 
 ## [3.4.0] - 2024-07-29
 
