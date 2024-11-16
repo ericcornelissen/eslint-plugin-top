@@ -109,29 +109,32 @@ local development environment is setup and ready to go. All code and tests are
 written in TypeScript, documentation in Markdown, and scripts using JavaScript.
 
 When making contributions, make sure your changes are [tested](#testing),
-[well-formatted](#formatting-and-linting), and [vetted](#vetting).
+[formatted](#formatting), and [analyzed](#analyzing).
 
-#### Formatting and Linting
+#### Formatting
 
 This project uses [Prettier] to format all source code. Run `npm run format` to
-automatically update the formatting, or `npm run format:check` to check if the
-current formatting is correct.
+automatically update the formatting, or `npm run check:formatting` to check if
+the current formatting is correct.
 
-On top of that, this project uses linters to catch mistakes. Use the following
-command to check your changes if applicable:
+#### Analyzing
 
-| File type          | Command             | Linter                      |
-| :----------------- | :------------------ | :-------------------------- |
-| CI workflows       | `npm run lint:ci`   | [actionlint] & [ShellCheck] |
-| JSON (`.json`)     | `npm run lint:json` | [eslint-plugin-json]        |
-| MarkDown (`.md`)   | `npm run lint:md`   | [markdownlint]              |
-| TypeScript (`.ts`) | `npm run lint:ts`   | [ESLint]                    |
-| YAML (`.yml`)      | `npm run lint:yml`  | [eslint-plugin-yml]         |
+On top of that, the project uses static analysis tools to catch mistakes. Use
+`npm run check` to run all checks, or use one of the following commands to check
+your changes if applicable:
 
-#### Vetting
-
-The project is vetted using a small collection of static analysis tools. Run
-`npm run vet` to analyze the project for potential problems.
+| What          | Command                  | Tool                                |
+| :------------ | :----------------------- | :---------------------------------- |
+| CI workflows  | `npm run check:ci`       | [actionlint] & [ShellCheck]         |
+| Imports       | `npm run check:imports`  | [knip]                              |
+| JSON          | `npm run check:json`     | [@eslint/json]                      |
+| Licenses      | `npm run check:licenses` | [licensee]                          |
+| Lockfile      | `npm run check:lockfile` | [lockfile-lint]                     |
+| Manifest      | `npm run check:manifest` | [publint]                           |
+| MarkDown      | `npm run check:md`       | [markdownlint] & [@eslint/markdown] |
+| TypeScript    | `npm run check:ts`       | [@typescript-eslint]                |
+| Type coverage | `npm run check:types`    | [type-coverage]                     |
+| YAML          | `npm run check:yml`      | [eslint-plugin-yml]                 |
 
 #### Testing
 
@@ -163,7 +166,7 @@ In addition to coverage, the effectiveness of unit tests is also measured using
 using:
 
 ```shell
-npm run test:mutation
+npm run mutation
 ```
 
 This will generate a mutation report that can be found in `_reports/mutation`.
@@ -210,15 +213,6 @@ npm run audit:vulnerabilities:runtime
 Both use [better-npm-audit] to audit dependencies, which allows for having
 exceptions defined in the `.nsprc` file.
 
-##### Licenses
-
-To check the licenses of Node.js dependencies for potential problems this
-project uses [licensee]. To validate the project dependencies' licenses, run:
-
-```shell
-npm run license-check
-```
-
 ##### Deprecations
 
 To check for deprecations in all npm dependencies, run:
@@ -242,18 +236,22 @@ npm run build
 
 This will create a file called `index.js`. Note that this file ignored by git.
 
+[@eslint/json]: https://www.npmjs.com/package/@eslint/json
+[@eslint/markdown]: https://www.npmjs.com/package/@eslint/markdown
+[@typescript-eslint]: https://typescript-eslint.io/
 [actionlint]: https://github.com/rhysd/actionlint
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
-[depreman]: https://github.com/ericcornelissen/depreman
+[depreman]: https://www.npmjs.com/package/depreman
 [editorconfig]: https://editorconfig.org/
 [eslint]: https://eslint.org/
-[eslint-plugin-json]: https://www.npmjs.com/package/eslint-plugin-json
 [eslint-plugin-yml]: https://www.npmjs.com/package/eslint-plugin-yml
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
 [git]: https://git-scm.com/
-[licensee]: https://github.com/jslicense/licensee.js
-[markdownlint]: https://github.com/DavidAnson/markdownlint
+[knip]: https://www.npmjs.com/package/knip
+[licensee]: https://www.npmjs.com/package/licensee
+[lockfile-lint]: https://www.npmjs.com/package/lockfile-lint
+[markdownlint]: https://www.npmjs.com/package/markdownlint-cli
 [mocha]: https://mochajs.org/
 [mutation testing]: https://en.wikipedia.org/wiki/Mutation_testing
 [node.js]: https://nodejs.org/en/
@@ -261,8 +259,10 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new
 [open issues]: https://github.com/ericcornelissen/eslint-plugin-top/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee
 [prettier]: https://prettier.io/
+[publint]: https://www.npmjs.com/package/publint
 [rollup.js]: https://rollupjs.org/guide/en/
 [ruletester]: https://eslint.org/docs/latest/developer-guide/nodejs-api#ruletester
 [security policy]: ./SECURITY.md
 [shellcheck]: https://github.com/koalaman/shellcheck
 [stryker]: https://stryker-mutator.io/
+[type-coverage]: https://www.npmjs.com/package/type-coverage

@@ -42,6 +42,35 @@ jobs:
           name: index-js
           path: index.js
           retention-days: 1
+  ci:
+    name: CI
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install tooling
+        uses: asdf-vm/actions/install@4f8f7939dd917fc656bb7c3575969a5988c28364 # v3.0.0
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Lint CI workflows
+        run: npm run check:ci -- -verbose
   codeql:
     name: CodeQL
     runs-on: ubuntu-24.04
@@ -97,7 +126,61 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Check formatting
-        run: npm run format:check -- --log-level debug
+        run: npm run check:formatting -- --log-level debug
+  imports:
+    name: Imports
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Vet imports
+        run: npm run check:imports
+  json:
+    name: JSON
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Lint JSON
+        run: npm run check:json -- --debug
   licenses:
     name: Licenses
     runs-on: ubuntu-24.04
@@ -124,9 +207,9 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Check licenses
-        run: npm run license-check
-  lint:
-    name: Lint
+        run: npm run check:licenses
+  lockfile:
+    name: Lockfile
     runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
@@ -148,27 +231,66 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install tooling
-        uses: asdf-vm/actions/install@4f8f7939dd917fc656bb7c3575969a5988c28364 # v3.0.0
       - name: Install dependencies
         run: npm clean-install
-      - name: Lint CI
-        if: ${{ failure() || success() }}
-        run: npm run lint:ci -- -verbose
-      - name: Lint JSON
-        if: ${{ failure() || success() }}
-        run: npm run lint:json -- --debug
+      - name: Lint the lockfile
+        run: npm run check:lockfile
+  markdown:
+    name: MarkDown
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
       - name: Lint MarkDown
-        if: ${{ failure() || success() }}
-        run: |
-          npm run lint:md:text
-          npm run lint:md:code -- --debug
-      - name: Lint TypeScript
-        if: ${{ failure() || success() }}
-        run: npm run lint:ts -- --debug
-      - name: Lint YAML
-        if: ${{ failure() || success() }}
-        run: npm run lint:yml -- --debug
+        run: npm run check:md:text
+      - name: Lint snippets
+        run: npm run check:md:code -- --debug
+  manifest:
+    name: Manifest
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Lint the manifest
+        run: npm run check:manifest
   reproducible:
     name: Reproducible build
     runs-on: ubuntu-24.04
@@ -321,9 +443,9 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Run mutation tests
-        run: npm run test:mutation
-  vet:
-    name: Vet
+        run: npm run mutation
+  typescript:
+    name: TypeScript
     runs-on: ubuntu-24.04
     steps:
       - name: Harden Runner
@@ -347,15 +469,34 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Vet imports
-        if: ${{ failure() || success() }}
-        run: npm run vet:imports
-      - name: Vet package manifest
-        if: ${{ failure() || success() }}
-        run: npm run vet:package.json
-      - name: Vet lockfile
-        if: ${{ failure() || success() }}
-        run: npm run vet:package-lock.json
-      - name: Vet types
-        if: ${{ failure() || success() }}
-        run: npm run vet:types
+      - name: Lint TypeScript
+        run: npm run lint:ts -- --debug
+      - name: Check type coverage
+        run: npm run check:types
+  yaml:
+    name: YAML
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            artifactcache.actions.githubusercontent.com:443
+            github.com:443
+            nodejs.org:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Lint YAML
+        run: npm run lint:yml -- --debug
