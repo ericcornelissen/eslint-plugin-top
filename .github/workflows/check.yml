@@ -470,7 +470,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Lint TypeScript
-        run: npm run lint:ts -- --debug
+        run: npm run check:ts -- --debug
       - name: Check type coverage
         run: npm run check:types
   yaml:
@@ -499,4 +499,4 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Lint YAML
-        run: npm run lint:yml -- --debug
+        run: npm run check:yml -- --debug
