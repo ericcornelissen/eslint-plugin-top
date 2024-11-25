@@ -291,6 +291,21 @@ jobs:
         run: npm clean-install
       - name: Lint the manifest
         run: npm run check:manifest
+  odgen:
+    name: ODGen
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+      - name: Checkout repository
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Perform ODGen analysis
+        uses: ericcornelissen/odgen-action/all@d52f04ff5d0b5b4ae83bcc89337eb37693e17938 # v1.0.3
   reproducible:
     name: Reproducible build
     runs-on: ubuntu-24.04
