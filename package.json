@@ -46,6 +46,7 @@
     "c8": "10.1.1",
     "depreman": "0.3.2",
     "eslint": "9.15.0",
+    "eslint-plugin-depend": "0.12.0",
     "eslint-plugin-eslint-plugin": "6.3.2",
     "eslint-plugin-yml": "1.16.0",
     "eslint-v8": "npm:eslint@8.0.1",
