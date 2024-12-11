@@ -1,10 +1,11 @@
 // Check out ESLint at: https://eslint.org/
 
-import tsparser from '@typescript-eslint/parser';
-import tseslint from '@typescript-eslint/eslint-plugin';
+import depend from 'eslint-plugin-depend';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
 import yml from 'eslint-plugin-yml';
 
 export default [
@@ -23,7 +24,7 @@ export default [
   {
     name: 'TypeScript Code',
     files: ['lib/**/*.ts'],
-    plugins: {tseslint},
+    plugins: {depend, tseslint},
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
@@ -31,6 +32,7 @@ export default [
       }
     },
     rules: {
+      'depend/ban-dependencies': 'error',
       'tseslint/consistent-return': 'error',
       'tseslint/consistent-type-exports': 'error',
       'tseslint/consistent-type-imports': 'error',
@@ -92,8 +94,9 @@ export default [
   {
     name: 'Tests',
     files: ['tests/**/*'],
-    plugins: {tseslint},
+    plugins: {depend, tseslint},
     rules: {
+      'depend/ban-dependencies': 'error',
       'tseslint/no-unused-vars': 'error'
     }
   },
