@@ -9,13 +9,6 @@
       "#ignore": "eslint@9.0.0 is only used for compatibility testing"
     }
   },
-  "mocha@^10.7.0": {
-    "glob@^8.0.0": {
-      "*": {
-        "#ignore": "tracked in https://github.com/mochajs/mocha/issues/5148"
-      }
-    }
-  },
   "publint@^0.2.12": {
     "npm-packlist@5.1.3": {
       "*": {
