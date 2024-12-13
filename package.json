@@ -72,7 +72,7 @@
     "_eslint": "eslint --config eslint.config.mjs --report-unused-disable-directives",
     "_prettier": "prettier \"**/*.{js,json,jsonc,md,mjs,ts,yml}\" --ignore-path .gitignore",
     "audit": "npm-run-all audit:*",
-    "audit:deprecations": "depreman --errors-only",
+    "audit:deprecations": "depreman --errors-only --report-unused",
     "audit:vulnerabilities": "better-npm-audit audit",
     "audit:vulnerabilities:runtime": "better-npm-audit audit --production",
     "build": "rollup --config rollup.config.js",
