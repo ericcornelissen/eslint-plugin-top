@@ -57,7 +57,7 @@
     "lockfile-lint": "4.12.1",
     "markdownlint-cli": "0.43.0",
     "mocha": "11.0.1",
-    "npm-run-all2": "7.0.1",
+    "npm-run-all2": "7.0.2",
     "nve": "18.0.0",
     "prettier": "3.4.1",
     "publint": "0.2.12",
