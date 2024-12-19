@@ -16,9 +16,15 @@ on:
 permissions: read-all
 
 jobs:
-  deprecations:
-    name: Deprecations
+  audit:
+    name: ${{ matrix.what }}
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        what:
+          - deprecations
+          - vulnerabilities
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
@@ -44,35 +50,7 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
-      - name: Audit deprecations
-        run: npm run audit:deprecations
-  vulnerabilities:
-    name: Vulnerabilities
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
-        with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            artifactcache.actions.githubusercontent.com:443
-            ghcr.io:443
-            github.com:443
-            nodejs.org:443
-            objects.githubusercontent.com:443
-            registry.npmjs.org:443
-      - name: Checkout repository
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
-        with:
-          persist-credentials: false
-      - name: Install Node.js
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
-        with:
-          cache: npm
-          node-version-file: .nvmrc
-      - name: Install dependencies
-        run: npm clean-install
-      - name: Audit for vulnerabilities
-        run: npm run audit:vulnerabilities
+      - name: Audit
+        run: npm run "audit:${WHAT}"
+        env:
+          WHAT: ${{ matrix.what }}
