@@ -126,7 +126,6 @@ your changes if applicable:
 | What          | Command                  | Tool                                |
 | :------------ | :----------------------- | :---------------------------------- |
 | CI workflows  | `npm run check:ci`       | [actionlint] & [ShellCheck]         |
-| Imports       | `npm run check:imports`  | [knip]                              |
 | JSON          | `npm run check:json`     | [@eslint/json]                      |
 | Licenses      | `npm run check:licenses` | [licensee]                          |
 | Lockfile      | `npm run check:lockfile` | [lockfile-lint]                     |
@@ -248,7 +247,6 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [eslint-plugin-yml]: https://www.npmjs.com/package/eslint-plugin-yml
 [feature request]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=enhancement
 [git]: https://git-scm.com/
-[knip]: https://www.npmjs.com/package/knip
 [licensee]: https://www.npmjs.com/package/licensee
 [lockfile-lint]: https://www.npmjs.com/package/lockfile-lint
 [markdownlint]: https://www.npmjs.com/package/markdownlint-cli
