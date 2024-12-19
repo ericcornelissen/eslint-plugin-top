@@ -106,7 +106,6 @@ export default [
       '.github/**/*.json',
       '.licensee.json',
       '.c8rc.json',
-      'knip.json',
       'package.json',
       'tsconfig.json',
       '**/*.md/*.json'
