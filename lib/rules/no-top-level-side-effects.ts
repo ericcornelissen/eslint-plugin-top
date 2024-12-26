@@ -14,13 +14,6 @@ type Options = {
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
-const allowedCallsOption = {
-  default: ['Symbol']
-};
-const allowedNewsOption = {
-  default: []
-};
-
 const disallowedSideEffect = {
   id: '0',
   message: 'Side effects at the top level are not allowed'
@@ -89,23 +82,42 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         type: 'object',
         properties: {
           allowedCalls: {
+            description:
+              'Configure what function calls are allowed at the top level.',
             type: 'array',
             minItems: 0
           },
           allowedNews: {
+            description:
+              'Configure what classes can be instantiated at the top level',
             type: 'array',
             minItems: 0
           },
           allowIIFE: {
+            description:
+              'Configure whether top level Immediately Invoked Function Expressions (IIFEs) are allowed',
             type: 'boolean'
           },
           allowDerived: {
+            description:
+              'Configure whether derivations are allowed at the top level',
             type: 'boolean'
           },
           commonjs: {
+            description:
+              'Configure whether the code being analyzed is, or is partially, CommonJS code',
             type: 'boolean'
           }
         }
+      }
+    ],
+    defaultOptions: [
+      {
+        allowedCalls: ['Symbol'],
+        allowedNews: [],
+        allowIIFE: false,
+        allowDerived: false,
+        commonjs: undefined
       }
     ],
     messages: {
@@ -113,14 +125,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     }
   },
   create: (context) => {
-    const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
+    const provided: Options = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
-      allowedNews: provided?.allowedNews || allowedNewsOption.default,
-      allowIIFE: provided?.allowIIFE || false,
-      allowDerived: provided?.allowDerived || false,
-      commonjs: provided?.commonjs,
+      allowedCalls: provided.allowedCalls,
+      allowedNews: provided.allowedNews,
+      allowIIFE: provided.allowIIFE,
+      allowDerived: provided.allowDerived,
+      commonjs: provided.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
     };

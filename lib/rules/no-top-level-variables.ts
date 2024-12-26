@@ -10,43 +10,6 @@ type Options = {
   readonly kind: ReadonlyArray<string>;
 };
 
-const allowedOption = {
-  enum: [
-    'ArrayExpression',
-    'ImportExpression',
-    'ObjectExpression',
-    'SequenceExpression',
-    'ThisExpression',
-    'YieldExpression'
-  ],
-  default: [],
-  always: [
-    'ArrowFunctionExpression',
-    'AssignmentExpression',
-    'AwaitExpression',
-    'BinaryExpression',
-    'CallExpression',
-    'ChainExpression',
-    'ConditionalExpression',
-    'FunctionExpression',
-    'Identifier',
-    'ImportExpression',
-    'Literal',
-    'LogicalExpression',
-    'MemberExpression',
-    'SequenceExpression',
-    'TaggedTemplateExpression',
-    'TemplateLiteral',
-    'ThisExpression',
-    'UnaryExpression',
-    'UpdateExpression'
-  ]
-};
-const kindOption = {
-  enum: ['const', 'let', 'var'],
-  default: ['const']
-};
-
 const disallowedAssignment = {
   id: '0',
   message: 'Variables at the top level are not allowed'
@@ -114,20 +77,35 @@ export const noTopLevelVariables: Rule.RuleModule = {
         type: 'object',
         properties: {
           allowed: {
+            description: 'Configure what kind of assignments are allowed',
             type: 'array',
             minItems: 0,
             items: {
-              enum: allowedOption.enum
+              enum: [
+                'ArrayExpression',
+                'ImportExpression',
+                'ObjectExpression',
+                'SequenceExpression',
+                'ThisExpression',
+                'YieldExpression'
+              ]
             }
           },
           kind: {
+            description: 'Configure which kinds of variables are allowed',
             type: 'array',
             minItems: 0,
             items: {
-              enum: kindOption.enum
+              enum: ['const', 'let', 'var']
             }
           }
         }
+      }
+    ],
+    defaultOptions: [
+      {
+        allowed: [],
+        kind: ['const']
       }
     ],
     messages: {
@@ -138,14 +116,32 @@ export const noTopLevelVariables: Rule.RuleModule = {
     }
   },
   create: (context) => {
-    const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
+    const provided: Options = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
       allowed: [
-        ...allowedOption.always,
-        ...(provided?.allowed || allowedOption.default)
+        'ArrowFunctionExpression',
+        'AssignmentExpression',
+        'AwaitExpression',
+        'BinaryExpression',
+        'CallExpression',
+        'ChainExpression',
+        'ConditionalExpression',
+        'FunctionExpression',
+        'Identifier',
+        'ImportExpression',
+        'Literal',
+        'LogicalExpression',
+        'MemberExpression',
+        'SequenceExpression',
+        'TaggedTemplateExpression',
+        'TemplateLiteral',
+        'ThisExpression',
+        'UnaryExpression',
+        'UpdateExpression',
+        ...provided.allowed
       ],
-      kind: provided?.kind || kindOption.default
+      kind: provided.kind
     };
 
     return {

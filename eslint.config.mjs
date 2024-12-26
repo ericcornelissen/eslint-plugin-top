@@ -191,7 +191,7 @@ export default [
   },
   {
     name: 'ESLint Plugin',
-    ...eslintPlugin.configs['flat/recommended'],
+    ...eslintPlugin.configs['flat/all-type-checked'],
     files: ['**/*.ts']
   },
 
