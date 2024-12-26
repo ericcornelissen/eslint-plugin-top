@@ -14,6 +14,19 @@ type Options = {
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
+const allowedCallsOption = {
+  default: ['Symbol']
+};
+const allowedNewsOption = {
+  default: []
+};
+const allowIIFEOption = {
+  default: false
+};
+const allowDerivedOption = {
+  default: false
+};
+
 const disallowedSideEffect = {
   id: '0',
   message: 'Side effects at the top level are not allowed'
@@ -111,28 +124,19 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       }
     ],
-    defaultOptions: [
-      {
-        allowedCalls: ['Symbol'],
-        allowedNews: [],
-        allowIIFE: false,
-        allowDerived: false,
-        commonjs: undefined
-      }
-    ],
     messages: {
       [disallowedSideEffect.id]: disallowedSideEffect.message
     }
   },
   create: (context) => {
-    const provided: Options = context.options[0]; // type-coverage:ignore-line
+    const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowedCalls: provided.allowedCalls,
-      allowedNews: provided.allowedNews,
-      allowIIFE: provided.allowIIFE,
-      allowDerived: provided.allowDerived,
-      commonjs: provided.commonjs,
+      allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
+      allowedNews: provided?.allowedNews || allowedNewsOption.default,
+      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
+      allowDerived: provided?.allowDerived || allowDerivedOption.default,
+      commonjs: provided?.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
     };

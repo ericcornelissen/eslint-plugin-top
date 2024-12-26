@@ -10,6 +10,43 @@ type Options = {
   readonly kind: ReadonlyArray<string>;
 };
 
+const allowedOption = {
+  enum: [
+    'ArrayExpression',
+    'ImportExpression',
+    'ObjectExpression',
+    'SequenceExpression',
+    'ThisExpression',
+    'YieldExpression'
+  ],
+  default: [],
+  always: [
+    'ArrowFunctionExpression',
+    'AssignmentExpression',
+    'AwaitExpression',
+    'BinaryExpression',
+    'CallExpression',
+    'ChainExpression',
+    'ConditionalExpression',
+    'FunctionExpression',
+    'Identifier',
+    'ImportExpression',
+    'Literal',
+    'LogicalExpression',
+    'MemberExpression',
+    'SequenceExpression',
+    'TaggedTemplateExpression',
+    'TemplateLiteral',
+    'ThisExpression',
+    'UnaryExpression',
+    'UpdateExpression'
+  ]
+};
+const kindOption = {
+  enum: ['const', 'let', 'var'],
+  default: ['const']
+};
+
 const disallowedAssignment = {
   id: '0',
   message: 'Variables at the top level are not allowed'
@@ -81,14 +118,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
             type: 'array',
             minItems: 0,
             items: {
-              enum: [
-                'ArrayExpression',
-                'ImportExpression',
-                'ObjectExpression',
-                'SequenceExpression',
-                'ThisExpression',
-                'YieldExpression'
-              ]
+              enum: allowedOption.enum
             }
           },
           kind: {
@@ -96,16 +126,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
             type: 'array',
             minItems: 0,
             items: {
-              enum: ['const', 'let', 'var']
+              enum: kindOption.enum
             }
           }
         }
-      }
-    ],
-    defaultOptions: [
-      {
-        allowed: [],
-        kind: ['const']
       }
     ],
     messages: {
@@ -116,32 +140,14 @@ export const noTopLevelVariables: Rule.RuleModule = {
     }
   },
   create: (context) => {
-    const provided: Options = context.options[0]; // type-coverage:ignore-line
+    const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
       allowed: [
-        'ArrowFunctionExpression',
-        'AssignmentExpression',
-        'AwaitExpression',
-        'BinaryExpression',
-        'CallExpression',
-        'ChainExpression',
-        'ConditionalExpression',
-        'FunctionExpression',
-        'Identifier',
-        'ImportExpression',
-        'Literal',
-        'LogicalExpression',
-        'MemberExpression',
-        'SequenceExpression',
-        'TaggedTemplateExpression',
-        'TemplateLiteral',
-        'ThisExpression',
-        'UnaryExpression',
-        'UpdateExpression',
-        ...provided.allowed
+        ...allowedOption.always,
+        ...(provided?.allowed || allowedOption.default)
       ],
-      kind: provided.kind
+      kind: provided?.kind || kindOption.default
     };
 
     return {
