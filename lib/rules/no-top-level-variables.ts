@@ -114,6 +114,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
         type: 'object',
         properties: {
           allowed: {
+            description: 'Configure what kind of assignments are allowed',
             type: 'array',
             minItems: 0,
             items: {
@@ -121,6 +122,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
             }
           },
           kind: {
+            description: 'Configure which kinds of variables are allowed',
             type: 'array',
             minItems: 0,
             items: {

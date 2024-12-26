@@ -20,6 +20,12 @@ const allowedCallsOption = {
 const allowedNewsOption = {
   default: []
 };
+const allowIIFEOption = {
+  default: false
+};
+const allowDerivedOption = {
+  default: false
+};
 
 const disallowedSideEffect = {
   id: '0',
@@ -89,20 +95,30 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         type: 'object',
         properties: {
           allowedCalls: {
+            description:
+              'Configure what function calls are allowed at the top level.',
             type: 'array',
             minItems: 0
           },
           allowedNews: {
+            description:
+              'Configure what classes can be instantiated at the top level',
             type: 'array',
             minItems: 0
           },
           allowIIFE: {
+            description:
+              'Configure whether top level Immediately Invoked Function Expressions (IIFEs) are allowed',
             type: 'boolean'
           },
           allowDerived: {
+            description:
+              'Configure whether derivations are allowed at the top level',
             type: 'boolean'
           },
           commonjs: {
+            description:
+              'Configure whether the code being analyzed is, or is partially, CommonJS code',
             type: 'boolean'
           }
         }
@@ -118,8 +134,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const options: Options = {
       allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
-      allowIIFE: provided?.allowIIFE || false,
-      allowDerived: provided?.allowDerived || false,
+      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
+      allowDerived: provided?.allowDerived || allowDerivedOption.default,
       commonjs: provided?.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
