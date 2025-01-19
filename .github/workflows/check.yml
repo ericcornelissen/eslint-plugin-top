@@ -93,12 +93,18 @@ jobs:
         env:
           WHAT: ${{ matrix.what }}
   codeql:
-    name: CodeQL
+    name: CodeQL (${{ matrix.what }})
     runs-on: ubuntu-24.04
     needs:
       - build
     permissions:
       security-events: write # To upload CodeQL results
+    strategy:
+      fail-fast: false
+      matrix:
+        what:
+          - actions
+          - javascript
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
@@ -120,7 +126,7 @@ jobs:
         uses: github/codeql-action/init@b6a472f63d85b9c78a3ac5e89422239fc15e9b3c # v3.28.1
         with:
           config-file: ./.github/codeql.yml
-          languages: javascript
+          languages: ${{ matrix.what }}
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@b6a472f63d85b9c78a3ac5e89422239fc15e9b3c # v3.28.1
   odgen:
