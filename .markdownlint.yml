@@ -1,4 +1,4 @@
-# Check out markdownlint at: https://github.com/DavidAnson/markdownlint
+# Configuration file for markdownlint (https://github.com/DavidAnson/markdownlint)
 
 default: true
 

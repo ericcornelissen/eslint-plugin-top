@@ -1,4 +1,4 @@
-# Check out Labeler at: https://github.com/actions/labeler
+# Configuration file for Labeler (https://github.com/actions/labeler)
 
 ci:
   - changed-files:

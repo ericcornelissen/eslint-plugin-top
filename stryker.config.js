@@ -1,4 +1,4 @@
-// Check out StrykerJS at: https://stryker-mutator.io/
+// Configuration file for StrykerJS (https://stryker-mutator.io/)
 
 module.exports = {
   coverageAnalysis: 'perTest',

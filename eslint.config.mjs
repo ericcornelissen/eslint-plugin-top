@@ -1,4 +1,4 @@
-// Check out ESLint at: https://eslint.org/
+// Configuration file for ESLint (https://eslint.org/)
 
 import depend from 'eslint-plugin-depend';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
