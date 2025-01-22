@@ -1,4 +1,4 @@
-# Check out Prettier at: https://prettier.io/
+# Configuration file for Prettier (https://prettier.io/)
 
 bracketSameLine: true
 bracketSpacing: false

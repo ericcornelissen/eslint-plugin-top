@@ -1,4 +1,4 @@
-# Check out Mocha at: https://mochajs.org/
+# Configuration file for Mocha (https://mochajs.org/)
 
 extension:
   - ts
