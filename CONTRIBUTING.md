@@ -225,15 +225,14 @@ exceptions defined in the `.ndmrc` file.
 
 #### Building
 
-The TypeScript source code of this project is converted and bundled into a
-single JavaScript file using [rollup.js] when the plugin is published to npm.
-You can do this locally by running:
+The TypeScript source code of this project is converted to JavaScript for when
+the plugin is published to npm. You can do this locally by running:
 
 ```shell
 npm run build
 ```
 
-This will create a file called `index.js`. Note that this file ignored by git.
+This will create a directory called `dist` (note that this ignored by git).
 
 [@eslint/json]: https://www.npmjs.com/package/@eslint/json
 [@eslint/markdown]: https://www.npmjs.com/package/@eslint/markdown
@@ -258,7 +257,6 @@ This will create a file called `index.js`. Note that this file ignored by git.
 [open issues]: https://github.com/ericcornelissen/eslint-plugin-top/issues?q=is%3Aissue+is%3Aopen+no%3Aassignee
 [prettier]: https://prettier.io/
 [publint]: https://www.npmjs.com/package/publint
-[rollup.js]: https://rollupjs.org/guide/en/
 [ruletester]: https://eslint.org/docs/latest/developer-guide/nodejs-api#ruletester
 [security policy]: ./SECURITY.md
 [shellcheck]: https://github.com/koalaman/shellcheck

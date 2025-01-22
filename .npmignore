@@ -2,8 +2,8 @@
 /*
 
 # Except the ones we want to publish
+!dist/
 !docs/
-!index.js
 !LICENSE
 !package.json
 !README.md
