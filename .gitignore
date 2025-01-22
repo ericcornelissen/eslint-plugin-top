@@ -1,6 +1,7 @@
 .cache/
 .temp/
 _reports/
+dist/
 checksums.txt
 index.js
 
