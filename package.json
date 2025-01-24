@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
-    "@eslint/json": "0.9.0",
+    "@eslint/json": "0.10.0",
     "@eslint/markdown": "6.2.1",
     "@stryker-mutator/core": "8.7.1",
     "@stryker-mutator/mocha-runner": "8.7.1",
