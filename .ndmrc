@@ -8,5 +8,10 @@
     "*": {
       "#ignore": "eslint@9.0.0 is only used for compatibility testing"
     }
+  },
+  "better-npm-audit@^3.11.0": {
+    "lodash.get@4.4.2": {
+      "#ignore": "better-npm-audit promises support with Node.js <14.0.0"
+    }
   }
 }
