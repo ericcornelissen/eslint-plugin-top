@@ -214,13 +214,19 @@ exceptions defined in the `.nsprc` file.
 
 ##### Deprecations
 
-To check for deprecations in all npm dependencies, run:
+To scan for deprecation warnings in all npm dependencies, run:
 
 ```shell
 npm run audit:deprecations
 ```
 
-This uses [depreman] to audit deprecation warnings, which allows for having
+To scan for deprecation warnings in runtime npm dependencies only, run:
+
+```shell
+npm run audit:deprecations:runtime
+```
+
+Both uses [depreman] to audit deprecation warnings, which allows for having
 exceptions defined in the `.ndmrc` file.
 
 #### Building
