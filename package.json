@@ -64,7 +64,7 @@
     "yaml-eslint-parser": "1.2.2"
   },
   "scripts": {
-    "_eslint": "eslint --config eslint.config.mjs --report-unused-disable-directives --report-unused-inline-configs",
+    "_eslint": "eslint --config eslint.config.mjs",
     "_prettier": "prettier \"**/*.{js,json,md,mjs,ts,yml}\" --ignore-path .gitignore",
     "audit": "npm-run-all audit:*",
     "audit:deprecations": "depreman --errors-only --report-unused",
