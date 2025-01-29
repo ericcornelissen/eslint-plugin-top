@@ -19,6 +19,10 @@ export default [
       ecmaVersion: 2020,
       parser: tsparser,
       sourceType: 'module'
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+      reportUnusedInlineConfigs: 'error'
     }
   },
   {
@@ -112,6 +116,10 @@ export default [
     ],
     plugins: {json},
     language: 'json/json',
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+      reportUnusedInlineConfigs: 'error'
+    },
     rules: {
       'json/no-duplicate-keys': 'error',
       'json/no-empty-keys': 'error',
@@ -130,6 +138,10 @@ export default [
       '.prettierrc.yml',
       '**/*.md/*.yml'
     ],
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+      reportUnusedInlineConfigs: 'error'
+    },
     rules: {
       'yml/block-mapping': ['error', 'always'],
       'yml/block-mapping-colon-indicator-newline': ['error', 'never'],
