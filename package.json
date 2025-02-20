@@ -46,7 +46,7 @@
     "eslint": "9.19.0",
     "eslint-plugin-depend": "0.12.0",
     "eslint-plugin-eslint-plugin": "6.4.0",
-    "eslint-plugin-yml": "1.16.0",
+    "eslint-plugin-yml": "1.17.0",
     "eslint-v8": "npm:eslint@8.0.1",
     "eslint-v9": "npm:eslint@9.0.0",
     "is-ci": "4.1.0",
