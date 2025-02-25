@@ -1,7 +1,8 @@
-# Ignore all files in root
+# Ignore file for npm (https://docs.npmjs.com/cli/using-npm/developers)
+
 /*
 
-# Except the ones we want to publish
+## Allowlist
 !dist/
 !docs/
 !LICENSE
