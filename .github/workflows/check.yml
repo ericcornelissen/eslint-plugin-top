@@ -145,7 +145,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Perform ODGen analysis
-        uses: ericcornelissen/odgen-action/all@d52f04ff5d0b5b4ae83bcc89337eb37693e17938 # v1.0.3
+        uses: ericcornelissen/odgen-action/all@c8d375a26e89a37ffad63932cbf4ae45ba990182 # v1.0.4
   reproducible:
     name: Reproducible build
     runs-on: ubuntu-24.04
