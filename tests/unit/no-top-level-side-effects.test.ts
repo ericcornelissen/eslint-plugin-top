@@ -546,6 +546,25 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
+  // A function called require
+  ...[
+    {
+      code: `function require() {}`
+    },
+    {
+      code: `function require() {}`,
+      options: [options.noCommonjs]
+    },
+    {
+      code: `function f() { function require() {} }`,
+      options: [options.commonjs]
+    },
+    {
+      code: `function notRequire() { }`,
+      options: [options.commonjs]
+    }
+  ],
+
   // Derived values
   ...[
     {
@@ -2583,6 +2602,36 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 31
+        }
+      ]
+    }
+  ],
+
+  // A function called require
+  ...[
+    {
+      code: `function require() {}`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 22
+        }
+      ]
+    },
+    {
+      code: `function require() {}`,
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 22
         }
       ]
     }
