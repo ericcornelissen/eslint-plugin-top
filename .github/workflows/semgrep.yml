@@ -1,9 +1,0 @@
-name: Semgrep
-on:
-  push:
-    branches:
-      - main
-
-permissions: read-all
-
-jobs:
