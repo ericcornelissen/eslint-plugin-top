@@ -562,6 +562,12 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `function notRequire() { }`,
       options: [options.commonjs]
+    },
+    {
+      code: `var require = () => { };`
+    },
+    {
+      code: `var require = "foobar";`
     }
   ],
 

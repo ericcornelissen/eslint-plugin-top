@@ -398,15 +398,17 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        for (const declaration of node.declarations) {
-          if (
-            declaration.id.type === 'Identifier' &&
-            declaration.id.name === 'require'
-          ) {
-            context.report({
-              node: declaration,
-              messageId: disallowedRequireShadow.id
-            });
+        if (options.isCommonjs(node)) {
+          for (const declaration of node.declarations) {
+            if (
+              declaration.id.type === 'Identifier' &&
+              declaration.id.name === 'require'
+            ) {
+              context.report({
+                node: declaration,
+                messageId: disallowedRequireShadow.id
+              });
+            }
           }
         }
       },
