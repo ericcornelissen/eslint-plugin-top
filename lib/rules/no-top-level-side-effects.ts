@@ -393,6 +393,23 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      VariableDeclaration: (node) => {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        for (const declaration of node.declarations) {
+          if (
+            declaration.id.type === 'Identifier' &&
+            declaration.id.name === 'require'
+          ) {
+            context.report({
+              node: declaration,
+              messageId: disallowedRequireShadow.id
+            });
+          }
+        }
+      },
       WhileStatement: (node) => {
         if (isTopLevel(node)) {
           context.report({

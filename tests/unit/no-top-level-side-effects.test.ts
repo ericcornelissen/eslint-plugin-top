@@ -2610,7 +2610,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   // A function called require
   ...[
     {
-      code: `function require() {}`,
+      code: `function require() {/* options */}`,
       options: [options.commonjs],
       errors: [
         {
@@ -2618,12 +2618,12 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 22
+          endColumn: 35
         }
       ]
     },
     {
-      code: `function require() {}`,
+      code: `function require() {/* sourceType */}`,
       languageOptions: languageOptions.sourceTypeScript,
       errors: [
         {
@@ -2631,7 +2631,59 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 1,
           endLine: 1,
-          endColumn: 22
+          endColumn: 38
+        }
+      ]
+    },
+    {
+      code: `var require = function() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 29
+        }
+      ]
+    },
+    {
+      code: `var require = function require() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 37
+        }
+      ]
+    },
+    {
+      code: `var require = () => { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 24
+        }
+      ]
+    },
+    {
+      code: `var require = "foobar";`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 23
         }
       ]
     }
