@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {CallExpression, NewExpression, AssignmentExpression} from 'estree';
+import type {
+  CallExpression,
+  NewExpression,
+  AssignmentExpression,
+  VariableDeclarator
+} from 'estree';
 
 import {IsCommonJs, isTopLevel} from '../helpers';
 
@@ -10,6 +15,7 @@ type Options = {
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
   readonly allowDerived: boolean;
+  readonly allowPropertyAccess: boolean;
   readonly commonjs: boolean | undefined;
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
@@ -26,6 +32,9 @@ const allowIIFEOption = {
 const allowDerivedOption = {
   default: false
 };
+const allowPropertyAccessOption = {
+  default: true
+};
 
 const disallowedSideEffect = {
   id: '0',
@@ -39,6 +48,13 @@ const disallowedRequireShadow = {
 function isCallTo(expression: CallExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
+}
+
+function isDestructuring(declaration: VariableDeclarator): boolean {
+  return (
+    declaration.id.type === 'ObjectPattern' ||
+    declaration.id.type === 'ArrayPattern'
   );
 }
 
@@ -141,6 +157,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
       allowDerived: provided?.allowDerived || allowDerivedOption.default,
+      allowPropertyAccess:
+        provided?.allowPropertyAccess === undefined
+          ? allowPropertyAccessOption.default
+          : provided.allowPropertyAccess,
       commonjs: provided?.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
@@ -289,6 +309,22 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      MemberExpression: (node) => {
+        if (
+          (node.parent.type === 'AssignmentExpression' &&
+            node.parent.left === node) ||
+          node.parent.type === 'CallExpression'
+        ) {
+          return; // not reported here.
+        }
+
+        if (!options.allowPropertyAccess && isTopLevel(node)) {
+          context.report({
+            node: node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
       NewExpression: (node) => {
         if (options.allowedNews.some((name) => isNew(node, name))) {
           return;
@@ -398,8 +434,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (options.isCommonjs(node)) {
-          for (const declaration of node.declarations) {
+        for (const declaration of node.declarations) {
+          if (options.isCommonjs(node)) {
             if (
               declaration.id.type === 'Identifier' &&
               declaration.id.name === 'require'
@@ -409,6 +445,13 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
                 messageId: disallowedRequireShadow.id
               });
             }
+          }
+
+          if (!options.allowPropertyAccess && isDestructuring(declaration)) {
+            context.report({
+              node: declaration.id,
+              messageId: disallowedSideEffect.id
+            });
           }
         }
       },

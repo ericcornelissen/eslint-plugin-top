@@ -11,7 +11,8 @@ export const configRecommended = {
         allowedCalls: ['Symbol'],
         allowedNews: ['Map', 'Set', 'WeakMap', 'WeakSet'],
         allowIIFE: false,
-        allowDerived: false
+        allowDerived: false,
+        allowPropertyAccess: true
       }
     ],
     'top/no-top-level-variables': [
