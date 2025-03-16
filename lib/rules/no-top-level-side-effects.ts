@@ -121,7 +121,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           },
           allowedCalls: {
             description:
-              'Configure what function calls are allowed at the top level.',
+              'Configure what function calls are allowed at the top level',
             type: 'array',
             minItems: 0
           },
