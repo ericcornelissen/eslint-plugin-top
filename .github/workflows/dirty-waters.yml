@@ -44,4 +44,4 @@ jobs:
           gradual_report: false
           ignore_cache: false
           package_manager: npm
-          specified_smells: --check-code-signature --check-source-code --check-release-tags
+          specified_smells: --check-code-signature --check-source-code --check-source-code-sha
