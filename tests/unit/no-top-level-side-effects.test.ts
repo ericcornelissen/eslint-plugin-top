@@ -546,6 +546,31 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
+  // A function called require
+  ...[
+    {
+      code: `function require() {}`
+    },
+    {
+      code: `function require() {}`,
+      options: [options.noCommonjs]
+    },
+    {
+      code: `function f() { function require() {} }`,
+      options: [options.commonjs]
+    },
+    {
+      code: `function notRequire() { }`,
+      options: [options.commonjs]
+    },
+    {
+      code: `var require = () => { };`
+    },
+    {
+      code: `var require = "foobar";`
+    }
+  ],
+
   // Derived values
   ...[
     {
@@ -2583,6 +2608,88 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 31
+        }
+      ]
+    }
+  ],
+
+  // A function called require
+  ...[
+    {
+      code: `function require() {/* options */}`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `function require() {/* sourceType */}`,
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `var require = function() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = function require() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = () => { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = "foobar";`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
         }
       ]
     }

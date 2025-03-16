@@ -31,6 +31,10 @@ const disallowedSideEffect = {
   id: '0',
   message: 'Side effects at the top level are not allowed'
 };
+const disallowedRequireShadow = {
+  id: '1',
+  message: 'Shadowing `require` is not allowed'
+};
 
 function isCallTo(expression: CallExpression, name: string): boolean {
   return (
@@ -125,7 +129,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       }
     ],
     messages: {
-      [disallowedSideEffect.id]: disallowedSideEffect.message
+      [disallowedSideEffect.id]: disallowedSideEffect.message,
+      [disallowedRequireShadow.id]: disallowedRequireShadow.message
     }
   },
   create: (context) => {
@@ -252,6 +257,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      FunctionDeclaration: (node) => {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (options.isCommonjs(node) && node.id.name === 'require') {
+          context.report({
+            node: node.id,
+            messageId: disallowedRequireShadow.id
+          });
+        }
+      },
       IfStatement: (node) => {
         if (isTopLevel(node)) {
           context.report({
@@ -374,6 +391,25 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             node,
             messageId: disallowedSideEffect.id
           });
+        }
+      },
+      VariableDeclaration: (node) => {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (options.isCommonjs(node)) {
+          for (const declaration of node.declarations) {
+            if (
+              declaration.id.type === 'Identifier' &&
+              declaration.id.name === 'require'
+            ) {
+              context.report({
+                node: declaration.id,
+                messageId: disallowedRequireShadow.id
+              });
+            }
+          }
         }
       },
       WhileStatement: (node) => {

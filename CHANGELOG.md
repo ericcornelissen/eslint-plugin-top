@@ -13,6 +13,7 @@ Versioning].
 - (`aaa56b7`) Always allow `ImportExpression`, `SequenceExpression`, and
   `ThisExpression` for `no-top-level-variables`.
 - (`56d7a83`) Allow top-level `WeakMap` and `WeakSet` in recommended config.
+- (`f751d93`) Disallow shadowing `require` in CommonJS.
 
 ## [3.4.0] - 2024-07-29
 
