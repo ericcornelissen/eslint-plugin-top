@@ -11,6 +11,12 @@ const options: {
     kind?: string[];
   };
 } = {
+  allowArray: {
+    allowed: ['ArrayExpression']
+  },
+  allowObject: {
+    allowed: ['ObjectExpression']
+  },
   kindConst: {
     kind: ['const']
   },
@@ -22,12 +28,6 @@ const options: {
   },
   kindVar: {
     kind: ['var']
-  },
-  allowArray: {
-    allowed: ['ArrayExpression']
-  },
-  allowObject: {
-    allowed: ['ObjectExpression']
   }
 };
 

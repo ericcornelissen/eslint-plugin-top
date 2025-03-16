@@ -16,23 +16,23 @@ const options: {
     commonjs?: boolean;
   };
 } = {
-  allowDerived: {
-    allowDerived: true
-  },
   allowCallSymbol: {
     allowedCalls: ['Symbol']
   },
   allowCallBigInt: {
     allowedCalls: ['BigInt']
   },
+  allowDerived: {
+    allowDerived: true
+  },
+  allowIIFE: {
+    allowIIFE: true
+  },
   allowNoCalls: {
     allowedCalls: []
   },
   allowNoNews: {
     allowedNews: []
-  },
-  allowIIFE: {
-    allowIIFE: true
   },
   commonjs: {
     commonjs: true
