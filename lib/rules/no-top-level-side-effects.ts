@@ -11,15 +11,18 @@ import type {
 import {IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
+  readonly allowDerived: boolean;
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowIIFE: boolean;
-  readonly allowDerived: boolean;
   readonly allowPropertyAccess: boolean;
   readonly commonjs: boolean | undefined;
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
+const allowDerivedOption = {
+  default: false
+};
 const allowedCallsOption = {
   default: ['Symbol']
 };
@@ -29,20 +32,17 @@ const allowedNewsOption = {
 const allowIIFEOption = {
   default: false
 };
-const allowDerivedOption = {
-  default: false
-};
 const allowPropertyAccessOption = {
   default: true
 };
 
-const disallowedSideEffect = {
-  id: '0',
-  message: 'Side effects at the top level are not allowed'
-};
 const disallowedRequireShadow = {
   id: '1',
   message: 'Shadowing `require` is not allowed'
+};
+const disallowedSideEffect = {
+  id: '0',
+  message: 'Side effects at the top level are not allowed'
 };
 
 function isCallTo(expression: CallExpression, name: string): boolean {
@@ -114,6 +114,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       {
         type: 'object',
         properties: {
+          allowDerived: {
+            description:
+              'Configure whether derivations are allowed at the top level',
+            type: 'boolean'
+          },
           allowedCalls: {
             description:
               'Configure what function calls are allowed at the top level.',
@@ -131,9 +136,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
               'Configure whether top level Immediately Invoked Function Expressions (IIFEs) are allowed',
             type: 'boolean'
           },
-          allowDerived: {
+          allowPropertyAccess: {
             description:
-              'Configure whether derivations are allowed at the top level',
+              'Configure whether top level property accesses (and destructuring) are allowed',
             type: 'boolean'
           },
           commonjs: {
@@ -145,18 +150,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       }
     ],
     messages: {
-      [disallowedSideEffect.id]: disallowedSideEffect.message,
-      [disallowedRequireShadow.id]: disallowedRequireShadow.message
+      [disallowedRequireShadow.id]: disallowedRequireShadow.message,
+      [disallowedSideEffect.id]: disallowedSideEffect.message
     }
   },
   create: (context) => {
     const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
+      allowDerived: provided?.allowDerived || allowDerivedOption.default,
       allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
-      allowDerived: provided?.allowDerived || allowDerivedOption.default,
       allowPropertyAccess:
         provided?.allowPropertyAccess === undefined
           ? allowPropertyAccessOption.default
