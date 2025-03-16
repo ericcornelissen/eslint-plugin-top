@@ -11,7 +11,7 @@ export const configStrict = {
         allowDerived: false,
         allowedCalls: [],
         allowedNews: [],
-        allowFunctionProperties: true,
+        allowFunctionProperties: false,
         allowIIFE: false,
         allowPropertyAccess: false
       }
