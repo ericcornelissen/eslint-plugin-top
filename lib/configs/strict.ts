@@ -8,10 +8,12 @@ export const configStrict = {
     'top/no-top-level-side-effects': [
       'error',
       {
+        allowDerived: false,
         allowedCalls: [],
         allowedNews: [],
+        allowFunctionProperties: true,
         allowIIFE: false,
-        allowDerived: false
+        allowPropertyAccess: false
       }
     ],
     'top/no-top-level-variables': [

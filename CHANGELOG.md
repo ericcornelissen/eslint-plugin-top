@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`dbbd871`) Add option to disallow top-level property accesses to
+  `no-top-level-side-effects`.
 
 ## [3.4.1] - 2025-03-16
 

@@ -69,22 +69,63 @@ module.exports = function () {
 
 This rule accepts a configuration object with five options:
 
+- `allowDerived: false` (default) Configure whether derivations - binary,
+  logical, or unary operations on values and variables - are allowed at the top
+  level.
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
   one might expect at the top level (such as `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
   be any identifier. By default no classes can be instantiated.
-- `allowIIFE: false` (default) Configure whether top level Immediately Invoked
-  Function Expressions (IIFEs) are allowed.
-- `allowDerived: false` (default) Configure whether derivations - binary,
-  logical, or unary operations on values and variables - are allowed at the top
-  level.
 - `allowFunctionProperties: false` (default) Configure whether it is allowed to
   extend functions with properties.
+- `allowIIFE: false` (default) Configure whether top level Immediately Invoked
+  Function Expressions (IIFEs) are allowed.
+- `allowPropertyAccess: true` (default) Configure whether accessing a property
+  on an object is allowed. May be disallowed to avoid side effects due to `get`
+  properties.
 - `commonjs` Configure whether the code being analyzed is, or is partially,
   CommonJS code. If not specified it will use ESLint hints to determine if a
   given piece of code is written in CommonJS or not. For CommonJS it allows for
   the use of `require`, `module.exports`, and `exports` at the top level.
+
+#### `allowDerived`
+
+Examples of **correct** code when `'allowDerived'` is set to `true`:
+
+```javascript
+const b01 = a == b;
+const b02 = a != b;
+const b03 = a === b;
+const b04 = a !== b;
+const b05 = a < b;
+const b06 = a <= b;
+const b07 = a > b;
+const b08 = a >= b;
+const b09 = a << b;
+const b10 = a >> b;
+const b11 = a >>> b;
+const b12 = a + b;
+const b13 = a - b;
+const b14 = a * b;
+const b15 = a / b;
+const b16 = a % b;
+const b17 = a ** b;
+const b18 = a | b;
+const b19 = a ^ b;
+const b20 = a & b;
+const b21 = a in b;
+const b22 = a instanceof b;
+
+const l01 = a && b;
+const l02 = a || b;
+const l03 = a ?? b;
+
+const u01 = -a;
+const u02 = +a;
+const u03 = !a;
+const u04 = ~a;
+```
 
 #### `allowedCalls`
 
@@ -110,6 +151,26 @@ const m = new Map();
 
 By setting this to an empty list you can disallow all top-level class
 instantiations.
+
+#### `allowFunctionProperties`
+
+Examples of **correct** code when `'allowFunctionProperties'` is set to `true`:
+
+```javascript
+function SomeReactComponent() {}
+SomeReactComponent.displayName = 'MyComponent';
+```
+
+Examples of **incorrect** code when `'allowFunctionProperties'` is set to
+`true`:
+
+```javascript
+import {SomeReactComponent} from './SomeReactComponent.jsx';
+SomeReactComponent.displayName = 'SomeReactComponent must be declared locally';
+
+const someObject = {};
+someObject.someProperty = 'someObject must be a function declaration';
+```
 
 #### `allowIIFE`
 
@@ -155,62 +216,13 @@ const bar = (() => {
 })();
 ```
 
-#### `allowDerived`
+#### `allowPropertyAccess`
 
-Examples of **correct** code when `'allowDerived'` is set to `true`:
-
-```javascript
-const b01 = a == b;
-const b02 = a != b;
-const b03 = a === b;
-const b04 = a !== b;
-const b05 = a < b;
-const b06 = a <= b;
-const b07 = a > b;
-const b08 = a >= b;
-const b09 = a << b;
-const b10 = a >> b;
-const b11 = a >>> b;
-const b12 = a + b;
-const b13 = a - b;
-const b14 = a * b;
-const b15 = a / b;
-const b16 = a % b;
-const b17 = a ** b;
-const b18 = a | b;
-const b19 = a ^ b;
-const b20 = a & b;
-const b21 = a in b;
-const b22 = a instanceof b;
-
-const l01 = a && b;
-const l02 = a || b;
-const l03 = a ?? b;
-
-const u01 = -a;
-const u02 = +a;
-const u03 = !a;
-const u04 = ~a;
-```
-
-#### `allowFunctionProperties`
-
-Examples of **correct** code when `'allowFunctionProperties'` is set to `true`:
+Examples of **incorrect** code when `'allowPropertyAccess'` is set to `false`:
 
 ```javascript
-function SomeReactComponent() {}
-SomeReactComponent.displayName = 'MyComponent';
-```
-
-Examples of **incorrect** code when `'allowFunctionProperties'` is set to
-`true`:
-
-```javascript
-import {SomeReactComponent} from './SomeReactComponent.jsx';
-SomeReactComponent.displayName = 'SomeReactComponent must be declared locally';
-
-const someObject = {};
-someObject.someProperty = 'someObject must be a function declaration';
+const foo = bar.baz;
+const {hello} = world;
 ```
 
 #### `commonjs`

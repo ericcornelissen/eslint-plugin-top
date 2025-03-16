@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {CallExpression, NewExpression, AssignmentExpression} from 'estree';
+import type {
+  CallExpression,
+  NewExpression,
+  AssignmentExpression,
+  VariableDeclarator
+} from 'estree';
 
 import {IsCommonJs, isTopLevel} from '../helpers';
 
@@ -11,6 +16,7 @@ type Options = {
   readonly allowedNews: ReadonlyArray<string>;
   readonly allowFunctionProperties: boolean;
   readonly allowIIFE: boolean;
+  readonly allowPropertyAccess: boolean;
   readonly commonjs: boolean | undefined;
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
@@ -30,19 +36,29 @@ const allowFunctionPropertiesOption = {
 const allowIIFEOption = {
   default: false
 };
-
-const disallowedSideEffect = {
-  id: '0',
-  message: 'Side effects at the top level are not allowed'
+const allowPropertyAccessOption = {
+  default: true
 };
+
 const disallowedRequireShadow = {
   id: '1',
   message: 'Shadowing `require` is not allowed'
+};
+const disallowedSideEffect = {
+  id: '0',
+  message: 'Side effects at the top level are not allowed'
 };
 
 function isCallTo(expression: CallExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
+  );
+}
+
+function isDestructuring(declaration: VariableDeclarator): boolean {
+  return (
+    declaration.id.type === 'ObjectPattern' ||
+    declaration.id.type === 'ArrayPattern'
   );
 }
 
@@ -102,6 +118,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       {
         type: 'object',
         properties: {
+          allowDerived: {
+            description:
+              'Configure whether derivations are allowed at the top level',
+            type: 'boolean'
+          },
           allowedCalls: {
             description:
               'Configure what function calls are allowed at the top level.',
@@ -114,14 +135,19 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             type: 'array',
             minItems: 0
           },
+          allowFunctionProperties: {
+            description:
+              'Configure whether function declarations can be extended with properties',
+            type: 'boolean'
+          },
           allowIIFE: {
             description:
               'Configure whether top level Immediately Invoked Function Expressions (IIFEs) are allowed',
             type: 'boolean'
           },
-          allowDerived: {
+          allowPropertyAccess: {
             description:
-              'Configure whether derivations are allowed at the top level',
+              'Configure whether top level property accesses (and destructuring) are allowed',
             type: 'boolean'
           },
           commonjs: {
@@ -133,21 +159,25 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       }
     ],
     messages: {
-      [disallowedSideEffect.id]: disallowedSideEffect.message,
-      [disallowedRequireShadow.id]: disallowedRequireShadow.message
+      [disallowedRequireShadow.id]: disallowedRequireShadow.message,
+      [disallowedSideEffect.id]: disallowedSideEffect.message
     }
   },
   create: (context) => {
     const provided: Partial<Options> = context.options[0]; // type-coverage:ignore-line
 
     const options: Options = {
+      allowDerived: provided?.allowDerived || allowDerivedOption.default,
       allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
-      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
-      allowDerived: provided?.allowDerived || allowDerivedOption.default,
       allowFunctionProperties:
         provided?.allowFunctionProperties ||
         allowFunctionPropertiesOption.default,
+      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
+      allowPropertyAccess:
+        provided?.allowPropertyAccess === undefined
+          ? allowPropertyAccessOption.default
+          : provided.allowPropertyAccess,
       commonjs: provided?.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
@@ -171,7 +201,6 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           node.left.object.type === 'Identifier' &&
           (!node.left.computed || options.allowDerived)
         ) {
-          console.log(node.left);
           const id = node.left.object.name;
 
           let program = node.parent;
@@ -321,6 +350,22 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
+      MemberExpression: (node) => {
+        if (
+          (node.parent.type === 'AssignmentExpression' &&
+            node.parent.left === node) ||
+          node.parent.type === 'CallExpression'
+        ) {
+          return; // not reported here.
+        }
+
+        if (!options.allowPropertyAccess && isTopLevel(node)) {
+          context.report({
+            node: node,
+            messageId: disallowedSideEffect.id
+          });
+        }
+      },
       NewExpression: (node) => {
         if (options.allowedNews.some((name) => isNew(node, name))) {
           return;
@@ -430,8 +475,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (options.isCommonjs(node)) {
-          for (const declaration of node.declarations) {
+        for (const declaration of node.declarations) {
+          if (options.isCommonjs(node)) {
             if (
               declaration.id.type === 'Identifier' &&
               declaration.id.name === 'require'
@@ -441,6 +486,13 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
                 messageId: disallowedRequireShadow.id
               });
             }
+          }
+
+          if (!options.allowPropertyAccess && isDestructuring(declaration)) {
+            context.report({
+              node: declaration.id,
+              messageId: disallowedSideEffect.id
+            });
           }
         }
       },

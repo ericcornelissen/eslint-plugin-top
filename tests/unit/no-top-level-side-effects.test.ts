@@ -14,20 +14,24 @@ const options: {
     allowedNews?: string[];
     allowFunctionProperties?: boolean;
     allowIIFE?: boolean;
+    allowPropertyAccess?: boolean;
     commonjs?: boolean;
   };
 } = {
-  allowDerived: {
-    allowDerived: true
-  },
   allowCallSymbol: {
     allowedCalls: ['Symbol']
   },
   allowCallBigInt: {
     allowedCalls: ['BigInt']
   },
+  allowDerived: {
+    allowDerived: true
+  },
   allowFunctionProperties: {
     allowFunctionProperties: true
+  },
+  allowIIFE: {
+    allowIIFE: true
   },
   allowNoCalls: {
     allowedCalls: []
@@ -35,11 +39,11 @@ const options: {
   allowNoNews: {
     allowedNews: []
   },
-  allowIIFE: {
-    allowIIFE: true
-  },
   commonjs: {
     commonjs: true
+  },
+  disallowPropertyAccess: {
+    allowPropertyAccess: false
   },
   noCommonjs: {
     commonjs: false
@@ -739,6 +743,30 @@ const valid: RuleTester.ValidTestCase[] = [
           const chainExpression = foo?.bar;
         }
       `
+    }
+  ],
+
+  // Property access
+  ...[
+    {
+      code: `const foo = bar.baz;`
+    },
+    {
+      code: `const foo = bar[0];`
+    },
+    {
+      code: `const {foo} = bar;`
+    },
+    {
+      code: `const [foo] = bar;`
+    },
+    {
+      code: `
+        function foo() {
+          return bar.baz;
+        }
+      `,
+      options: [options.disallowPropertyAccess]
     }
   ],
 
@@ -3269,6 +3297,116 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 12,
           endLine: 1,
           endColumn: 15
+        }
+      ]
+    }
+  ],
+
+  // Property access
+  ...[
+    {
+      code: `const foo = bar.baz;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const foo = bar[0];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const {foo} = bar;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `const [foo] = bar;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: hello.world };`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const foo = [bar.baz];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+
+    // MemberExpressions that should be reported only once.
+    {
+      code: `const foo = { bar: console.log("Hello world!") };`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 47
+        }
+      ]
+    },
+    {
+      code: `foo.bar = "baz";`,
+      options: [{allowPropertyAccess: false}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
         }
       ]
     }
