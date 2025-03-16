@@ -2622,9 +2622,9 @@ const invalid: RuleTester.InvalidTestCase[] = [
         {
           messageId: '1',
           line: 1,
-          column: 1,
+          column: 10,
           endLine: 1,
-          endColumn: 35
+          endColumn: 17
         }
       ]
     },
@@ -2635,9 +2635,9 @@ const invalid: RuleTester.InvalidTestCase[] = [
         {
           messageId: '1',
           line: 1,
-          column: 1,
+          column: 10,
           endLine: 1,
-          endColumn: 38
+          endColumn: 17
         }
       ]
     },
@@ -2650,7 +2650,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 29
+          endColumn: 12
         }
       ]
     },
@@ -2663,7 +2663,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 37
+          endColumn: 12
         }
       ]
     },
@@ -2676,7 +2676,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 24
+          endColumn: 12
         }
       ]
     },
@@ -2689,7 +2689,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 23
+          endColumn: 12
         }
       ]
     }
