@@ -79,6 +79,9 @@ This rule accepts a configuration object with five options:
   be any identifier. By default no classes can be instantiated.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
+- `allowPropertyAccess: true` (default) Configure whether accessing a property
+  on an object is allowed. May be disallowed to avoid side effects due to `get`
+  properties.
 - `commonjs` Configure whether the code being analyzed is, or is partially,
   CommonJS code. If not specified it will use ESLint hints to determine if a
   given piece of code is written in CommonJS or not. For CommonJS it allows for
@@ -189,6 +192,15 @@ const foo = (function () {
 const bar = (() => {
   // anything
 })();
+```
+
+#### `allowPropertyAccess`
+
+Examples of **incorrect** code when `'allowPropertyAccess'` is set to `false`:
+
+```javascript
+const foo = bar.baz;
+const {hello} = world;
 ```
 
 #### `commonjs`
