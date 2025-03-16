@@ -79,6 +79,8 @@ This rule accepts a configuration object with five options:
 - `allowDerived: false` (default) Configure whether derivations - binary,
   logical, or unary operations on values and variables - are allowed at the top
   level.
+- `allowFunctionProperties: false` (default) Configure whether it is allowed to
+  extend functions with properties.
 - `commonjs` Configure whether the code being analyzed is, or is partially,
   CommonJS code. If not specified it will use ESLint hints to determine if a
   given piece of code is written in CommonJS or not. For CommonJS it allows for
@@ -189,6 +191,26 @@ const u01 = -a;
 const u02 = +a;
 const u03 = !a;
 const u04 = ~a;
+```
+
+#### `allowFunctionProperties`
+
+Examples of **correct** code when `'allowFunctionProperties'` is set to `true`:
+
+```javascript
+function SomeReactComponent() {}
+SomeReactComponent.displayName = 'MyComponent';
+```
+
+Examples of **incorrect** code when `'allowFunctionProperties'` is set to
+`true`:
+
+```javascript
+import {SomeReactComponent} from './SomeReactComponent.jsx';
+SomeReactComponent.displayName = 'SomeReactComponent must be declared locally';
+
+const someObject = {};
+someObject.someProperty = 'someObject must be a function declaration';
 ```
 
 #### `commonjs`

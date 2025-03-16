@@ -6,24 +6,28 @@ import type {CallExpression, NewExpression, AssignmentExpression} from 'estree';
 import {IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
+  readonly allowDerived: boolean;
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
+  readonly allowFunctionProperties: boolean;
   readonly allowIIFE: boolean;
-  readonly allowDerived: boolean;
   readonly commonjs: boolean | undefined;
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
+const allowDerivedOption = {
+  default: false
+};
 const allowedCallsOption = {
   default: ['Symbol']
 };
 const allowedNewsOption = {
   default: []
 };
-const allowIIFEOption = {
+const allowFunctionPropertiesOption = {
   default: false
 };
-const allowDerivedOption = {
+const allowIIFEOption = {
   default: false
 };
 
@@ -141,6 +145,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
       allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
       allowDerived: provided?.allowDerived || allowDerivedOption.default,
+      allowFunctionProperties:
+        provided?.allowFunctionProperties ||
+        allowFunctionPropertiesOption.default,
       commonjs: provided?.commonjs,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
@@ -156,6 +163,31 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             isModulePropertyAssignment(node))
         ) {
           return;
+        }
+
+        if (
+          options.allowFunctionProperties &&
+          node.left.type === 'MemberExpression' &&
+          node.left.object.type === 'Identifier' &&
+          (!node.left.computed || options.allowDerived)
+        ) {
+          console.log(node.left);
+          const id = node.left.object.name;
+
+          let program = node.parent;
+          while (program.type !== 'Program') {
+            program = program.parent;
+          }
+
+          for (const node of program.body) {
+            if (node.type !== 'FunctionDeclaration') {
+              continue;
+            }
+
+            if (node.id.name === id) {
+              return;
+            }
+          }
         }
 
         if (isTopLevel(node)) {

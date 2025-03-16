@@ -12,6 +12,7 @@ const options: {
     allowDerived?: boolean;
     allowedCalls?: string[];
     allowedNews?: string[];
+    allowFunctionProperties?: boolean;
     allowIIFE?: boolean;
     commonjs?: boolean;
   };
@@ -24,6 +25,9 @@ const options: {
   },
   allowCallBigInt: {
     allowedCalls: ['BigInt']
+  },
+  allowFunctionProperties: {
+    allowFunctionProperties: true
   },
   allowNoCalls: {
     allowedCalls: []
@@ -852,6 +856,24 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const arr = [...ok()];`,
       options: [{...options.allowDerived, allowedCalls: ['ok']}]
+    }
+  ],
+
+  // Function property assignment
+  ...[
+    {
+      code: `
+        function SomeReactComponent() {}
+        SomeReactComponent.displayName = 'MyComponent';
+      `,
+      options: [options.allowFunctionProperties]
+    },
+    {
+      code: `
+        function SomeReactComponent() {}
+        SomeReactComponent[foo] = 'bar';
+      `,
+      options: [{...options.allowFunctionProperties, ...options.allowDerived}]
     }
   ]
 ];
@@ -3608,6 +3630,58 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 17,
           endLine: 1,
           endColumn: 22
+        }
+      ]
+    }
+  ],
+
+  // Function property assignment
+  ...[
+    {
+      code: `
+        function ComponentA() {}
+        ComponentB.displayName = 'MyComponent';
+      `,
+      options: [options.allowFunctionProperties],
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 48
+        }
+      ]
+    },
+    {
+      code: `
+        function SomeReactComponent() {}
+        SomeReactComponent[foo] = 'bar';
+      `,
+      options: [options.allowFunctionProperties],
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 41
+        }
+      ]
+    },
+    {
+      code: `
+        const x = {};
+        x.y = "z";
+      `,
+      options: [options.allowFunctionProperties],
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 19
         }
       ]
     }
