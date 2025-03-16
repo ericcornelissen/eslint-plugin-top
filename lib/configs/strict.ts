@@ -11,7 +11,8 @@ export const configStrict = {
         allowedCalls: [],
         allowedNews: [],
         allowIIFE: false,
-        allowDerived: false
+        allowDerived: false,
+        allowPropertyAccess: false
       }
     ],
     'top/no-top-level-variables': [

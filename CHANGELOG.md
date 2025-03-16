@@ -10,9 +10,15 @@ Versioning].
 
 ## [Unreleased]
 
+- (`dbbd871`) Add option to disallow top-level property accesses to
+  `no-top-level-side-effects`.
+
+## [3.4.1] - 2025-03-16
+
 - (`aaa56b7`) Always allow `ImportExpression`, `SequenceExpression`, and
   `ThisExpression` for `no-top-level-variables`.
-- (`56d7a83`) Allow top-level `WeakMap` and `WeakSet` in recommended config.
+- (`a7b41ca`) Allow top-level `WeakMap` and `WeakSet` in recommended config.
+- (`7fa587e`) Disallow shadowing `require` in CommonJS.
 
 ## [3.4.0] - 2024-07-29
 

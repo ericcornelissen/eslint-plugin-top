@@ -12,18 +12,22 @@ const options: {
     allowDerived?: boolean;
     allowedCalls?: string[];
     allowedNews?: string[];
+    allowPropertyAccess?: boolean;
     allowIIFE?: boolean;
     commonjs?: boolean;
   };
 } = {
-  allowDerived: {
-    allowDerived: true
-  },
   allowCallSymbol: {
     allowedCalls: ['Symbol']
   },
   allowCallBigInt: {
     allowedCalls: ['BigInt']
+  },
+  allowDerived: {
+    allowDerived: true
+  },
+  allowIIFE: {
+    allowIIFE: true
   },
   allowNoCalls: {
     allowedCalls: []
@@ -31,11 +35,11 @@ const options: {
   allowNoNews: {
     allowedNews: []
   },
-  allowIIFE: {
-    allowIIFE: true
-  },
   commonjs: {
     commonjs: true
+  },
+  disallowPropertyAccess: {
+    allowPropertyAccess: false
   },
   noCommonjs: {
     commonjs: false
@@ -546,6 +550,31 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
+  // A function called require
+  ...[
+    {
+      code: `function require() {}`
+    },
+    {
+      code: `function require() {}`,
+      options: [options.noCommonjs]
+    },
+    {
+      code: `function f() { function require() {} }`,
+      options: [options.commonjs]
+    },
+    {
+      code: `function notRequire() { }`,
+      options: [options.commonjs]
+    },
+    {
+      code: `var require = () => { };`
+    },
+    {
+      code: `var require = "foobar";`
+    }
+  ],
+
   // Derived values
   ...[
     {
@@ -710,6 +739,30 @@ const valid: RuleTester.ValidTestCase[] = [
           const chainExpression = foo?.bar;
         }
       `
+    }
+  ],
+
+  // Property access
+  ...[
+    {
+      code: `const foo = bar.baz;`
+    },
+    {
+      code: `const foo = bar[0];`
+    },
+    {
+      code: `const {foo} = bar;`
+    },
+    {
+      code: `const [foo] = bar;`
+    },
+    {
+      code: `
+        function foo() {
+          return bar.baz;
+        }
+      `,
+      options: [options.disallowPropertyAccess]
     }
   ],
 
@@ -2588,6 +2641,88 @@ const invalid: RuleTester.InvalidTestCase[] = [
     }
   ],
 
+  // A function called require
+  ...[
+    {
+      code: `function require() {/* options */}`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `function require() {/* sourceType */}`,
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `var require = function() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = function require() { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = () => { };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var require = "foobar";`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    }
+  ],
+
   // Derived values
   ...[
     {
@@ -3140,6 +3275,116 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 12,
           endLine: 1,
           endColumn: 15
+        }
+      ]
+    }
+  ],
+
+  // Property access
+  ...[
+    {
+      code: `const foo = bar.baz;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 20
+        }
+      ]
+    },
+    {
+      code: `const foo = bar[0];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const {foo} = bar;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `const [foo] = bar;`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 7,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `const foo = { bar: hello.world };`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `const foo = [bar.baz];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+
+    // MemberExpressions that should be reported only once.
+    {
+      code: `const foo = { bar: console.log("Hello world!") };`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 47
+        }
+      ]
+    },
+    {
+      code: `foo.bar = "baz";`,
+      options: [{allowPropertyAccess: false}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
         }
       ]
     }
