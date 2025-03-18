@@ -36,7 +36,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Dirty-waters analysis
-        uses: chains-project/dirty-waters-action@5b9edb6837f5e4d3d2f50cf1bd919ba9e2e68b8a # v1.11.9
+        uses: chains-project/dirty-waters-action@316a0952b181f73856967ab00659ff0b6514b003 # v1.11.19
         with:
           allow_pr_comment: true
           comment_on_commit: false
