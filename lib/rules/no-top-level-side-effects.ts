@@ -14,6 +14,7 @@ type Options = {
   readonly allowDerived: boolean;
   readonly allowedCalls: ReadonlyArray<string>;
   readonly allowedNews: ReadonlyArray<string>;
+  readonly allowFunctionProperties: boolean;
   readonly allowIIFE: boolean;
   readonly allowPropertyAccess: boolean;
   readonly commonjs: boolean | undefined;
@@ -28,6 +29,9 @@ const allowedCallsOption = {
 };
 const allowedNewsOption = {
   default: []
+};
+const allowFunctionPropertiesOption = {
+  default: false
 };
 const allowIIFEOption = {
   default: false
@@ -131,6 +135,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             type: 'array',
             minItems: 0
           },
+          allowFunctionProperties: {
+            description:
+              'Configure whether function declarations can be extended with properties',
+            type: 'boolean'
+          },
           allowIIFE: {
             description:
               'Configure whether top level Immediately Invoked Function Expressions (IIFEs) are allowed',
@@ -161,6 +170,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       allowDerived: provided?.allowDerived || allowDerivedOption.default,
       allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
       allowedNews: provided?.allowedNews || allowedNewsOption.default,
+      allowFunctionProperties:
+        provided?.allowFunctionProperties ||
+        allowFunctionPropertiesOption.default,
       allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
       allowPropertyAccess:
         provided?.allowPropertyAccess === undefined
@@ -181,6 +193,30 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
             isModulePropertyAssignment(node))
         ) {
           return;
+        }
+
+        if (
+          options.allowFunctionProperties &&
+          node.left.type === 'MemberExpression' &&
+          node.left.object.type === 'Identifier' &&
+          (!node.left.computed || options.allowDerived)
+        ) {
+          const id = node.left.object.name;
+
+          let program = node.parent;
+          while (program.type !== 'Program') {
+            program = program.parent;
+          }
+
+          for (const node of program.body) {
+            if (node.type !== 'FunctionDeclaration') {
+              continue;
+            }
+
+            if (node.id.name === id) {
+              return;
+            }
+          }
         }
 
         if (isTopLevel(node)) {

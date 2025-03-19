@@ -8,10 +8,11 @@ export const configRecommended = {
     'top/no-top-level-side-effects': [
       'error',
       {
+        allowDerived: false,
         allowedCalls: ['Symbol'],
         allowedNews: ['Map', 'Set', 'WeakMap', 'WeakSet'],
+        allowFunctionProperties: false,
         allowIIFE: false,
-        allowDerived: false,
         allowPropertyAccess: true
       }
     ],
