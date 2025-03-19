@@ -130,7 +130,7 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@5f8171a638ada777af81d42b55959a643bb29017 # v3.28.12
   malicious-code:
-    name: Malicious Code
+    name: Malicious code
     runs-on: ubuntu-24.04
     container:
       image: semgrep/semgrep
