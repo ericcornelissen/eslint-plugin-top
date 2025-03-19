@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.5.0] - 2025-03-19
+
 - (`dbbd871`) Add option to disallow top-level property accesses to
   `no-top-level-side-effects`.
 - (`dbbd871`) Add option to allow adding properties to a function declaration at
