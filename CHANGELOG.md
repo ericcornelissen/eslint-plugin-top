@@ -14,7 +14,7 @@ Versioning].
 
 ## [3.5.1] - 2025-03-21
 
-- (`cedb6a9`) Fix import errors due to missing build files in published package.
+- (`f6273f9`) Fix import errors due to missing build files in published package.
 
 ## [3.5.0] - 2025-03-19
 
