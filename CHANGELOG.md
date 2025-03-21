@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- (`cedb6a9`) Fix import errors due to missing build files in published package.
 
 ## [3.5.0] - 2025-03-19
 
