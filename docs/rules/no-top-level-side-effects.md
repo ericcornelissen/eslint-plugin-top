@@ -77,6 +77,8 @@ This rule accepts a configuration object with five options:
   one might expect at the top level (such as `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
   be any identifier. By default no classes can be instantiated.
+- `allowFunctionProperties: false` (default) Configure whether it is allowed to
+  extend functions with properties.
 - `allowIIFE: false` (default) Configure whether top level Immediately Invoked
   Function Expressions (IIFEs) are allowed.
 - `allowPropertyAccess: true` (default) Configure whether accessing a property
@@ -149,6 +151,26 @@ const m = new Map();
 
 By setting this to an empty list you can disallow all top-level class
 instantiations.
+
+#### `allowFunctionProperties`
+
+Examples of **correct** code when `'allowFunctionProperties'` is set to `true`:
+
+```javascript
+function SomeReactComponent() {}
+SomeReactComponent.displayName = 'MyComponent';
+```
+
+Examples of **incorrect** code when `'allowFunctionProperties'` is set to
+`true`:
+
+```javascript
+import {SomeReactComponent} from './SomeReactComponent.jsx';
+SomeReactComponent.displayName = 'SomeReactComponent must be declared locally';
+
+const someObject = {};
+someObject.someProperty = 'someObject must be a function declaration';
+```
 
 #### `allowIIFE`
 

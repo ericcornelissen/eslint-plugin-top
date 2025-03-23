@@ -3,8 +3,8 @@
 name: eslint-plugin-top CodeQL config
 
 packs:
-  - githubsecuritylab/codeql-javascript-libs@0.0.1
-  - githubsecuritylab/codeql-javascript-queries@0.0.4
+  - githubsecuritylab/codeql-javascript-libs@0.2.1
+  - githubsecuritylab/codeql-javascript-queries@0.2.1
 
 queries:
   - uses: security-extended

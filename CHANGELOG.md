@@ -10,8 +10,18 @@ Versioning].
 
 ## [Unreleased]
 
-- (`dbbd871`) Add option to disallow top-level property accesses to
+- _No changes yet_
+
+## [3.5.1] - 2025-03-21
+
+- (`f6273f9`) Fix import errors due to missing build files in published package.
+
+## [3.5.0] - 2025-03-19
+
+- (`3f8324e`) Add option to disallow top-level property accesses to
   `no-top-level-side-effects`.
+- (`70d1c43`) Add option to allow adding properties to a function declaration at
+  the top-level `no-top-level-side-effects`.
 
 ## [3.4.1] - 2025-03-16
 
