@@ -150,6 +150,15 @@ can be run using:
 npm run test
 ```
 
+> [!NOTE]
+> On Node.js v18 this may fail. If this happens, change the `.mocharc.yml` file
+> as follows:
+>
+> ```diff
+> - import: tsx
+> + loader: tsx
+> ```
+
 To get a coverage report for the unit tests, run:
 
 ```shell
