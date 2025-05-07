@@ -371,6 +371,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `export const bigInt = BigInt();`,
       options: [options.allowCallBigInt]
+    },
+    {
+      code: `const symbol = Symbol.for("membership");`,
+      options: [{allowedCalls: ['Symbol.for']}]
     }
   ],
 
