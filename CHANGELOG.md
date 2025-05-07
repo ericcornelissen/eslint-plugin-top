@@ -10,7 +10,8 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1475]) Add support for member expression in the `allowedCalls` option of
+  the `no-top-level-side-effects` rule.
 
 ## [3.5.1] - 2025-03-21
 
@@ -213,3 +214,4 @@ Versioning].
 
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
+[#1475]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1475
