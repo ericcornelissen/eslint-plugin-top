@@ -375,6 +375,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const symbol = Symbol.for("membership");`,
       options: [{allowedCalls: ['Symbol.for']}]
+    },
+    {
+      code: `const symbol = x.y.z();`,
+      options: [{allowedCalls: ['x.y.z']}]
     }
   ],
 
@@ -1694,6 +1698,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `console.log('hello world');`,
+      options: [{allowedCalls: ['console.info']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `console[log]('hello world');`,
+      options: [{allowedCalls: ['console.log']}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 28
         }
       ]
     },

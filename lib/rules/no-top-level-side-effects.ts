@@ -5,7 +5,8 @@ import type {
   CallExpression,
   NewExpression,
   AssignmentExpression,
-  VariableDeclarator
+  VariableDeclarator,
+  Identifier
 } from 'estree';
 
 import {IsCommonJs, isTopLevel} from '../helpers';
@@ -50,9 +51,36 @@ const disallowedSideEffect = {
 };
 
 function isCallTo(expression: CallExpression, name: string): boolean {
-  return (
-    expression.callee.type === 'Identifier' && expression.callee.name === name
-  );
+  if (expression.callee.type === 'Identifier') {
+    return expression.callee.name === name;
+  }
+
+  if (expression.callee.type === 'MemberExpression') {
+    let expr = expression.callee;
+    const id: string[] = [];
+    while (true) {
+      if (expr.computed) {
+        return false;
+      }
+
+      const property = expr.property as Identifier; // type-coverage:ignore-line
+      id.push(property.name);
+
+      if (expr.object.type === 'MemberExpression') {
+        expr = expr.object;
+      } else if (expr.object.type === 'Identifier') {
+        id.push(expr.object.name);
+        break;
+      } else {
+        return false;
+      }
+    }
+
+    id.reverse();
+    return name === id.join('.');
+  }
+
+  return false;
 }
 
 function isDestructuring(declaration: VariableDeclarator): boolean {
