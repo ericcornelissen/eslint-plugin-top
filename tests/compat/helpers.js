@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: ISC
 
-import * as cp from 'node:child_process';
-import * as path from 'node:path';
+const cp = require('node:child_process');
+const path = require('node:path');
 
-export function runEslint(version: number, snippet: string): {stdout: string} {
+module.exports.runEslint = function(version, snippet) {
   const projectRoot = path.resolve('.');
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
