@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-interface Snapshot {
-  readonly name: string;
-  readonly inp: string;
-  readonly out: string;
-}
-
-export const snapshots: ReadonlyArray<Snapshot> = [
+module.exports.snapshots = [
   {
     name: 'with no-top-level-variables violations',
     inp: 'const foo = ["bar"];var hello = ["world", "!"];',
