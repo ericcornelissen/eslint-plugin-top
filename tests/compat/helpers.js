@@ -3,7 +3,7 @@
 const cp = require('node:child_process');
 const path = require('node:path');
 
-module.exports.runEslint = function(version, snippet) {
+module.exports.runEslint = function (version, snippet) {
   const projectRoot = path.resolve('.');
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
@@ -39,4 +39,4 @@ module.exports.runEslint = function(version, snippet) {
       input: snippet
     }
   );
-}
+};

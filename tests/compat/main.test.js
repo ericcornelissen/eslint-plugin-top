@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: ISC
 
-const assert = require( 'node:assert');
+const assert = require('node:assert');
 
-const {runEslint} = require( './helpers');
-const {snapshots} = require( './snapshots');
+const {runEslint} = require('./helpers');
+const {snapshots} = require('./snapshots');
 
 const eslintVersions = [8, 9];
 
