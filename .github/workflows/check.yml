@@ -301,13 +301,6 @@ jobs:
         with:
           name: build
           path: dist/
-      - name: Patch Mocha config for Node.js v18
-        if: ${{ matrix.node-version == '18.0.0' }}
-        run: |
-          {
-            echo 'extension: [ts]'
-            echo 'require: tsx'
-          } >.mocharc.yml
       - name: Run compatibility tests
         run: npm run test:compat
   test-mutation:

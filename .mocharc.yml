@@ -2,4 +2,4 @@
 
 extension:
   - ts
-import: tsx
+require: tsx
