@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: ISC
 
-import * as assert from 'node:assert';
+const assert = require('node:assert');
 
-import {runEslint} from './helpers';
-import {snapshots} from './snapshots';
+const {runEslint} = require('./helpers');
+const {snapshots} = require('./snapshots');
 
-const eslintVersions: ReadonlyArray<number> = [8, 9];
+const eslintVersions = [8, 9];
 
 describe('compatibility', function () {
   for (const snapshot of snapshots) {

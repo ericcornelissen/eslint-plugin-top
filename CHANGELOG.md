@@ -10,6 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
+- ([#1474]) Add support for Node.js v24.
 - ([#1475]) Add support for member expression in the `allowedCalls` option of
   the `no-top-level-side-effects` rule.
 
@@ -214,4 +215,5 @@ Versioning].
 
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
+[#1474]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1474
 [#1475]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1475
