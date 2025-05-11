@@ -3,7 +3,7 @@
 import * as cp from 'node:child_process';
 import * as path from 'node:path';
 
-export function runEslint(version: number, snippet: string): { stdout: string } {
+export function runEslint(version: number, snippet: string): {stdout: string} {
   const projectRoot = path.resolve('.');
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
@@ -39,4 +39,4 @@ export function runEslint(version: number, snippet: string): { stdout: string } 
       input: snippet
     }
   );
-};
+}

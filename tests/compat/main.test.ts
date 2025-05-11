@@ -2,8 +2,8 @@
 
 import * as assert from 'node:assert';
 
-import { runEslint } from './helpers';
-import { snapshots } from './snapshots';
+import {runEslint} from './helpers';
+import {snapshots} from './snapshots';
 
 const eslintVersions: ReadonlyArray<number> = [8, 9];
 
