@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.5.2] - 2025-05-11
+
 - ([#1474]) Add support for Node.js v24.
 - ([#1475]) Add support for member expression in the `allowedCalls` option of
   the `no-top-level-side-effects` rule.
