@@ -184,15 +184,6 @@ npm run build
 npm run test:compat
 ```
 
-> [!NOTE]
-> On Node.js v18 this may fail. If this happens, change the `.mocharc.yml` file
-> as follows:
->
-> ```diff
-> - import: tsx
-> + require: tsx
-> ```
-
 To check compatibility with all Node.js versions, the continuous integration
 runs the compatibility test suite on every supported Node.js version. You can
 also do this locally using:
