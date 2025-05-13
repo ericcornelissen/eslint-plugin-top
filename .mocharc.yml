@@ -1,6 +1,5 @@
 # Configuration file for Mocha (https://mochajs.org/)
 
 extension:
-  - js
   - ts
-require: ts-node/register
+require: tsx

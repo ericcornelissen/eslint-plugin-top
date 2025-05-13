@@ -190,10 +190,7 @@ jobs:
         run: npm clean-install
       - name: Simulate publish
         run: |
-          # Dry run publish to trigger any hooks
-          npm publish --dry-run --ignore-scripts=false
-
-          # Pack to produce the archive that would be published
+          npm run build
           npm pack
       - name: Compute checksum
         run: shasum -- *.tgz | tee checksums.txt
@@ -203,7 +200,7 @@ jobs:
           rm -- *.tgz
       - name: Simulate publish again
         run: |
-          npm publish --dry-run --ignore-scripts=false
+          npm run build
           npm pack
       - name: Verify checksum
         run: shasum --check checksums.txt --strict
