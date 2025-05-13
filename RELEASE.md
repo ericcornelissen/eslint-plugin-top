@@ -120,8 +120,8 @@ version (using `v3.1.4` as an example):
 
    ```shell
    npm clean-install
-   npm run prepublishOnly
-   npm publish --ignore-scripts=false
+   npm run build
+   npm publish
    ```
 
 [git tag]: https://git-scm.com/book/en/v2/Git-Basics-Tagging
