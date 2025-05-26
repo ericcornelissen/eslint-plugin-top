@@ -36,6 +36,13 @@ jobs:
           node-version-file: .nvmrc
       - name: Install dependencies
         run: npm clean-install
+      - name: Insert release audit config
+        env:
+          NDMRC: ${{ vars.NDMRC }}
+          NSPRC: ${{ vars.NSPRC }}
+        run: |
+          echo "${NDMRC}" | tee .ndmrc
+          echo "${NSPRC}" | tee .nsprc
       - name: Audit for vulnerabilities
         run: npm run audit:vulnerabilities:runtime
       - name: Audit for deprecation warnings
