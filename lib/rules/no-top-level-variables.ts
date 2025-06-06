@@ -43,7 +43,7 @@ const allowedOption = {
   ]
 };
 const kindOption = {
-  enum: ['const', 'let', 'var'],
+  enum: ['await using', 'const', 'let', 'using', 'var'],
   default: ['const']
 };
 
@@ -53,15 +53,19 @@ const disallowedAssignment = {
 };
 const disallowedVar = {
   id: '1',
-  message: 'Use of var at the top level is not allowed'
+  message: 'Use of `var` at the top level is not allowed'
 };
 const disallowedLet = {
   id: '2',
-  message: 'Use of let at the top level is not allowed'
+  message: 'Use of `let` at the top level is not allowed'
 };
 const disallowedConst = {
   id: '3',
-  message: 'Use of const at the top level is not allowed'
+  message: 'Use of `const` at the top level is not allowed'
+};
+const disallowedUsing = {
+  id: '4',
+  message: 'Use of `using` at the top level is not allowed'
 };
 
 function checkVariableDeclaration(
@@ -80,6 +84,10 @@ function checkVariableDeclaration(
         break;
       case 'const':
         messageId = disallowedConst.id;
+        break;
+      case 'using':
+      case 'await using':
+        messageId = disallowedUsing.id;
         break;
     }
 
