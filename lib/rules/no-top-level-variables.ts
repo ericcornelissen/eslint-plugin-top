@@ -53,19 +53,19 @@ const disallowedAssignment = {
 };
 const disallowedVar = {
   id: '1',
-  message: 'Use of `var` at the top level is not allowed'
+  message: "Use of 'var' at the top level is not allowed"
 };
 const disallowedLet = {
   id: '2',
-  message: 'Use of `let` at the top level is not allowed'
+  message: "Use of 'let' at the top level is not allowed"
 };
 const disallowedConst = {
   id: '3',
-  message: 'Use of `const` at the top level is not allowed'
+  message: "Use of 'const' at the top level is not allowed"
 };
 const disallowedUsing = {
   id: '4',
-  message: 'Use of `using` at the top level is not allowed'
+  message: "Use of 'using' at the top level is not allowed"
 };
 
 function reportDisallowed(
