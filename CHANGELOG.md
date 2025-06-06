@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1506]) Add support for `using` and `await using`.
 
 ## [3.5.2] - 2025-05-11
 
@@ -221,3 +221,4 @@ Versioning].
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 [#1474]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1474
 [#1475]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1475
+[#1506]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1506

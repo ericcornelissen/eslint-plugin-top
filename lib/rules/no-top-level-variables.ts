@@ -43,7 +43,7 @@ const allowedOption = {
   ]
 };
 const kindOption = {
-  enum: ['const', 'let', 'var'],
+  enum: ['await using', 'const', 'let', 'using', 'var'],
   default: ['const']
 };
 
@@ -53,16 +53,66 @@ const disallowedAssignment = {
 };
 const disallowedVar = {
   id: '1',
-  message: 'Use of var at the top level is not allowed'
+  message: "Use of 'var' at the top level is not allowed"
 };
 const disallowedLet = {
   id: '2',
-  message: 'Use of let at the top level is not allowed'
+  message: "Use of 'let' at the top level is not allowed"
 };
 const disallowedConst = {
   id: '3',
-  message: 'Use of const at the top level is not allowed'
+  message: "Use of 'const' at the top level is not allowed"
 };
+const disallowedUsing = {
+  id: '4',
+  message: "Use of 'using' at the top level is not allowed"
+};
+
+function reportDisallowed(
+  context: Rule.RuleContext,
+  node: VariableDeclaration
+) {
+  let messageId: string | null;
+  switch (node.kind) {
+    case 'var':
+      messageId = disallowedVar.id;
+      break;
+    case 'let':
+      messageId = disallowedLet.id;
+      break;
+    case 'const':
+      messageId = disallowedConst.id;
+      break;
+
+    /* c8 ignore next 4 */
+    case 'using':
+    case 'await using':
+      messageId = disallowedUsing.id;
+      break;
+  }
+
+  context.report({node, messageId});
+}
+
+function reportIllegalInitialization(
+  context: Rule.RuleContext,
+  options: Options,
+  node: VariableDeclaration
+) {
+  node.declarations
+    .filter(
+      (declaration) =>
+        declaration.init === null ||
+        declaration.init === undefined ||
+        !options.allowed.includes(declaration.init.type)
+    )
+    .forEach((declaration) => {
+      context.report({
+        node: declaration,
+        messageId: disallowedAssignment.id
+      });
+    });
+}
 
 function checkVariableDeclaration(
   context: Rule.RuleContext,
@@ -70,34 +120,9 @@ function checkVariableDeclaration(
   node: VariableDeclaration
 ) {
   if (!options.kind.includes(node.kind)) {
-    let messageId: string | null;
-    switch (node.kind) {
-      case 'var':
-        messageId = disallowedVar.id;
-        break;
-      case 'let':
-        messageId = disallowedLet.id;
-        break;
-      case 'const':
-        messageId = disallowedConst.id;
-        break;
-    }
-
-    context.report({node, messageId});
+    reportDisallowed(context, node);
   } else {
-    node.declarations
-      .filter(
-        (declaration) =>
-          declaration.init === null ||
-          declaration.init === undefined ||
-          !options.allowed.includes(declaration.init.type)
-      )
-      .forEach((declaration) => {
-        context.report({
-          node: declaration,
-          messageId: disallowedAssignment.id
-        });
-      });
+    reportIllegalInitialization(context, options, node);
   }
 }
 
