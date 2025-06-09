@@ -36,12 +36,13 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Dirty-waters analysis
-        uses: chains-project/dirty-waters-action@4f2678faf14edaa2cbacd0e073463b29a75240b1 # v1.11.25
+        uses: chains-project/dirty-waters-action@6e634703cb439c1aeffee699b7d97e79f77b9a39 # v1.11.48
         with:
           allow_pr_comment: true
           comment_on_commit: false
+          differential_analysis: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          gradual_report: false
-          ignore_cache: false
+          gradual_report: true
           package_manager: npm
           specified_smells: --check-code-signature --check-source-code --check-source-code-sha
+          x_to_fail: 0
