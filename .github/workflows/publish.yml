@@ -15,9 +15,9 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
         with:
-          disable-sudo: true
+          disable-sudo-and-containers: true
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
@@ -49,9 +49,9 @@ jobs:
       contents: write # To push refs
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
         with:
-          disable-sudo: true
+          disable-sudo-and-containers: true
           egress-policy: block
           allowed-endpoints: >
             github.com:443
@@ -60,16 +60,11 @@ jobs:
         with:
           fetch-depth: 0 # To fetch all major version branches
       - name: Get major version
-        uses: actions/github-script@e69ef5462fd455e02edcaf4dd7708eda96b9eda0 # v7.0.0
         id: major-version
         env:
           VERSION: ${{ needs.check.outputs.version }}
-        with:
-          result-encoding: string
-          script: |
-            const version = `${process.env.VERSION}`
-            const major = version.replace(/\.\d\.\d$/, "")
-            return major
+        run: |
+          echo "result=${VERSION%%.*}" >>"${GITHUB_OUTPUT}"
       - name: Publish git tag
         env:
           VERSION: ${{ needs.check.outputs.version }}
@@ -94,9 +89,9 @@ jobs:
       url: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
         with:
-          disable-sudo: true
+          disable-sudo-and-containers: true
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
@@ -112,7 +107,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install Node.js
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -121,6 +116,7 @@ jobs:
         run: npm clean-install
       - name: Publish to npm
         run: |
-          npm publish --ignore-scripts=false --provenance
+          npm run build
+          npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

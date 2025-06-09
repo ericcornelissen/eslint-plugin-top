@@ -12,8 +12,8 @@ export const snapshots: ReadonlyArray<Snapshot> = [
     inp: 'const foo = ["bar"];var hello = ["world", "!"];',
     out: `
 <text>
-  1:7   error  Variables at the top level are not allowed  @ericcornelissen/top/no-top-level-variables
-  1:21  error  Use of var at the top level is not allowed  @ericcornelissen/top/no-top-level-variables
+  1:7   error  Variables at the top level are not allowed    @ericcornelissen/top/no-top-level-variables
+  1:21  error  Use of 'var' at the top level is not allowed  @ericcornelissen/top/no-top-level-variables
 
 ✖ 2 problems (2 errors, 0 warnings)
 

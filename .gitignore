@@ -5,6 +5,7 @@
 _reports/
 dist/
 checksums.txt
+stryker.log
 
 # ESLint
 .eslintcache
