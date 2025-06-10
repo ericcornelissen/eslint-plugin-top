@@ -140,7 +140,16 @@ jobs:
         with:
           persist-credentials: false
       - name: Get malicious-code-ruleset
-        run: git clone https://github.com/apiiro/malicious-code-ruleset.git ../malicious-code-ruleset
+        run: |
+          git clone https://github.com/apiiro/malicious-code-ruleset.git ../malicious-code-ruleset
+
+          mv ../malicious-code-ruleset/dynamic_execution/javascript_typescript ../dynamic_execution-javascript_typescript
+          rm -rf ../malicious-code-ruleset/dynamic_execution/*
+          mv ../dynamic_execution-javascript_typescript ../malicious-code-ruleset/dynamic_execution/javascript_typescript
+
+          mv ../malicious-code-ruleset/obfuscation/javascript_typescript ../obfuscation-javascript_typescript
+          rm -rf ../malicious-code-ruleset/obfuscation/*
+          mv ../obfuscation-javascript_typescript ../malicious-code-ruleset/obfuscation/javascript_typescript
       - name: Perform Semgrep analysis
         run: semgrep --config ../malicious-code-ruleset
   odgen:
