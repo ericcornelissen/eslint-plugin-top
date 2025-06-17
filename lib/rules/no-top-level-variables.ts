@@ -83,8 +83,6 @@ function reportDisallowed(
     case 'const':
       messageId = disallowedConst.id;
       break;
-
-    /* c8 ignore next 4 */
     case 'using':
     case 'await using':
       messageId = disallowedUsing.id;
@@ -161,6 +159,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
       [disallowedAssignment.id]: disallowedAssignment.message,
       [disallowedConst.id]: disallowedConst.message,
       [disallowedLet.id]: disallowedLet.message,
+      [disallowedUsing.id]: disallowedUsing.message,
       [disallowedVar.id]: disallowedVar.message
     }
   },
