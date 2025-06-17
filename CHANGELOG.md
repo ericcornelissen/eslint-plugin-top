@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.5.3] - 2025-06-17
+
 - ([#1506]) Add support for `using` and `await using`.
 
 ## [3.5.2] - 2025-05-11
