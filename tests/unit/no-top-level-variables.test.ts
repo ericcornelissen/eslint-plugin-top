@@ -26,6 +26,12 @@ const options: {
   kindNone: {
     kind: []
   },
+  kindUsing: {
+    kind: ['using']
+  },
+  kindUsingAwait: {
+    kind: ['await using']
+  },
   kindVar: {
     kind: ['var']
   }
@@ -82,6 +88,18 @@ const valid: RuleTester.ValidTestCase[] = [
         export const foo2 = 'bar';
       `,
       options: [options.kindConst]
+    },
+    {
+      code: `
+        using foo = bar();
+      `,
+      options: [options.kindUsing]
+    },
+    {
+      code: `
+        await using foo = bar();
+      `,
+      options: [options.kindUsingAwait]
     }
   ],
 
@@ -424,6 +442,36 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `
+        using foo = bar();
+      `,
+      options: [options.kindNone],
+      errors: [
+        {
+          messageId: '4',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `
+        await using foo = bar();
+      `,
+      options: [options.kindNone],
+      errors: [
+        {
+          messageId: '4',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 25
         }
       ]
     }
