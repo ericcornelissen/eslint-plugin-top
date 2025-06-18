@@ -2,4 +2,4 @@
 
 extension:
   - ts
-require: tsx
+require: ts-node/register
