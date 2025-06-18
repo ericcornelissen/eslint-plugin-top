@@ -5,6 +5,7 @@
 ## Allowlist
 !dist/
 !docs/
+!CHANGELOG.md
 !LICENSE
 !package.json
 !README.md
