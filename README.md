@@ -4,6 +4,13 @@
 
 Disallow side effects at the top level of files.
 
+**Quick links**:
+[npm][npm-url] |
+[Source code] |
+[License] |
+[Changelog] |
+[Security]
+
 ## Installation
 
 First, If you haven't already, install [ESLint]:
@@ -90,7 +97,12 @@ rules:
 Please [open an issue] if you found a mistake or if you have a suggestion for
 how to improve the documentation.
 
+[changelog]: ./CHANGELOG.md
 [eslint]: https://eslint.org/
+[license]: ./LICENSE
+[npm-url]: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
 [open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md
+[security]: ./SECURITY.md
+[source code]: https://github.com/ericcornelissen/eslint-plugin-top
 [`no-top-level-side-effects`]: docs/rules/no-top-level-side-effects.md
 [`no-top-level-variables`]: docs/rules/no-top-level-variables.md
