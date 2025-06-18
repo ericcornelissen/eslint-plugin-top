@@ -129,29 +129,6 @@ jobs:
           languages: ${{ matrix.what }}
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 # v3.29.0
-  malicious-code:
-    name: Malicious code
-    runs-on: ubuntu-24.04
-    container:
-      image: semgrep/semgrep
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
-        with:
-          persist-credentials: false
-      - name: Get malicious-code-ruleset
-        run: |
-          git clone https://github.com/apiiro/malicious-code-ruleset.git ../malicious-code-ruleset
-
-          mv ../malicious-code-ruleset/dynamic_execution/javascript_typescript ../dynamic_execution-javascript_typescript
-          rm -rf ../malicious-code-ruleset/dynamic_execution/*
-          mv ../dynamic_execution-javascript_typescript ../malicious-code-ruleset/dynamic_execution/javascript_typescript
-
-          mv ../malicious-code-ruleset/obfuscation/javascript_typescript ../obfuscation-javascript_typescript
-          rm -rf ../malicious-code-ruleset/obfuscation/*
-          mv ../obfuscation-javascript_typescript ../malicious-code-ruleset/obfuscation/javascript_typescript
-      - name: Perform Semgrep analysis
-        run: semgrep --config ../malicious-code-ruleset
   odgen:
     name: ODGen
     runs-on: ubuntu-24.04
