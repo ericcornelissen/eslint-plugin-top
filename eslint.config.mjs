@@ -2,6 +2,7 @@
 
 import depend from 'eslint-plugin-depend';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
+import imports from 'eslint-plugin-import';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import tseslint from '@typescript-eslint/eslint-plugin';
@@ -28,7 +29,7 @@ export default [
   {
     name: 'TypeScript Code',
     files: ['lib/**/*.ts'],
-    plugins: {depend, tseslint},
+    plugins: {depend, imports, tseslint},
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
@@ -37,6 +38,60 @@ export default [
     },
     rules: {
       'depend/ban-dependencies': 'error',
+      'imports/consistent-type-specifier-style': 'error',
+      'imports/default': 'error',
+      'imports/export': 'error',
+      'imports/enforce-node-protocol-usage': ['error', 'always'],
+      'imports/exports-last': 'error',
+      'imports/extensions': ['error', 'never'],
+      'imports/first': 'error',
+      'imports/group-exports': 'off',
+      'imports/imports-first': 'error',
+      'imports/max-dependencies': 'off',
+      'imports/named': 'error',
+      'imports/namespace': 'error',
+      'imports/newline-after-import': 'error',
+      'imports/no-absolute-path': 'error',
+      'imports/no-amd': 'error',
+      'imports/no-anonymous-default-export': 'error',
+      'imports/no-commonjs': 'error',
+      'imports/no-cycle': 'error',
+      'imports/no-default-export': 'error',
+      'imports/no-deprecated': 'error',
+      'imports/no-duplicates': 'error',
+      'imports/no-dynamic-require': 'error',
+      'imports/no-empty-named-blocks': 'error',
+      'imports/no-extraneous-dependencies': 'error',
+      'imports/no-import-module-exports': 'error',
+      'imports/no-internal-modules': 'off',
+      'imports/no-mutable-exports': 'error',
+      'imports/no-named-as-default': 'error',
+      'imports/no-named-as-default-member': 'error',
+      'imports/no-named-default': 'error',
+      'imports/no-named-export': 'off',
+      'imports/no-namespace': 'off',
+      'imports/no-nodejs-modules': 'off',
+      'imports/no-relative-packages': 'error',
+      'imports/no-relative-parent-imports': 'off',
+      'imports/no-restricted-paths': 'error',
+      'imports/no-self-import': 'error',
+      'imports/no-unassigned-import': 'error',
+      'imports/no-unresolved': 'error',
+      'imports/no-unused-modules': 'error',
+      'imports/no-useless-path-segments': 'error',
+      'imports/no-webpack-loader-syntax': 'error',
+      'imports/order': [
+        'error',
+        {
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true
+          },
+          'newlines-between': 'always'
+        }
+      ],
+      'imports/prefer-default-export': 'off',
+      'imports/unambiguous': 'error',
       'tseslint/consistent-return': 'error',
       'tseslint/consistent-type-exports': 'error',
       'tseslint/consistent-type-imports': 'error',
@@ -93,6 +148,9 @@ export default [
       'no-throw-literal': 'off', // typescript/only-throw-error used instead
       'prefer-destructuring': 'off', //typescript/prefer-destructuring used instead
       'prefer-promise-reject-errors': 'off' // typescript/prefer-promise-reject-errors use instead
+    },
+    settings: {
+      'import/resolver': 'typescript'
     }
   },
   {
