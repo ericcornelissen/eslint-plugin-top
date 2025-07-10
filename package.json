@@ -16,18 +16,15 @@
   "bugs": {
     "url": "https://github.com/ericcornelissen/eslint-plugin-top/issues"
   },
+  "author": {
+    "name": "Eric Cornelissen",
+    "email": "ericornelissen@gmail.com",
+    "url": "https://ericcornelissen.dev/"
+  },
   "keywords": [
     "eslint",
     "eslintplugin",
     "eslint-plugin"
-  ],
-  "contributors": [
-    {
-      "name": "Damien Erambert"
-    },
-    {
-      "name": "Eric Cornelissen"
-    }
   ],
   "peerDependencies": {
     "eslint": "8.x || 9.x"
