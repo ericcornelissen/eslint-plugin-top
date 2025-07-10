@@ -81,11 +81,12 @@
     "prefer-caret-version-dependencies": "error",
 
     "no-archive-devDependencies": "error",
-    "no-file-devDependencies": ["error",{
-        "exceptions": [
-          "@ericcornelissen/eslint-plugin-top"
-        ]
-      }],
+    "no-file-devDependencies": [
+      "error",
+      {
+        "exceptions": ["@ericcornelissen/eslint-plugin-top"]
+      }
+    ],
     "no-git-devDependencies": "error",
     "no-restricted-devDependencies": "off",
     "no-restricted-pre-release-devDependencies": "off",
