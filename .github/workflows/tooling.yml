@@ -15,11 +15,11 @@ jobs:
       pull-requests: write # To open a Pull Request
     steps:
       - name: Create automation token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
         id: automation-token
         with:
-          app_id: ${{ secrets.AUTOMATION_APP_ID }}
-          private_key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Update tooling
         uses: ericcornelissen/tool-versions-update-action/pr@040e69dec221145526b552d9a74e410851aaed23 # v1.1.3
         with:
