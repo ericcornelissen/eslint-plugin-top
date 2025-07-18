@@ -83,6 +83,15 @@ function isCallTo(expression: CallExpression, name: string): boolean {
   return false;
 }
 
+function isCommonJsExportAssignment(node: AssignmentExpression): boolean {
+  return (
+    isExportsAssignment(node) ||
+    isExportPropertyAssignment(node) ||
+    isModuleAssignment(node) ||
+    isModulePropertyAssignment(node)
+  );
+}
+
 function isDestructuring(declaration: VariableDeclarator): boolean {
   return (
     declaration.id.type === 'ObjectPattern' ||
@@ -213,13 +222,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
 
     return {
       AssignmentExpression: (node) => {
-        if (
-          options.isCommonjs(node) &&
-          (isExportsAssignment(node) ||
-            isExportPropertyAssignment(node) ||
-            isModuleAssignment(node) ||
-            isModulePropertyAssignment(node))
-        ) {
+        if (options.isCommonjs(node) && isCommonJsExportAssignment(node)) {
           return;
         }
 
