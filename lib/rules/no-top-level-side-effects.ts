@@ -451,6 +451,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (options.allowDerived) {
+          return;
+        }
+
         if (isTopLevel(node)) {
           context.report({
             node,
