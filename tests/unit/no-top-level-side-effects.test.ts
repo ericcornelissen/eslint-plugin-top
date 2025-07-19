@@ -718,6 +718,14 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
+      code: `const s01 = "a" + b;`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const s02 = \`a\${b}\`;`,
+      options: [options.allowDerived]
+    },
+    {
       code: `
         function f() {
           const binaryExpression = a + b;
@@ -3208,6 +3216,19 @@ const invalid: RuleTester.InvalidTestCase[] = [
           messageId: '0',
           line: 1,
           column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const foo = \`\${bar()}\`;`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
           endLine: 1,
           endColumn: 21
         }
