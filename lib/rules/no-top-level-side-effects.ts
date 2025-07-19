@@ -479,7 +479,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       UnaryExpression: (node) => {
-        if (node.argument.type === 'Literal') {
+        if (node.operator === '-' && node.argument.type === 'Literal') {
           return;
         }
 

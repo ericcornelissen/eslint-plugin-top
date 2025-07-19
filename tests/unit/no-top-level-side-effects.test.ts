@@ -3138,6 +3138,42 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const u05 = +3.14;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const u06 = !false;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const u07 = ~42;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
       code: `const foo = 1 + 2;`,
       errors: [
         {
