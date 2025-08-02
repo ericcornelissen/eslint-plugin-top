@@ -375,7 +375,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (node.id?.name === 'require' && options.isCommonjs(node)) {
+        if (node.id.name === 'require' && options.isCommonjs(node)) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
