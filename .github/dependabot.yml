@@ -8,6 +8,8 @@ updates:
     schedule:
       interval: daily
       time: '05:00'
+    cooldown:
+      default-days: 2
     labels:
       - dependencies
     groups:
@@ -23,6 +25,8 @@ updates:
     schedule:
       interval: daily
       time: '05:00'
+    cooldown:
+      default-days: 2
     labels:
       - ci
       - dependencies
