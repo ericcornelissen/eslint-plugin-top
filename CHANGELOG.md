@@ -15,6 +15,8 @@ Versioning].
 - ([#1568]) Restrict unary operators to negative numbers when `allowDerived` for
   the `no-top-level-side-effects` rule.
 - ([#1566]) Report shadowing of require in destructuring constructs.
+- ([#1566]) Report computed properties in CommonJS export statements when
+  `allowDerived: false`.
 
 ## [3.5.3] - 2025-06-17
 

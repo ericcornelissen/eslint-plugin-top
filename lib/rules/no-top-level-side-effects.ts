@@ -6,10 +6,11 @@ import type {
   CallExpression,
   Identifier,
   NewExpression,
+  Program,
   VariableDeclarator
 } from 'estree';
 
-import {IsCommonJs, isTopLevel} from '../helpers';
+import {getProgram, IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowDerived: boolean;
@@ -41,13 +42,36 @@ const disallowedSideEffect = {
   message: 'Side effects at the top level are not allowed'
 };
 
-function isCallTo(expression: CallExpression, name: string): boolean {
-  if (expression.callee.type === 'Identifier') {
-    return expression.callee.name === name;
+function assignsFunctionProperty(
+  node: AssignmentExpression,
+  program: Program
+): boolean {
+  if (
+    node.left.type !== 'MemberExpression' ||
+    node.left.object.type !== 'Identifier'
+  ) {
+    return false;
   }
 
-  if (expression.callee.type === 'MemberExpression') {
-    let expr = expression.callee;
+  for (const stmt of program.body) {
+    if (
+      stmt.type === 'FunctionDeclaration' &&
+      stmt.id.name === node.left.object.name
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isCallTo(node: CallExpression, name: string): boolean {
+  if (node.callee.type === 'Identifier') {
+    return node.callee.name === name;
+  }
+
+  if (node.callee.type === 'MemberExpression') {
+    let expr = node.callee;
     const id: string[] = [];
     while (true) {
       if (expr.computed) {
@@ -83,11 +107,8 @@ function isCommonJsExportAssignment(node: AssignmentExpression): boolean {
   );
 }
 
-function isDestructuring(declaration: VariableDeclarator): boolean {
-  return (
-    declaration.id.type === 'ObjectPattern' ||
-    declaration.id.type === 'ArrayPattern'
-  );
+function isDestructuring(node: VariableDeclarator): boolean {
+  return node.id.type === 'ObjectPattern' || node.id.type === 'ArrayPattern';
 }
 
 function isExportsAssignment(node: AssignmentExpression): boolean {
@@ -128,10 +149,8 @@ function isModulePropertyAssignment(node: AssignmentExpression): boolean {
   );
 }
 
-function isNew(expression: NewExpression, name: string): boolean {
-  return (
-    expression.callee.type === 'Identifier' && expression.callee.name === name
-  );
+function isNew(node: NewExpression, name: string): boolean {
+  return node.callee.type === 'Identifier' && node.callee.name === name;
 }
 
 function shadowsRequire(node: VariableDeclarator): boolean {
@@ -235,32 +254,15 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
 
     return {
       AssignmentExpression: (node) => {
-        if (options.isCommonjs(node) && isCommonJsExportAssignment(node)) {
+        if (isCommonJsExportAssignment(node) && options.isCommonjs(node)) {
           return;
         }
 
         if (
-          options.allowFunctionProperties &&
-          node.left.type === 'MemberExpression' &&
-          node.left.object.type === 'Identifier' &&
-          (!node.left.computed || options.allowDerived)
+          assignsFunctionProperty(node, getProgram(node)) &&
+          options.allowFunctionProperties
         ) {
-          const id = node.left.object.name;
-
-          let program = node.parent;
-          while (program.type !== 'Program') {
-            program = program.parent;
-          }
-
-          for (const node of program.body) {
-            if (node.type !== 'FunctionDeclaration') {
-              continue;
-            }
-
-            if (node.id.name === id) {
-              return;
-            }
-          }
+          return;
         }
 
         if (isTopLevel(node)) {
@@ -291,7 +293,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       CallExpression: (node) => {
-        if (options.isCommonjs(node) && isCallTo(node, 'require')) {
+        if (isCallTo(node, 'require') && options.isCommonjs(node)) {
           return;
         }
 
@@ -300,9 +302,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (
-          options.allowIIFE &&
           isIIFE(node) &&
-          node.parent.type === 'ExpressionStatement'
+          node.parent.type === 'ExpressionStatement' &&
+          options.allowIIFE
         ) {
           return;
         }
@@ -395,15 +397,26 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       MemberExpression: (node) => {
-        if (options.allowPropertyAccess) {
-          return;
+        if (
+          node.computed &&
+          node.property.type !== 'Literal' &&
+          !options.allowDerived
+        ) {
+          context.report({
+            node: node,
+            messageId: disallowedSideEffect.id
+          });
         }
 
         if (
-          node.parent.type === 'CallExpression' ||
-          node.parent.type === 'AssignmentExpression'
+          node.parent.type === 'AssignmentExpression' ||
+          node.parent.type === 'CallExpression'
         ) {
           return; // prefer reporting as respective expression.
+        }
+
+        if (options.allowPropertyAccess) {
+          return;
         }
 
         if (isTopLevel(node)) {
@@ -530,14 +543,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (options.isCommonjs(node) && shadowsRequire(node)) {
+        if (shadowsRequire(node) && options.isCommonjs(node)) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
           });
         }
 
-        if (!options.allowPropertyAccess && isDestructuring(node)) {
+        if (isDestructuring(node) && !options.allowPropertyAccess) {
           context.report({
             node: node.id,
             messageId: disallowedSideEffect.id
