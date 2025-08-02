@@ -44,6 +44,30 @@ report the issue privately.
 [new github advisory]: https://github.com/ericcornelissen/eslint-plugin-top/security/advisories/new
 [security@ericcornelissen.dev]: mailto:security@ericcornelissen.dev?subject=SECURITY%20%28eslint-plugin-top%29
 
+### What to Report
+
+Consider if the issue you found really is a security concern. Below you can find
+guidelines for what is and isn't considered a security issue. Any issue that
+does not fall into one of the listed categories should be reported based on your
+own judgement. If in doubt, report the issue privately.
+
+Any issue that is out of scope should still be reported, but can be reported
+publicly because it is not considered sensitive.
+
+#### In Scope
+
+- Logic bugs with a security implication that can be triggered by using this
+  plugin with ESLint.
+- Insecure suggestions or snippets in the documentation.
+- Security misconfigurations in the continuous integration pipeline or software
+  supply chain.
+
+#### Out of Scope
+
+- Bugs not part of the published npm package.
+- Insecure defaults or confusing API design.
+- Known vulnerabilities in third-party dependencies or devDependencies.
+
 ### What to Include in a Report
 
 Try to include as many of the following items as possible in a security report:
