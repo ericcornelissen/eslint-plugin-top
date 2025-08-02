@@ -331,11 +331,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       FunctionDeclaration: (node) => {
-        if (!options.isCommonjs(node)) {
-          return;
-        }
-
-        if (node.id.name === 'require' && isTopLevel(node)) {
+        if (
+          node.id?.name === 'require' &&
+          isTopLevel(node) &&
+          options.isCommonjs(node)
+        ) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
@@ -363,15 +363,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       MemberExpression: (node) => {
-        if (
-          (node.parent.type === 'AssignmentExpression' &&
-            node.parent.left === node) ||
-          node.parent.type === 'CallExpression'
-        ) {
-          return; // not reported here.
+        if (options.allowPropertyAccess) {
+          return;
         }
 
-        if (!options.allowPropertyAccess && isTopLevel(node)) {
+        if (
+          node.parent.type === 'CallExpression' ||
+          node.parent.type === 'AssignmentExpression'
+        ) {
+          return; // prefer reporting as respective expression.
+        }
+
+        if (isTopLevel(node)) {
           context.report({
             node: node,
             messageId: disallowedSideEffect.id
@@ -391,11 +394,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       Property: (node) => {
-        if (!node.computed) {
+        if (options.allowDerived) {
           return;
         }
 
-        if (options.allowDerived) {
+        if (!node.computed) {
           return;
         }
 
@@ -435,11 +438,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       TemplateLiteral: (node) => {
-        if (node.expressions.length === 0) {
+        if (options.allowDerived) {
           return;
         }
 
-        if (options.allowDerived) {
+        if (node.expressions.length === 0) {
           return;
         }
 
@@ -467,11 +470,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       UnaryExpression: (node) => {
-        if (node.operator === '-' && node.argument.type === 'Literal') {
+        if (options.allowDerived) {
           return;
         }
 
-        if (options.allowDerived) {
+        if (node.operator === '-' && node.argument.type === 'Literal') {
           return;
         }
 
