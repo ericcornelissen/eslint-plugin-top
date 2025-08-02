@@ -259,7 +259,10 @@ const valid: RuleTester.ValidTestCase[] = [
         }
       `
     }
-  ],
+  ].flatMap((tc) => [
+    tc,
+    {...tc, languageOptions: languageOptions.sourceTypeScript}
+  ]),
 
   // Import declarations
   ...[
@@ -457,6 +460,10 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [options.commonjs]
     },
     {
+      code: `module.exports[foobar] = {};`,
+      options: [{...options.allowDerived, ...options.commonjs}]
+    },
+    {
       code: `module.exports.foo = bar();`,
       options: [{...options.commonjs, allowedCalls: ['bar']}]
     },
@@ -471,6 +478,10 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `exports.foobar = {};`,
       options: [options.commonjs]
+    },
+    {
+      code: `exports[foobar] = {};`,
+      options: [{...options.allowDerived, ...options.commonjs}]
     },
     {
       code: `exports.foo = bar();`,
@@ -509,11 +520,21 @@ const valid: RuleTester.ValidTestCase[] = [
       languageOptions: languageOptions.sourceTypeScript
     },
     {
+      code: `module.exports[foobar] = {};`,
+      options: [options.allowDerived],
+      languageOptions: languageOptions.sourceTypeScript
+    },
+    {
       code: `exports = {};`,
       languageOptions: languageOptions.sourceTypeScript
     },
     {
       code: `exports.foobar = {};`,
+      languageOptions: languageOptions.sourceTypeScript
+    },
+    {
+      code: `exports[foobar] = {};`,
+      options: [options.allowDerived],
       languageOptions: languageOptions.sourceTypeScript
     }
   ],
@@ -551,6 +572,11 @@ const valid: RuleTester.ValidTestCase[] = [
       languageOptions: languageOptions.sourceTypeModule
     },
     {
+      code: `module.exports[foobar] = {};`,
+      options: [{...options.allowDerived, ...options.commonjs}],
+      languageOptions: languageOptions.sourceTypeModule
+    },
+    {
       code: `exports = {};`,
       options: [options.commonjs],
       languageOptions: languageOptions.sourceTypeModule
@@ -559,6 +585,11 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `exports.foobar = {};`,
       options: [options.commonjs],
       languageOptions: languageOptions.sourceTypeModule
+    },
+    {
+      code: `exports[foobar] = {};`,
+      options: [{...options.allowDerived, ...options.commonjs}],
+      languageOptions: languageOptions.sourceTypeScript
     }
   ],
 
@@ -568,22 +599,33 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `function require() {}`
     },
     {
-      code: `function require() {}`,
+      code: `var require = function() {};`
+    },
+    {
+      code: `var require = () => {};`
+    },
+    {
+      code: `var require = "foobar";`
+    },
+    {
+      code: `function require() {/* commonjs: false */}`,
       options: [options.noCommonjs]
+    },
+    {
+      code: `function require() {/* sourceType: module */}`,
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `function f() { function require() {} }`,
       options: [options.commonjs]
     },
     {
-      code: `function notRequire() { }`,
+      code: `function f() { var require = function() {}; }`,
       options: [options.commonjs]
     },
     {
-      code: `var require = () => { };`
-    },
-    {
-      code: `var require = "foobar";`
+      code: `function notRequire() { }`,
+      options: [options.commonjs]
     }
   ],
 
@@ -1724,7 +1766,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `console[log]('hello world');`,
-      options: [{allowedCalls: ['console.log']}],
+      options: [{allowedCalls: ['console.log'], ...options.allowDerived}],
       errors: [
         {
           messageId: '0',
@@ -2702,6 +2744,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 31
         }
       ]
+    },
+    {
+      code: `exports[foobar] = {};`,
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
+      code: `module.exports[foobar] = {};`,
+      languageOptions: languageOptions.sourceTypeScript,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
     }
   ],
 
@@ -2782,6 +2850,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 5,
           endLine: 1,
           endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var { fine, require } = obj;`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 22
+        }
+      ]
+    },
+    {
+      code: `var [fine, , require] = arr;`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 22
         }
       ]
     }
@@ -3894,7 +3988,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 2,
           column: 9,
           endLine: 2,
-          endColumn: 41
+          endColumn: 32
         }
       ]
     },

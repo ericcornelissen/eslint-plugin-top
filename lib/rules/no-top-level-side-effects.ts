@@ -2,14 +2,15 @@
 
 import type {Rule} from 'eslint';
 import type {
-  CallExpression,
-  NewExpression,
   AssignmentExpression,
-  VariableDeclarator,
-  Identifier
+  CallExpression,
+  Identifier,
+  NewExpression,
+  Program,
+  VariableDeclarator
 } from 'estree';
 
-import {IsCommonJs, isTopLevel} from '../helpers';
+import {getProgram, IsCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowDerived: boolean;
@@ -22,23 +23,14 @@ type Options = {
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
-const allowDerivedOption = {
-  default: false
-};
-const allowedCallsOption = {
-  default: ['Symbol']
-};
-const allowedNewsOption = {
-  default: []
-};
-const allowFunctionPropertiesOption = {
-  default: false
-};
-const allowIIFEOption = {
-  default: false
-};
-const allowPropertyAccessOption = {
-  default: true
+const defaultOptions: Omit<Options, 'isCommonjs'> = {
+  allowDerived: false,
+  allowedCalls: ['Symbol'],
+  allowedNews: [],
+  allowFunctionProperties: false,
+  allowIIFE: false,
+  allowPropertyAccess: true,
+  commonjs: undefined
 };
 
 const disallowedRequireShadow = {
@@ -50,13 +42,36 @@ const disallowedSideEffect = {
   message: 'Side effects at the top level are not allowed'
 };
 
-function isCallTo(expression: CallExpression, name: string): boolean {
-  if (expression.callee.type === 'Identifier') {
-    return expression.callee.name === name;
+function assignsFunctionProperty(
+  node: AssignmentExpression,
+  program: Program
+): boolean {
+  if (
+    node.left.type !== 'MemberExpression' ||
+    node.left.object.type !== 'Identifier'
+  ) {
+    return false;
   }
 
-  if (expression.callee.type === 'MemberExpression') {
-    let expr = expression.callee;
+  for (const stmt of program.body) {
+    if (
+      stmt.type === 'FunctionDeclaration' &&
+      stmt.id.name === node.left.object.name
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isCallTo(node: CallExpression, name: string): boolean {
+  if (node.callee.type === 'Identifier') {
+    return node.callee.name === name;
+  }
+
+  if (node.callee.type === 'MemberExpression') {
+    let expr = node.callee;
     const id: string[] = [];
     while (true) {
       if (expr.computed) {
@@ -83,11 +98,17 @@ function isCallTo(expression: CallExpression, name: string): boolean {
   return false;
 }
 
-function isDestructuring(declaration: VariableDeclarator): boolean {
+function isCommonJsExportAssignment(node: AssignmentExpression): boolean {
   return (
-    declaration.id.type === 'ObjectPattern' ||
-    declaration.id.type === 'ArrayPattern'
+    isExportsAssignment(node) ||
+    isExportPropertyAssignment(node) ||
+    isModuleAssignment(node) ||
+    isModulePropertyAssignment(node)
   );
+}
+
+function isDestructuring(node: VariableDeclarator): boolean {
+  return node.id.type === 'ObjectPattern' || node.id.type === 'ArrayPattern';
 }
 
 function isExportsAssignment(node: AssignmentExpression): boolean {
@@ -128,10 +149,40 @@ function isModulePropertyAssignment(node: AssignmentExpression): boolean {
   );
 }
 
-function isNew(expression: NewExpression, name: string): boolean {
-  return (
-    expression.callee.type === 'Identifier' && expression.callee.name === name
-  );
+function isNew(node: NewExpression, name: string): boolean {
+  return node.callee.type === 'Identifier' && node.callee.name === name;
+}
+
+function shadowsRequire(node: VariableDeclarator): boolean {
+  if (node.id.type === 'Identifier') {
+    return node.id.name === 'require';
+  }
+
+  if (node.id.type === 'ObjectPattern') {
+    for (const property of node.id.properties) {
+      if (
+        property.type === 'Property' &&
+        property.key.type === 'Identifier' &&
+        property.key.name === 'require'
+      ) {
+        return true;
+      }
+    }
+  }
+
+  if (node.id.type === 'ArrayPattern') {
+    for (const element of node.id.elements) {
+      if (
+        element !== null &&
+        element.type === 'Identifier' &&
+        element.name === 'require'
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -195,56 +246,23 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const [provided] = context.options as Partial<Options>[]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowDerived: provided?.allowDerived || allowDerivedOption.default,
-      allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
-      allowedNews: provided?.allowedNews || allowedNewsOption.default,
-      allowFunctionProperties:
-        provided?.allowFunctionProperties ||
-        allowFunctionPropertiesOption.default,
-      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
-      allowPropertyAccess:
-        provided?.allowPropertyAccess === undefined
-          ? allowPropertyAccessOption.default
-          : provided.allowPropertyAccess,
-      commonjs: provided?.commonjs,
+      ...defaultOptions,
+      ...provided,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
     };
 
     return {
       AssignmentExpression: (node) => {
-        if (
-          options.isCommonjs(node) &&
-          (isExportsAssignment(node) ||
-            isExportPropertyAssignment(node) ||
-            isModuleAssignment(node) ||
-            isModulePropertyAssignment(node))
-        ) {
+        if (isCommonJsExportAssignment(node) && options.isCommonjs(node)) {
           return;
         }
 
         if (
-          options.allowFunctionProperties &&
-          node.left.type === 'MemberExpression' &&
-          node.left.object.type === 'Identifier' &&
-          (!node.left.computed || options.allowDerived)
+          assignsFunctionProperty(node, getProgram(node)) &&
+          options.allowFunctionProperties
         ) {
-          const id = node.left.object.name;
-
-          let program = node.parent;
-          while (program.type !== 'Program') {
-            program = program.parent;
-          }
-
-          for (const node of program.body) {
-            if (node.type !== 'FunctionDeclaration') {
-              continue;
-            }
-
-            if (node.id.name === id) {
-              return;
-            }
-          }
+          return;
         }
 
         if (isTopLevel(node)) {
@@ -275,7 +293,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       CallExpression: (node) => {
-        if (options.isCommonjs(node) && isCallTo(node, 'require')) {
+        if (isCallTo(node, 'require') && options.isCommonjs(node)) {
           return;
         }
 
@@ -284,9 +302,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (
-          options.allowIIFE &&
           isIIFE(node) &&
-          node.parent.type === 'ExpressionStatement'
+          node.parent.type === 'ExpressionStatement' &&
+          options.allowIIFE
         ) {
           return;
         }
@@ -347,11 +365,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       FunctionDeclaration: (node) => {
-        if (!isTopLevel(node)) {
-          return;
-        }
-
-        if (options.isCommonjs(node) && node.id.name === 'require') {
+        if (
+          node.id?.name === 'require' &&
+          isTopLevel(node) &&
+          options.isCommonjs(node)
+        ) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
@@ -380,14 +398,28 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       MemberExpression: (node) => {
         if (
-          (node.parent.type === 'AssignmentExpression' &&
-            node.parent.left === node) ||
-          node.parent.type === 'CallExpression'
+          node.computed &&
+          node.property.type !== 'Literal' &&
+          !options.allowDerived
         ) {
-          return; // not reported here.
+          context.report({
+            node: node,
+            messageId: disallowedSideEffect.id
+          });
         }
 
-        if (!options.allowPropertyAccess && isTopLevel(node)) {
+        if (
+          node.parent.type === 'AssignmentExpression' ||
+          node.parent.type === 'CallExpression'
+        ) {
+          return; // prefer reporting as respective expression.
+        }
+
+        if (options.allowPropertyAccess) {
+          return;
+        }
+
+        if (isTopLevel(node)) {
           context.report({
             node: node,
             messageId: disallowedSideEffect.id
@@ -407,7 +439,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       Property: (node) => {
-        if (options.allowDerived || !node.computed) {
+        if (options.allowDerived) {
+          return;
+        }
+
+        if (!node.computed) {
           return;
         }
 
@@ -447,11 +483,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       TemplateLiteral: (node) => {
-        if (node.expressions.length === 0) {
+        if (options.allowDerived) {
           return;
         }
 
-        if (options.allowDerived) {
+        if (node.expressions.length === 0) {
           return;
         }
 
@@ -479,11 +515,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       UnaryExpression: (node) => {
-        if (node.operator === '-' && node.argument.type === 'Literal') {
+        if (options.allowDerived) {
           return;
         }
 
-        if (options.allowDerived) {
+        if (node.operator === '-' && node.argument.type === 'Literal') {
           return;
         }
 
@@ -502,30 +538,23 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
-      VariableDeclaration: (node) => {
+      VariableDeclarator: (node) => {
         if (!isTopLevel(node)) {
           return;
         }
 
-        for (const declaration of node.declarations) {
-          if (options.isCommonjs(node)) {
-            if (
-              declaration.id.type === 'Identifier' &&
-              declaration.id.name === 'require'
-            ) {
-              context.report({
-                node: declaration.id,
-                messageId: disallowedRequireShadow.id
-              });
-            }
-          }
+        if (shadowsRequire(node) && options.isCommonjs(node)) {
+          context.report({
+            node: node.id,
+            messageId: disallowedRequireShadow.id
+          });
+        }
 
-          if (!options.allowPropertyAccess && isDestructuring(declaration)) {
-            context.report({
-              node: declaration.id,
-              messageId: disallowedSideEffect.id
-            });
-          }
+        if (isDestructuring(node) && !options.allowPropertyAccess) {
+          context.report({
+            node: node.id,
+            messageId: disallowedSideEffect.id
+          });
         }
       },
       WhileStatement: (node) => {

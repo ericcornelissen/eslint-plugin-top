@@ -21,11 +21,15 @@ const topLevelTypes = [
   'VariableDeclarator'
 ];
 
-export function IsCommonJs(node: Rule.Node) {
+export function getProgram(node: Rule.Node) {
   while (node.type !== 'Program') {
     node = node.parent;
   }
-  return node.sourceType === 'script';
+  return node;
+}
+
+export function IsCommonJs(node: Rule.Node) {
+  return getProgram(node).sourceType === 'script';
 }
 
 export function isTopLevel(node: Rule.Node) {
