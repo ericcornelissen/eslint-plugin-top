@@ -365,11 +365,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       FunctionDeclaration: (node) => {
-        if (
-          node.id?.name === 'require' &&
-          isTopLevel(node) &&
-          options.isCommonjs(node)
-        ) {
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (node.id?.name === 'require' && options.isCommonjs(node)) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
