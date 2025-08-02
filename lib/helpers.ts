@@ -15,6 +15,7 @@ const topLevelTypes = [
   'ObjectExpression',
   'Property',
   'SpreadElement',
+  'TemplateLiteral',
   'UnaryExpression',
   'VariableDeclaration',
   'VariableDeclarator'

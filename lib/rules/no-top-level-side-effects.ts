@@ -454,6 +454,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (options.allowDerived) {
+          return;
+        }
+
         if (isTopLevel(node)) {
           context.report({
             node,
@@ -478,7 +482,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       UnaryExpression: (node) => {
-        if (node.argument.type === 'Literal') {
+        if (node.operator === '-' && node.argument.type === 'Literal') {
           return;
         }
 

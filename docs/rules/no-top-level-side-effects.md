@@ -125,6 +125,9 @@ const u01 = -a;
 const u02 = +a;
 const u03 = !a;
 const u04 = ~a;
+
+const s01 = 'a' + b;
+const s02 = `a${b}`;
 ```
 
 #### `allowedCalls`

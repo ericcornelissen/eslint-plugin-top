@@ -718,6 +718,14 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
+      code: `const s01 = "a" + b;`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const s02 = \`a\${b}\`;`,
+      options: [options.allowDerived]
+    },
+    {
       code: `
         function f() {
           const binaryExpression = a + b;
@@ -3130,6 +3138,42 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const u05 = +3.14;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `const u06 = !false;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const u07 = ~42;`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
       code: `const foo = 1 + 2;`,
       errors: [
         {
@@ -3208,6 +3252,19 @@ const invalid: RuleTester.InvalidTestCase[] = [
           messageId: '0',
           line: 1,
           column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const foo = \`\${bar()}\`;`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 16,
           endLine: 1,
           endColumn: 21
         }
