@@ -3366,6 +3366,18 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `const u = -"1";`,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 15
+        }
+      ]
+    },
+    {
       code: `const foo = \`\${bar}\`;`,
       errors: [
         {

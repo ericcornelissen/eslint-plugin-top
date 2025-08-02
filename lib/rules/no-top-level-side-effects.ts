@@ -518,7 +518,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (node.operator === '-' && node.argument.type === 'Literal') {
+        if (node.operator === '-' && isNumericLiteral(node.argument)) {
           return;
         }
 
