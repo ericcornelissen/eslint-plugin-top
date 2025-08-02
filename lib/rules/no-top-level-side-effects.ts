@@ -22,23 +22,14 @@ type Options = {
   readonly isCommonjs: (node: Rule.Node) => boolean;
 };
 
-const allowDerivedOption = {
-  default: false
-};
-const allowedCallsOption = {
-  default: ['Symbol']
-};
-const allowedNewsOption = {
-  default: []
-};
-const allowFunctionPropertiesOption = {
-  default: false
-};
-const allowIIFEOption = {
-  default: false
-};
-const allowPropertyAccessOption = {
-  default: true
+const defaultOptions: Omit<Options, 'isCommonjs'> = {
+  allowDerived: false,
+  allowedCalls: ['Symbol'],
+  allowedNews: [],
+  allowFunctionProperties: false,
+  allowIIFE: false,
+  allowPropertyAccess: true,
+  commonjs: undefined
 };
 
 const disallowedRequireShadow = {
@@ -204,18 +195,8 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const [provided] = context.options as Partial<Options>[]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowDerived: provided?.allowDerived || allowDerivedOption.default,
-      allowedCalls: provided?.allowedCalls || allowedCallsOption.default,
-      allowedNews: provided?.allowedNews || allowedNewsOption.default,
-      allowFunctionProperties:
-        provided?.allowFunctionProperties ||
-        allowFunctionPropertiesOption.default,
-      allowIIFE: provided?.allowIIFE || allowIIFEOption.default,
-      allowPropertyAccess:
-        provided?.allowPropertyAccess === undefined
-          ? allowPropertyAccessOption.default
-          : provided.allowPropertyAccess,
-      commonjs: provided?.commonjs,
+      ...defaultOptions,
+      ...provided,
       isCommonjs: (node) =>
         options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
     };
@@ -350,11 +331,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       FunctionDeclaration: (node) => {
-        if (!isTopLevel(node)) {
+        if (!options.isCommonjs(node)) {
           return;
         }
 
-        if (options.isCommonjs(node) && node.id.name === 'require') {
+        if (node.id.name === 'require' && isTopLevel(node)) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
@@ -410,7 +391,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       Property: (node) => {
-        if (options.allowDerived || !node.computed) {
+        if (!node.computed) {
+          return;
+        }
+
+        if (options.allowDerived) {
           return;
         }
 
