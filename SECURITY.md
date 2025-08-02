@@ -59,6 +59,16 @@ Try to include as many of the following items as possible in a security report:
 
 [cwe]: https://cwe.mitre.org/
 
+### Threat Model
+
+The plugin considers ESLint and the plugin configuration to be trusted. All
+other inputs, most notably the source code being analyzed, are considered
+untrusted. Any violation of availability is considered a security issue.
+
+The project considers the GitHub infrastructure and all project maintainers to
+be trusted. Any action that can be performed on the repository by any GitHub
+user is considered untrusted.
+
 ## Advisories
 
 > [!NOTE]
