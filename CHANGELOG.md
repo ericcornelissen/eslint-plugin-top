@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.5.4] - 2025-08-02
+
 - ([#1565]) Allow template literals when `allowDerived` is set to true for the
   `no-top-level-side-effects` rule.
 - ([#1568]) Restrict unary operators to negative numbers when `allowDerived` for
