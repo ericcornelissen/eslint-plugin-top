@@ -4,8 +4,10 @@ import type {Rule} from 'eslint';
 import type {
   AssignmentExpression,
   CallExpression,
+  Expression,
   Identifier,
   NewExpression,
+  PrivateIdentifier,
   Program,
   VariableDeclarator
 } from 'estree';
@@ -151,6 +153,10 @@ function isModulePropertyAssignment(node: AssignmentExpression): boolean {
 
 function isNew(node: NewExpression, name: string): boolean {
   return node.callee.type === 'Identifier' && node.callee.name === name;
+}
+
+function isNumericLiteral(node: Expression | PrivateIdentifier): boolean {
+  return node.type === 'Literal' && typeof node.value === 'number';
 }
 
 function shadowsRequire(node: VariableDeclarator): boolean {
@@ -397,25 +403,18 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       MemberExpression: (node) => {
-        if (
-          node.computed &&
-          node.property.type !== 'Literal' &&
-          !options.allowDerived
-        ) {
-          context.report({
-            node: node,
-            messageId: disallowedSideEffect.id
-          });
-        }
-
-        if (
-          node.parent.type === 'AssignmentExpression' ||
-          node.parent.type === 'CallExpression'
-        ) {
+        if (node.parent.type === 'CallExpression') {
           return; // prefer reporting as respective expression.
         }
 
-        if (options.allowPropertyAccess) {
+        const isAccess = !(
+          node.parent.type === 'AssignmentExpression' &&
+          node.parent.left === node
+        );
+        const isComputed = node.computed && !isNumericLiteral(node.property);
+        const mayAccess = !isAccess || options.allowPropertyAccess;
+        const maybeComputed = !isComputed || options.allowDerived;
+        if (mayAccess && maybeComputed) {
           return;
         }
 

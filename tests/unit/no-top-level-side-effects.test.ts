@@ -39,8 +39,14 @@ const options: {
   allowNoNews: {
     allowedNews: []
   },
+  allowPropertyAccess: {
+    allowPropertyAccess: true
+  },
   commonjs: {
     commonjs: true
+  },
+  disallowDerived: {
+    allowDerived: false
   },
   disallowPropertyAccess: {
     allowPropertyAccess: false
@@ -247,15 +253,26 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        function f() {
-          const s = \`foo\${bar}\`;
-        }
-      `
-    },
-    {
-      code: `
-        function f() {
-          const s = $\`foobar\`;
+        function foobar() {
+          var a = 1;
+          var b = 3.14;
+          var c = 42n;
+          var d = 'Hello';
+          var e = "world";
+          var f = \`!\`;
+          var g = \`\${d} \${e}\${f}\`;
+          var h = {};
+          var i = [];
+          var j = h.p;
+          var k = h[p];
+          var l = i[0];
+          var m = { q: "answer" };
+          var n = [2, 7, 1];
+          var o = { [d]: e };
+          var p = [a, b, c];
+          var { q } = m;
+          var [r] = n;
+          var s = $\`foobar\`;
         }
       `
     }
@@ -810,7 +827,16 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const foo = bar.baz;`
     },
     {
-      code: `const foo = bar[0];`
+      code: `const foo = bar[0];`,
+      options: [options.disallowDerived]
+    },
+    {
+      code: `const foo = bar["baz"];`,
+      options: [options.allowDerived]
+    },
+    {
+      code: `const foo = bar[baz];`,
+      options: [options.allowDerived]
     },
     {
       code: `const {foo} = bar;`
@@ -3484,6 +3510,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           endColumn: 15
         }
       ]
+    },
+    {
+      code: `const inc = i++;`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
+    },
+    {
+      code: `const dec = i--;`,
+      options: [options.allowDerived],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 16
+        }
+      ]
     }
   ],
 
@@ -3512,6 +3564,58 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 13,
           endLine: 1,
           endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `const foo = bar["baz"];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const foo = bar["baz"];`,
+      options: [options.allowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 23
+        }
+      ]
+    },
+    {
+      code: `const foo = bar[baz];`,
+      options: [options.disallowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
+        }
+      ]
+    },
+    {
+      code: `const foo = bar[baz];`,
+      options: [options.allowPropertyAccess],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 21
         }
       ]
     },
