@@ -2,11 +2,11 @@
 
 import type {Rule} from 'eslint';
 import type {
-  CallExpression,
-  NewExpression,
   AssignmentExpression,
-  VariableDeclarator,
-  Identifier
+  CallExpression,
+  Identifier,
+  NewExpression,
+  VariableDeclarator
 } from 'estree';
 
 import {IsCommonJs, isTopLevel} from '../helpers';
@@ -132,6 +132,38 @@ function isNew(expression: NewExpression, name: string): boolean {
   return (
     expression.callee.type === 'Identifier' && expression.callee.name === name
   );
+}
+
+function shadowsRequire(node: VariableDeclarator): boolean {
+  if (node.id.type === 'Identifier') {
+    return node.id.name === 'require';
+  }
+
+  if (node.id.type === 'ObjectPattern') {
+    for (const property of node.id.properties) {
+      if (
+        property.type === 'Property' &&
+        property.key.type === 'Identifier' &&
+        property.key.name === 'require'
+      ) {
+        return true;
+      }
+    }
+  }
+
+  if (node.id.type === 'ArrayPattern') {
+    for (const element of node.id.elements) {
+      if (
+        element !== null &&
+        element.type === 'Identifier' &&
+        element.name === 'require'
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -493,30 +525,23 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
-      VariableDeclaration: (node) => {
+      VariableDeclarator: (node) => {
         if (!isTopLevel(node)) {
           return;
         }
 
-        for (const declaration of node.declarations) {
-          if (options.isCommonjs(node)) {
-            if (
-              declaration.id.type === 'Identifier' &&
-              declaration.id.name === 'require'
-            ) {
-              context.report({
-                node: declaration.id,
-                messageId: disallowedRequireShadow.id
-              });
-            }
-          }
+        if (options.isCommonjs(node) && shadowsRequire(node)) {
+          context.report({
+            node: node.id,
+            messageId: disallowedRequireShadow.id
+          });
+        }
 
-          if (!options.allowPropertyAccess && isDestructuring(declaration)) {
-            context.report({
-              node: declaration.id,
-              messageId: disallowedSideEffect.id
-            });
-          }
+        if (!options.allowPropertyAccess && isDestructuring(node)) {
+          context.report({
+            node: node.id,
+            messageId: disallowedSideEffect.id
+          });
         }
       },
       WhileStatement: (node) => {

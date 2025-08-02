@@ -14,6 +14,7 @@ Versioning].
   `no-top-level-side-effects` rule.
 - ([#1568]) Restrict unary operators to negative numbers when `allowDerived` for
   the `no-top-level-side-effects` rule.
+- ([#1566]) Report shadowing of require in destructuring constructs.
 
 ## [3.5.3] - 2025-06-17
 
@@ -230,4 +231,5 @@ Versioning].
 [#1475]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1475
 [#1506]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1506
 [#1565]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1565
+[#1566]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1566
 [#1568]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1568

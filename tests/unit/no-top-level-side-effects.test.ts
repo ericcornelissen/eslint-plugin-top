@@ -259,7 +259,10 @@ const valid: RuleTester.ValidTestCase[] = [
         }
       `
     }
-  ],
+  ].flatMap((tc) => [
+    tc,
+    {...tc, languageOptions: languageOptions.sourceTypeScript}
+  ]),
 
   // Import declarations
   ...[
@@ -568,22 +571,33 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `function require() {}`
     },
     {
-      code: `function require() {}`,
+      code: `var require = function() {};`
+    },
+    {
+      code: `var require = () => {};`
+    },
+    {
+      code: `var require = "foobar";`
+    },
+    {
+      code: `function require() {/* commonjs: false */}`,
       options: [options.noCommonjs]
+    },
+    {
+      code: `function require() {/* sourceType: module */}`,
+      languageOptions: languageOptions.sourceTypeModule
     },
     {
       code: `function f() { function require() {} }`,
       options: [options.commonjs]
     },
     {
-      code: `function notRequire() { }`,
+      code: `function f() { var require = function() {}; }`,
       options: [options.commonjs]
     },
     {
-      code: `var require = () => { };`
-    },
-    {
-      code: `var require = "foobar";`
+      code: `function notRequire() { }`,
+      options: [options.commonjs]
     }
   ],
 
@@ -2782,6 +2796,32 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 5,
           endLine: 1,
           endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var { fine, require } = obj;`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 22
+        }
+      ]
+    },
+    {
+      code: `var [fine, , require] = arr;`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 22
         }
       ]
     }
