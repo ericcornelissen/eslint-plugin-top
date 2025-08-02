@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.5.5] - 2025-08-02
+
 - ([#1582]) Fix reporting of dynamic property accesses that are not at the top
   level.
 - ([#1582]) Allow only numeric dynamic property access and unary minus when
