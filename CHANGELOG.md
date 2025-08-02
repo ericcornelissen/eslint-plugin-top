@@ -10,7 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1582]) Fix reporting of dynamic property accesses that are not at the top
+  level.
+- ([#1582]) Allow only numeric dynamic property access and unary minus when
+  `allowDerived: false`.
 
 ## [3.5.4] - 2025-08-02
 
@@ -239,3 +242,4 @@ Versioning].
 [#1565]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1565
 [#1566]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1566
 [#1568]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1568
+[#1582]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1582
