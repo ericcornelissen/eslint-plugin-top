@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {VariableDeclaration} from 'estree';
+import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
@@ -68,60 +68,10 @@ const disallowedUsing = {
   message: "Use of 'using' at the top level is not allowed"
 };
 
-function reportDisallowed(
-  context: Rule.RuleContext,
-  node: VariableDeclaration
-) {
-  let messageId: string | null;
-  switch (node.kind) {
-    case 'var':
-      messageId = disallowedVar.id;
-      break;
-    case 'let':
-      messageId = disallowedLet.id;
-      break;
-    case 'const':
-      messageId = disallowedConst.id;
-      break;
-    case 'using':
-    case 'await using':
-      messageId = disallowedUsing.id;
-      break;
-  }
-
-  context.report({node, messageId});
-}
-
-function reportIllegalInitialization(
-  context: Rule.RuleContext,
-  options: Options,
-  node: VariableDeclaration
-) {
-  node.declarations
-    .filter(
-      (declaration) =>
-        declaration.init === null ||
-        declaration.init === undefined ||
-        !options.allowed.includes(declaration.init.type)
-    )
-    .forEach((declaration) => {
-      context.report({
-        node: declaration,
-        messageId: disallowedAssignment.id
-      });
-    });
-}
-
-function checkVariableDeclaration(
-  context: Rule.RuleContext,
-  options: Options,
-  node: VariableDeclaration
-) {
-  if (!options.kind.includes(node.kind)) {
-    reportDisallowed(context, node);
-  } else {
-    reportIllegalInitialization(context, options, node);
-  }
+function isInitialized(
+  node: VariableDeclarator
+): node is VariableDeclarator & {init: Expression} {
+  return node.init != null;
 }
 
 export const noTopLevelVariables: Rule.RuleModule = {
@@ -176,9 +126,51 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
     return {
       VariableDeclaration: (node) => {
-        if (isTopLevel(node)) {
-          checkVariableDeclaration(context, options, node);
+        if (options.kind.includes(node.kind)) {
+          return;
         }
+
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        let messageId: string | null;
+        switch (node.kind) {
+          case 'var':
+            messageId = disallowedVar.id;
+            break;
+          case 'let':
+            messageId = disallowedLet.id;
+            break;
+          case 'const':
+            messageId = disallowedConst.id;
+            break;
+          case 'using':
+          case 'await using':
+            messageId = disallowedUsing.id;
+            break;
+        }
+
+        context.report({node, messageId});
+      },
+      VariableDeclarator: (node) => {
+        const parent = node.parent as VariableDeclaration; // type-coverage:ignore-line
+        if (!options.kind.includes(parent.kind)) {
+          return;
+        }
+
+        if (isInitialized(node) && options.allowed.includes(node.init.type)) {
+          return;
+        }
+
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        context.report({
+          node,
+          messageId: disallowedAssignment.id
+        });
       }
     };
   }

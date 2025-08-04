@@ -60,6 +60,22 @@ const valid: RuleTester.ValidTestCase[] = [
           const foo = 'bar';
         }
       `
+    },
+    {
+      code: `
+        function fArray() {
+          const arr1 = [];
+          const arr2 = ["b", "a", "r"];
+        }
+      `
+    },
+    {
+      code: `
+        function fObject() {
+          const obj1 = {};
+          const obj2 = { bar: "baz" };
+        }
+      `
     }
   ],
 
@@ -472,6 +488,36 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 25
+        }
+      ]
+    },
+    {
+      code: `
+        var uninitialized;
+      `,
+      options: [options.kindVar],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `
+        let uninitialized;
+      `,
+      options: [options.kindLet],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 18
         }
       ]
     }
