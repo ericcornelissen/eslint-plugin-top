@@ -158,6 +158,42 @@ const valid: RuleTester.ValidTestCase[] = [
           }
         }
       `
+    },
+    {
+      code: `
+        function foobar() {
+          var a = 1;
+          var b = 3.14;
+          var c = 42n;
+          var d = 'Hello';
+          var e = "world";
+          var f = \`!\`;
+          var g = \`\${d} \${e}\${f}\`;
+          var h = {};
+          var i = [];
+          var j = h.p;
+          var k = h[p];
+          var l = i[0];
+          var m = { q: "answer" };
+          var n = [2, 7, 1];
+          var o = { [d]: e };
+          var p = [a, b, c];
+          var { q } = m;
+          var [r] = n;
+          var s = $\`foobar\`;
+        }
+      `
+    },
+    {
+      code: `
+        function foobar() {
+          const binary = a + b;
+          const chain = foo?.bar;
+          const conditional = foo ? bar : baz;
+          const logical = a || b;
+          const unary = -a;
+        }
+      `
     }
   ],
 
@@ -250,31 +286,6 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const [ a1, a2 ] = a;`
-    },
-    {
-      code: `
-        function foobar() {
-          var a = 1;
-          var b = 3.14;
-          var c = 42n;
-          var d = 'Hello';
-          var e = "world";
-          var f = \`!\`;
-          var g = \`\${d} \${e}\${f}\`;
-          var h = {};
-          var i = [];
-          var j = h.p;
-          var k = h[p];
-          var l = i[0];
-          var m = { q: "answer" };
-          var n = [2, 7, 1];
-          var o = { [d]: e };
-          var p = [a, b, c];
-          var { q } = m;
-          var [r] = n;
-          var s = $\`foobar\`;
-        }
-      `
     }
   ].flatMap((tc) => [
     tc,
@@ -783,41 +794,6 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const s02 = \`a\${b}\`;`,
       options: [options.allowDerived]
-    },
-    {
-      code: `
-        function f() {
-          const binaryExpression = a + b;
-        }
-      `
-    },
-    {
-      code: `
-        function f() {
-          const logicalExpression = a || b;
-        }
-      `
-    },
-    {
-      code: `
-        function f() {
-          const conditionalExpression = foo ? bar : baz;
-        }
-      `
-    },
-    {
-      code: `
-        function f() {
-          const unaryExpression = -a;
-        }
-      `
-    },
-    {
-      code: `
-        function f() {
-          const chainExpression = foo?.bar;
-        }
-      `
     }
   ],
 

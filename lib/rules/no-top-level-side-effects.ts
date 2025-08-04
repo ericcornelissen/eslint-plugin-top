@@ -6,6 +6,7 @@ import type {
   CallExpression,
   Expression,
   Identifier,
+  MemberExpression,
   NewExpression,
   PrivateIdentifier,
   Program,
@@ -73,28 +74,7 @@ function isCallTo(node: CallExpression, name: string): boolean {
   }
 
   if (node.callee.type === 'MemberExpression') {
-    let expr = node.callee;
-    const id: string[] = [];
-    while (true) {
-      if (expr.computed) {
-        return false;
-      }
-
-      const property = expr.property as Identifier; // type-coverage:ignore-line
-      id.push(property.name);
-
-      if (expr.object.type === 'MemberExpression') {
-        expr = expr.object;
-      } else if (expr.object.type === 'Identifier') {
-        id.push(expr.object.name);
-        break;
-      } else {
-        return false;
-      }
-    }
-
-    id.reverse();
-    return name === id.join('.');
+    return toJs(node.callee) === name;
   }
 
   return false;
@@ -125,10 +105,11 @@ function isExportPropertyAssignment(node: AssignmentExpression): boolean {
   );
 }
 
-function isIIFE(node: CallExpression): boolean {
+function isIIFE(node: CallExpression & Rule.Node): boolean {
   return (
-    node.callee.type === 'ArrowFunctionExpression' ||
-    node.callee.type === 'FunctionExpression'
+    node.parent.type === 'ExpressionStatement' &&
+    (node.callee.type === 'ArrowFunctionExpression' ||
+      node.callee.type === 'FunctionExpression')
   );
 }
 
@@ -189,6 +170,30 @@ function shadowsRequire(node: VariableDeclarator): boolean {
   }
 
   return false;
+}
+
+function toJs(node: MemberExpression): string | null {
+  const id: string[] = [];
+  while (true) {
+    if (node.computed) {
+      return null;
+    }
+
+    const property = node.property as Identifier; // type-coverage:ignore-line
+    id.push(property.name);
+
+    if (node.object.type === 'MemberExpression') {
+      node = node.object;
+    } else if (node.object.type === 'Identifier') {
+      id.push(node.object.name);
+      break;
+    } else {
+      return null;
+    }
+  }
+
+  id.reverse();
+  return id.join('.');
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -271,104 +276,120 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node: node.parent,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node: node.parent,
+          messageId: disallowedSideEffect.id
+        });
       },
       AwaitExpression: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       BinaryExpression: (node) => {
         if (options.allowDerived) {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
-        }
-      },
-      CallExpression: (node) => {
-        if (isCallTo(node, 'require') && options.isCommonjs(node)) {
+        if (!isTopLevel(node)) {
           return;
         }
 
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
+      },
+      CallExpression: (node) => {
         if (options.allowedCalls.some((name) => isCallTo(node, name))) {
           return;
         }
 
-        if (
-          isIIFE(node) &&
-          node.parent.type === 'ExpressionStatement' &&
-          options.allowIIFE
-        ) {
+        if (isIIFE(node) && options.allowIIFE) {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (isCallTo(node, 'require') && options.isCommonjs(node)) {
+          return;
         }
+
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ChainExpression: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ConditionalExpression: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       DoWhileStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ForInStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ForOfStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ForStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       FunctionDeclaration: (node) => {
         if (!isTopLevel(node)) {
@@ -383,24 +404,28 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       IfStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       LogicalExpression: (node) => {
         if (options.allowDerived) {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       MemberExpression: (node) => {
         if (node.parent.type === 'CallExpression') {
@@ -418,24 +443,28 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node: node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node: node,
+          messageId: disallowedSideEffect.id
+        });
       },
       NewExpression: (node) => {
         if (options.allowedNews.some((name) => isNew(node, name))) {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       Property: (node) => {
         if (options.allowDerived) {
@@ -446,40 +475,48 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node: node.key,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node: node.key,
+          messageId: disallowedSideEffect.id
+        });
       },
       SpreadElement: (node) => {
         if (options.allowDerived) {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       SwitchStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       TaggedTemplateExpression: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       TemplateLiteral: (node) => {
         if (options.allowDerived) {
@@ -490,28 +527,34 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       ThrowStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       TryStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       UnaryExpression: (node) => {
         if (options.allowDerived) {
@@ -522,20 +565,24 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       UpdateExpression: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       },
       VariableDeclarator: (node) => {
         if (!isTopLevel(node)) {
@@ -557,12 +604,14 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
       },
       WhileStatement: (node) => {
-        if (isTopLevel(node)) {
-          context.report({
-            node,
-            messageId: disallowedSideEffect.id
-          });
+        if (!isTopLevel(node)) {
+          return;
         }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
       }
     };
   }
