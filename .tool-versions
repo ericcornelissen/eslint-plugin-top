@@ -1,4 +1,4 @@
 # Configuration file for asdf (https://asdf-vm.com/)
 
 actionlint 1.7.7
-shellcheck 0.10.0
+shellcheck 0.11.0
