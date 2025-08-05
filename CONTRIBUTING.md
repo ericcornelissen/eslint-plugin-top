@@ -99,6 +99,7 @@ If you decide to make a contribution, please do use the following workflow:
 - Fork the repository.
 - Create a new branch from the latest `main`.
 - Make your changes on the new branch.
+- Add yourself to the [AUTHORS] list (optional).
 - Commit to the new branch and push the commit(s).
 - Open a Pull Request against `main`.
 
@@ -244,6 +245,7 @@ This will create a directory called `dist` (note that this ignored by git).
 [@eslint/markdown]: https://www.npmjs.com/package/@eslint/markdown
 [@typescript-eslint]: https://typescript-eslint.io/
 [actionlint]: https://github.com/rhysd/actionlint
+[authors]: ./AUTHORS
 [better-npm-audit]: https://www.npmjs.com/package/better-npm-audit
 [bug report]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=bug
 [depreman]: https://www.npmjs.com/package/depreman
