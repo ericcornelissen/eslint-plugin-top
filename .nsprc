@@ -1,2 +1,6 @@
 {
+  "GHSA-52f5-9888-hmc6": {
+    "active": true,
+    "notes": "This affects development dependencies where it is not exploitable. Resolution in progress."
+  }
 }
