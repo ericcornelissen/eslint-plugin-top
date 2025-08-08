@@ -46,7 +46,7 @@
     "eslint": "9.32.0",
     "eslint-import-resolver-typescript": "4.4.3",
     "eslint-plugin-depend": "1.2.0",
-    "eslint-plugin-eslint-plugin": "6.5.0",
+    "eslint-plugin-eslint-plugin": "7.0.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-yml": "1.18.0",
     "eslint-v8": "npm:eslint@8.0.1",
