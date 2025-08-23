@@ -68,7 +68,7 @@ const languageOptions: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
-  // Control flow
+  // Not top level
   ...[
     {
       code: `
@@ -276,9 +276,11 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `
         const regexpNoFlags = /bar/;
         const regexpDotAll = /bar/s;
+        const regexpGlobal = /bar/g;
         const regexpHasIndices = /bar/d;
         const regexpIgnoreCase = /bar/i;
         const regexpMultiline = /bar/m;
+        const regexpSticky = /bar/y;
         const regexpUnicode = /bar/u;
         const regexpUnicodeSets = /bar/v;
       `
@@ -1153,34 +1155,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
 
   // Basic declarations
   ...[
-    {
-      code: `
-        const regexpGlobal = /foobar/g;
-      `,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 22,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    },
-    {
-      code: `
-        const regexpSticky = /foobar/y;
-      `,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 22,
-          endLine: 1,
-          endColumn: 31
-        }
-      ]
-    },
     {
       code: `
         const taggedTemplateString = $\`foobar\`;
@@ -4132,6 +4106,22 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 9,
           endLine: 2,
           endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `
+        function SomeReactComponent() {}
+        SomeReactComponent.foo.bar = 'baz';
+      `,
+      options: [options.allowFunctionProperties],
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 44
         }
       ]
     },
