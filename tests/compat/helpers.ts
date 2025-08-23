@@ -29,9 +29,11 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
       '--plugin',
       '@ericcornelissen/top',
       '--rule',
-      '@ericcornelissen/top/no-top-level-variables: error',
+      '@ericcornelissen/top/no-top-level-side-effects: error',
       '--rule',
-      '@ericcornelissen/top/no-top-level-side-effects: error'
+      '@ericcornelissen/top/no-top-level-state: error',
+      '--rule',
+      '@ericcornelissen/top/no-top-level-variables: error'
     ],
     {
       encoding: 'utf-8',

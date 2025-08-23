@@ -16,6 +16,7 @@ export const configStrict = {
         allowPropertyAccess: false
       }
     ],
+    'top/no-top-level-state': ['error'],
     'top/no-top-level-variables': [
       'error',
       {

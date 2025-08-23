@@ -53,6 +53,7 @@ export default [
     plugins: {top},
     rules: {
       'top/no-top-level-side-effects': 'error',
+      'top/no-top-level-state': 'error',
       'top/no-top-level-variables': 'error'
     }
   }
@@ -77,12 +78,14 @@ Then, configure the rules you want to use in the rules section:
 ```yml
 rules:
   '@ericcornelissen/top/no-top-level-side-effects': error
+  '@ericcornelissen/top/no-top-level-state': error
   '@ericcornelissen/top/no-top-level-variables': error
 ```
 
 ## Supported Rules
 
 - [`no-top-level-side-effects`]
+- [`no-top-level-state`]
 - [`no-top-level-variables`]
 
 ## Preset Configurations
@@ -105,4 +108,5 @@ how to improve the documentation.
 [security]: ./SECURITY.md
 [source code]: https://github.com/ericcornelissen/eslint-plugin-top
 [`no-top-level-side-effects`]: docs/rules/no-top-level-side-effects.md
+[`no-top-level-state`]: docs/rules/no-top-level-state.md
 [`no-top-level-variables`]: docs/rules/no-top-level-variables.md

@@ -10,7 +10,9 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1603]) Create new `no-top-level-state` rule.
+- ([#1603]) Disallow top-level stateful regular expression literals with the
+  `no-top-level-state` rule.
 
 ## [3.5.5] - 2025-08-02
 
@@ -247,3 +249,4 @@ Versioning].
 [#1566]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1566
 [#1568]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1568
 [#1582]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1582
+[#1603]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1603
