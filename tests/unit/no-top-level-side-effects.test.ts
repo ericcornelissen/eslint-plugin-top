@@ -68,7 +68,7 @@ const languageOptions: {
 };
 
 const valid: RuleTester.ValidTestCase[] = [
-  // Control flow
+  // Not top level
   ...[
     {
       code: `
@@ -194,6 +194,21 @@ const valid: RuleTester.ValidTestCase[] = [
           const unary = -a;
         }
       `
+    },
+    {
+      code: `
+        function foobar() {
+          const regexpNoFlags = /bar/;
+          const regexpDotAll = /bar/s;
+          const regexpGlobal = /bar/g;
+          const regexpHasIndices = /bar/d;
+          const regexpIgnoreCase = /bar/i;
+          const regexpMultiline = /bar/m;
+          const regexpSticky = /bar/y;
+          const regexpUnicode = /bar/u;
+          const regexpUnicodeSets = /bar/v;
+        }
+      `
     }
   ],
 
@@ -258,7 +273,17 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const negative = -1;`
     },
     {
-      code: `const regularExpression = /bar/;`
+      code: `
+        const regexpNoFlags = /bar/;
+        const regexpDotAll = /bar/s;
+        const regexpGlobal = /bar/g;
+        const regexpHasIndices = /bar/d;
+        const regexpIgnoreCase = /bar/i;
+        const regexpMultiline = /bar/m;
+        const regexpSticky = /bar/y;
+        const regexpUnicode = /bar/u;
+        const regexpUnicodeSets = /bar/v;
+      `
     },
     {
       code: `const str1 = 'bar';`
@@ -4081,6 +4106,22 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 9,
           endLine: 2,
           endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `
+        function SomeReactComponent() {}
+        SomeReactComponent.foo.bar = 'baz';
+      `,
+      options: [options.allowFunctionProperties],
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 44
         }
       ]
     },

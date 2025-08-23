@@ -16,6 +16,7 @@ export const configRecommended = {
         allowPropertyAccess: true
       }
     ],
+    'top/no-top-level-state': ['error'],
     'top/no-top-level-variables': [
       'error',
       {
