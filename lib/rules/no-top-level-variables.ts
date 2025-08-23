@@ -79,7 +79,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
     type: 'problem',
     docs: {
       description: 'disallow top level variables',
-      recommended: false,
+      recommended: true,
       url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-variables.md'
     },
     schema: [
