@@ -413,6 +413,27 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
+      Literal: (node) => {
+        if (!('regex' in node)) {
+          return;
+        }
+
+        if (
+          !node.regex.flags.includes('g') &&
+          !node.regex.flags.includes('y')
+        ) {
+          return;
+        }
+
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        context.report({
+          node,
+          messageId: disallowedSideEffect.id
+        });
+      },
       LogicalExpression: (node) => {
         if (options.allowDerived) {
           return;

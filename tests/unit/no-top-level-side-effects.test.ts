@@ -194,6 +194,21 @@ const valid: RuleTester.ValidTestCase[] = [
           const unary = -a;
         }
       `
+    },
+    {
+      code: `
+        function foobar() {
+          const regexpNoFlags = /bar/;
+          const regexpDotAll = /bar/s;
+          const regexpGlobal = /bar/g;
+          const regexpHasIndices = /bar/d;
+          const regexpIgnoreCase = /bar/i;
+          const regexpMultiline = /bar/m;
+          const regexpSticky = /bar/y;
+          const regexpUnicode = /bar/u;
+          const regexpUnicodeSets = /bar/v;
+        }
+      `
     }
   ],
 
@@ -258,7 +273,15 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const negative = -1;`
     },
     {
-      code: `const regularExpression = /bar/;`
+      code: `
+        const regexpNoFlags = /bar/;
+        const regexpDotAll = /bar/s;
+        const regexpHasIndices = /bar/d;
+        const regexpIgnoreCase = /bar/i;
+        const regexpMultiline = /bar/m;
+        const regexpUnicode = /bar/u;
+        const regexpUnicodeSets = /bar/v;
+      `
     },
     {
       code: `const str1 = 'bar';`
@@ -1130,6 +1153,34 @@ const invalid: RuleTester.InvalidTestCase[] = [
 
   // Basic declarations
   ...[
+    {
+      code: `
+        const regexpGlobal = /foobar/g;
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 22,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `
+        const regexpSticky = /foobar/y;
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 22,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
     {
       code: `
         const taggedTemplateString = $\`foobar\`;
