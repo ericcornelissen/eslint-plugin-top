@@ -201,7 +201,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     type: 'problem',
     docs: {
       description: 'disallow top level side effects',
-      recommended: false,
+      recommended: true,
       url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-side-effects.md'
     },
     schema: [
