@@ -18,6 +18,7 @@ export const noTopLevelState: Rule.RuleModule = {
       recommended: false,
       url: 'https://github.com/ericcornelissen/eslint-plugin-top/blob/main/docs/rules/no-top-level-state.md'
     },
+    schema: [],
     messages: {
       [disallowedRegexp.id]: disallowedRegexp.message
     }

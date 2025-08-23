@@ -97,7 +97,7 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const str2 = 'foobar';`
     },
     {
-      code: `const str2 = \`foobar\`;`
+      code: `const str3 = \`foobar\`;`
     }
   ],
 
@@ -128,7 +128,7 @@ const valid: RuleTester.ValidTestCase[] = [
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
-  // Top-level stateless regular expressions
+  // Top-level stateful regular expressions
   ...[
     {
       code: `
