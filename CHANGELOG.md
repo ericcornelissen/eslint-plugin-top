@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.6.0] - 2025-08-23
+
 - ([#1603]) Create new `no-top-level-state` rule.
 - ([#1603]) Disallow top-level stateful regular expression literals with the
   `no-top-level-state` rule.
