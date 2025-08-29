@@ -32,8 +32,7 @@ export default [
     plugins: {depend, imports, tseslint},
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: '.'
+        project: './tsconfig.json'
       }
     },
     rules: {
