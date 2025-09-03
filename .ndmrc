@@ -13,12 +13,5 @@
     "lodash.get@4.4.2": {
       "#ignore": "better-npm-audit promises support with Node.js <14.0.0"
     }
-  },
-  "@stryker-mutator/core@^9.0.0": {
-    "*": {
-      "@babel/plugin-proposal-explicit-resource-management@^7.0.0": {
-        "#ignore": "tracking in https://github.com/stryker-mutator/stryker-js/pull/5460"
-      }
-    }
   }
 }
