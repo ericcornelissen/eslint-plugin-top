@@ -102,7 +102,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Perform ODGen analysis
-        uses: ericcornelissen/odgen-action/all@ce9542c64c55d3a9ba60a2e6d848b903e9683291 # v1.1.1
+        uses: ericcornelissen/odgen-action@ce9542c64c55d3a9ba60a2e6d848b903e9683291 # v1.1.1
+        with:
+          vulnerability_type: os_command, code_exec, proto_pollution, ipt, path_traversal
   reproducible:
     name: Reproducible build
     runs-on: ubuntu-24.04
