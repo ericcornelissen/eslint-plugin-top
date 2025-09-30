@@ -20,7 +20,7 @@ relevant sections of this document.
 - [Making Changes](#making-changes)
   - [Prerequisites](#prerequisites)
   - [Workflow](#workflow)
-  - [Development Details](#development-details)
+  - [Getting Started](#getting-started)
 
 ---
 
@@ -102,11 +102,14 @@ If you decide to make a contribution, please do use the following workflow:
 - Commit to the new branch and push the commit(s).
 - Open a Pull Request against `main`.
 
-### Development Details
+### Getting Started
 
 Before you start making changes you should run `npm install`. This ensures your
-local development environment is setup and ready to go. All code and tests are
-written in TypeScript, documentation in Markdown, and scripts using JavaScript.
+local development environment is set up and ready to go. Next, consider running
+`npm run verify` to make sure you're ready to get started.
+
+If these steps do not _just work_, please [open an issue] and share your
+experience. This way, we can improve the experience for future contributors.
 
 When making contributions, make sure your changes are [tested](#testing),
 [formatted](#formatting), and [analyzed](#analyzing).
