@@ -172,11 +172,11 @@ function shadowsRequire(node: VariableDeclarator): boolean {
   return false;
 }
 
-function toJs(node: MemberExpression): string | null {
+function toJs(node: MemberExpression): string | undefined {
   const id: string[] = [];
   while (true) {
     if (node.computed) {
-      return null;
+      return undefined;
     }
 
     const property = node.property as Identifier; // type-coverage:ignore-line
@@ -188,7 +188,7 @@ function toJs(node: MemberExpression): string | null {
       id.push(node.object.name);
       break;
     } else {
-      return null;
+      return undefined;
     }
   }
 

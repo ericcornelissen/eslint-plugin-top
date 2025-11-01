@@ -97,5 +97,8 @@
     "test:compat-all": "nve 18.0.0,20.0.0,22.0.0,24.0.0 npm run test:compat",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run check && npm run coverage"
+  },
+  "dependencies": {
+    "eslint-plugin-unicorn": "^62.0.0"
   }
 }
