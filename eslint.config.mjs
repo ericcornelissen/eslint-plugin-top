@@ -1,7 +1,7 @@
 // Configuration file for ESLint (https://eslint.org/)
 
 import depend from 'eslint-plugin-depend';
-import eslintPlugin from 'eslint-plugin-eslint-plugin';
+import plugin from 'eslint-plugin-eslint-plugin';
 import imports from 'eslint-plugin-import';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
@@ -260,7 +260,7 @@ export default [
   },
   {
     name: 'ESLint Plugin',
-    ...eslintPlugin.configs['flat/recommended'],
+    ...plugin.configs['flat/recommended'],
     files: ['**/*.ts']
   },
 
