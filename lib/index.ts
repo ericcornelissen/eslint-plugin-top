@@ -7,10 +7,6 @@ import {noTopLevelState} from './rules/no-top-level-state';
 import {noTopLevelVariables} from './rules/no-top-level-variables';
 
 /**
- * @fileoverview Disallow side effects at the top level of files
- */
-
-/**
  * @public
  */
 export const rules = {
