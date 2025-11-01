@@ -17,7 +17,8 @@
     ]
   },
   "packages": {
-    "depreman": "^0.3.0"
+    "depreman": "^0.3.0",
+    "stubborn-utils": "1.0.1"
   },
   "corrections": true
 }
