@@ -71,7 +71,7 @@ const disallowedUsing = {
 function isInitialized(
   node: VariableDeclarator
 ): node is VariableDeclarator & {init: Expression} {
-  return node.init != null;
+  return node.init !== null;
 }
 
 export const noTopLevelVariables: Rule.RuleModule = {
@@ -136,19 +136,23 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
         let messageId: string | null;
         switch (node.kind) {
-          case 'var':
+          case 'var': {
             messageId = disallowedVar.id;
             break;
-          case 'let':
+          }
+          case 'let': {
             messageId = disallowedLet.id;
             break;
-          case 'const':
+          }
+          case 'const': {
             messageId = disallowedConst.id;
             break;
+          }
           case 'using':
-          case 'await using':
+          case 'await using': {
             messageId = disallowedUsing.id;
             break;
+          }
         }
 
         context.report({node, messageId});
