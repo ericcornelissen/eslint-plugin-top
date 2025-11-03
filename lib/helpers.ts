@@ -13,6 +13,7 @@ const topLevelTypes = new Set([
   'LogicalExpression',
   'NewExpression',
   'ObjectExpression',
+  'Program',
   'Property',
   'SpreadElement',
   'TemplateLiteral',
@@ -34,8 +35,8 @@ export function IsCommonJs(node: Rule.Node) {
 
 export function isTopLevel(node: Rule.Node) {
   let scope = node.parent;
-  while (topLevelTypes.has(scope.type)) {
+  while (scope !== null && topLevelTypes.has(scope.type)) {
     scope = scope.parent;
   }
-  return scope.type === 'Program';
+  return scope === null;
 }
