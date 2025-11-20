@@ -4,3 +4,5 @@ default: true
 
 MD013: # Line length
   tables: false
+MD060: # Table column style
+  style: aligned
