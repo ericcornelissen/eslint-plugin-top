@@ -279,6 +279,7 @@ export default [
         'tseslint/no-mixed-enums': 'error',
         'tseslint/no-unnecessary-boolean-literal-compare': 'error',
         'tseslint/no-unused-vars': 'error',
+        'tseslint/no-unused-private-class-members': 'error',
         'tseslint/no-unsafe-enum-comparison': 'error',
         'tseslint/no-unsafe-unary-minus': 'error',
         'tseslint/no-unnecessary-template-expression': 'error',
