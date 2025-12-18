@@ -283,6 +283,7 @@ export default [
         'tseslint/no-unsafe-enum-comparison': 'error',
         'tseslint/no-unsafe-unary-minus': 'error',
         'tseslint/no-unnecessary-template-expression': 'error',
+        'tseslint/no-useless-default-assignment': 'error',
         'tseslint/only-throw-error': [
           'error',
           {
