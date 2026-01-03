@@ -41,3 +41,19 @@ jobs:
         run: npm run "audit:${WHAT}"
         env:
           WHAT: ${{ matrix.what }}
+  heisenberg:
+    name: Heisenberg
+    runs-on: ubuntu-24.04
+    if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      pull-requests: write # To comment on a Pull Request
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
+      - name: Run Heisenberg analysis
+        uses: AppOmni-Labs/heisenberg-ssc-gha@a9cc2de13cccacc18209addb89cbf45e8b794c84 # v1.0.3
+        with:
+          add_security_label: false
+          package_file: package-lock.json
