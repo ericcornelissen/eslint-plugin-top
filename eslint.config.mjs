@@ -307,6 +307,7 @@ export default [
             allowRegExp: false
           }
         ],
+        'tseslint/strict-void-return': 'error',
         'tseslint/switch-exhaustiveness-check': [
           'error',
           {
