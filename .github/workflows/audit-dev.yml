@@ -34,7 +34,7 @@ jobs:
       - name: Audit for deprecation warnings
         run: npm run audit:deprecations
   vulnerabilities:
-    name: vulnerabilities
+    name: Vulnerabilities
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
