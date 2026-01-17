@@ -1,10 +1,12 @@
 {
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
+    "expiry": "2026-06-01",
     "notes": "Mocha fixes on the way, ts-node less clear. Denial of service in development dependency is low risk."
   },
   "GHSA-8qq5-rm4j-mr97": {
     "active": true,
+    "expiry": "2026-06-01",
     "notes": "Present only through licensee where it is low risk as a (transitive) dev dependency"
   }
 }
