@@ -65,8 +65,7 @@
     "publint": "0.3.16",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
-    "typescript": "5.9.3",
-    "yaml-eslint-parser": "2.0.0"
+    "typescript": "5.9.3"
   },
   "scripts": {
     "_eslint": "eslint --config eslint.config.mjs",
