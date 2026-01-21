@@ -12,8 +12,8 @@ import unicorn from 'eslint-plugin-unicorn';
 import yml from 'eslint-plugin-yml';
 
 export default [
-  ...markdown.configs['processor'],
-  ...yml.configs['flat/base'],
+  ...markdown.configs.processor,
+  ...yml.configs.base,
 
   {
     name: 'Code',
