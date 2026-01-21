@@ -8,5 +8,10 @@
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Present only through licensee where it is low risk as a (transitive) dev dependency"
+  },
+  "GHSA-r6q2-hw4h-h46w": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Present only through licensee where it is low risk as a (transitive) dev dependency"
   }
 }
