@@ -8,7 +8,8 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
   const nodeModules = path.resolve(projectRoot, 'node_modules');
   const eslintCli = {
     8: path.resolve(nodeModules, 'eslint-v8', 'bin', 'eslint.js'),
-    9: path.resolve(nodeModules, 'eslint-v9', 'bin', 'eslint.js')
+    9: path.resolve(nodeModules, 'eslint-v9', 'bin', 'eslint.js'),
+    10: path.resolve(nodeModules, 'eslint-v10', 'bin', 'eslint.js')
   }[version];
 
   if (!eslintCli) {
@@ -37,7 +38,6 @@ export function runEslint(version: number, snippet: string): {stdout: string} {
     ],
     {
       encoding: 'utf-8',
-      // Provide stdin
       input: snippet
     }
   );

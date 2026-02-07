@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1774]) Add support for ESLint v10.
 
 ## [3.6.0] - 2025-08-23
 
@@ -254,3 +254,4 @@ Versioning].
 [#1568]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1568
 [#1582]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1582
 [#1603]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1603
+[#1774]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1774
