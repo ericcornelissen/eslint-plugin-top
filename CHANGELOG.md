@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.6.1] - 2026-02-07
+
 - ([#1774]) Add support for ESLint v10.
 
 ## [3.6.0] - 2025-08-23
