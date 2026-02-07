@@ -252,7 +252,9 @@ jobs:
         node-version:
           - 18.0.0
           - 20.0.0
+          - 20.19.0
           - 22.0.0
+          - 22.13.0
           - 24.0.0
     steps:
       - name: Checkout repository
