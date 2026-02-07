@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- ([#1774]) Add support for ESLint v9.
+- ([#1774]) Add support for ESLint v10.
 
 ## [3.6.0] - 2025-08-23
 
