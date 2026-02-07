@@ -27,7 +27,7 @@
     "eslint-plugin"
   ],
   "peerDependencies": {
-    "eslint": "8.x || 9.x"
+    "eslint": "8.x || 9.x || 10.x"
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
@@ -53,6 +53,7 @@
     "eslint-plugin-yml": "3.0.0",
     "eslint-v8": "npm:eslint@8.0.1",
     "eslint-v9": "npm:eslint@9.0.0",
+    "eslint-v10": "npm:eslint@10.0.0",
     "is-ci": "4.1.0",
     "licensee": "12.0.1",
     "lockfile-lint": "5.0.0",
