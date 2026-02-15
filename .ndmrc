@@ -13,5 +13,21 @@
     "lodash.get@4.4.2": {
       "#ignore": "better-npm-audit promises support with Node.js <14.0.0"
     }
+  },
+  "mocha@^11.7.4": {
+    "*": {
+      "glob@10.5.0": {
+        "#ignore": "Bumped for Mocha 12.0.0; See https://github.com/mochajs/mocha/pull/5546",
+        "#expire": "2026-06-01"
+      }
+    }
+  },
+  "c8@^10.1.3": {
+    "*": {
+      "glob@10.5.0": {
+        "#ignore": "See https://github.com/bcoe/c8/issues/573",
+        "#expire": "2026-06-01"
+      }
+    }
   }
 }
