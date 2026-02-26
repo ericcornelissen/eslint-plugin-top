@@ -1,11 +1,17 @@
 {
-  "GHSA-p5wg-g6qr-c7cg": {
-    "active": true,
-    "notes": "Old ESLint versions are only used for compatibility testing"
-  },
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Mocha fixes on the way, ts-node less clear. Denial of service in development dependency is low risk."
+  },
+  "GHSA-2g4f-4pwh-qvx6": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5830"
+  },
+  "GHSA-3ppc-4f35-3m26": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5836 and https://github.com/igorshubovych/markdownlint-cli/issues/599"
   }
 }
