@@ -163,5 +163,10 @@ const invalid: RuleTester.InvalidTestCase[] = [
 
 new RuleTester().run('no-top-level-state', noTopLevelState, {
   valid: valid.map(trimTestCases),
-  invalid: invalid.map(trimTestCases)
+  invalid: invalid.map(trimTestCases),
+  assertionOptions: {
+    requireData: true,
+    requireLocation: true,
+    requireMessage: true,
+  }
 });
