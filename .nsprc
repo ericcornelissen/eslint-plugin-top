@@ -1,8 +1,4 @@
 {
-  "GHSA-p5wg-g6qr-c7cg": {
-    "active": true,
-    "notes": "Old ESLint versions are only used for compatibility testing"
-  },
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
     "expiry": "2026-06-01",
