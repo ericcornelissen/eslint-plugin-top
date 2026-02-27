@@ -13,5 +13,15 @@
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5836 and https://github.com/igorshubovych/markdownlint-cli/issues/599"
+  },
+  "GHSA-7r86-cg39-jmmj": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5836 and https://github.com/igorshubovych/markdownlint-cli/issues/599"
+  },
+  "GHSA-23c5-xmqv-rm74": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5836 and https://github.com/igorshubovych/markdownlint-cli/issues/599"
   }
 }
