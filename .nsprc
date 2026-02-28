@@ -2,7 +2,7 @@
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
     "expiry": "2026-06-01",
-    "notes": "Mocha fixes on the way, ts-node less clear. Denial of service in development dependency is low risk."
+    "notes": "Pending mocha@12.0.0; ts-node>diff@4.0.4 is safe"
   },
   "GHSA-2g4f-4pwh-qvx6": {
     "active": true,
@@ -23,5 +23,10 @@
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Pending https://github.com/stryker-mutator/stryker-js/pull/5836 and https://github.com/igorshubovych/markdownlint-cli/issues/599"
+  },
+  "GHSA-5c6j-r48x-rmvq": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending mocha@12.0.0"
   }
 }
