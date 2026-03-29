@@ -1,11 +1,17 @@
 {
-  "GHSA-p5wg-g6qr-c7cg": {
-    "active": true,
-    "notes": "Old ESLint versions are only used for compatibility testing"
-  },
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
     "expiry": "2026-06-01",
-    "notes": "Mocha fixes on the way, ts-node less clear. Denial of service in development dependency is low risk."
+    "notes": "Pending mocha@12.0.0"
+  },
+  "GHSA-5c6j-r48x-rmvq": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending mocha@12.0.0"
+  },
+  "GHSA-qj8w-gfj5-8c6v": {
+    "active": true,
+    "expiry": "2026-06-01",
+    "notes": "Pending mocha@12.0.0"
   }
 }
