@@ -7,8 +7,7 @@
     "outDir": "./dist",
     "rootDir": "./lib",
     "strict": true,
-    "noImplicitAny": true,
-    "esModuleInterop": false
+    "noImplicitAny": true
   },
   "exclude": [
     ".cache/",
