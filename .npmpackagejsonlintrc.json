@@ -94,9 +94,17 @@
     "prefer-no-version-zero-devDependencies": "off",
     "prefer-absolute-version-devDependencies": "error",
 
+    "no-archive-peerDependencies": "error",
+    "no-file-peerDependencies": "error",
+    "no-git-peerDependencies": "error",
+    "no-restricted-peerDependencies": "off",
+    "no-restricted-pre-release-peerDependencies": "off",
+    "prefer-alphabetical-peerDependencies": "error",
+    "prefer-no-version-zero-peerDependencies": "error",
+    "prefer-absolute-version-peerDependencies": "error",
+
     "prefer-alphabetical-bundledDependencies": "error",
     "prefer-alphabetical-optionalDependencies": "error",
-    "prefer-alphabetical-peerDependencies": "error",
 
     "prefer-alphabetical-scripts": "off",
     "prefer-scripts": "off",
@@ -114,10 +122,12 @@
     "prefer-property-order": "off",
     "no-duplicate-properties": "error",
 
+    "prefer-no-bin": "error",
     "prefer-no-contributors": "off",
     "prefer-no-dependencies": "off",
     "prefer-no-devDependencies": "off",
     "prefer-no-engineStrict": "off",
+    "prefer-no-main": "error",
     "prefer-no-optionalDependencies": "error",
     "prefer-no-peerDependencies": "off"
   }
