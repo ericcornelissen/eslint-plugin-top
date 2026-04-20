@@ -13,10 +13,5 @@
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Pending mocha@12.0.0"
-  },
-  "GHSA-2g4f-4pwh-qvx6": {
-    "active": true,
-    "expiry": "2026-06-01",
-    "notes": "Pending https://github.com/tclindner/npm-package-json-lint/pull/1776"
   }
 }
