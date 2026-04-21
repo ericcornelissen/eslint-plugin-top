@@ -67,7 +67,7 @@
     "publint": "0.3.17",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
-    "typescript": "6.0.2"
+    "typescript": "6.0.3"
   },
   "scripts": {
     "_eslint": "eslint --config eslint.config.mjs",
