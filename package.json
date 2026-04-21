@@ -60,14 +60,14 @@
     "lockfile-lint": "5.0.0",
     "markdownlint-cli": "0.48.0",
     "mocha": "11.7.4",
-    "npm-package-json-lint": "10.2.0",
+    "npm-package-json-lint": "10.2.1",
     "npm-run-all2": "8.0.1",
     "nve": "18.0.3",
     "prettier": "3.8.2",
     "publint": "0.3.17",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
-    "typescript": "6.0.2"
+    "typescript": "6.0.3"
   },
   "scripts": {
     "_eslint": "eslint --config eslint.config.mjs",
