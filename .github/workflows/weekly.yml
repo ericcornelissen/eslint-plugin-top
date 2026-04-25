@@ -36,8 +36,9 @@ jobs:
           npm update --prefer-dedupe
       - name: Create Pull Request
         env:
+          APP_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-          TOKEN: ${{ steps.automation-token.outputs.token }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
@@ -46,7 +47,7 @@ jobs:
           git add 'package.json' 'package-lock.json'
           git commit --message 'Update transitive dependencies'
 
-          git remote set-url 'origin' "https://x-access-token:${TOKEN}@github.com/${REPOSITORY}"
+          git remote set-url 'origin' "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}"
           git push --force 'origin' 'npm-transitive-dependencies'
 
           gh pr create \

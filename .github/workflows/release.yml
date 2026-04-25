@@ -46,8 +46,9 @@ jobs:
         run: node scripts/bump-changelog.js
       - name: Create Pull Request
         env:
+          APP_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-          TOKEN: ${{ steps.automation-token.outputs.token }}
           UPDATE_TYPE: ${{ github.event.inputs.update_type }}
         run: |
           git config user.name 'github-actions[bot]'
@@ -57,7 +58,7 @@ jobs:
           git add CHANGELOG.md package.json package-lock.json
           git commit --message 'Version bump'
 
-          git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPOSITORY}"
+          git remote set-url origin "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}"
           git push --force origin "release-${UPDATE_TYPE}"
 
           gh pr create \
