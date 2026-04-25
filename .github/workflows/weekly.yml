@@ -35,15 +35,23 @@ jobs:
         run: |
           npm update --prefer-dedupe
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ steps.automation-token.outputs.token }}
-          title: Update transitive dependencies
-          body: |
-            _This Pull Request was created automatically_
-          branch: npm-transitive-dependencies
-          labels: dependencies
-          commit-message: Update transitive dependencies
-          add-paths: |
-            package.json
-            package-lock.json
+        env:
+          APP_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          git checkout -B 'npm-transitive-dependencies'
+          git add 'package.json' 'package-lock.json'
+          git commit --message 'Update transitive dependencies'
+
+          git remote set-url 'origin' "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}"
+          git push --force 'origin' 'npm-transitive-dependencies'
+
+          gh pr create \
+            --base='main' --head='npm-transitive-dependencies' \
+            --label='dependencies' \
+            --title='Update transitive dependencies' \
+            --body='_This Pull Request was created automatically_'
