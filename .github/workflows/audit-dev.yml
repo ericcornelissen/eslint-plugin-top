@@ -63,8 +63,7 @@ jobs:
       - name: Create Pull Request
         if: ${{ github.event_name == 'schedule' && failure() }}
         env:
-          APP_TOKEN: ${{ steps.automation-token.outputs.token }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.automation-token.outputs.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           git config user.name 'github-actions[bot]'
@@ -74,7 +73,7 @@ jobs:
           git add 'package.json' 'package-lock.json'
           git commit --message 'Fix vulnerable dependencies with `npm audit fix`'
 
-          git remote set-url 'origin' "https://x-access-token:${APP_TOKEN}@github.com/${REPOSITORY}"
+          git remote set-url 'origin' "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}"
           git push --force 'origin' 'bump-vulnerable-dependencies'
 
           gh pr create \
