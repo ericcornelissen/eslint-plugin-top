@@ -65,6 +65,7 @@
     "nve": "18.0.3",
     "prettier": "3.8.2",
     "publint": "0.3.17",
+    "strip-directives": "1.0.4",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
     "typescript": "6.0.3"
@@ -77,7 +78,9 @@
     "audit:deprecations:runtime": "depreman --errors-only --omit=dev",
     "audit:vulnerabilities": "better-npm-audit audit",
     "audit:vulnerabilities:runtime": "better-npm-audit audit --production",
-    "build": "tsc",
+    "build": "npm-run-all build:*",
+    "build:compile": "tsc",
+    "build:strip": "strip-directives dist/**/*.js",
     "check": "npm-run-all check:*",
     "check:ci": "node scripts/maybe-run.js actionlint",
     "check:formatting": "npm run _prettier -- --check",
