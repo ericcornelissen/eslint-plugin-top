@@ -290,6 +290,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (node.argument.type === 'ImportExpression') {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
