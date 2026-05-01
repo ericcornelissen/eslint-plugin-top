@@ -10,7 +10,7 @@ Versioning].
 
 ## [Unreleased]
 
-- _No changes yet_
+- ([#1879]) Allow top-level `await import()`.
 
 ## [3.6.1] - 2026-02-07
 
@@ -259,3 +259,4 @@ Versioning].
 [#1582]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1582
 [#1603]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1603
 [#1774]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1774
+[#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
