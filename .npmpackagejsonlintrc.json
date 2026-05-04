@@ -129,6 +129,7 @@
     "prefer-no-engineStrict": "off",
     "prefer-no-main": "error",
     "prefer-no-optionalDependencies": "error",
-    "prefer-no-peerDependencies": "off"
+    "prefer-no-peerDependencies": "off",
+    "prefer-provenance": "off"
   }
 }
