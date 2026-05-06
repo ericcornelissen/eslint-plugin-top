@@ -10,6 +10,10 @@ Versioning].
 
 ## [Unreleased]
 
+- _No changes yet_
+
+## [3.6.2] - 2026-05-06
+
 - ([#1884]) Add support for Node.js v26.
 - ([#1879]) Allow top-level `await import()`.
 
