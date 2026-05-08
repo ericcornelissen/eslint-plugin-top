@@ -64,7 +64,7 @@
     "npm-run-all2": "8.0.1",
     "nve": "18.0.3",
     "prettier": "3.8.2",
-    "publint": "0.3.17",
+    "publint": "0.3.19",
     "strip-directives": "1.0.4",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
