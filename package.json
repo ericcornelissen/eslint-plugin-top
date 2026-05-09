@@ -1,12 +1,12 @@
 {
   "name": "@ericcornelissen/eslint-plugin-top",
   "description": "Disallow side effects at the top level of files",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "license": "ISC",
   "exports": "./dist/index.js",
   "type": "commonjs",
   "engines": {
-    "node": "18.x || 20.x || 22.x || 24.x"
+    "node": "18.x || 20.x || 22.x || 24.x || 26.x"
   },
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
@@ -39,15 +39,15 @@
     "@types/estree": "1.0.8",
     "@types/mocha": "10.0.9",
     "@types/node": "25.6.0",
-    "@typescript-eslint/eslint-plugin": "8.59.1",
-    "@typescript-eslint/parser": "8.59.1",
+    "@typescript-eslint/eslint-plugin": "8.59.2",
+    "@typescript-eslint/parser": "8.59.2",
     "better-npm-audit": "3.11.0",
     "c8": "11.0.0",
     "depreman": "0.3.12",
     "eslint": "9.39.0",
     "eslint-import-resolver-typescript": "4.4.3",
     "eslint-plugin-depend": "1.5.0",
-    "eslint-plugin-eslint-plugin": "7.3.1",
+    "eslint-plugin-eslint-plugin": "7.3.3",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-regexp": "3.0.0",
     "eslint-plugin-unicorn": "64.0.0",
@@ -64,7 +64,7 @@
     "npm-run-all2": "8.0.1",
     "nve": "18.0.3",
     "prettier": "3.8.2",
-    "publint": "0.3.17",
+    "publint": "0.3.19",
     "strip-directives": "1.0.4",
     "ts-node": "10.9.2",
     "type-coverage": "2.29.7",
@@ -100,7 +100,7 @@
     "mutation": "stryker run stryker.config.js",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
-    "test:compat-all": "nve 18.0.0,20.0.0,22.0.0,24.0.0 npm run test:compat",
+    "test:compat-all": "nve 18.0.0,20.0.0,22.0.0,24.0.0,26.0.0 npm run test:compat",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run check && npm run coverage"
   }
