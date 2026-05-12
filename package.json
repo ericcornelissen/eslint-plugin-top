@@ -36,7 +36,7 @@
     "@stryker-mutator/core": "9.6.1",
     "@stryker-mutator/mocha-runner": "9.6.1",
     "@stryker-mutator/typescript-checker": "9.6.1",
-    "@types/estree": "1.0.8",
+    "@types/estree": "1.0.9",
     "@types/mocha": "10.0.9",
     "@types/node": "25.6.2",
     "@typescript-eslint/eslint-plugin": "8.59.2",
