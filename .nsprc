@@ -13,5 +13,10 @@
     "active": true,
     "expiry": "2026-06-01",
     "notes": "Pending mocha@12.0.0"
+  },
+  "GHSA-q8mj-m7cp-5q26": {
+    "active": true,
+    "expiry": "2027-01-01",
+    "notes": "Pending https://github.com/microsoft/typed-rest-client/issues/400"
   }
 }
