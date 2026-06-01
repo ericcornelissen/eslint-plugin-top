@@ -2,7 +2,7 @@
 
 # Security Policy
 
-The maintainers of the `@ericcornelissen/eslint-plugin-top` project take
+The maintainers of the _@ericcornelissen/eslint-plugin-top_ project take
 security issues seriously. We appreciate your efforts to responsibly disclose
 your findings. Due to the non-funded and open-source nature of the project, we
 take a best-efforts approach when it comes to engaging with security reports.
@@ -23,12 +23,10 @@ security updates.
 |   1.x.x | 2023-09-01  |
 |   0.x.x | 2023-05-26  |
 
-_This table only includes information on versions `<4.0.0`._
-
 ## Reporting a Vulnerability
 
-To report a security issue in the latest version of a supported version range,
-either (in order of preference):
+To report a security issue in a supported version or the development head of the
+project, either:
 
 - [Report it through GitHub][new github advisory], or
 - Send an email to [security@ericcornelissen.dev] with the terms "SECURITY" and
@@ -36,7 +34,7 @@ either (in order of preference):
 
 Please do not open a regular issue or Pull Request in the public repository.
 
-To report a security issue in an unsupported version of the project, or if the
+If a security issue only affects an unsupported version of the project, or the
 latest version of a supported version range isn't affected, please report it
 publicly. For example, as a regular issue in the public repository. If in doubt,
 report the issue privately.
@@ -44,7 +42,7 @@ report the issue privately.
 [new github advisory]: https://github.com/ericcornelissen/eslint-plugin-top/security/advisories/new
 [security@ericcornelissen.dev]: mailto:security@ericcornelissen.dev?subject=SECURITY%20%28eslint-plugin-top%29
 
-### What to Report
+### When to Report
 
 Consider if the issue you found really is a security concern. Below you can find
 guidelines for what is and isn't considered a security issue. Any issue that
@@ -64,9 +62,9 @@ publicly because it is not considered sensitive.
 
 #### Out of Scope
 
-- Bugs not part of the published npm package.
+- Bugs in code not part of a published artifact.
 - Insecure defaults or confusing API design.
-- Known vulnerabilities in third-party dependencies or devDependencies.
+- Known vulnerabilities in third-party dependencies.
 
 ### What to Include in a Report
 
@@ -83,7 +81,7 @@ Try to include as many of the following items as possible in a security report:
 
 [cwe]: https://cwe.mitre.org/
 
-### Threat Model
+## Threat Model
 
 The plugin considers ESLint and the plugin configuration to be trusted. All
 other inputs, most notably the source code being analyzed, are considered
