@@ -8,8 +8,8 @@ your findings. Due to the non-funded and open-source nature of the project, we
 take a best-efforts approach when it comes to engaging with security reports.
 
 This document should be considered expired after 2027-01-01. If you are reading
-this after that date you should try to find an up-to-date version in the
-official source repository.
+this after that date you should try to find an up-to-date version in the source
+repository.
 
 ## Supported Versions
 
@@ -29,8 +29,8 @@ To report a security issue in a supported version or the development head of the
 project, either:
 
 - [Report it through GitHub][new github advisory], or
-- Send an email to [security@ericcornelissen.dev] with the terms "SECURITY" and
-  "eslint-plugin-top" in the subject line.
+- Send an email to [ericornelissen+security@gmail.com] with the terms "SECURITY"
+  and "eslint-plugin-top" in the subject line.
 
 Please do not open a regular issue or Pull Request in the public repository.
 
@@ -40,7 +40,7 @@ publicly. For example, as a regular issue in the public repository. If in doubt,
 report the issue privately.
 
 [new github advisory]: https://github.com/ericcornelissen/eslint-plugin-top/security/advisories/new
-[security@ericcornelissen.dev]: mailto:security@ericcornelissen.dev?subject=SECURITY%20%28eslint-plugin-top%29
+[ericornelissen+security@gmail.com]: mailto:ericornelissen+security@gmail.com?subject=SECURITY%20%28eslint-plugin-top%29
 
 ### When to Report
 
