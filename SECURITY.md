@@ -93,15 +93,17 @@ user is considered untrusted.
 
 ## Advisories
 
-> [!NOTE]
-> Advisories will be created only for vulnerabilities present in released
-> versions of the project.
+An advisory will be created only if a vulnerability affects at least one
+released versions of the project. The affected versions range of an advisory
+will by default include all unsupported versions of the project at the time of
+disclosure.
+
+All advisories are listed in the table below, ordered most to least recent by
+publication date.
 
 | ID  | Date | Affected versions | Patched versions |
 | :-- | :--- | :---------------- | :--------------- |
 | -   | -    | -                 | -                |
-
-_This table is ordered most to least recent._
 
 ## Acknowledgments
 
