@@ -38,7 +38,7 @@
     "@stryker-mutator/typescript-checker": "9.6.1",
     "@types/estree": "1.0.9",
     "@types/mocha": "10.0.9",
-    "@types/node": "25.9.1",
+    "@types/node": "25.9.2",
     "@typescript-eslint/eslint-plugin": "8.60.1",
     "@typescript-eslint/parser": "8.60.1",
     "better-npm-audit": "3.11.0",
