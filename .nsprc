@@ -22,11 +22,6 @@
   "GHSA-h67p-54hq-rp68": {
     "active": true,
     "expiry": "2027-01-01",
-    "notes": "Pending https://github.com/yarnpkg/berry/issues/7186 and https://github.com/igorshubovych/markdownlint-cli/issues/629"
-  },
-  "GHSA-6v5v-wf23-fmfq": {
-    "active": true,
-    "expiry": "2027-01-01",
-    "notes": "Pending https://github.com/igorshubovych/markdownlint-cli/issues/629"
+    "notes": "Pending https://github.com/yarnpkg/berry/issues/7186"
   }
 }
