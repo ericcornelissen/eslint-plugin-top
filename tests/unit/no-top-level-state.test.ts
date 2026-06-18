@@ -167,6 +167,6 @@ new RuleTester().run('no-top-level-state', noTopLevelState, {
   assertionOptions: {
     requireData: true,
     requireLocation: true,
-    requireMessage: true,
+    requireMessage: true
   }
 });

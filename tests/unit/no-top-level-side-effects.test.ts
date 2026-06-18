@@ -4153,6 +4153,6 @@ new RuleTester().run('no-top-level-side-effects', noTopLevelSideEffects, {
   assertionOptions: {
     requireData: true,
     requireLocation: true,
-    requireMessage: true,
-  },
+    requireMessage: true
+  }
 });

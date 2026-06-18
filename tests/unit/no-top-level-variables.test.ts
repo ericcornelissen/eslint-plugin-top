@@ -802,6 +802,6 @@ new RuleTester().run('no-top-level-variables', noTopLevelVariables, {
   assertionOptions: {
     requireData: true,
     requireLocation: true,
-    requireMessage: true,
+    requireMessage: true
   }
 });
