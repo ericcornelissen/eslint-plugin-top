@@ -18,7 +18,7 @@
     "*": {
       "glob@10.5.0": {
         "#ignore": "Bumped for Mocha 12.0.0; See https://github.com/mochajs/mocha/pull/5546",
-        "#expire": "2026-06-01"
+        "#expire": "2027-01-01"
       }
     }
   }

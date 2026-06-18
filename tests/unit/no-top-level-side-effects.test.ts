@@ -345,6 +345,9 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `import "module-name";`
+    },
+    {
+      code: `await import("module-name");`
     }
   ],
 

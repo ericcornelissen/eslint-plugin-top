@@ -22,7 +22,7 @@ jobs:
       pull-requests: write # To open a Pull Request
     steps:
       - name: Checkout repository
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
       - name: Install Node.js
@@ -33,10 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Create automation token
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         id: automation-token
         with:
-          app-id: ${{ secrets.AUTOMATION_APP_ID }}
+          client-id: ${{ secrets.AUTOMATION_APP_ID }}
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Bump version
         env:
@@ -45,33 +45,43 @@ jobs:
       - name: Update CHANGELOG
         run: node scripts/bump-changelog.js
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
-        with:
-          token: ${{ steps.automation-token.outputs.token }}
-          title: New ${{ github.event.inputs.update_type }} release
-          body: |
-            _This Pull Request was created automatically_
+        env:
+          GH_TOKEN: ${{ steps.automation-token.outputs.token }}
+          REPOSITORY: ${{ github.repository }}
+          UPDATE_TYPE: ${{ github.event.inputs.update_type }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-            ---
+          git checkout -B "release-${UPDATE_TYPE}"
+          git add CHANGELOG.md package.json package-lock.json
+          git commit --message 'Version bump'
 
-            ### Merge checklist
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}"
+          git push --force origin "release-${UPDATE_TYPE}"
 
-            - [ ] All continuous integration checks passed.
-            - [ ] The version number is consistently updated in `package.json` and `package-lock.json`.
-            - [ ] A new release is added to `CHANGELOG.md` with the correct version number and date.
-            - [ ] The new version number is in accordance with [Semantic Versioning].
-            - [ ] There are no unexpected changes in the Pull Request.
+          gh pr create \
+            --base='main' --head="release-${UPDATE_TYPE}" \
+            --title="New ${UPDATE_TYPE} release" \
+            --body='_This Pull Request was created automatically_
 
-            ---
+          ---
 
-            ### Post-merge checklist
+          ### Merge checklist
 
-            - [ ] The new version is published to [npm].
-            - [ ] The `v3` branch is at the merge commit.
-            - [ ] There is a git tag for the new version on the merge commit.
+          - [ ] All continuous integration checks passed.
+          - [ ] The version number is consistently updated in `package.json` and `package-lock.json`.
+          - [ ] A new release is added to `CHANGELOG.md` with the correct version number and date.
+          - [ ] The new version number is in accordance with [Semantic Versioning].
+          - [ ] There are no unexpected changes in the Pull Request.
 
-            [npm]: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
-            [semantic versioning]: https://semver.org/spec/v2.0.0.html
-          branch: release-${{ github.event.inputs.update_type }}
-          branch-suffix: random
-          commit-message: Version bump
+          ---
+
+          ### Post-merge checklist
+
+          - [ ] The new version is published to [npm].
+          - [ ] The `v3` branch is at the merge commit.
+          - [ ] There is a git tag for the new version on the merge commit.
+
+          [npm]: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
+          [semantic versioning]: https://semver.org/spec/v2.0.0.html'

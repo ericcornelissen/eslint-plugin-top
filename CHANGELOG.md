@@ -12,6 +12,11 @@ Versioning].
 
 - _No changes yet_
 
+## [3.6.2] - 2026-05-06
+
+- ([#1884]) Add support for Node.js v26.
+- ([#1879]) Allow top-level `await import()`.
+
 ## [3.6.1] - 2026-02-07
 
 - ([#1774]) Add support for ESLint v10.
@@ -259,3 +264,5 @@ Versioning].
 [#1582]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1582
 [#1603]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1603
 [#1774]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1774
+[#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
+[#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
