@@ -1,5 +1,7 @@
 // Configuration file for ESLint (https://eslint.org/)
 
+import * as process from 'node:process';
+
 import depend from 'eslint-plugin-depend';
 import plugin from 'eslint-plugin-eslint-plugin';
 import json from '@eslint/json';
@@ -11,7 +13,6 @@ import unicorn from 'eslint-plugin-unicorn';
 import yml from 'eslint-plugin-yml';
 
 export default [
-  ...markdown.configs.processor,
   ...yml.configs.base,
 
   {
@@ -637,6 +638,119 @@ export default [
     ...plugin.configs['flat/recommended'],
     files: ['**/*.ts']
   },
+  ...(process.argv.includes('**/*.md**')
+    ? [
+        {
+          name: 'Documentation Snippets',
+          files: ['**/*.md/*.js'],
+          plugins: {unicorn},
+          rules: {
+            'id-length': 'off',
+            'no-console': 'off',
+            'no-magic-numbers': 'off',
+            'no-undef': 'off',
+            'no-unused-vars': 'off',
+
+            // https://github.com/sindresorhus/eslint-plugin-unicorn#readme
+            'unicorn/filename-case': 'off',
+            'unicorn/no-useless-template-literals': 'off',
+            'unicorn/switch-case-braces': 'off',
+            'unicorn/try-complexity': 'off'
+          }
+        },
+        {
+          name: 'MarkDown processor',
+          files: ['**/*.md'],
+          plugins: {
+            markdown
+          },
+          processor: 'markdown/markdown'
+        }
+      ]
+    : [
+        {
+          name: 'Documentation',
+          files: ['**/*.md'],
+          language: 'markdown/commonmark',
+          plugins: {
+            markdown
+          },
+          rules: {
+            'markdown/fenced-code-language': 'error',
+            'markdown/fenced-code-meta': ['error', 'never'],
+            'markdown/heading-increment': 'error',
+            'markdown/no-bare-urls': 'error',
+            'markdown/no-duplicate-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: []
+              }
+            ],
+            'markdown/no-duplicate-headings': [
+              'error',
+              {
+                checkSiblingsOnly: true
+              }
+            ],
+            'markdown/no-empty-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: [],
+                checkFootnoteDefinitions: true
+              }
+            ],
+            'markdown/no-empty-images': 'error',
+            'markdown/no-empty-links': 'error',
+            'markdown/no-html': [
+              'error',
+              {
+                allowed: [],
+                allowedIgnoreCase: false
+              }
+            ],
+            'markdown/no-invalid-label-refs': 'error',
+            'markdown/no-missing-atx-heading-space': [
+              'error',
+              {
+                checkClosedHeadings: true
+              }
+            ],
+            'markdown/no-missing-label-refs': 'error',
+            'markdown/no-missing-link-fragments': [
+              'error',
+              {
+                allowPattern: '',
+                ignoreCase: true
+              }
+            ],
+            'markdown/no-multiple-h1': 'error',
+            'markdown/no-reference-like-urls': 'error',
+            'markdown/no-reversed-media-syntax': 'error',
+            'markdown/no-space-in-emphasis': [
+              'error',
+              {
+                checkStrikethrough: true
+              }
+            ],
+            'markdown/no-unused-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: []
+              }
+            ],
+            'markdown/require-alt-text': 'error',
+            'markdown/table-column-count': [
+              'error',
+              {
+                checkMissingCells: true
+              }
+            ]
+          }
+        }
+      ]),
 
   {
     ignores: ['.cache/', '.temp/', '_reports/', 'node_modules/', 'index.js']

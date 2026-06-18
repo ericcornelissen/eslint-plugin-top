@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const STR_UNRELEASED = '## [Unreleased]';
+const STR_UNRELEASED = '## Unreleased';
 const STR_NO_CHANGES = '- _No changes yet_';
 
 const manifestFile = path.resolve('./package.json');
@@ -14,7 +14,7 @@ const manifest = JSON.parse(manifestRaw);
 const version = manifest.version;
 
 const changelog = fs.readFileSync(changelogFile).toString();
-if (changelog.includes(`## [${version}]`)) {
+if (changelog.includes(`## ${version}`)) {
   throw new Error(`${version} already in CHANGELOG`);
 }
 
@@ -37,7 +37,7 @@ const day = _day < 10 ? `0${_day}` : _day;
 const newChangelog =
   changelog.slice(0, unreleasedTitleIndex + STR_UNRELEASED.length) +
   `\n\n${STR_NO_CHANGES}` +
-  `\n\n## [${version}] - ${year}-${month}-${day}` +
+  `\n\n## ${version} (${year}-${month}-${day})` +
   changelog.slice(unreleasedTitleIndex + STR_UNRELEASED.length);
 
 fs.writeFileSync(changelogFile, newChangelog);
