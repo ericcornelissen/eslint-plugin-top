@@ -76,11 +76,10 @@ When you open a Pull Request that implements an issue make sure to link to that
 issue in the Pull Request description and explain how you implemented the issue
 as clearly as possible.
 
-> [!NOTE]
-> If you, for whatever reason, can no longer continue your contribution please
-> share this in the issue or your Pull Request. This gives others the
-> opportunity to work on it. If we don't hear from you for an extended period of
-> time we may decide to allow others to work on the issue you were assigned to.
+**NOTE:** If you, for whatever reason, can no longer continue your contribution
+please share this in the issue or your Pull Request. This gives others the
+opportunity to work on it. If we don't hear from you for an extended period of
+time we may decide to allow others to work on the issue you were assigned to.
 
 ### Prerequisites
 

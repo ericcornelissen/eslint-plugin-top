@@ -1,17 +1,27 @@
 {
   "GHSA-73rr-hh4g-fpgx": {
     "active": true,
-    "expiry": "2026-06-01",
+    "expiry": "2027-01-01",
     "notes": "Pending mocha@12.0.0"
   },
   "GHSA-5c6j-r48x-rmvq": {
     "active": true,
-    "expiry": "2026-06-01",
+    "expiry": "2027-01-01",
     "notes": "Pending mocha@12.0.0"
   },
   "GHSA-qj8w-gfj5-8c6v": {
     "active": true,
-    "expiry": "2026-06-01",
+    "expiry": "2027-01-01",
     "notes": "Pending mocha@12.0.0"
+  },
+  "GHSA-q8mj-m7cp-5q26": {
+    "active": true,
+    "expiry": "2027-01-01",
+    "notes": "Pending https://github.com/microsoft/typed-rest-client/issues/400"
+  },
+  "GHSA-h67p-54hq-rp68": {
+    "active": true,
+    "expiry": "2027-01-01",
+    "notes": "Pending https://github.com/yarnpkg/berry/issues/7186"
   }
 }

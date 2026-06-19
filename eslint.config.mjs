@@ -1,8 +1,9 @@
 // Configuration file for ESLint (https://eslint.org/)
 
+import * as process from 'node:process';
+
 import depend from 'eslint-plugin-depend';
 import plugin from 'eslint-plugin-eslint-plugin';
-import imports from 'eslint-plugin-import';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import regexp from 'eslint-plugin-regexp';
@@ -12,7 +13,6 @@ import unicorn from 'eslint-plugin-unicorn';
 import yml from 'eslint-plugin-yml';
 
 export default [
-  ...markdown.configs.processor,
   ...yml.configs.base,
 
   {
@@ -31,7 +31,7 @@ export default [
   {
     name: 'TypeScript Code',
     files: ['lib/**/*.ts'],
-    plugins: {depend, imports, regexp, tseslint, unicorn},
+    plugins: {depend, regexp, tseslint, unicorn},
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json'
@@ -39,63 +39,6 @@ export default [
     },
     rules: {
       'depend/ban-dependencies': 'error',
-
-      ...{
-        'imports/consistent-type-specifier-style': 'error',
-        'imports/default': 'error',
-        'imports/export': 'error',
-        'imports/enforce-node-protocol-usage': ['error', 'always'],
-        'imports/exports-last': 'error',
-        'imports/extensions': ['error', 'never'],
-        'imports/first': 'error',
-        'imports/group-exports': 'off',
-        'imports/imports-first': 'error',
-        'imports/max-dependencies': 'off',
-        'imports/named': 'error',
-        'imports/namespace': 'error',
-        'imports/newline-after-import': 'error',
-        'imports/no-absolute-path': 'error',
-        'imports/no-amd': 'error',
-        'imports/no-anonymous-default-export': 'error',
-        'imports/no-commonjs': 'error',
-        'imports/no-cycle': 'error',
-        'imports/no-default-export': 'error',
-        'imports/no-deprecated': 'error',
-        'imports/no-duplicates': 'error',
-        'imports/no-dynamic-require': 'error',
-        'imports/no-empty-named-blocks': 'error',
-        'imports/no-extraneous-dependencies': 'error',
-        'imports/no-import-module-exports': 'error',
-        'imports/no-internal-modules': 'off',
-        'imports/no-mutable-exports': 'error',
-        'imports/no-named-as-default': 'error',
-        'imports/no-named-as-default-member': 'error',
-        'imports/no-named-default': 'error',
-        'imports/no-named-export': 'off',
-        'imports/no-namespace': 'off',
-        'imports/no-nodejs-modules': 'off',
-        'imports/no-relative-packages': 'error',
-        'imports/no-relative-parent-imports': 'off',
-        'imports/no-restricted-paths': 'error',
-        'imports/no-self-import': 'error',
-        'imports/no-unassigned-import': 'error',
-        'imports/no-unresolved': 'error',
-        'imports/no-unused-modules': 'error',
-        'imports/no-useless-path-segments': 'error',
-        'imports/no-webpack-loader-syntax': 'error',
-        'imports/order': [
-          'error',
-          {
-            alphabetize: {
-              order: 'asc',
-              caseInsensitive: true
-            },
-            'newlines-between': 'always'
-          }
-        ],
-        'imports/prefer-default-export': 'off',
-        'imports/unambiguous': 'error'
-      },
 
       ...{
         'regexp/confusing-quantifier': 'error',
@@ -323,49 +266,84 @@ export default [
       },
 
       ...{
-        'unicorn/better-regex': 'error',
+        'unicorn/better-dom-traversing': 'off',
         'unicorn/catch-error-name': 'error',
+        'unicorn/class-reference-in-static-methods': 'error',
+        'unicorn/comment-content': 'error',
         'unicorn/consistent-assert': 'error',
+        'unicorn/consistent-class-member-order': 'error',
+        'unicorn/consistent-compound-words': 'error',
         'unicorn/consistent-date-clone': 'error',
         'unicorn/consistent-destructuring': 'error',
         'unicorn/consistent-empty-array-spread': 'error',
         'unicorn/consistent-existence-index-check': 'error',
+        'unicorn/consistent-export-decorator-position': 'error',
         'unicorn/consistent-function-scoping': 'error',
+        'unicorn/consistent-function-style': 'error',
+        'unicorn/consistent-json-file-read': ['error', 'string'],
+        'unicorn/consistent-optional-chaining': 'error',
         'unicorn/consistent-template-literal-escape': 'error',
         'unicorn/custom-error-definition': 'error',
+        'unicorn/dom-node-dataset': 'off',
         'unicorn/empty-brace-spaces': 'error',
         'unicorn/error-message': 'error',
         'unicorn/escape-case': 'error',
         'unicorn/expiring-todo-comments': 'error',
+        'unicorn/explicit-timer-delay': 'error',
         'unicorn/explicit-length-check': 'error',
         'unicorn/filename-case': 'error',
+        'unicorn/id-match': 'error',
         'unicorn/import-style': 'error',
         'unicorn/isolated-functions': 'error',
+        'unicorn/max-nested-calls': 'error',
         'unicorn/new-for-builtins': 'error',
         'unicorn/no-abusive-eslint-disable': 'error',
         'unicorn/no-accessor-recursion': 'error',
         'unicorn/no-anonymous-default-export': 'error',
         'unicorn/no-array-callback-reference': 'error',
-        'unicorn/no-array-for-each': 'error',
+        'unicorn/no-array-fill-with-reference-type': 'error',
+        'unicorn/no-array-from-fill': 'error',
         'unicorn/no-array-method-this-argument': 'error',
         'unicorn/no-array-reduce': 'error',
         'unicorn/no-array-reverse': 'error',
         'unicorn/no-array-sort': 'error',
+        'unicorn/no-asterisk-prefix-in-documentation-comments': 'off',
         'unicorn/no-await-expression-member': 'error',
         'unicorn/no-await-in-promise-methods': 'error',
+        'unicorn/no-blob-to-file': 'error',
+        'unicorn/no-break-in-nested-loop': 'error',
+        'unicorn/no-canvas-to-image': 'error',
+        'unicorn/no-computed-property-existence-check': 'error',
+        'unicorn/no-confusing-array-splice': 'error',
+        'unicorn/no-confusing-array-with': 'error',
         'unicorn/no-console-spaces': 'error',
+        'unicorn/no-declarations-before-early-exit': 'error',
         'unicorn/no-document-cookie': 'error',
+        'unicorn/no-duplicate-loops': 'error',
+        'unicorn/no-duplicate-set-values': 'error',
         'unicorn/no-empty-file': 'error',
+        'unicorn/no-error-property-assignment': 'error',
+        'unicorn/no-exports-in-scripts': 'error',
+        'unicorn/no-for-each': 'error',
         'unicorn/no-for-loop': 'error',
-        'unicorn/no-hex-escape': 'error',
+        'unicorn/no-global-object-property-assignment': 'error',
         'unicorn/no-immediate-mutation': 'error',
+        'unicorn/no-incorrect-query-selector': 'off',
+        'unicorn/no-incorrect-template-string-interpolation': 'error',
         'unicorn/no-instanceof-builtins': 'error',
+        'unicorn/no-invalid-argument-count': 'error',
         'unicorn/no-invalid-fetch-options': 'error',
+        'unicorn/no-invalid-file-input-accept': 'off',
         'unicorn/no-invalid-remove-event-listener': 'error',
         'unicorn/no-keyword-prefix': 'error',
+        'unicorn/no-late-current-target-access': 'off',
         'unicorn/no-lonely-if': 'error',
         'unicorn/no-magic-array-flat-depth': 'error',
+        'unicorn/no-manually-wrapped-comments': 'off',
+        'unicorn/no-mismatched-map-key': 'error',
         'unicorn/no-named-default': 'error',
+        'unicorn/no-negated-array-predicate': 'error',
+        'unicorn/no-negated-comparison': 'error',
         'unicorn/no-negated-condition': 'error',
         'unicorn/no-negation-in-equality-check': 'error',
         'unicorn/no-nested-ternary': 'error',
@@ -373,39 +351,66 @@ export default [
         'unicorn/no-new-buffer': 'error',
         'unicorn/no-null': 'error',
         'unicorn/no-object-as-default-parameter': 'error',
+        'unicorn/no-object-methods-with-collections': 'error',
+        'unicorn/no-optional-chaining-on-undeclared-variable': 'error',
         'unicorn/no-process-exit': 'error',
+        'unicorn/no-redundant-comparison': 'error',
+        'unicorn/no-return-array-push': 'error',
         'unicorn/no-single-promise-in-promise-methods': 'error',
         'unicorn/no-static-only-class': 'error',
+        'unicorn/no-subtraction-comparison': 'error',
         'unicorn/no-thenable': 'error',
         'unicorn/no-this-assignment': 'error',
+        'unicorn/no-this-outside-of-class': 'error',
+        'unicorn/no-top-level-side-effects': 'off',
         'unicorn/no-typeof-undefined': 'error',
+        'unicorn/no-undeclared-class-members': 'error',
         'unicorn/no-unnecessary-array-flat-depth': 'error',
         'unicorn/no-unnecessary-array-splice-count': 'error',
         'unicorn/no-unnecessary-await': 'error',
+        'unicorn/no-unnecessary-global-this': 'error',
+        'unicorn/no-unnecessary-nested-ternary': 'error',
         'unicorn/no-unnecessary-polyfills': 'error',
         'unicorn/no-unnecessary-slice-end': 'error',
+        'unicorn/no-unnecessary-splice': 'error',
         'unicorn/no-unreadable-array-destructuring': 'error',
         'unicorn/no-unreadable-iife': 'error',
+        'unicorn/no-unreadable-new-expression': 'error',
+        'unicorn/no-unreadable-object-destructuring': 'error',
+        'unicorn/no-unsafe-buffer-conversion': 'error',
+        'unicorn/no-unsafe-dom-html': 'error',
+        'unicorn/no-unsafe-property-key': 'error',
+        'unicorn/no-unsafe-string-replacement': 'error',
+        'unicorn/no-unused-array-method-return': 'error',
         'unicorn/no-unused-properties': 'error',
+        'unicorn/no-useless-boolean-cast': 'error',
         'unicorn/no-useless-collection-argument': 'error',
+        'unicorn/no-useless-concat': 'error',
+        'unicorn/no-useless-else': 'error',
         'unicorn/no-useless-error-capture-stack-trace': 'error',
         'unicorn/no-useless-fallback-in-spread': 'error',
         'unicorn/no-useless-iterator-to-array': 'error',
         'unicorn/no-useless-length-check': 'error',
         'unicorn/no-useless-promise-resolve-reject': 'error',
+        'unicorn/no-useless-recursion': 'error',
         'unicorn/no-useless-spread': 'error',
         'unicorn/no-useless-switch-case': 'error',
+        'unicorn/no-useless-template-literals': 'error',
         'unicorn/no-useless-undefined': 'error',
         'unicorn/no-zero-fractions': 'error',
         'unicorn/number-literal-case': 'error',
         'unicorn/numeric-separators-style': 'error',
-        'unicorn/prefer-add-event-listener': 'error',
+        'unicorn/prefer-add-event-listener': 'off',
+        'unicorn/prefer-add-event-listener-options': 'off',
         'unicorn/prefer-array-find': 'error',
         'unicorn/prefer-array-flat-map': 'error',
         'unicorn/prefer-array-flat': 'error',
+        'unicorn/prefer-array-from-map': 'error',
         'unicorn/prefer-array-index-of': 'error',
+        'unicorn/prefer-array-last-methods': 'error',
         'unicorn/prefer-array-some': 'error',
         'unicorn/prefer-at': 'error',
+        'unicorn/prefer-await': 'error',
         'unicorn/prefer-bigint-literals': 'error',
         'unicorn/prefer-blob-reading-methods': 'error',
         'unicorn/prefer-classlist-toggle': 'off',
@@ -414,61 +419,103 @@ export default [
         'unicorn/prefer-date-now': 'error',
         'unicorn/prefer-default-parameters': 'error',
         'unicorn/prefer-dom-node-append': 'error',
-        'unicorn/prefer-dom-node-dataset': 'error',
+        'unicorn/prefer-dom-node-html-methods': 'off',
         'unicorn/prefer-dom-node-remove': 'error',
         'unicorn/prefer-dom-node-text-content': 'error',
+        'unicorn/prefer-direct-iteration': 'error',
+        'unicorn/prefer-dispose': 'error',
+        'unicorn/prefer-early-return': 'error',
         'unicorn/prefer-event-target': 'error',
         'unicorn/prefer-export-from': 'error',
+        'unicorn/prefer-get-or-insert-computed': 'error',
+        'unicorn/prefer-global-number-constants': 'error',
         'unicorn/prefer-global-this': 'error',
+        'unicorn/prefer-https': 'error',
+        'unicorn/prefer-identifier-import-export-specifiers': 'error',
         'unicorn/prefer-import-meta-properties': 'error',
         'unicorn/prefer-includes': 'error',
-        'unicorn/prefer-json-parse-buffer': 'error',
+        'unicorn/prefer-includes-over-repeated-comparisons': 'error',
+        'unicorn/prefer-iterable-in-constructor': 'error',
+        'unicorn/prefer-iterator-concat': 'error',
+        'unicorn/prefer-iterator-to-array': 'error',
+        'unicorn/prefer-iterator-to-array-at-end': 'error',
         'unicorn/prefer-keyboard-event-key': 'error',
+        'unicorn/prefer-location-assign': 'off',
         'unicorn/prefer-logical-operator-over-ternary': 'error',
+        'unicorn/prefer-math-abs': 'error',
         'unicorn/prefer-math-min-max': 'error',
         'unicorn/prefer-math-trunc': 'error',
+        'unicorn/prefer-minimal-ternary': 'off',
         'unicorn/prefer-modern-dom-apis': 'error',
         'unicorn/prefer-modern-math-apis': 'error',
         'unicorn/prefer-module': 'error',
         'unicorn/prefer-native-coercion-functions': 'error',
         'unicorn/prefer-negative-index': 'error',
         'unicorn/prefer-node-protocol': 'error',
+        'unicorn/prefer-number-coercion': 'error',
+        'unicorn/prefer-number-is-safe-integer': 'error',
         'unicorn/prefer-number-properties': 'error',
+        'unicorn/prefer-object-define-properties': 'error',
+        'unicorn/prefer-object-destructuring-defaults': 'error',
         'unicorn/prefer-object-from-entries': 'error',
+        'unicorn/prefer-object-iterable-methods': 'error',
         'unicorn/prefer-optional-catch-binding': 'error',
+        'unicorn/prefer-path2d': 'off',
+        'unicorn/prefer-private-class-fields': 'error',
         'unicorn/prefer-prototype-methods': 'error',
         'unicorn/prefer-query-selector': 'error',
+        'unicorn/prefer-queue-microtask': 'error',
         'unicorn/prefer-reflect-apply': 'error',
         'unicorn/prefer-regexp-test': 'error',
         'unicorn/prefer-response-static-json': 'off',
+        'unicorn/prefer-scoped-selector': 'off',
         'unicorn/prefer-set-has': 'error',
         'unicorn/prefer-set-size': 'error',
+        'unicorn/prefer-short-arrow-method': 'error',
         'unicorn/prefer-simple-condition-first': 'error',
+        'unicorn/prefer-simple-sort-comparator': 'error',
+        'unicorn/prefer-single-array-predicate': 'error',
         'unicorn/prefer-single-call': 'error',
+        'unicorn/prefer-single-object-destructuring': 'error',
+        'unicorn/prefer-smaller-scope': 'error',
+        'unicorn/prefer-split-limit': 'error',
         'unicorn/prefer-spread': 'error',
-        'unicorn/prefer-string-raw': 'error',
+        'unicorn/prefer-string-match-all': 'error',
+        'unicorn/prefer-string-pad-start-end': 'error',
+        'unicorn/prefer-string-repeat': 'error',
         'unicorn/prefer-string-replace-all': 'error',
+        'unicorn/prefer-string-raw': 'off',
         'unicorn/prefer-string-slice': 'error',
         'unicorn/prefer-string-starts-ends-with': 'error',
         'unicorn/prefer-string-trim-start-end': 'error',
         'unicorn/prefer-structured-clone': 'error',
         'unicorn/prefer-switch': 'error',
-        'unicorn/prefer-ternary': 'error',
+        'unicorn/prefer-temporal': 'off',
+        'unicorn/prefer-ternary': 'off',
         'unicorn/prefer-top-level-await': 'error',
         'unicorn/prefer-type-error': 'error',
+        'unicorn/prefer-type-literal-last': 'error',
+        'unicorn/prefer-uint8array-base64': 'error',
+        'unicorn/prefer-unicode-code-point-escapes': 'error',
+        'unicorn/prefer-url-href': 'error',
         'unicorn/prevent-abbreviations': 'off',
         'unicorn/relative-url-style': 'error',
         'unicorn/require-array-join-separator': 'error',
+        'unicorn/require-array-sort-compare': 'error',
+        'unicorn/require-css-escape': 'off',
         'unicorn/require-module-attributes': 'error',
         'unicorn/require-module-specifiers': 'error',
         'unicorn/require-number-to-fixed-digits-argument': 'error',
+        'unicorn/require-passive-events': 'off',
         'unicorn/require-post-message-target-origin': 'error',
+        'unicorn/require-proxy-trap-boolean-return': 'error',
         'unicorn/string-content': 'error',
         'unicorn/switch-case-braces': 'error',
         'unicorn/switch-case-break-position': 'error',
         'unicorn/template-indent': 'error',
         'unicorn/text-encoding-identifier-case': 'error',
-        'unicorn/throw-new-error': 'error'
+        'unicorn/throw-new-error': 'error',
+        'unicorn/try-complexity': 'error'
       }
     },
     settings: {
@@ -505,6 +552,7 @@ export default [
       'json/no-empty-keys': 'error',
       'json/no-unnormalized-keys': 'error',
       'json/no-unsafe-values': 'error',
+      'json/sort-keys': 'off',
       'json/top-level-interop': 'error'
     }
   },
@@ -535,6 +583,10 @@ export default [
           caseSensitive: true
         }
       ],
+      'yml/flow-mapping-curly-newline': 'error',
+      'yml/flow-mapping-curly-spacing': 'error',
+      'yml/flow-sequence-bracket-newline': 'error',
+      'yml/flow-sequence-bracket-spacing': 'error',
       'yml/indent': [
         'error',
         2,
@@ -586,6 +638,119 @@ export default [
     ...plugin.configs['flat/recommended'],
     files: ['**/*.ts']
   },
+  ...(process.argv.includes('**/*.md**')
+    ? [
+        {
+          name: 'Documentation Snippets',
+          files: ['**/*.md/*.js'],
+          plugins: {unicorn},
+          rules: {
+            'id-length': 'off',
+            'no-console': 'off',
+            'no-magic-numbers': 'off',
+            'no-undef': 'off',
+            'no-unused-vars': 'off',
+
+            // https://github.com/sindresorhus/eslint-plugin-unicorn#readme
+            'unicorn/filename-case': 'off',
+            'unicorn/no-useless-template-literals': 'off',
+            'unicorn/switch-case-braces': 'off',
+            'unicorn/try-complexity': 'off'
+          }
+        },
+        {
+          name: 'MarkDown processor',
+          files: ['**/*.md'],
+          plugins: {
+            markdown
+          },
+          processor: 'markdown/markdown'
+        }
+      ]
+    : [
+        {
+          name: 'Documentation',
+          files: ['**/*.md'],
+          language: 'markdown/commonmark',
+          plugins: {
+            markdown
+          },
+          rules: {
+            'markdown/fenced-code-language': 'error',
+            'markdown/fenced-code-meta': ['error', 'never'],
+            'markdown/heading-increment': 'error',
+            'markdown/no-bare-urls': 'error',
+            'markdown/no-duplicate-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: []
+              }
+            ],
+            'markdown/no-duplicate-headings': [
+              'error',
+              {
+                checkSiblingsOnly: true
+              }
+            ],
+            'markdown/no-empty-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: [],
+                checkFootnoteDefinitions: true
+              }
+            ],
+            'markdown/no-empty-images': 'error',
+            'markdown/no-empty-links': 'error',
+            'markdown/no-html': [
+              'error',
+              {
+                allowed: [],
+                allowedIgnoreCase: false
+              }
+            ],
+            'markdown/no-invalid-label-refs': 'error',
+            'markdown/no-missing-atx-heading-space': [
+              'error',
+              {
+                checkClosedHeadings: true
+              }
+            ],
+            'markdown/no-missing-label-refs': 'error',
+            'markdown/no-missing-link-fragments': [
+              'error',
+              {
+                allowPattern: '',
+                ignoreCase: true
+              }
+            ],
+            'markdown/no-multiple-h1': 'error',
+            'markdown/no-reference-like-urls': 'error',
+            'markdown/no-reversed-media-syntax': 'error',
+            'markdown/no-space-in-emphasis': [
+              'error',
+              {
+                checkStrikethrough: true
+              }
+            ],
+            'markdown/no-unused-definitions': [
+              'error',
+              {
+                allowDefinitions: [],
+                allowFootnoteDefinitions: []
+              }
+            ],
+            'markdown/require-alt-text': 'error',
+            'markdown/table-column-count': [
+              'error',
+              {
+                checkMissingCells: true
+              }
+            ]
+          }
+        }
+      ]),
 
   {
     ignores: ['.cache/', '.temp/', '_reports/', 'node_modules/', 'index.js']
