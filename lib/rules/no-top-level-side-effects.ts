@@ -141,6 +141,7 @@ function isNumericLiteral(node: Expression | PrivateIdentifier): boolean {
 }
 
 function isShadowingRequire(node: VariableDeclarator): boolean {
+  // eslint-disable-next-line tseslint/switch-exhaustiveness-check
   switch (node.id.type) {
     case 'Identifier': {
       return node.id.name === 'require';
@@ -169,11 +170,6 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
         }
       }
 
-      break;
-    }
-    case 'MemberExpression':
-    case 'RestElement':
-    case 'AssignmentPattern': {
       break;
     }
   }
