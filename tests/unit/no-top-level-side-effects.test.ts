@@ -179,8 +179,11 @@ const valid: RuleTester.ValidTestCase[] = [
           var o = { [d]: e };
           var p = [a, b, c];
           var { q } = m;
-          var [r] = n;
-          var s = $\`foobar\`;
+          var { ...r } = m;
+          var { q: s } = m;
+          var [t] = n;
+          var [...u] = n;
+          var v = $\`foobar\`;
         }
       `
     },
@@ -311,6 +314,12 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const [ a1, a2 ] = a;`
+    },
+    {
+      code: `const { ...fs } = o;`
+    },
+    {
+      code: `const [ ...vs ] = a;`
     }
   ].flatMap((tc) => [
     tc,
