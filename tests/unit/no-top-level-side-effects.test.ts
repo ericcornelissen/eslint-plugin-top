@@ -649,7 +649,7 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
-  // A function called require
+  // An identifier called require
   ...[
     {
       code: `function require() {}`
@@ -662,6 +662,21 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `var require = "foobar";`
+    },
+    {
+      code: `var [require] = ["foobar"];`
+    },
+    {
+      code: `var {require} = { require: "foobar" };`
+    },
+    {
+      code: `var {...require} = { foo: "bar" };`
+    },
+    {
+      code: `var [...require] = ["foo", "bar"];`
+    },
+    {
+      code: `var { foo: require } = { foo: "bar" };`
     },
     {
       code: `function require() {/* commonjs: false */}`,
@@ -2803,7 +2818,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     }
   ],
 
-  // A function called require
+  // An identifier called require
   ...[
     {
       code: `function require() {/* options */}`,
@@ -2906,6 +2921,45 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 5,
           endLine: 1,
           endColumn: 22
+        }
+      ]
+    },
+    {
+      code: `var {...require} = { foo: "bar" };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var [...require] = ["foo", "bar"];`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
+        }
+      ]
+    },
+    {
+      code: `var { foo: require } = { foo: "bar" };`,
+      options: [options.commonjs],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 12
         }
       ]
     }
