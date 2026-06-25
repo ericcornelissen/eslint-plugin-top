@@ -149,9 +149,13 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
     case 'ArrayPattern': {
       for (const element of node.id.elements) {
         if (
-          element !== null &&
-          element.type === 'Identifier' &&
-          element.name === 'require'
+          (element !== null &&
+            element.type === 'Identifier' &&
+            element.name === 'require') ||
+          (element !== null &&
+            element.type === 'RestElement' &&
+            element.argument.type === 'Identifier' &&
+            element.argument.name === 'require')
         ) {
           return true;
         }
@@ -162,9 +166,15 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
     case 'ObjectPattern': {
       for (const property of node.id.properties) {
         if (
-          property.type === 'Property' &&
-          property.key.type === 'Identifier' &&
-          property.key.name === 'require'
+          (property.type === 'Property' &&
+            property.key.type === 'Identifier' &&
+            property.key.name === 'require') ||
+          (property.type === 'Property' &&
+            property.value.type === 'Identifier' &&
+            property.value.name === 'require') ||
+          (property.type === 'RestElement' &&
+            property.argument.type === 'Identifier' &&
+            property.argument.name === 'require')
         ) {
           return true;
         }
