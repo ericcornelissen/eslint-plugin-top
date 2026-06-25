@@ -29,7 +29,7 @@ export function getProgram(node: Rule.Node) {
   return node;
 }
 
-export function IsCommonJs(node: Rule.Node) {
+export function isCommonJs(node: Rule.Node) {
   return getProgram(node).sourceType === 'script';
 }
 

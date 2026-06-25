@@ -13,7 +13,7 @@ import type {
   VariableDeclarator
 } from 'estree';
 
-import {getProgram, IsCommonJs, isTopLevel} from '../helpers';
+import {getProgram, isCommonJs, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowDerived: boolean;
@@ -45,7 +45,7 @@ const disallowedSideEffect = {
   message: 'Side effects at the top level are not allowed'
 };
 
-function assignsFunctionProperty(
+function isAssignFunctionProperty(
   node: AssignmentExpression,
   program: Program
 ): boolean {
@@ -56,10 +56,10 @@ function assignsFunctionProperty(
     return false;
   }
 
-  for (const stmt of program.body) {
+  for (const statement of program.body) {
     if (
-      stmt.type === 'FunctionDeclaration' &&
-      stmt.id.name === node.left.object.name
+      statement.type === 'FunctionDeclaration' &&
+      statement.id.name === node.left.object.name
     ) {
       return true;
     }
@@ -140,32 +140,41 @@ function isNumericLiteral(node: Expression | PrivateIdentifier): boolean {
   return node.type === 'Literal' && typeof node.value === 'number';
 }
 
-function shadowsRequire(node: VariableDeclarator): boolean {
-  if (node.id.type === 'Identifier') {
-    return node.id.name === 'require';
-  }
-
-  if (node.id.type === 'ObjectPattern') {
-    for (const property of node.id.properties) {
-      if (
-        property.type === 'Property' &&
-        property.key.type === 'Identifier' &&
-        property.key.name === 'require'
-      ) {
-        return true;
-      }
+function isShadowingRequire(node: VariableDeclarator): boolean {
+  switch (node.id.type) {
+    case 'Identifier': {
+      return node.id.name === 'require';
     }
-  }
-
-  if (node.id.type === 'ArrayPattern') {
-    for (const element of node.id.elements) {
-      if (
-        element !== null &&
-        element.type === 'Identifier' &&
-        element.name === 'require'
-      ) {
-        return true;
+    case 'ArrayPattern': {
+      for (const element of node.id.elements) {
+        if (
+          element !== null &&
+          element.type === 'Identifier' &&
+          element.name === 'require'
+        ) {
+          return true;
+        }
       }
+
+      break;
+    }
+    case 'ObjectPattern': {
+      for (const property of node.id.properties) {
+        if (
+          property.type === 'Property' &&
+          property.key.type === 'Identifier' &&
+          property.key.name === 'require'
+        ) {
+          return true;
+        }
+      }
+
+      break;
+    }
+    case 'MemberExpression':
+    case 'RestElement':
+    case 'AssignmentPattern': {
+      break;
     }
   }
 
@@ -260,7 +269,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       ...defaultOptions,
       ...provided,
       isCommonjs: (node) =>
-        options.commonjs === undefined ? IsCommonJs(node) : options.commonjs
+        options.commonjs === undefined ? isCommonJs(node) : options.commonjs
     };
 
     return {
@@ -270,7 +279,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (
-          assignsFunctionProperty(node, getProgram(node)) &&
+          isAssignFunctionProperty(node, getProgram(node)) &&
           options.allowFunctionProperties
         ) {
           return;
@@ -441,9 +450,9 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           node.parent.left === node
         );
         const isComputed = node.computed && !isNumericLiteral(node.property);
-        const mayAccess = !isAccess || options.allowPropertyAccess;
-        const maybeComputed = !isComputed || options.allowDerived;
-        if (mayAccess && maybeComputed) {
+        const isNotOrAllowedAccess = !isAccess || options.allowPropertyAccess;
+        const isNotOrAllowedComputed = !isComputed || options.allowDerived;
+        if (isNotOrAllowedAccess && isNotOrAllowedComputed) {
           return;
         }
 
@@ -593,7 +602,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
-        if (shadowsRequire(node) && options.isCommonjs(node)) {
+        if (isShadowingRequire(node) && options.isCommonjs(node)) {
           context.report({
             node: node.id,
             messageId: disallowedRequireShadow.id
