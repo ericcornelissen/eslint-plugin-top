@@ -10,6 +10,10 @@ Versioning].
 
 ## Unreleased
 
+- _No changes yet_
+
+## 3.6.3 (2026-06-25)
+
 - ([#1947]) Report shadowing of require in a spread assignment of an array or
   object.
 - ([#1947]) Report shadowing of require when renaming during destructuring.
