@@ -10,7 +10,9 @@ Versioning].
 
 ## Unreleased
 
-- _No changes yet_
+- ([#1947]) Report shadowing of require in a spread assignment of an array or
+  object.
+- ([#1947]) Report shadowing of require when renaming during destructuring.
 
 ## 3.6.2 (2026-05-06)
 
@@ -266,3 +268,4 @@ Versioning].
 [#1774]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1774
 [#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
 [#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
+[#1947]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1947

@@ -2933,7 +2933,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 12
+          endColumn: 17
         }
       ]
     },
@@ -2946,7 +2946,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 12
+          endColumn: 17
         }
       ]
     },
@@ -2959,7 +2959,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
           line: 1,
           column: 5,
           endLine: 1,
-          endColumn: 12
+          endColumn: 21
         }
       ]
     }
