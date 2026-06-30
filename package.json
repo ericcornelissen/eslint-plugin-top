@@ -61,7 +61,7 @@
     "npm-package-json-lint": "10.4.0",
     "npm-run-all2": "9.0.2",
     "nve": "18.0.3",
-    "prettier": "3.8.2",
+    "prettier": "3.9.1",
     "publint": "0.3.19",
     "strip-directives": "2.0.0",
     "ts-node": "10.9.2",
