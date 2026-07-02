@@ -167,9 +167,6 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
       for (const property of node.id.properties) {
         if (
           (property.type === 'Property' &&
-            property.key.type === 'Identifier' &&
-            property.key.name === 'require') ||
-          (property.type === 'Property' &&
             property.value.type === 'Identifier' &&
             property.value.name === 'require') ||
           (property.type === 'RestElement' &&
