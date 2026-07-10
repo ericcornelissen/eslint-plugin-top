@@ -18,10 +18,5 @@
     "active": true,
     "expiry": "2027-01-01",
     "notes": "Pending https://github.com/microsoft/typed-rest-client/issues/400"
-  },
-  "GHSA-h67p-54hq-rp68": {
-    "active": true,
-    "expiry": "2027-01-01",
-    "notes": "Pending https://github.com/yarnpkg/berry/issues/7186"
   }
 }
