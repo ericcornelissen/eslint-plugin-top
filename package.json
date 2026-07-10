@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
+    "@eslint/config-inspector": "3.0.4",
     "@eslint/json": "2.0.0",
     "@eslint/markdown": "8.0.2",
     "@stryker-mutator/core": "9.6.1",
@@ -94,6 +95,7 @@
     "check:yml": "npm run _eslint -- '**/*.yml'",
     "clean": "git clean --force -X .cache/ .temp/ _reports/ dist/",
     "coverage": "c8 --config .c8rc.json npm run test",
+    "eslint-audit": "eslint-config-inspector --config eslint.config.mjs",
     "format": "npm run _prettier -- --write",
     "mutation": "stryker run stryker.config.js",
     "test": "mocha tests/unit --recursive",
