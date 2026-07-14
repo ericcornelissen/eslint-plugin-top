@@ -698,6 +698,7 @@ export default [
         }
       ],
       'yml/no-tab-indent': 'error',
+      'yml/no-trailing-spaces': 'error',
       'yml/no-trailing-zeros': 'error',
       'yml/plain-scalar': ['error', 'always'],
       'yml/quotes': [
