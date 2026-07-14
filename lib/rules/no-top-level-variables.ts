@@ -160,7 +160,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
       VariableDeclarator: (node) => {
         const parent = node.parent as VariableDeclaration; // type-coverage:ignore-line
         if (!options.kind.includes(parent.kind)) {
-          return; // prefer reporting the whole declaration.
+          return; // Prefer reporting the whole declaration.
         }
 
         if (isInitialized(node) && options.allowed.includes(node.init.type)) {
