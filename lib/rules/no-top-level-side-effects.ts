@@ -445,7 +445,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       MemberExpression: (node) => {
         if (node.parent.type === 'CallExpression') {
-          return; // prefer reporting as respective expression.
+          return; // Prefer reporting as respective expression.
         }
 
         const isAccess = !(
@@ -464,7 +464,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         context.report({
-          node: node,
+          node,
           messageId: disallowedSideEffect.id
         });
       },
