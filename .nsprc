@@ -18,5 +18,10 @@
     "active": true,
     "expiry": "2027-01-01",
     "notes": "Pending https://github.com/microsoft/typed-rest-client/issues/400"
+  },
+  "GHSA-mh99-v99m-4gvg": {
+    "active": true,
+    "expiry": "2027-01-01",
+    "notes": "Pending mocha@12.0.0, other than that through eslint@8 and eslint@9 where it is harmless"
   }
 }
