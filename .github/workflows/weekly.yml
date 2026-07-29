@@ -42,15 +42,15 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-          git checkout -B 'npm-transitive-dependencies'
+          git checkout -B 'bump-transitive-dependencies'
           git add 'package.json' 'package-lock.json'
           git commit --message 'Update transitive dependencies'
 
           git remote set-url 'origin' "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}"
-          git push --force 'origin' 'npm-transitive-dependencies'
+          git push --force 'origin' 'bump-transitive-dependencies'
 
           gh pr create \
-            --base='main' --head='npm-transitive-dependencies' \
+            --base='main' --head='bump-transitive-dependencies' \
             --label='dependencies' \
             --title='Update transitive dependencies' \
             --body='_This Pull Request was created automatically_'
