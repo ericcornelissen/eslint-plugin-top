@@ -31,7 +31,9 @@ updates:
       - ci/cd
       - dependencies
     groups:
-      codeql:
+      asdf-vm:
         patterns:
           - asdf-vm/actions/*
+      codeql:
+        patterns:
           - github/codeql-action/*
