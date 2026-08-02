@@ -51,17 +51,17 @@ jobs:
       - name: Audit for vulnerabilities
         run: npm run audit:vulnerabilities
       - name: Bump vulnerable dependencies
-        if: ${{ github.event_name == 'schedule' && failure() }}
+        if: github.event_name == 'schedule' && failure()
         run: npm audit fix
       - name: Create automation token
-        if: ${{ github.event_name == 'schedule' && failure() }}
+        if: github.event_name == 'schedule' && failure()
         uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         id: automation-token
         with:
           client-id: ${{ secrets.AUTOMATION_APP_ID }}
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Create Pull Request
-        if: ${{ github.event_name == 'schedule' && failure() }}
+        if: github.event_name == 'schedule' && failure()
         env:
           GH_TOKEN: ${{ steps.automation-token.outputs.token }}
           REPOSITORY: ${{ github.repository }}
