@@ -1,0 +1,46 @@
+name: Dependabot
+on:
+  pull_request:
+    branches:
+      - dependabot/github_actions/**
+  push:
+    branches:
+      - dependabot/github_actions/**
+
+permissions: read-all
+
+jobs:
+  ghasum:
+    name: Update gha.sum
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'push' && github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write # To push a commit
+    steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
+        with:
+          mode: install
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: true # to push a commit
+      - name: Update gha.sum
+        run: ghasum update
+      - name: Commit gha.sum
+        env:
+          BRANCH: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo 'Already up-to-date'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          git add '.github/workflows/gha.sum'
+          git commit --message 'Update ghasum checksums'
+
+          git push 'origin' "HEAD:${BRANCH}"
