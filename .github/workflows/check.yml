@@ -223,16 +223,14 @@ jobs:
     container:
       image: semgrep/semgrep:1.162.0
     steps:
-      - name: Verify action checksums
-        uses: $/.github/actions/ghasum
       - name: Checkout repository
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
       - name: Perform Semgrep analysis
         run: semgrep --sarif --output semgrep.sarif
       - name: Upload Semgrep report to GitHub
-        uses: github/codeql-action/upload-sarif@v4.37.3
+        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
         if: ${{ failure() || success() }}
         with:
           sarif_file: semgrep.sarif
