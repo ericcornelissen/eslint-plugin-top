@@ -3,4 +3,5 @@
 paths:
   .github/workflows/*.yml:
     ignore:
-      - 'SC2016:info'
+      - SC2016:info
+      - specifying action "\$
