@@ -14,8 +14,10 @@ jobs:
       released: ${{ steps.version.outputs.released }}
       version: ${{ steps.version.outputs.version }}
     steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
       - name: Checkout repository
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@v7.0.0
         with:
           fetch-depth: 0 # To obtain all tags
           persist-credentials: false
@@ -38,8 +40,10 @@ jobs:
     permissions:
       contents: write # To push refs
     steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
       - name: Checkout repository
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@v7.0.0
         with:
           fetch-depth: 0 # To fetch all major version branches
       - name: Get major version
@@ -71,12 +75,14 @@ jobs:
       name: npm
       url: https://www.npmjs.com/package/@ericcornelissen/eslint-plugin-top
     steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
       - name: Checkout repository
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@v7.0.0
         with:
           persist-credentials: false
       - name: Install Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@v7.0.0
         with:
           cache: npm
           node-version-file: .nvmrc
