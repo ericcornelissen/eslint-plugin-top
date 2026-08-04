@@ -21,26 +21,20 @@ jobs:
         uses: $/.github/actions/ghasum
         with:
           mode: install
+      - name: Create automation token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        id: automation-token
+        with:
+          client-id: ${{ secrets.AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          persist-credentials: true # to push a commit
+          token: ${{ steps.automation-token.outputs.token }}
       - name: Update gha.sum
         run: ghasum update
       - name: Commit gha.sum
-        env:
-          BRANCH: ${{ github.ref_name }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          if [ -z "$(git status --porcelain)" ]; then
-            echo 'Already up-to-date'
-            exit 0
-          fi
-
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-          git add '.github/workflows/gha.sum'
-          git commit --message 'Update ghasum checksums'
-
-          git push 'origin' "HEAD:${BRANCH}"
+        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+        with:
+          commit_message: Update ghasum checksums
+          file_pattern: .github/workflows/gha.sum
