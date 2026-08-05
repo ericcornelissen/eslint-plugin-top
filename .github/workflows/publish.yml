@@ -24,12 +24,12 @@ jobs:
       - name: Check if version is released
         id: version
         run: |
-          VERSION="v$(jq -r '.version' < package.json)"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          if [ "$(git tag --list "$VERSION")" ]; then
-            echo 'released=true' >> "$GITHUB_OUTPUT"
+          VERSION="v$(jq -r '.version' <package.json)"
+          echo "version=${VERSION}" >>"${GITHUB_OUTPUT}"
+          if [ "$(git tag --list "${VERSION}")" ]; then
+            echo 'released=true' >>"${GITHUB_OUTPUT}"
           else
-            echo 'released=false' >> "$GITHUB_OUTPUT"
+            echo 'released=false' >>"${GITHUB_OUTPUT}"
           fi
   git:
     name: git
@@ -56,13 +56,13 @@ jobs:
         env:
           VERSION: ${{ needs.check.outputs.version }}
         run: |
-          git tag "$VERSION"
-          git push origin "$VERSION"
+          git tag "${VERSION}"
+          git push origin "${VERSION}"
       - name: Update major version branch
         env:
           MAJOR_VERSION: ${{ steps.major-version.outputs.result }}
         run: |
-          git push origin "HEAD:$MAJOR_VERSION"
+          git push origin "HEAD:${MAJOR_VERSION}"
   npm:
     name: npm
     runs-on: ubuntu-24.04
