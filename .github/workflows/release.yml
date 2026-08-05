@@ -32,14 +32,14 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Install dependencies
-        run: npm clean-install
       - name: Create automation token
         uses: actions/create-github-app-token@v3.1.1
         id: automation-token
         with:
           client-id: ${{ secrets.AUTOMATION_APP_ID }}
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+      - name: Install dependencies
+        run: npm clean-install
       - name: Bump version
         env:
           UPDATE_TYPE: ${{ github.event.inputs.update_type }}
