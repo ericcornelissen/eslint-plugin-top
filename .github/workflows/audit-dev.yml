@@ -75,7 +75,7 @@ jobs:
 
           git checkout -B 'bump-vulnerable-dependencies'
           git add 'package.json' 'package-lock.json'
-          git commit --message 'Fix vulnerable dependencies with `npm audit fix`'
+          git commit --message 'Bump vulnerable dependencies with `npm audit fix`'
 
           git remote set-url 'origin' "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}"
           git push --force 'origin' 'bump-vulnerable-dependencies'
@@ -83,5 +83,5 @@ jobs:
           gh pr create \
             --base='main' --head='bump-vulnerable-dependencies' \
             --label='dependencies' --label='security' \
-            --title='Update vulnerable dependencies' \
+            --title='Bump vulnerable dependencies' \
             --body='_This Pull Request was created automatically based on at least one known vulnerability detected in CI._'
