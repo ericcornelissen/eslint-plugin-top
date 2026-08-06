@@ -837,8 +837,8 @@ export default [
     name: 'JSON',
     files: [
       '.github/**/*.json',
-      '.licensee.json',
       '.c8rc.json',
+      '.licensee.json',
       'package.json',
       'tsconfig.json',
       '**/*.md/*.json'
