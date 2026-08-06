@@ -93,12 +93,12 @@ jobs:
         with:
           persist-credentials: false
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4.37.5
+        uses: github/codeql-action/init@v4.37.6
         with:
           config-file: ./.github/codeql.yml
           languages: ${{ matrix.what }}
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v4.37.5
+        uses: github/codeql-action/analyze@v4.37.6
   gha-release:
     name: GitHub Actions Release Immutability
     runs-on: ubuntu-24.04
