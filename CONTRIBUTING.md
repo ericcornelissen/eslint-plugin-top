@@ -125,17 +125,17 @@ On top of that, the project uses static analysis tools to catch mistakes. Use
 `npm run check` to run all checks, or use one of the following commands to check
 your changes if applicable:
 
-| What          | Command                  | Tool                                |
-| :------------ | :----------------------- | :---------------------------------- |
-| CI workflows  | `npm run check:ci`       | [actionlint] & [ShellCheck]         |
-| JSON          | `npm run check:json`     | [@eslint/json]                      |
-| Licenses      | `npm run check:licenses` | [licensee]                          |
-| Lockfile      | `npm run check:lockfile` | [lockfile-lint]                     |
-| Manifest      | `npm run check:manifest` | [publint]                           |
-| MarkDown      | `npm run check:md`       | [markdownlint] & [@eslint/markdown] |
-| TypeScript    | `npm run check:ts`       | [@typescript-eslint]                |
-| Type coverage | `npm run check:types`    | [type-coverage]                     |
-| YAML          | `npm run check:yml`      | [eslint-plugin-yml]                 |
+| What          | Command                  | Tool                        |
+| :------------ | :----------------------- | :-------------------------- |
+| CI workflows  | `npm run check:ci`       | [actionlint] & [ShellCheck] |
+| JSON          | `npm run check:json`     | [@eslint/json]              |
+| Licenses      | `npm run check:licenses` | [licensee]                  |
+| Lockfile      | `npm run check:lockfile` | [lockfile-lint]             |
+| Manifest      | `npm run check:manifest` | [publint]                   |
+| MarkDown      | `npm run check:md`       | [@eslint/markdown]          |
+| TypeScript    | `npm run check:ts`       | [@typescript-eslint]        |
+| Type coverage | `npm run check:types`    | [type-coverage]             |
+| YAML          | `npm run check:yml`      | [eslint-plugin-yml]         |
 
 #### Testing
 
@@ -256,7 +256,6 @@ This will create a directory called `dist` (note that this ignored by git).
 [git]: https://git-scm.com/
 [licensee]: https://www.npmjs.com/package/licensee
 [lockfile-lint]: https://www.npmjs.com/package/lockfile-lint
-[markdownlint]: https://www.npmjs.com/package/markdownlint-cli
 [mocha]: https://mochajs.org/
 [mutation testing]: https://en.wikipedia.org/wiki/Mutation_testing
 [node.js]: https://nodejs.org/en/
