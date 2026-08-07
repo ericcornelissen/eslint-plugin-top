@@ -65,7 +65,7 @@ jobs:
           node-version-file: .nvmrc
       - name: Install tooling
         uses: asdf-vm/actions/install@v4.0.1
-        if: ${{ matrix.what == 'ci' || matrix.what == 'sh' }}
+        if: matrix.what == 'ci' || matrix.what == 'sh'
       - name: Install dependencies
         run: npm clean-install
       - name: Check
@@ -102,7 +102,7 @@ jobs:
   gha-release:
     name: GitHub Actions Release Immutability
     runs-on: ubuntu-24.04
-    if: ${{ github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/') }}
+    if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/')
     permissions:
       pull-requests: write # To comment on a Pull Request
     steps:
@@ -119,10 +119,10 @@ jobs:
           NEW=$(echo "${TITLE}" | awk -F' ' '{print $6}')
 
           {
-            echo "repo=$REPO"
-            echo "new=$NEW"
-            echo "old=$OLD"
-          } >>"$GITHUB_OUTPUT"
+            echo "repo=${REPO}"
+            echo "new=${NEW}"
+            echo "old=${OLD}"
+          } >>"${GITHUB_OUTPUT}"
       - name: Check
         id: check
         shell: bash
@@ -153,9 +153,9 @@ jobs:
             echo "comment=${OLD} was not an immutable release but ${NEW} is! :smile:"
             ;;
           esac
-          } >>"$GITHUB_OUTPUT"
+          } >>"${GITHUB_OUTPUT}"
       - name: Comment
-        if: ${{ steps.check.outputs.comment != '' }}
+        if: steps.check.outputs.comment != ''
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -221,7 +221,7 @@ jobs:
     permissions:
       security-events: write # To upload SARIF results
     container:
-      image: semgrep/semgrep:1.162.0
+      image: semgrep/semgrep@sha256:65dcd4408adda7c183a6b4550cb1e9b19f7f627a6fbb7e0559bd466bedc44d7b # 1.172.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -231,7 +231,7 @@ jobs:
         run: semgrep --sarif --output semgrep.sarif
       - name: Upload Semgrep report to GitHub
         uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3 # v4.37.6
-        if: ${{ failure() || success() }}
+        if: failure() || success()
         with:
           sarif_file: semgrep.sarif
   test:

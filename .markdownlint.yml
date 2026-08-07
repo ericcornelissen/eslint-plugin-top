@@ -1,8 +1,0 @@
-# Configuration file for markdownlint (https://github.com/DavidAnson/markdownlint)
-
-default: true
-
-MD013: # Line length
-  tables: false
-MD060: # Table column style
-  style: aligned

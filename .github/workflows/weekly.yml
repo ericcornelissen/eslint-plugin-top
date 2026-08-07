@@ -46,7 +46,7 @@ jobs:
 
           git checkout -B 'bump-transitive-dependencies'
           git add 'package.json' 'package-lock.json'
-          git commit --message 'Update transitive dependencies'
+          git commit --message 'Bump transitive dependencies with `npm update`'
 
           git remote set-url 'origin' "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}"
           git push --force 'origin' 'bump-transitive-dependencies'
@@ -54,5 +54,5 @@ jobs:
           gh pr create \
             --base='main' --head='bump-transitive-dependencies' \
             --label='dependencies' \
-            --title='Update transitive dependencies' \
+            --title='Bump transitive dependencies' \
             --body='_This Pull Request was created automatically_'

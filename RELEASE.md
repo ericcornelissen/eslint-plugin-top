@@ -28,12 +28,14 @@ version (using `v3.1.4` as an example):
    ```shell
    git checkout main
    git pull origin main
+   npm clean-install
    ```
 
    Or clone:
 
    ```shell
    git clone git@github.com:ericcornelissen/eslint-plugin-top.git
+   npm clean-install
    ```
 
 1. Update the version number in the package manifest and lockfile:
@@ -76,7 +78,7 @@ version (using `v3.1.4` as an example):
    ```shell
    git checkout -b release-$(sha1sum package-lock.json | awk '{print $1}')
    git add CHANGELOG.md package.json package-lock.json
-   git commit --message "version bump"
+   git commit --message 'Version bump'
    git push origin release-$(sha1sum package-lock.json | awk '{print $1}')
    ```
 
