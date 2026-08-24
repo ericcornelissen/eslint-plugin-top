@@ -51,7 +51,7 @@
     "eslint-plugin-eslint-plugin": "7.6.1",
     "eslint-plugin-regexp": "3.1.0",
     "eslint-plugin-unicorn": "73.0.0",
-    "eslint-plugin-yml": "3.6.0",
+    "eslint-plugin-yml": "3.8.1",
     "eslint-v10": "npm:eslint@10.0.0",
     "eslint-v8": "npm:eslint@8.0.1",
     "eslint-v9": "npm:eslint@9.0.0",
