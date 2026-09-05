@@ -264,10 +264,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - 18.0.0
-          - 20.0.0
           - 20.19.0
-          - 22.0.0
           - 22.13.0
           - 24.0.0
           - 26.0.0
