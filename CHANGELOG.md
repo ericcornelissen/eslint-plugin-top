@@ -10,7 +10,8 @@ Versioning].
 
 ## Unreleased
 
-- _No changes yet_
+- ([#2044]) Drop support for Node.js 18, 20.0.0 through 20.18.x, and 22.0.0
+  through 22.13.x.
 
 ## 3.6.3 (2026-06-25)
 
@@ -273,3 +274,4 @@ Versioning].
 [#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
 [#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
 [#1947]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1947
+[#2044]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2044
