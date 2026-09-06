@@ -124,6 +124,62 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `const regexpUnicodeSets = /bar/v;`
     }
+  ],
+
+  // In script
+  ...[
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpNoFlags = /bar/;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpDotAll = /bar/s;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpGlobal = /foobar/g;`
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpHasIndices = /bar/d;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpIgnoreCase = /bar/i;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpMultiline = /bar/m;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpSticky = /foobar/y;`
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpUnicode = /bar/u;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const regexpUnicodeSets = /bar/v;
+      `
+    }
   ]
 ];
 

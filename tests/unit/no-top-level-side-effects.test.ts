@@ -1019,6 +1019,249 @@ const valid: RuleTester.ValidTestCase[] = [
       `,
       options: [{...options.allowFunctionProperties, ...options.allowDerived}]
     }
+  ],
+
+  // In script
+  ...[
+    {
+      code: `
+        #!/usr/bin/env node
+        function functionName() { }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        class ClassName { }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        function* generatorName() { }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        "use strict";
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar.baz();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = new Bar();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        fetch('/api').then(res=>res.text()).then(console.log);
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        await fetch('/api');
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        (function() { })();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        (() => { })();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = (function() { })();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = (() => { })();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        a = b;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const a = b > c;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const a = b || c;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const a = b ? c : d;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const pi = +3.14;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const templateString = \`foo\${bar}\`;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const taggedTemplateString = $\`foo\${bar}\`;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const next = i++;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar.baz;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar?.baz;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar[0];
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = bar[baz];
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const {foo} = bar;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const [foo] = bar;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = { [bar]: "baz" };
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = { ...bar };
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        do { i++ } while (i<10);
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        for (let i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) s += i;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) s += i;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        for (let i=0;i<10;i++) s += i;
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        if (foo) bar();
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        switch (foo) {
+        case 'bar':
+          break;
+        case 'baz':
+          break;
+        }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        throw new Error('Hello world!');
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        try { } catch (e) { }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        try { } catch (e) { } finally { }
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        while (i<10) i++;
+      `
+    }
   ]
 ];
 
@@ -1027,6 +1270,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
   ...[
     {
       code: `
+        // do-while
         do {
           i++;
         } while (i<10);
@@ -1034,15 +1278,16 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 24
         }
       ]
     },
     {
       code: `
+        // for-in
         for (let i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
           s += i;
         }
@@ -1050,15 +1295,16 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 10
         }
       ]
     },
     {
       code: `
+        // for-of
         for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
           s += i;
         }
@@ -1066,15 +1312,16 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 10
         }
       ]
     },
     {
       code: `
+        // for
         for (let i=0;i<10;i++) {
           s += i;
         }
@@ -1082,15 +1329,16 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 10
         }
       ]
     },
     {
       code: `
+        // if
         if (foo) {
           bar();
         }
@@ -1098,15 +1346,35 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 10
         }
       ]
     },
     {
       code: `
+        // if-else
+        if (foo) {
+          bar();
+        } else {
+          baz();
+        }
+      `,
+      errors: [
+        {
+          messageId: '0',
+          line: 2,
+          column: 9,
+          endLine: 6,
+          endColumn: 10
+        }
+      ]
+    },
+    {
+      code: `
+        // switch
         switch (foo) {
         case 'bar':
           break;
@@ -1117,57 +1385,61 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 6,
+          line: 2,
+          column: 9,
+          endLine: 7,
           endColumn: 10
         }
       ]
     },
     {
       code: `
+        // throw
         throw new Error('Hello world!');
       `,
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 1,
-          endColumn: 33
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 41
         }
       ]
     },
     {
       code: `
+        // try-catch
         try { } catch (e) { }
       `,
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 1,
-          endColumn: 22
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 30
         }
       ]
     },
     {
       code: `
+        // try-catch-finally
         try { } catch (e) { } finally { }
       `,
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 1,
-          endColumn: 34
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 42
         }
       ]
     },
     {
       code: `
+        // while
         while (i<10) {
           i++;
         }
@@ -1175,9 +1447,9 @@ const invalid: RuleTester.InvalidTestCase[] = [
       errors: [
         {
           messageId: '0',
-          line: 1,
-          column: 1,
-          endLine: 3,
+          line: 2,
+          column: 9,
+          endLine: 4,
           endColumn: 10
         }
       ]

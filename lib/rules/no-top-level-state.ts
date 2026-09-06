@@ -2,7 +2,7 @@
 
 import type {Rule} from 'eslint';
 
-import {isTopLevel} from '../helpers';
+import {isScript, isTopLevel} from '../helpers';
 
 const disallowedRegexp = {
   id: '0',
@@ -38,6 +38,10 @@ export const noTopLevelState: Rule.RuleModule = {
         }
 
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
