@@ -18,7 +18,9 @@ Examples of **incorrect** code for this rule:
 const array = ['foo', 'bar']; // arrays are mutable and therefore stateful
 const object = {foo: 'bar'}; // objects are mutable and therefore stateful
 const glob = /foobar/g; // The 'g' flag makes the regular expression stateful
-const stic = /foobar/y; // The 'y' flag makes the regular expression stateful
+const stick = /foobar/y; // The 'y' flag makes the regular expression stateful
+var foo; // uninitialized variables can only be used for state
+let bar; // uninitialized variables can only be used for state
 ```
 
 Examples of **correct** code for this rule:

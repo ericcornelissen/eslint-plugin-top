@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {VariableDeclaration} from 'estree';
 
-import {isInitialized, isTopLevel} from '../helpers';
+import {isTopLevel} from '../helpers';
 
 type Options = {
   readonly kind: ReadonlyArray<string>;
@@ -29,14 +28,6 @@ const disallowedConst = {
 const disallowedUsing = {
   id: '4',
   message: "Use of 'using' at the top level is not allowed"
-};
-const disallowedUninitializedVar = {
-  id: '5',
-  message: "An uninitalized 'var' at the top level is not allowed"
-};
-const disallowedUninitializedLet = {
-  id: '6',
-  message: "An uninitalized 'let' at the top level is not allowed"
 };
 
 export const noTopLevelVariables: Rule.RuleModule = {
@@ -66,9 +57,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
       [disallowedConst.id]: disallowedConst.message,
       [disallowedLet.id]: disallowedLet.message,
       [disallowedUsing.id]: disallowedUsing.message,
-      [disallowedVar.id]: disallowedVar.message,
-      [disallowedUninitializedVar.id]: disallowedUninitializedVar.message,
-      [disallowedUninitializedLet.id]: disallowedUninitializedLet.message
+      [disallowedVar.id]: disallowedVar.message
     }
   },
   create: (context) => {
@@ -110,32 +99,6 @@ export const noTopLevelVariables: Rule.RuleModule = {
         }
 
         context.report({node, messageId});
-      },
-      VariableDeclarator: (node) => {
-        const parent = node.parent as VariableDeclaration; // type-coverage:ignore-line
-        if (!options.kind.includes(parent.kind)) {
-          return; // Prefer reporting the whole declaration.
-        }
-
-        if (isInitialized(node)) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
-          return;
-        }
-
-        if (parent.kind === 'var') {
-          context.report({
-            node,
-            messageId: disallowedUninitializedVar.id
-          });
-        } else {
-          context.report({
-            node,
-            messageId: disallowedUninitializedLet.id
-          });
-        }
       }
     };
   }

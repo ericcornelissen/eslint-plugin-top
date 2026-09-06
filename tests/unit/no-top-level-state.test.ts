@@ -97,6 +97,20 @@ const valid: RuleTester.ValidTestCase[] = [
           const regexpUnicodeSets = /bar/v;
         }
       `
+    },
+    {
+      code: `
+        function f() {
+          var uninitialized;
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          let uninitialized;
+        }
+      `
     }
   ],
 
@@ -125,12 +139,6 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const str3 = \`foobar\`;`
-    },
-    {
-      code: `let uninitialized;`
-    },
-    {
-      code: `var uninitialized;`
     }
   ],
 
@@ -314,6 +322,38 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 22,
           endLine: 1,
           endColumn: 31
+        }
+      ]
+    }
+  ],
+
+  // Top-level uninitialized variable
+  ...[
+    {
+      code: `
+        var uninitialized;
+      `,
+      errors: [
+        {
+          messageId: '3',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 18
+        }
+      ]
+    },
+    {
+      code: `
+        let uninitialized;
+      `,
+      errors: [
+        {
+          messageId: '4',
+          line: 1,
+          column: 5,
+          endLine: 1,
+          endColumn: 18
         }
       ]
     }

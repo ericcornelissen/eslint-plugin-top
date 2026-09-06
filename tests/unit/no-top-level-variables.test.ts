@@ -36,6 +36,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fVar() {
+          var uninitialized;
           var foo = 'bar';
         }
       `
@@ -43,6 +44,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fLet() {
+          let uninitialized;
           let foo = 'bar';
         }
       `
@@ -73,7 +75,8 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fVar() {
-          var foobar;
+          var uninitialized;
+          var foo = 'bar';
         }
       `,
       options: [options.kindVar]
@@ -81,10 +84,21 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fLet() {
-          let foobar;
+          let uninitialized;
+          let foo = 'bar';
         }
       `,
       options: [options.kindLet]
+    },
+    {
+      code: `
+        function fConst() {
+          const foo = 'bar';
+          const arr = ["b", "a", "r"];
+          const obj = { bar: "baz" };
+        }
+      `,
+      options: [options.kindConst]
     }
   ],
 
@@ -447,36 +461,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 25
-        }
-      ]
-    },
-    {
-      code: `
-        var uninitialized;
-      `,
-      options: [options.kindVar],
-      errors: [
-        {
-          messageId: '5',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
-        }
-      ]
-    },
-    {
-      code: `
-        let uninitialized;
-      `,
-      options: [options.kindLet],
-      errors: [
-        {
-          messageId: '6',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
         }
       ]
     }
