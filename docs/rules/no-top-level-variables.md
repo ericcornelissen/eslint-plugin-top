@@ -10,7 +10,8 @@ variable allowed by default.
 
 ## Rule Details
 
-This rule lets you control top level variables.
+This rule lets you control use of top level variables. See [no-top-level-state]
+for a stricter rule.
 
 Examples of **incorrect** code for this rule:
 
@@ -92,11 +93,12 @@ disallow top-level `const` too.
 
 ## When Not To Use It
 
-If you want to allow top level variables.
+If you want to allow top level variables or you are using [no-top-level-state].
 
 ---
 
 Please [open an issue] if you found a mistake or if you have a suggestion for
 how to improve the documentation.
 
+[no-top-level-state]: ./no-top-level-state.md
 [open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md
