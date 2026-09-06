@@ -10,7 +10,8 @@ Versioning].
 
 ## Unreleased
 
-- _No changes yet_
+- ([#2056]) Allow optional chaining when `allowDerived: true` with the
+  `no-top-level-side-effects` rule.
 
 ## 3.6.3 (2026-06-25)
 
@@ -273,3 +274,4 @@ Versioning].
 [#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
 [#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
 [#1947]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1947
+[#2056]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2056
