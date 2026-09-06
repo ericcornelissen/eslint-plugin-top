@@ -13,16 +13,10 @@ Disallow side effects at the top level of files.
 
 ## Installation
 
-First, If you haven't already, install [ESLint]:
+Install `eslint-plugin-top`, along with [ESLint] if it isn't already installed:
 
 ```shell
-npm install eslint --save-dev
-```
-
-Then, install `eslint-plugin-top`:
-
-```shell
-npm install @ericcornelissen/eslint-plugin-top --save-dev
+npm install @ericcornelissen/eslint-plugin-top eslint --save-dev
 ```
 
 ## Usage
