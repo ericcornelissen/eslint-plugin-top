@@ -16,11 +16,15 @@ export const configRecommended = {
         allowPropertyAccess: true
       }
     ],
-    'top/no-top-level-state': ['error'],
+    'top/no-top-level-state': [
+      'error',
+      {
+        allow: ['ArrayExpression', 'ObjectExpression']
+      }
+    ],
     'top/no-top-level-variables': [
       'error',
       {
-        allowed: ['ArrayExpression', 'ObjectExpression'],
         kind: ['const']
       }
     ]
