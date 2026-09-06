@@ -27,8 +27,6 @@ npm install @ericcornelissen/eslint-plugin-top --save-dev
 
 ## Usage
 
-### New Config
-
 Import from `@ericcornelissen/eslint-plugin-top` and use one of the [preset
 configurations](#preset-configurations), e.g.:
 
