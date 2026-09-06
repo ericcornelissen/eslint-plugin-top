@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - v3
+      - v4
 
 permissions: read-all
 
@@ -264,10 +265,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version:
-          - 18.0.0
-          - 20.0.0
           - 20.19.0
-          - 22.0.0
           - 22.13.0
           - 24.0.0
           - 26.0.0
@@ -283,8 +281,6 @@ jobs:
         with:
           cache: npm
           node-version: ${{ matrix.node-version }}
-      - name: Install compatible npm version
-        run: npm install --global npm@8.1.2
       - name: Install dependencies
         run: npm clean-install
       - name: Download build

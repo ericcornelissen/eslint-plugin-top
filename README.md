@@ -21,8 +21,6 @@ npm install @ericcornelissen/eslint-plugin-top eslint --save-dev
 
 ## Usage
 
-### New Config (since ESLint v9)
-
 Import from `@ericcornelissen/eslint-plugin-top` and use one of the [preset
 configurations](#preset-configurations), e.g.:
 
@@ -47,7 +45,6 @@ export default [
     plugins: {top},
     rules: {
       'top/no-top-level-side-effects': 'error',
-      'top/no-top-level-state': 'error',
       'top/no-top-level-variables': 'error'
     }
   }
@@ -56,25 +53,6 @@ export default [
 
 Note that the rule prefix (`top` in the example) must match the name of the key
 used in the plugins object.
-
-### Legacy Config (before ESLint v9)
-
-First, add `@ericcornelissen/top` to the plugins section of your `.eslintrc`
-configuration file. You must omit the `eslint-plugin-` infix:
-
-```yml
-plugins:
-  - '@ericcornelissen/top'
-```
-
-Then, configure the rules you want to use in the rules section:
-
-```yml
-rules:
-  '@ericcornelissen/top/no-top-level-side-effects': error
-  '@ericcornelissen/top/no-top-level-state': error
-  '@ericcornelissen/top/no-top-level-variables': error
-```
 
 ## Supported Rules
 

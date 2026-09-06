@@ -7,16 +7,9 @@ import {noTopLevelVariables} from '../../lib/rules/no-top-level-variables';
 
 const options: {
   [key: string]: {
-    allowed?: string[];
     kind?: string[];
   };
 } = {
-  allowArray: {
-    allowed: ['ArrayExpression']
-  },
-  allowObject: {
-    allowed: ['ObjectExpression']
-  },
   kindConst: {
     kind: ['const']
   },
@@ -43,6 +36,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fVar() {
+          var uninitialized;
           var foo = 'bar';
         }
       `
@@ -50,6 +44,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fLet() {
+          let uninitialized;
           let foo = 'bar';
         }
       `
@@ -76,6 +71,55 @@ const valid: RuleTester.ValidTestCase[] = [
           const obj2 = { bar: "baz" };
         }
       `
+    },
+    {
+      code: `
+        function fVar() {
+          var uninitialized;
+          var foo = 'bar';
+        }
+      `,
+      options: [options.kindVar]
+    },
+    {
+      code: `
+        function fLet() {
+          let uninitialized;
+          let foo = 'bar';
+        }
+      `,
+      options: [options.kindLet]
+    },
+    {
+      code: `
+        function fConst() {
+          const foo = 'bar';
+          const arr = ["b", "a", "r"];
+          const obj = { bar: "baz" };
+        }
+      `,
+      options: [options.kindConst]
+    }
+  ],
+
+  // Top-level variables, default options
+  ...[
+    {
+      code: `
+        const path = require('path');
+        const foo1 = 'bar';
+        export const foo2 = 'bar';
+      `
+    },
+    {
+      code: `
+        {using foo = bar();}
+      `
+    },
+    {
+      code: `
+        {await using foo = bar();}
+      `
     }
   ],
 
@@ -83,6 +127,7 @@ const valid: RuleTester.ValidTestCase[] = [
   ...[
     {
       code: `
+        var uninitialized;
         var path = require('path');
         var foo1 = 'bar';
         export var foo2 = 'bar';
@@ -91,6 +136,7 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
+        let uninitialized;
         let path = require('path');
         let foo1 = 'bar';
         export let foo2 = 'bar';
@@ -107,13 +153,13 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        using foo = bar();
+        {using foo = bar();}
       `,
       options: [options.kindUsing]
     },
     {
       code: `
-        await using foo = bar();
+        {await using foo = bar();}
       `,
       options: [options.kindUsingAwait]
     }
@@ -366,60 +412,38 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `export default function* () { }`
     }
-  ],
-
-  // Object/Array declarations
-  ...[
-    {
-      code: `const foo = ["b", "a", "r"];`,
-      options: [options.allowArray]
-    },
-    {
-      code: `const foo = { bar: "baz" };`,
-      options: [options.allowObject]
-    }
-  ],
-
-  // Configurable allowed declarations
-  ...[
-    {
-      code: `const foo = import('path');`
-    },
-    {
-      code: `const foo = (3, 5);`
-    },
-    {
-      code: `const foo = this;`
-    },
-    {
-      code: `
-        // Validate that 'ImportExpression' is not rejected as an allowed expression type
-        const foo = import('path');
-      `,
-      options: [{allowed: ['ImportExpression']}]
-    },
-    {
-      code: `
-        // Validate that 'SequenceExpression' is not rejected as an allowed expression type
-        const foo = (3, 5);
-      `,
-      options: [{allowed: ['SequenceExpression']}]
-    },
-    {
-      code: `
-        // Validate that 'ThisExpression' is not rejected as an allowed expression type
-        const foo = this;
-      `,
-      options: [{allowed: ['ThisExpression']}]
-    },
-    {
-      code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
-      options: [{allowed: ['YieldExpression']}]
-    }
   ]
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Top-level variables, default options
+  ...[
+    {
+      code: `var foo = 'bar';`,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `let foo = 'bar';`,
+      errors: [
+        {
+          messageId: '2',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    }
+  ],
+
   // Top-level variables
   ...[
     {
@@ -463,61 +487,31 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `
-        using foo = bar();
+        {using foo = bar();}
       `,
       options: [options.kindNone],
       errors: [
         {
           messageId: '4',
           line: 1,
-          column: 1,
+          column: 2,
           endLine: 1,
-          endColumn: 19
+          endColumn: 20
         }
       ]
     },
     {
       code: `
-        await using foo = bar();
+        {await using foo = bar();}
       `,
       options: [options.kindNone],
       errors: [
         {
           messageId: '4',
           line: 1,
-          column: 1,
+          column: 2,
           endLine: 1,
-          endColumn: 25
-        }
-      ]
-    },
-    {
-      code: `
-        var uninitialized;
-      `,
-      options: [options.kindVar],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
-        }
-      ]
-    },
-    {
-      code: `
-        let uninitialized;
-      `,
-      options: [options.kindLet],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
+          endColumn: 26
         }
       ]
     }
@@ -671,125 +665,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 36
-        }
-      ]
-    }
-  ],
-
-  // Object declarations
-  ...[
-    {
-      code: `const foo = {bar: "baz"};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 25
-        }
-      ]
-    },
-    {
-      code: `const foo = {bar: "baz"}, hello = {world: "!"};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 25
-        },
-        {
-          messageId: '0',
-          line: 1,
-          column: 27,
-          endLine: 1,
-          endColumn: 47
-        }
-      ]
-    }
-  ],
-
-  // Mixed multi-variable declarations
-  ...[
-    {
-      code: `const path = require('path'), foo1 = {};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 31,
-          endLine: 1,
-          endColumn: 40
-        }
-      ]
-    },
-    {
-      code: `const foo = {}, fs = require('fs');`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    }
-  ],
-
-  // Array/Object declarations with configuration
-  ...[
-    {
-      code: `const arr = [];`,
-      options: [options.allowObject],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    },
-    {
-      code: `const foo = ["b", "a", "r"];`,
-      options: [options.allowObject],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 28
-        }
-      ]
-    },
-    {
-      code: `const obj = {};`,
-      options: [options.allowArray],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    },
-    {
-      code: `const foo = { bar: "baz" };`,
-      options: [options.allowArray],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 27
         }
       ]
     }

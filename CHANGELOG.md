@@ -10,7 +10,13 @@ Versioning].
 
 ## Unreleased
 
-- _No changes yet_
+- ([#2046]) _(Breaking)_ Drop support for ESLint v8 and v9.
+- ([#2046]) _(Breaking)_ Drop support for Node.js 18, 20.0.0 through 20.18.x,
+  and 22.0.0 through 22.12.x.
+- ([#2050]) _(Breaking)_ Remove `allowed` option from `no-top-level-variables`.
+- ([#2050]) Add `allow` option to `no-top-level-state`.
+- ([#2052]) Disallow top-level `var` and `let` with `no-top-level-state`.
+- ([#2053]) Allow top-level `using` with `no-top-level-variables` by default.
 
 ## 3.6.3 (2026-06-25)
 
@@ -273,3 +279,7 @@ Versioning].
 [#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
 [#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
 [#1947]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1947
+[#2046]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2046
+[#2050]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2050
+[#2052]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2052
+[#2053]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2053

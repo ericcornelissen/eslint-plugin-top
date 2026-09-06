@@ -16,13 +16,12 @@ export const configStrict = {
         allowPropertyAccess: false
       }
     ],
-    'top/no-top-level-state': ['error'],
-    'top/no-top-level-variables': [
+    'top/no-top-level-state': [
       'error',
       {
-        allowed: [],
-        kind: ['const']
+        allow: []
       }
-    ]
+    ],
+    'top/no-top-level-variables': ['off']
   }
 };

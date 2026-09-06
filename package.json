@@ -6,7 +6,7 @@
   "exports": "./dist/index.js",
   "type": "commonjs",
   "engines": {
-    "node": "18.x || 20.x || 22.x || 24.x || 26.x"
+    "node": "^20.19.0 || ^22.13.0 || ^24.0.0 || ^26.0.0"
   },
   "homepage": "https://github.com/ericcornelissen/eslint-plugin-top#readme",
   "repository": {
@@ -27,7 +27,7 @@
     "eslint-plugin"
   ],
   "peerDependencies": {
-    "eslint": "8.x || 9.x || 10.x"
+    "eslint": "10.x"
   },
   "devDependencies": {
     "@ericcornelissen/eslint-plugin-top": "file:./",
@@ -53,8 +53,6 @@
     "eslint-plugin-unicorn": "74.0.0",
     "eslint-plugin-yml": "3.8.1",
     "eslint-v10": "npm:eslint@10.0.0",
-    "eslint-v8": "npm:eslint@8.0.1",
-    "eslint-v9": "npm:eslint@9.0.0",
     "is-ci": "4.1.0",
     "licensee": "12.0.1",
     "lockfile-lint": "5.0.0",
@@ -100,7 +98,7 @@
     "mutation": "stryker run stryker.config.js",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
-    "test:compat-all": "nve 18.0.0,20.0.0,22.0.0,24.0.0,26.0.0 npm run test:compat",
+    "test:compat-all": "nve 20.19.0,22.13.0,24.0.0,26.0.0 npm run test:compat",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run check && npm run coverage"
   }
