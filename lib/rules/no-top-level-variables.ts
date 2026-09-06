@@ -3,7 +3,7 @@
 import type {Rule} from 'eslint';
 import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isScript, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowed: ReadonlyArray<string>;
@@ -134,6 +134,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         let messageId: string | null;
         switch (node.kind) {
           case 'var': {
@@ -168,6 +172,10 @@ export const noTopLevelVariables: Rule.RuleModule = {
         }
 
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 

@@ -33,6 +33,20 @@ export function isCommonJs(node: Rule.Node) {
   return getProgram(node).sourceType === 'script';
 }
 
+export function isScript(node: Rule.Node) {
+  let scope = node;
+  while (scope.parent !== null) {
+    scope = scope.parent;
+  }
+
+  if (scope.comments.length === 0) {
+    return false;
+  }
+
+  const [firstComment] = scope.comments;
+  return (firstComment.type as string) === 'Shebang';
+}
+
 export function isTopLevel(node: Rule.Node) {
   let scope = node.parent;
   while (scope !== null && topLevelTypes.has(scope.type)) {

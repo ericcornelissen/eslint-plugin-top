@@ -13,7 +13,7 @@ import type {
   VariableDeclarator
 } from 'estree';
 
-import {getProgram, isCommonJs, isTopLevel} from '../helpers';
+import {getProgram, isCommonJs, isScript, isTopLevel} from '../helpers';
 
 type Options = {
   readonly allowDerived: boolean;
@@ -292,6 +292,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node: node.parent,
           messageId: disallowedSideEffect.id
@@ -299,6 +303,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       AwaitExpression: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -317,6 +325,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -342,6 +354,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -349,6 +365,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       ChainExpression: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -362,6 +382,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -369,6 +393,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       DoWhileStatement: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -382,6 +410,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -392,6 +424,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -399,6 +435,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       ForStatement: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -424,6 +464,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -435,6 +479,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -463,6 +511,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -474,6 +526,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         }
 
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -495,6 +551,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node: node.key,
           messageId: disallowedSideEffect.id
@@ -509,6 +569,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -519,6 +583,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -526,6 +594,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       TaggedTemplateExpression: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -547,6 +619,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -557,6 +633,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -564,6 +644,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       TryStatement: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -585,6 +669,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -595,6 +683,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           return;
         }
 
+        if (isScript(node)) {
+          return;
+        }
+
         context.report({
           node,
           messageId: disallowedSideEffect.id
@@ -602,6 +694,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       VariableDeclarator: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 
@@ -621,6 +717,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
       },
       WhileStatement: (node) => {
         if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (isScript(node)) {
           return;
         }
 

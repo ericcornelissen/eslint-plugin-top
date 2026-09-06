@@ -416,6 +416,54 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
       options: [{allowed: ['YieldExpression']}]
     }
+  ],
+
+  // In script
+  ...[
+    {
+      code: `
+        #!/usr/bin/env node
+        var foo = 'bar';
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        let foo = 'bar';
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        const foo = 'bar';
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        {using foo = bar();}
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        {await using foo = bar();}
+      `
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        var foobar;
+      `,
+      options: [options.kindVar]
+    },
+    {
+      code: `
+        #!/usr/bin/env node
+        let foobar;
+      `,
+      options: [options.kindLet]
+    }
   ]
 ];
 
