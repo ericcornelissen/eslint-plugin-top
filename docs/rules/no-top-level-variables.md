@@ -4,9 +4,9 @@
 
 Disallow top level variables.
 
-Variables at the top level may indicate side effects because it may be used as
+Variables at the top level may indicate side effects because it can be used as
 state in functions or methods. As such, `const` is the only kind of top-level
-variable allowed by default, and it can only be assigned certain values.
+variable allowed by default.
 
 ## Rule Details
 
@@ -17,7 +17,6 @@ Examples of **incorrect** code for this rule:
 ```javascript
 var answer = 42;
 let foo = 'bar';
-const arr = [];
 ```
 
 Examples of **correct** code for this rule:
@@ -57,26 +56,9 @@ module.exports = {
 
 ### Options
 
-This rule accepts a configuration object with two options:
+This rule accepts a configuration object with one option:
 
-- `allowed`: Configure what kind of assignments are allowed. Some assignments
-  are always allowed, others need to be allowed explicitly.
-- `kind`: Configure which kinds of variables are allowed. By default only
-  `const` variables are allowed.
-
-#### `allowed`
-
-Examples of **correct** code when `'ArrayExpression'` is in the list:
-
-```javascript
-const arr = [1, 2, 3];
-```
-
-Examples of **correct** code when `'ObjectExpression'` is in the list:
-
-```javascript
-const hello = {world: '!'};
-```
+- `kind: ['const']`: Configure which kinds of variables are allowed.
 
 #### `kind`
 
@@ -106,7 +88,7 @@ var path = require('path');
 
 Unless there is a historical or compatibility reason to allow `var` or `let`, it
 is recommended to only allow `const`. By setting this to an empty list you can
-disallow all top-level variables.
+disallow top-level `const` too.
 
 ## When Not To Use It
 

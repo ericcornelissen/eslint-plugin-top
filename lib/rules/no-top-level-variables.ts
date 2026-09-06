@@ -6,44 +6,14 @@ import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
 import {isTopLevel} from '../helpers';
 
 type Options = {
-  readonly allowed: ReadonlyArray<string>;
   readonly kind: ReadonlyArray<string>;
 };
 
-const allowedOption = {
-  enum: ['ArrayExpression', 'ObjectExpression'],
-  default: [],
-  always: [
-    'ArrowFunctionExpression',
-    'AssignmentExpression',
-    'AwaitExpression',
-    'BinaryExpression',
-    'CallExpression',
-    'ChainExpression',
-    'ConditionalExpression',
-    'FunctionExpression',
-    'Identifier',
-    'ImportExpression',
-    'Literal',
-    'LogicalExpression',
-    'MemberExpression',
-    'SequenceExpression',
-    'TaggedTemplateExpression',
-    'TemplateLiteral',
-    'ThisExpression',
-    'UnaryExpression',
-    'UpdateExpression'
-  ]
-};
 const kindOption = {
   enum: ['await using', 'const', 'let', 'using', 'var'],
   default: ['const']
 };
 
-const disallowedAssignment = {
-  id: '0',
-  message: 'Variables at the top level are not allowed'
-};
 const disallowedVar = {
   id: '1',
   message: "Use of 'var' at the top level is not allowed"
@@ -59,6 +29,14 @@ const disallowedConst = {
 const disallowedUsing = {
   id: '4',
   message: "Use of 'using' at the top level is not allowed"
+};
+const disallowedUninitializedVar = {
+  id: '5',
+  message: "An uninitalized 'var' at the top level is not allowed"
+};
+const disallowedUninitializedLet = {
+  id: '6',
+  message: "An uninitalized 'let' at the top level is not allowed"
 };
 
 function isInitialized(
@@ -79,14 +57,6 @@ export const noTopLevelVariables: Rule.RuleModule = {
       {
         type: 'object',
         properties: {
-          allowed: {
-            description: 'Configure what kind of assignments are allowed',
-            type: 'array',
-            minItems: 0,
-            items: {
-              enum: allowedOption.enum
-            }
-          },
           kind: {
             description: 'Configure which kinds of variables are allowed',
             type: 'array',
@@ -99,21 +69,18 @@ export const noTopLevelVariables: Rule.RuleModule = {
       }
     ],
     messages: {
-      [disallowedAssignment.id]: disallowedAssignment.message,
       [disallowedConst.id]: disallowedConst.message,
       [disallowedLet.id]: disallowedLet.message,
       [disallowedUsing.id]: disallowedUsing.message,
-      [disallowedVar.id]: disallowedVar.message
+      [disallowedVar.id]: disallowedVar.message,
+      [disallowedUninitializedVar.id]: disallowedUninitializedVar.message,
+      [disallowedUninitializedLet.id]: disallowedUninitializedLet.message
     }
   },
   create: (context) => {
     const [provided] = context.options as Partial<Options>[]; // type-coverage:ignore-line
 
     const options: Options = {
-      allowed: [
-        ...allowedOption.always,
-        ...(provided?.allowed || allowedOption.default)
-      ],
       kind: provided?.kind || kindOption.default
     };
 
@@ -156,7 +123,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
           return; // Prefer reporting the whole declaration.
         }
 
-        if (isInitialized(node) && options.allowed.includes(node.init.type)) {
+        if (isInitialized(node)) {
           return;
         }
 
@@ -164,10 +131,17 @@ export const noTopLevelVariables: Rule.RuleModule = {
           return;
         }
 
-        context.report({
-          node,
-          messageId: disallowedAssignment.id
-        });
+        if (parent.kind === 'var') {
+          context.report({
+            node,
+            messageId: disallowedUninitializedVar.id
+          });
+        } else {
+          context.report({
+            node,
+            messageId: disallowedUninitializedLet.id
+          });
+        }
       }
     };
   }
