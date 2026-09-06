@@ -10,7 +10,9 @@ Versioning].
 
 ## Unreleased
 
-- _No changes yet_
+- ([#2046]) Drop support for ESLint v8 and v9.
+- ([#2046]) Drop support for Node.js 18, 20.0.0 through 20.18.x, and 22.0.0
+  through 22.12.x.
 
 ## 3.6.3 (2026-06-25)
 
@@ -273,3 +275,4 @@ Versioning].
 [#1879]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1879
 [#1884]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1884
 [#1947]: https://github.com/ericcornelissen/eslint-plugin-top/pull/1947
+[#2046]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2046
