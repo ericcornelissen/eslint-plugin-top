@@ -10,6 +10,10 @@ Versioning].
 
 ## Unreleased
 
+- _No changes yet_
+
+## 3.6.4 (2026-09-06)
+
 - ([#2056]) Allow optional chaining when `allowDerived: true` with the
   `no-top-level-side-effects` rule.
 
