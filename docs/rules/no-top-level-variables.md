@@ -104,6 +104,18 @@ var foo = 'bar';
 var path = require('path');
 ```
 
+Examples of **incorrect** code when `'let'` is in the list:
+
+```javascript
+let answer;
+```
+
+Examples of **incorrect** code when `'var'` is in the list:
+
+```javascript
+var answer;
+```
+
 Unless there is a historical or compatibility reason to allow `var` or `let`, it
 is recommended to only allow `const`. By setting this to an empty list you can
 disallow all top-level variables.
