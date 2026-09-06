@@ -68,21 +68,19 @@ module.exports = function () {
 
 This rule accepts a configuration object with seven options:
 
-- `allowDerived: false` (default) Configure whether derivations - binary,
-  logical, or unary operations on values and variables - are allowed at the top
-  level.
+- `allowDerived` Configure whether derivations - binary, logical, or unary
+  operations on values and variables - are allowed at the top level.
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
   one might expect at the top level (for example, `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
   be any identifier. By default no classes can be instantiated.
-- `allowFunctionProperties: false` (default) Configure whether it is allowed to
-  extend functions with properties.
-- `allowIIFE: false` (default) Configure whether top level Immediately Invoked
-  Function Expressions (IIFEs) are allowed.
-- `allowPropertyAccess: true` (default) Configure whether accessing a property
-  on an object is allowed. May be disallowed to avoid side effects due to `get`
-  properties.
+- `allowFunctionProperties` Configure whether it is allowed to extend functions
+  with properties.
+- `allowIIFE` Configure whether top level Immediately Invoked Function
+  Expressions (IIFEs) are allowed.
+- `allowPropertyAccess` Configure whether accessing a property on an object is
+  allowed. May be disallowed to avoid side effects due to `get` properties.
 - `commonjs` Configure whether the code being analyzed is, or is partially,
   CommonJS code. If not specified it will use ESLint hints to determine if a
   given piece of code is written in CommonJS or not. For CommonJS it allows for

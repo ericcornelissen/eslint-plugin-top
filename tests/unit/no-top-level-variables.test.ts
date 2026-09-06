@@ -102,10 +102,32 @@ const valid: RuleTester.ValidTestCase[] = [
     }
   ],
 
+  // Top-level variables, default options
+  ...[
+    {
+      code: `
+        const path = require('path');
+        const foo1 = 'bar';
+        export const foo2 = 'bar';
+      `
+    },
+    {
+      code: `
+        {using foo = bar();}
+      `
+    },
+    {
+      code: `
+        {await using foo = bar();}
+      `
+    }
+  ],
+
   // Top-level variables
   ...[
     {
       code: `
+        var uninitialized;
         var path = require('path');
         var foo1 = 'bar';
         export var foo2 = 'bar';
@@ -114,6 +136,7 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
+        let uninitialized;
         let path = require('path');
         let foo1 = 'bar';
         export let foo2 = 'bar';
@@ -130,13 +153,13 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `
-        using foo = bar();
+        {using foo = bar();}
       `,
       options: [options.kindUsing]
     },
     {
       code: `
-        await using foo = bar();
+        {await using foo = bar();}
       `,
       options: [options.kindUsingAwait]
     }
@@ -393,6 +416,34 @@ const valid: RuleTester.ValidTestCase[] = [
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Top-level variables, default options
+  ...[
+    {
+      code: `var foo = 'bar';`,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    },
+    {
+      code: `let foo = 'bar';`,
+      errors: [
+        {
+          messageId: '2',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 17
+        }
+      ]
+    }
+  ],
+
   // Top-level variables
   ...[
     {
@@ -436,31 +487,31 @@ const invalid: RuleTester.InvalidTestCase[] = [
     },
     {
       code: `
-        using foo = bar();
+        {using foo = bar();}
       `,
       options: [options.kindNone],
       errors: [
         {
           messageId: '4',
           line: 1,
-          column: 1,
+          column: 2,
           endLine: 1,
-          endColumn: 19
+          endColumn: 20
         }
       ]
     },
     {
       code: `
-        await using foo = bar();
+        {await using foo = bar();}
       `,
       options: [options.kindNone],
       errors: [
         {
           messageId: '4',
           line: 1,
-          column: 1,
+          column: 2,
           endLine: 1,
-          endColumn: 25
+          endColumn: 26
         }
       ]
     }

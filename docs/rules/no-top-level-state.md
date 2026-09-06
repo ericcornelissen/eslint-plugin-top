@@ -47,7 +47,7 @@ function f() {
 
 This rule accepts a configuration object with one option:
 
-- `allow: []`: Configure what is allowed to be assigned to variables.
+- `allow`: Configure what is allowed to be assigned to variables.
 
 #### `allow`
 
