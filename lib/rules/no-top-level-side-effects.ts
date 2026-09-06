@@ -348,6 +348,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       ChainExpression: (node) => {
+        if (options.allowDerived) {
+          return;
+        }
+
         if (!isTopLevel(node)) {
           return;
         }
