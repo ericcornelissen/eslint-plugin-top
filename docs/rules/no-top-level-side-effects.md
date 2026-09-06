@@ -5,8 +5,7 @@
 Disallow top level side effects.
 
 Side effects at the top level can have some negative consequences such as slow
-startup times and, for libraries, unexpected behavior. This covers top level
-expression as well as assignments.
+startup times and, for libraries, unexpected behavior.
 
 ## Rule Details
 
@@ -67,14 +66,14 @@ module.exports = function () {
 
 ### Options
 
-This rule accepts a configuration object with five options:
+This rule accepts a configuration object with seven options:
 
 - `allowDerived: false` (default) Configure whether derivations - binary,
   logical, or unary operations on values and variables - are allowed at the top
   level.
 - `allowedCalls` Configure what function calls are allowed at the top level. Can
   be any identifier. The default value covers standard JavaScript functions that
-  one might expect at the top level (such as `Symbol`).
+  one might expect at the top level (for example, `Symbol`).
 - `allowedNews` Configure what classes can be instantiated at the top level. Can
   be any identifier. By default no classes can be instantiated.
 - `allowFunctionProperties: false` (default) Configure whether it is allowed to
