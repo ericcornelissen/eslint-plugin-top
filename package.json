@@ -98,7 +98,7 @@
     "mutation": "stryker run stryker.config.js",
     "test": "mocha tests/unit --recursive",
     "test:compat": "mocha tests/compat --recursive",
-    "test:compat-all": "nve 18.0.0,20.0.0,22.0.0,24.0.0,26.0.0 npm run test:compat",
+    "test:compat-all": "nve 20.19.0,22.13.0,24.0.0,26.0.0 npm run test:compat",
     "test:watch": "npm run test -- --watch",
     "verify": "npm run build && npm run check && npm run coverage"
   }

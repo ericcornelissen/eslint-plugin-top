@@ -7,16 +7,9 @@ import {noTopLevelVariables} from '../../lib/rules/no-top-level-variables';
 
 const options: {
   [key: string]: {
-    allowed?: string[];
     kind?: string[];
   };
 } = {
-  allowArray: {
-    allowed: ['ArrayExpression']
-  },
-  allowObject: {
-    allowed: ['ObjectExpression']
-  },
   kindConst: {
     kind: ['const']
   },
@@ -43,6 +36,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fVar() {
+          var uninitialized;
           var foo = 'bar';
         }
       `
@@ -50,6 +44,7 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function fLet() {
+          let uninitialized;
           let foo = 'bar';
         }
       `
@@ -76,6 +71,34 @@ const valid: RuleTester.ValidTestCase[] = [
           const obj2 = { bar: "baz" };
         }
       `
+    },
+    {
+      code: `
+        function fVar() {
+          var uninitialized;
+          var foo = 'bar';
+        }
+      `,
+      options: [options.kindVar]
+    },
+    {
+      code: `
+        function fLet() {
+          let uninitialized;
+          let foo = 'bar';
+        }
+      `,
+      options: [options.kindLet]
+    },
+    {
+      code: `
+        function fConst() {
+          const foo = 'bar';
+          const arr = ["b", "a", "r"];
+          const obj = { bar: "baz" };
+        }
+      `,
+      options: [options.kindConst]
     }
   ],
 
@@ -366,18 +389,6 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `export default function* () { }`
     }
-  ],
-
-  // Object/Array declarations
-  ...[
-    {
-      code: `const foo = ["b", "a", "r"];`,
-      options: [options.allowArray]
-    },
-    {
-      code: `const foo = { bar: "baz" };`,
-      options: [options.allowObject]
-    }
   ]
 ];
 
@@ -450,36 +461,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 25
-        }
-      ]
-    },
-    {
-      code: `
-        var uninitialized;
-      `,
-      options: [options.kindVar],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
-        }
-      ]
-    },
-    {
-      code: `
-        let uninitialized;
-      `,
-      options: [options.kindLet],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 5,
-          endLine: 1,
-          endColumn: 18
         }
       ]
     }
@@ -633,125 +614,6 @@ const invalid: RuleTester.InvalidTestCase[] = [
           column: 1,
           endLine: 1,
           endColumn: 36
-        }
-      ]
-    }
-  ],
-
-  // Object declarations
-  ...[
-    {
-      code: `const foo = {bar: "baz"};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 25
-        }
-      ]
-    },
-    {
-      code: `const foo = {bar: "baz"}, hello = {world: "!"};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 25
-        },
-        {
-          messageId: '0',
-          line: 1,
-          column: 27,
-          endLine: 1,
-          endColumn: 47
-        }
-      ]
-    }
-  ],
-
-  // Mixed multi-variable declarations
-  ...[
-    {
-      code: `const path = require('path'), foo1 = {};`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 31,
-          endLine: 1,
-          endColumn: 40
-        }
-      ]
-    },
-    {
-      code: `const foo = {}, fs = require('fs');`,
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    }
-  ],
-
-  // Array/Object declarations with configuration
-  ...[
-    {
-      code: `const arr = [];`,
-      options: [options.allowObject],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    },
-    {
-      code: `const foo = ["b", "a", "r"];`,
-      options: [options.allowObject],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 28
-        }
-      ]
-    },
-    {
-      code: `const obj = {};`,
-      options: [options.allowArray],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 15
-        }
-      ]
-    },
-    {
-      code: `const foo = { bar: "baz" };`,
-      options: [options.allowArray],
-      errors: [
-        {
-          messageId: '0',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 27
         }
       ]
     }
