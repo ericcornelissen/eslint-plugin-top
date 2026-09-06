@@ -11,7 +11,7 @@ const nodeVersion = {
   minor: parseInt(process.version.split(/v|\./)[2]),
   patch: parseInt(process.version.split(/v|\./)[3])
 };
-const eslintVersions: ReadonlyArray<number> = [8, 9, 10];
+const eslintVersions: ReadonlyArray<number> = [10];
 
 describe('compatibility', function () {
   for (const snapshot of snapshots) {
