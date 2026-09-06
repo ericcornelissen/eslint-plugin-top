@@ -11,14 +11,7 @@ type Options = {
 };
 
 const allowedOption = {
-  enum: [
-    'ArrayExpression',
-    'ImportExpression',
-    'ObjectExpression',
-    'SequenceExpression',
-    'ThisExpression',
-    'YieldExpression'
-  ],
+  enum: ['ArrayExpression', 'ObjectExpression'],
   default: [],
   always: [
     'ArrowFunctionExpression',
