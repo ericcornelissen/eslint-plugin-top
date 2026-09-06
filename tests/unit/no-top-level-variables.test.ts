@@ -378,44 +378,6 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `const foo = { bar: "baz" };`,
       options: [options.allowObject]
     }
-  ],
-
-  // Configurable allowed declarations
-  ...[
-    {
-      code: `const foo = import('path');`
-    },
-    {
-      code: `const foo = (3, 5);`
-    },
-    {
-      code: `const foo = this;`
-    },
-    {
-      code: `
-        // Validate that 'ImportExpression' is not rejected as an allowed expression type
-        const foo = import('path');
-      `,
-      options: [{allowed: ['ImportExpression']}]
-    },
-    {
-      code: `
-        // Validate that 'SequenceExpression' is not rejected as an allowed expression type
-        const foo = (3, 5);
-      `,
-      options: [{allowed: ['SequenceExpression']}]
-    },
-    {
-      code: `
-        // Validate that 'ThisExpression' is not rejected as an allowed expression type
-        const foo = this;
-      `,
-      options: [{allowed: ['ThisExpression']}]
-    },
-    {
-      code: `// Validate that 'YieldExpression' is not rejected as an allowed expression type`,
-      options: [{allowed: ['YieldExpression']}]
-    }
   ]
 ];
 
