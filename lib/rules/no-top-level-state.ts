@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
+import type {Expression, VariableDeclarator} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
@@ -48,13 +48,15 @@ const disallowedRegexp = {
   message:
     'Regular expressions with the `g` or `y` flag are stateful and not allowed at the top level'
 };
-const disallowedUninitializedVar = {
+const disallowedVar = {
   id: '3',
-  message: "An uninitalized 'var' at the top level is not allowed"
+  message:
+    "Variables declared with 'var' are stateful and not allowed at the top level"
 };
-const disallowedUninitializedLet = {
+const disallowedLet = {
   id: '4',
-  message: "An uninitalized 'let' at the top level is not allowed"
+  message:
+    "Variables declared with 'let' are stateful and not allowed at the top level"
 };
 
 function isInitialized(
@@ -91,8 +93,8 @@ export const noTopLevelState: Rule.RuleModule = {
       [disallowedArray.id]: disallowedArray.message,
       [disallowedObject.id]: disallowedObject.message,
       [disallowedRegexp.id]: disallowedRegexp.message,
-      [disallowedUninitializedVar.id]: disallowedUninitializedVar.message,
-      [disallowedUninitializedLet.id]: disallowedUninitializedLet.message
+      [disallowedVar.id]: disallowedVar.message,
+      [disallowedLet.id]: disallowedLet.message
     }
   },
   create: (context) => {
@@ -127,40 +129,48 @@ export const noTopLevelState: Rule.RuleModule = {
           messageId: disallowedRegexp.id
         });
       },
-      VariableDeclarator: (node) => {
+      VariableDeclaration: (node) => {
         if (!isTopLevel(node)) {
           return;
         }
 
-        if (isInitialized(node)) {
-          if (options.allow.includes(node.init.type)) {
-            return;
+        switch (node.kind) {
+          case 'var': {
+            context.report({node, messageId: disallowedVar.id});
+            break;
           }
+          case 'let': {
+            context.report({node, messageId: disallowedLet.id});
+            break;
+          }
+          case 'const':
+          case 'using':
+          case 'await using':
+        }
+      },
+      VariableDeclarator: (node) => {
+        if (!isInitialized(node)) {
+          return;
+        }
 
-          if (node.init.type === 'ArrayExpression') {
-            context.report({
-              node: node.init,
-              messageId: disallowedArray.id
-            });
-          } else {
-            context.report({
-              node: node.init,
-              messageId: disallowedObject.id
-            });
-          }
+        if (options.allow.includes(node.init.type)) {
+          return;
+        }
+
+        if (!isTopLevel(node)) {
+          return;
+        }
+
+        if (node.init.type === 'ArrayExpression') {
+          context.report({
+            node: node.init,
+            messageId: disallowedArray.id
+          });
         } else {
-          const parent = node.parent as VariableDeclaration; // type-coverage:ignore-line
-          if (parent.kind === 'var') {
-            context.report({
-              node,
-              messageId: disallowedUninitializedVar.id
-            });
-          } else {
-            context.report({
-              node,
-              messageId: disallowedUninitializedLet.id
-            });
-          }
+          context.report({
+            node: node.init,
+            messageId: disallowedObject.id
+          });
         }
       }
     };

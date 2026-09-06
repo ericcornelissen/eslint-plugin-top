@@ -22,11 +22,6 @@ export const configStrict = {
         allow: []
       }
     ],
-    'top/no-top-level-variables': [
-      'error',
-      {
-        kind: ['const']
-      }
-    ]
+    'top/no-top-level-variables': ['off']
   }
 };

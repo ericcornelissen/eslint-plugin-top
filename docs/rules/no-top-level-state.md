@@ -8,6 +8,8 @@ State at the top level indicates side effects because they may be used by
 functions or methods, possibly changing their behavior over time. This is not
 always problematic (e.g. a cache) but should be used sparingly.
 
+It is recommend to disable [no-top-level-variables] when using this rule.
+
 ## Rule Details
 
 This rule lets you control top level state.
@@ -15,12 +17,15 @@ This rule lets you control top level state.
 Examples of **incorrect** code for this rule:
 
 ```javascript
+var uninitialized1;
+var initialized1 = 'foobar';
+let uninitialized2;
+let initialized2 = 'foobar';
+
 const array = ['foo', 'bar']; // arrays are mutable and therefore stateful
 const object = {foo: 'bar'}; // objects are mutable and therefore stateful
 const glob = /foobar/g; // The 'g' flag makes the regular expression stateful
 const stick = /foobar/y; // The 'y' flag makes the regular expression stateful
-var foo; // uninitialized variables can only be used for state
-let bar; // uninitialized variables can only be used for state
 ```
 
 Examples of **correct** code for this rule:
@@ -67,4 +72,5 @@ If you want to allow top level state.
 Please [open an issue] if you found a mistake or if you have a suggestion for
 how to improve the documentation.
 
+[no-top-level-variables]: ./no-top-level-variables.md
 [open an issue]: https://github.com/ericcornelissen/eslint-plugin-top/issues/new?labels=documentation&template=documentation.md

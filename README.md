@@ -45,7 +45,6 @@ export default [
     plugins: {top},
     rules: {
       'top/no-top-level-side-effects': 'error',
-      'top/no-top-level-state': 'error',
       'top/no-top-level-variables': 'error'
     }
   }

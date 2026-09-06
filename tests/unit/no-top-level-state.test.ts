@@ -24,6 +24,15 @@ const valid: RuleTester.ValidTestCase[] = [
     {
       code: `
         function f() {
+          const boolean = true;
+          const number = 3.14;
+          const string = 'Hello world!';
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
           const array = [];
         }
       `
@@ -102,6 +111,7 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `
         function f() {
           var uninitialized;
+          var initialized1 = 'foobar';
         }
       `
     },
@@ -109,6 +119,7 @@ const valid: RuleTester.ValidTestCase[] = [
       code: `
         function f() {
           let uninitialized;
+          let initialized1 = 'foobar';
         }
       `
     }
@@ -327,7 +338,7 @@ const invalid: RuleTester.InvalidTestCase[] = [
     }
   ],
 
-  // Top-level uninitialized variable
+  // Top-level variable
   ...[
     {
       code: `
@@ -337,9 +348,23 @@ const invalid: RuleTester.InvalidTestCase[] = [
         {
           messageId: '3',
           line: 1,
-          column: 5,
+          column: 1,
           endLine: 1,
-          endColumn: 18
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `
+        var initialized = 'foobar';
+      `,
+      errors: [
+        {
+          messageId: '3',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 28
         }
       ]
     },
@@ -351,9 +376,23 @@ const invalid: RuleTester.InvalidTestCase[] = [
         {
           messageId: '4',
           line: 1,
-          column: 5,
+          column: 1,
           endLine: 1,
-          endColumn: 18
+          endColumn: 19
+        }
+      ]
+    },
+    {
+      code: `
+        let initialized = 'foobar';
+      `,
+      errors: [
+        {
+          messageId: '4',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 28
         }
       ]
     }

@@ -34,9 +34,10 @@ export const snapshots: ReadonlyArray<Snapshot> = [
     inp: 'var message = "Hello world!";',
     out: `
 <text>
-  1:1  error  Use of 'var' at the top level is not allowed  @ericcornelissen/top/no-top-level-variables
+  1:1  error  Variables declared with 'var' are stateful and not allowed at the top level  @ericcornelissen/top/no-top-level-state
+  1:1  error  Use of 'var' at the top level is not allowed                                 @ericcornelissen/top/no-top-level-variables
 
-✖ 1 problem (1 error, 0 warnings)
+✖ 2 problems (2 errors, 0 warnings)
 
 `
   },
