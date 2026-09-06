@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - v3
+      - v4
 
 permissions: read-all
 
