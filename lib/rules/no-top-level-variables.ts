@@ -10,7 +10,7 @@ type Options = {
 
 const kindOption = {
   enum: ['await using', 'const', 'let', 'using', 'var'],
-  default: ['const']
+  default: ['await using', 'const', 'using']
 };
 
 const disallowedVar = {

@@ -15,7 +15,8 @@ Versioning].
   and 22.0.0 through 22.12.x.
 - ([#2050]) _(Breaking)_ Remove `allowed` option from `no-top-level-variables`.
 - ([#2050]) Add `allow` option to `no-top-level-state`.
-- ([#2052]) Dsiallow top-level `var` and `let` with `no-top-level-state`.
+- ([#2052]) Disallow top-level `var` and `let` with `no-top-level-state`.
+- ([#2053]) Allow top-level `using` with `no-top-level-variables` by default.
 
 ## 3.6.3 (2026-06-25)
 
@@ -281,3 +282,4 @@ Versioning].
 [#2046]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2046
 [#2050]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2050
 [#2052]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2052
+[#2053]: https://github.com/ericcornelissen/eslint-plugin-top/pull/2053
