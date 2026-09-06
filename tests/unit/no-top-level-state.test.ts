@@ -5,9 +5,36 @@ import {RuleTester} from 'eslint';
 import {trimTestCases} from './helpers';
 import {noTopLevelState} from '../../lib/rules/no-top-level-state';
 
+const options: {
+  [key: string]: {
+    allow?: string[];
+  };
+} = {
+  allowArray: {
+    allow: ['ArrayExpression']
+  },
+  allowObject: {
+    allow: ['ObjectExpression']
+  }
+};
+
 const valid: RuleTester.ValidTestCase[] = [
   // Not top level
   ...[
+    {
+      code: `
+        function f() {
+          const array = [];
+        }
+      `
+    },
+    {
+      code: `
+        function f() {
+          const object = [];
+        }
+      `
+    },
     {
       code: `
         function f() {
@@ -98,6 +125,44 @@ const valid: RuleTester.ValidTestCase[] = [
     },
     {
       code: `const str3 = \`foobar\`;`
+    },
+    {
+      code: `let uninitialized;`
+    },
+    {
+      code: `var uninitialized;`
+    }
+  ],
+
+  // Top-level array
+  ...[
+    {
+      code: `
+        const array = [/*empty*/];
+      `,
+      options: [options.allowArray]
+    },
+    {
+      code: `
+        const array = ["non", "empty"];
+      `,
+      options: [options.allowArray]
+    }
+  ],
+
+  // Top-level object
+  ...[
+    {
+      code: `
+        const object = {/*empty*/};
+      `,
+      options: [options.allowObject]
+    },
+    {
+      code: `
+        const object = { non: "empty" };
+      `,
+      options: [options.allowObject]
     }
   ],
 
@@ -128,6 +193,100 @@ const valid: RuleTester.ValidTestCase[] = [
 ];
 
 const invalid: RuleTester.InvalidTestCase[] = [
+  // Top-level array
+  ...[
+    {
+      code: `
+        const array = [/*empty*/];
+      `,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 26
+        }
+      ]
+    },
+    {
+      code: `
+        const array = ["non", "empty"];
+      `,
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 31
+        }
+      ]
+    },
+    {
+      code: `
+        const array = ["even", "when", "objects", "are", "allowed"];
+      `,
+      options: [options.allowObject],
+      errors: [
+        {
+          messageId: '1',
+          line: 1,
+          column: 15,
+          endLine: 1,
+          endColumn: 60
+        }
+      ]
+    }
+  ],
+
+  // Top-level object
+  ...[
+    {
+      code: `
+        const object = {/*empty*/};
+      `,
+      errors: [
+        {
+          messageId: '2',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 27
+        }
+      ]
+    },
+    {
+      code: `
+        const object = { non: "empty" };
+      `,
+      errors: [
+        {
+          messageId: '2',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 32
+        }
+      ]
+    },
+    {
+      code: `
+        const object = { even: "when arrays are allowed" };
+      `,
+      options: [options.allowArray],
+      errors: [
+        {
+          messageId: '2',
+          line: 1,
+          column: 16,
+          endLine: 1,
+          endColumn: 51
+        }
+      ]
+    }
+  ],
+
   // Top-level stateful regular expressions
   ...[
     {

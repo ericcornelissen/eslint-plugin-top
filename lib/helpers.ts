@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
+import type {Expression, VariableDeclarator} from 'estree';
 
 const topLevelTypes = new Set([
   'ArrayExpression',
@@ -31,6 +32,12 @@ export function getProgram(node: Rule.Node) {
 
 export function isCommonJs(node: Rule.Node) {
   return getProgram(node).sourceType === 'script';
+}
+
+export function isInitialized(
+  node: VariableDeclarator
+): node is VariableDeclarator & {init: Expression} {
+  return node.init !== null;
 }
 
 export function isTopLevel(node: Rule.Node) {

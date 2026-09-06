@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: ISC
 
 import type {Rule} from 'eslint';
-import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
+import type {VariableDeclaration} from 'estree';
 
-import {isTopLevel} from '../helpers';
+import {isInitialized, isTopLevel} from '../helpers';
 
 type Options = {
   readonly kind: ReadonlyArray<string>;
@@ -38,12 +38,6 @@ const disallowedUninitializedLet = {
   id: '6',
   message: "An uninitalized 'let' at the top level is not allowed"
 };
-
-function isInitialized(
-  node: VariableDeclarator
-): node is VariableDeclarator & {init: Expression} {
-  return node.init !== null;
-}
 
 export const noTopLevelVariables: Rule.RuleModule = {
   meta: {
