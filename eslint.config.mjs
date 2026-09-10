@@ -439,6 +439,7 @@ export default [
             ignoreVoid: false
           }
         ],
+        'tseslint/no-generated-empty-object-type': 'error',
         'tseslint/no-import-type-side-effects': 'error',
         'tseslint/no-mixed-enums': 'error',
         'tseslint/no-unnecessary-boolean-literal-compare': 'error',
