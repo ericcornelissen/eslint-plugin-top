@@ -64,7 +64,7 @@
     "nve": "18.0.3",
     "prettier": "3.9.6",
     "publint": "0.3.22",
-    "strip-directives": "2.0.0",
+    "strip-directives": "2.2.2",
     "ts-node": "10.9.2",
     "type-coverage": "2.30.1",
     "typescript": "6.0.3"
