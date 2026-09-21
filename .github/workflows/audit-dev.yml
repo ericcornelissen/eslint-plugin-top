@@ -18,7 +18,7 @@ permissions: read-all
 jobs:
   deprecations:
     name: Deprecations
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -37,7 +37,7 @@ jobs:
         run: npm run audit:deprecations
   vulnerabilities:
     name: Vulnerabilities
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
