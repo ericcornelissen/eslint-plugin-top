@@ -11,7 +11,7 @@ permissions: read-all
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -36,7 +36,7 @@ jobs:
           retention-days: 1
   check:
     name: ${{ matrix.what }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
@@ -74,7 +74,7 @@ jobs:
           WHAT: ${{ matrix.what }}
   codeql:
     name: CodeQL (${{ matrix.what }})
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     permissions:
@@ -101,7 +101,7 @@ jobs:
         uses: github/codeql-action/analyze@v4.37.6
   gha-release:
     name: GitHub Actions Release Immutability
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/')
     permissions:
       pull-requests: write # To comment on a Pull Request
@@ -168,7 +168,7 @@ jobs:
           gh pr comment "${URL}" --body "${COMMENT}"
   odgen:
     name: ODGen
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -182,7 +182,7 @@ jobs:
           vulnerability_type: os_command, code_exec, proto_pollution, ipt, path_traversal
   reproducible:
     name: Reproducible build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     steps:
@@ -217,7 +217,7 @@ jobs:
         run: shasum --check checksums.txt --strict
   semgrep:
     name: Semgrep
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       security-events: write # To upload SARIF results
     container:
@@ -236,7 +236,7 @@ jobs:
           sarif_file: semgrep.sarif
   test:
     name: Test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     steps:
@@ -257,7 +257,7 @@ jobs:
         run: npm run coverage
   test-compat:
     name: Compatibility tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - test
     strategy:
@@ -296,7 +296,7 @@ jobs:
         run: npm run test:compat
   test-mutation:
     name: Mutation tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - test
     steps:
