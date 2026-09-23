@@ -298,11 +298,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       AwaitExpression: (node) => {
-        if (!isTopLevel(node)) {
-          return;
-        }
-
-        if (node.argument.type === 'ImportExpression') {
+        if (node.argument.type === 'ImportExpression' || !isTopLevel(node)) {
           return;
         }
 
@@ -312,11 +308,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       BinaryExpression: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
 
@@ -326,19 +318,12 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       CallExpression: (node) => {
-        if (options.allowedCalls.some((name) => isCallTo(node, name))) {
-          return;
-        }
-
-        if (isIIFE(node) && options.allowIIFE) {
-          return;
-        }
-
-        if (isCallTo(node, 'require') && options.isCommonjs(node)) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (
+          options.allowedCalls.some((name) => isCallTo(node, name)) ||
+          (isIIFE(node) && options.allowIIFE) ||
+          (isCallTo(node, 'require') && options.isCommonjs(node)) ||
+          !isTopLevel(node)
+        ) {
           return;
         }
 
@@ -348,11 +333,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       ChainExpression: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
 
@@ -434,11 +415,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       LogicalExpression: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
 
@@ -473,11 +450,10 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       NewExpression: (node) => {
-        if (options.allowedNews.some((name) => isNew(node, name))) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (
+          options.allowedNews.some((name) => isNew(node, name)) ||
+          !isTopLevel(node)
+        ) {
           return;
         }
 
@@ -487,15 +463,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       Property: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (!node.computed) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.allowDerived || !node.computed || !isTopLevel(node)) {
           return;
         }
 
@@ -505,11 +473,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       SpreadElement: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
 
@@ -539,15 +503,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
         });
       },
       TemplateLiteral: (node) => {
-        if (options.allowDerived) {
-          return;
-        }
-
-        if (node.expressions.length === 0) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (
+          options.allowDerived ||
+          node.expressions.length === 0 ||
+          !isTopLevel(node)
+        ) {
           return;
         }
 
