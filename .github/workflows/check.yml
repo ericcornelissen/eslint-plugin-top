@@ -42,6 +42,7 @@ jobs:
       matrix:
         what:
           - ci
+          - config
           - formatting
           - json
           - licenses

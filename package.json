@@ -82,6 +82,7 @@
     "build:strip": "strip-directives dist/**/*.js",
     "check": "npm-run-all check:*",
     "check:ci": "node scripts/maybe-run.js actionlint",
+    "check:config": "node scripts/check-eslint-rules.js",
     "check:formatting": "npm run _prettier -- --check",
     "check:json": "npm run _eslint -- \"**/*.json\"",
     "check:licenses": "licensee --errors-only",
