@@ -37,7 +37,7 @@ if (unconfigured.size > 0) {
   for (const rule of unconfigured) {
     const text = `'${rule}'`;
     const link = links.has(rule) ? `(<${links.get(rule)}>)` : '';
-    console.log(text, link);
+    console.log(`${text} ${link}`);
   }
   console.log('');
   console.log(
