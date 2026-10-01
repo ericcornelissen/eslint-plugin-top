@@ -425,13 +425,45 @@ export default [
       },
 
       ...{
+        'tseslint/adjacent-overload-signatures': 'error',
+        'tseslint/array-type': 'off', // TODO
+        'tseslint/await-thenable': 'error',
+        'tseslint/ban-ts-comment': 'error',
+        'tseslint/ban-tslint-comment': 'error',
+        'tseslint/class-literal-property-style': 'error',
+        'tseslint/class-methods-use-this': 'error',
+        'tseslint/consistent-generic-constructors': 'error',
+        'tseslint/consistent-indexed-object-style': 'error',
         'tseslint/consistent-return': 'error',
+        'tseslint/consistent-type-assertions': 'error',
+        'tseslint/consistent-type-definitions': 'off', // TODO
         'tseslint/consistent-type-exports': 'error',
         'tseslint/consistent-type-imports': 'error',
+        'tseslint/default-param-last': 'error',
+        'tseslint/dot-notation': 'error',
+        'tseslint/explicit-function-return-type': 'off', // TODO
+        'tseslint/explicit-member-accessibility': 'error',
+        'tseslint/explicit-module-boundary-types': 'off', // TODO
+        'tseslint/init-declarations': 'error',
+        'tseslint/max-params': 'error',
+        'tseslint/member-ordering': 'error',
+        'tseslint/method-signature-style': 'error',
+        'tseslint/naming-convention': 'off', // TODO
+        'tseslint/no-array-constructor': 'error',
         'tseslint/no-array-delete': 'error',
+        'tseslint/no-base-to-string': 'error',
+        'tseslint/no-confusing-non-null-assertion': 'error',
         'tseslint/no-confusing-void-expression': 'error',
         'tseslint/no-deprecated': 'error',
+        'tseslint/no-dupe-class-members': 'error',
+        'tseslint/no-duplicate-enum-values': 'error',
         'tseslint/no-duplicate-type-constituents': 'error',
+        'tseslint/no-dynamic-delete': 'error',
+        'tseslint/no-empty-function': 'error',
+        'tseslint/no-empty-object-type': 'error',
+        'tseslint/no-explicit-any': 'error',
+        'tseslint/no-extra-non-null-assertion': 'error',
+        'tseslint/no-extraneous-class': 'error',
         'tseslint/no-floating-promises': [
           'error',
           {
@@ -439,16 +471,59 @@ export default [
             ignoreVoid: false
           }
         ],
+        'tseslint/no-for-in-array': 'error',
         'tseslint/no-generated-empty-object-type': 'error',
+        'tseslint/no-implied-eval': 'error',
         'tseslint/no-import-type-side-effects': 'error',
+        'tseslint/no-inferrable-types': 'error',
+        'tseslint/no-invalid-this': 'error',
+        'tseslint/no-invalid-void-type': 'error',
+        'tseslint/no-magic-numbers': 'off', // TODO (see also 'no-magic-numbers' rule)
+        'tseslint/no-meaningless-void-operator': 'error',
+        'tseslint/no-misused-new': 'error',
+        'tseslint/no-misused-promises': 'error',
+        'tseslint/no-misused-spread': 'error',
         'tseslint/no-mixed-enums': 'error',
+        'tseslint/no-namespace': 'error',
+        'tseslint/no-non-null-asserted-nullish-coalescing': 'error',
+        'tseslint/no-non-null-asserted-optional-chain': 'error',
+        'tseslint/no-non-null-assertion': 'error',
+        'tseslint/no-redeclare': 'error',
+        'tseslint/no-redundant-type-constituents': 'error',
+        'tseslint/no-require-imports': 'error',
+        'tseslint/no-restricted-types': 'error',
+        'tseslint/no-shadow': 'error',
+        'tseslint/no-this-alias': 'error',
         'tseslint/no-unnecessary-boolean-literal-compare': 'error',
+        'tseslint/no-unnecessary-condition': 'off', // TODO
+        'tseslint/no-unnecessary-parameter-property-assignment': 'error',
+        'tseslint/no-unnecessary-qualifier': 'error',
+        'tseslint/no-unnecessary-template-expression': 'error',
+        'tseslint/no-unnecessary-type-arguments': 'error',
+        'tseslint/no-unnecessary-type-assertion': 'error',
+        'tseslint/no-unnecessary-type-constraint': 'error',
+        'tseslint/no-unnecessary-type-conversion': 'error',
+        'tseslint/no-unnecessary-type-parameters': 'error',
+        'tseslint/no-unsafe-argument': 'error',
+        'tseslint/no-unsafe-assignment': 'error',
+        'tseslint/no-unsafe-call': 'error',
+        'tseslint/no-unsafe-declaration-merging': 'error',
+        'tseslint/no-unsafe-enum-assignment': 'error',
+        'tseslint/no-unsafe-enum-comparison': 'error',
+        'tseslint/no-unsafe-function-type': 'error',
+        'tseslint/no-unsafe-member-access': 'error',
+        'tseslint/no-unsafe-return': 'error',
+        'tseslint/no-unsafe-type-assertion': 'off', // TODO
+        'tseslint/no-unsafe-unary-minus': 'error',
+        'tseslint/no-unused-expressions': 'error',
         'tseslint/no-unused-vars': 'error',
         'tseslint/no-unused-private-class-members': 'error',
-        'tseslint/no-unsafe-enum-comparison': 'error',
-        'tseslint/no-unsafe-unary-minus': 'error',
-        'tseslint/no-unnecessary-template-expression': 'error',
+        'tseslint/no-use-before-define': 'off', // TODO
+        'tseslint/no-useless-constructor': 'error',
         'tseslint/no-useless-default-assignment': 'error',
+        'tseslint/no-useless-empty-export': 'error',
+        'tseslint/no-wrapper-object-types': 'error',
+        'tseslint/non-nullable-type-assertion-style': 'error',
         'tseslint/only-throw-error': [
           'error',
           {
@@ -456,10 +531,31 @@ export default [
             allowThrowingUnknown: false
           }
         ],
+
+        'tseslint/parameter-properties': 'error',
+        'tseslint/prefer-as-const': 'error',
+        'tseslint/prefer-enum-initializers': 'error',
         'tseslint/prefer-destructuring': 'error',
         'tseslint/prefer-find': 'error',
+        'tseslint/prefer-for-of': 'error',
+        'tseslint/prefer-function-type': 'error',
+        'tseslint/prefer-includes': 'error',
+        'tseslint/prefer-literal-enum-member': 'error',
+        'tseslint/prefer-namespace-keyword': 'error',
+        'tseslint/prefer-nullish-coalescing': 'off', // TODO
+        'tseslint/prefer-optional-chain': 'error',
         'tseslint/prefer-promise-reject-errors': 'error',
+        'tseslint/prefer-readonly': 'off', // TODO
+        'tseslint/prefer-readonly-parameter-types': 'off', // TODO
+        'tseslint/prefer-reduce-type-parameter': 'error',
+        'tseslint/prefer-regexp-exec': 'error',
+        'tseslint/prefer-return-this-type': 'error',
         'tseslint/prefer-string-starts-ends-with': 'error',
+        'tseslint/promise-function-async': 'error',
+        'tseslint/related-getter-setter-pairs': 'error',
+        'tseslint/require-array-sort-compare': 'error',
+        'tseslint/require-await': 'error',
+        'tseslint/restrict-plus-operands': 'error',
         'tseslint/restrict-template-expressions': [
           'error',
           {
@@ -472,6 +568,8 @@ export default [
             allowRegExp: false
           }
         ],
+        'tseslint/return-await': 'error',
+        'tseslint/strict-boolean-expressions': 'error',
         'tseslint/strict-void-return': 'error',
         'tseslint/switch-exhaustiveness-check': [
           'error',
@@ -480,6 +578,10 @@ export default [
             requireDefaultForNonUnion: true
           }
         ],
+        'tseslint/triple-slash-reference': 'error',
+        'tseslint/unbound-method': 'error',
+        'tseslint/unified-signatures': 'error',
+        'tseslint/use-unknown-in-catch-callback-variable': 'error',
 
         'consistent-return': 'off', // typescript/consistent-return used instead
         'no-throw-literal': 'off', // typescript/only-throw-error used instead
