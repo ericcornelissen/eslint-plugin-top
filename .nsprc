@@ -13,5 +13,14 @@
     "active": true,
     "expiry": "2027-01-01",
     "notes": "Pending mocha@12.0.0"
+  },
+  "GHSA-vfj7-8cjw-p6xm": {
+    "active": true,
+    "notes": "Permanently ignored based on https://github.com/micromatch/braces/issues/73#issuecomment-5970295079"
+  },
+  "GHSA-ch52-4w7c-c8xp": {
+    "active": true,
+    "expiry": "2027-01-01",
+    "notes": "Pending https://github.com/npm/make-fetch-happen/issues/379 and https://github.com/jaredwray/cacheable/issues/1711"
   }
 }
