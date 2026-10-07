@@ -39,7 +39,7 @@ jobs:
   gha-release:
     name: GitHub Actions Release Immutability
     runs-on: ubuntu-26.04
-    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/')
     permissions:
       pull-requests: write # To comment on a Pull Request
     steps:
