@@ -34,6 +34,9 @@ jobs:
   vulnerabilities:
     name: Vulnerabilities
     runs-on: ubuntu-26.04
+    permissions:
+      contents: write # To push a commit
+      pull-requests: write # To open a Pull Request
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -53,17 +56,10 @@ jobs:
       - name: Bump vulnerable dependencies
         if: github.event_name == 'schedule' && failure()
         run: npm audit fix
-      - name: Create automation token
-        if: github.event_name == 'schedule' && failure()
-        uses: actions/create-github-app-token@v3.1.1
-        id: automation-token
-        with:
-          client-id: ${{ secrets.AUTOMATION_APP_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Create Pull Request
         if: github.event_name == 'schedule' && failure()
         env:
-          GH_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           git config user.name 'github-actions[bot]'
