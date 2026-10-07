@@ -824,6 +824,13 @@ const valid: RuleTester.ValidTestCase[] = [
       options: [{...options.allowDerived, allowedCalls: ['ok']}]
     },
     {
+      code: `
+        // desugars to 'const l05 = a && a.b;'
+        const l05 = a?.b;
+      `,
+      options: [options.allowDerived]
+    },
+    {
       code: `const u01 = -a;`,
       options: [options.allowDerived]
     },

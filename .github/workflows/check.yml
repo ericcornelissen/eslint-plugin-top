@@ -11,7 +11,7 @@ permissions: read-all
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -36,12 +36,13 @@ jobs:
           retention-days: 1
   check:
     name: ${{ matrix.what }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
         what:
           - ci
+          - config
           - formatting
           - json
           - licenses
@@ -74,7 +75,7 @@ jobs:
           WHAT: ${{ matrix.what }}
   codeql:
     name: CodeQL (${{ matrix.what }})
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     permissions:
@@ -99,76 +100,9 @@ jobs:
           languages: ${{ matrix.what }}
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v4.38.2
-  gha-release:
-    name: GitHub Actions Release Immutability
-    runs-on: ubuntu-24.04
-    if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/')
-    permissions:
-      pull-requests: write # To comment on a Pull Request
-    steps:
-      - name: Verify action checksums
-        uses: $/.github/actions/ghasum
-      - name: Parse
-        id: parse
-        shell: bash
-        env:
-          TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          REPO=$(echo "${TITLE}" | awk -F' ' '{print $2}')
-          OLD=$(echo "${TITLE}" | awk -F' ' '{print $4}')
-          NEW=$(echo "${TITLE}" | awk -F' ' '{print $6}')
-
-          {
-            echo "repo=${REPO}"
-            echo "new=${NEW}"
-            echo "old=${OLD}"
-          } >>"${GITHUB_OUTPUT}"
-      - name: Check
-        id: check
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          NEW: ${{ steps.parse.outputs.new }}
-          OLD: ${{ steps.parse.outputs.old }}
-          REPO: ${{ steps.parse.outputs.repo }}
-        run: |
-          set -euo pipefail
-
-          WAS_IMMUTABLE=$(gh release view "v${OLD}" --repo "${REPO}" --json isImmutable | jq .isImmutable)
-          IS_IMMUTABLE=$(gh release view "v${NEW}" --repo "${REPO}" --json isImmutable | jq .isImmutable)
-
-          echo "::debug::was ${WAS_IMMUTABLE}; is ${IS_IMMUTABLE}"
-          {
-          case "${WAS_IMMUTABLE};${IS_IMMUTABLE}" in
-          'true;true')
-            echo "comment="
-            ;;
-          'false;false')
-            echo "comment=${OLD} was not an immutable release and ${NEW} still is not. :neutral_face:"
-            ;;
-          'true;false')
-            echo "comment=${OLD} was an immutable release but ${NEW} is not. :cry:"
-            ;;
-          'false;true')
-            echo "comment=${OLD} was not an immutable release but ${NEW} is! :smile:"
-            ;;
-          esac
-          } >>"${GITHUB_OUTPUT}"
-      - name: Comment
-        if: steps.check.outputs.comment != ''
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_URL: ${{ github.server_url }}
-          COMMENT: ${{ steps.check.outputs.comment }}
-          NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          URL="${GH_URL}/${REPO}/pull/${NUMBER}"
-          gh pr comment "${URL}" --body "${COMMENT}"
   odgen:
     name: ODGen
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -182,7 +116,7 @@ jobs:
           vulnerability_type: os_command, code_exec, proto_pollution, ipt, path_traversal
   reproducible:
     name: Reproducible build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     steps:
@@ -217,7 +151,7 @@ jobs:
         run: shasum --check checksums.txt --strict
   semgrep:
     name: Semgrep
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       security-events: write # To upload SARIF results
     container:
@@ -236,7 +170,7 @@ jobs:
           sarif_file: semgrep.sarif
   test:
     name: Test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     steps:
@@ -257,7 +191,7 @@ jobs:
         run: npm run coverage
   test-compat:
     name: Compatibility tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - test
     strategy:
@@ -296,7 +230,7 @@ jobs:
         run: npm run test:compat
   test-mutation:
     name: Mutation tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - test
     steps:

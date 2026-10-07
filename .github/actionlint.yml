@@ -3,5 +3,6 @@
 paths:
   .github/workflows/*.yml:
     ignore:
+      - label "ubuntu-26.04" is unknown
       - SC2016:info
       - specifying action "\$

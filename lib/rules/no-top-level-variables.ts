@@ -126,11 +126,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
     return {
       VariableDeclaration: (node) => {
-        if (options.kind.includes(node.kind)) {
-          return;
-        }
-
-        if (!isTopLevel(node)) {
+        if (options.kind.includes(node.kind) || !isTopLevel(node)) {
           return;
         }
 

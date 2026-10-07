@@ -4,7 +4,7 @@
 
 Disallow top level variables.
 
-Variables at the top level may indicate side effects because it may be used as
+Variables at the top level may indicate side effects because they may be used as
 state in functions or methods. As such, `const` is the only kind of top-level
 variable allowed by default, and it can only be assigned certain values.
 
@@ -18,6 +18,8 @@ Examples of **incorrect** code for this rule:
 var answer = 42;
 let foo = 'bar';
 const arr = [];
+using resource = new Resource();
+await using file = await open('file.txt');
 ```
 
 Examples of **correct** code for this rule:
@@ -104,9 +106,33 @@ var foo = 'bar';
 var path = require('path');
 ```
 
+Examples of **correct** code when `'using'` is in the list:
+
+```javascript
+using resource = new Resource();
+```
+
+Examples of **correct** code when `'await using'` is in the list:
+
+```javascript
+await using file = await open('file.txt');
+```
+
+Examples of **incorrect** code when `'let'` is in the list:
+
+```javascript
+let answer;
+```
+
+Examples of **incorrect** code when `'var'` is in the list:
+
+```javascript
+var answer;
+```
+
 Unless there is a historical or compatibility reason to allow `var` or `let`, it
 is recommended to only allow `const`. By setting this to an empty list you can
-disallow all top-level variables.
+disallow all non-function top-level identifiers.
 
 ## When Not To Use It
 

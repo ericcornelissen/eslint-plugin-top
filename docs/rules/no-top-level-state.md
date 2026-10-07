@@ -4,9 +4,9 @@
 
 Disallow top level state.
 
-State at the top level indicates side effects because if used by functions or
-methods their behavior may change over time. This is not always problematic
-(e.g. a cache) but should be used sparingly and intentionally.
+State at the top level indicates side effects because they may be used by
+functions or methods, possibly changing their behavior over time. This is not
+always problematic (e.g. a cache) but should be used sparingly.
 
 ## Rule Details
 
