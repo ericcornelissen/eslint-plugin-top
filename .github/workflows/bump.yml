@@ -25,12 +25,6 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Create automation token
-        uses: actions/create-github-app-token@v3.1.1
-        id: automation-token
-        with:
-          client-id: ${{ secrets.AUTOMATION_APP_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Install dependencies
         run: npm clean-install
       - name: Update dependencies
@@ -38,7 +32,7 @@ jobs:
           npm update --prefer-dedupe
       - name: Create Pull Request
         env:
-          GH_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           git config user.name 'github-actions[bot]'
@@ -65,12 +59,6 @@ jobs:
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
-      - name: Create automation token
-        uses: actions/create-github-app-token@v3.1.1
-        id: automation-token
-        with:
-          client-id: ${{ secrets.AUTOMATION_APP_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Update tooling
         uses: ericcornelissen/tool-versions-update-action/pr@v2.2.2
         with:
@@ -85,5 +73,5 @@ jobs:
 
             [tool-versions-update-action]: https://github.com/ericcornelissen/tool-versions-update-action
           pr-title: Bump {{updated-tools}} from {{updated-old-versions}} to {{updated-new-versions}}
-          token: ${{ steps.automation-token.outputs.token }}
+          token: ${{ github.token }}
           install-tools: false
