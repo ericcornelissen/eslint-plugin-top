@@ -52,7 +52,7 @@ if (unconfigured.size > 0) {
 const overconfigured = configured
   .difference(all)
   .keys()
-  .filter((v) => v.includes('/'))
+  .filter((rule) => rule.includes('/'))
   .toArray();
 if (overconfigured.length > 0) {
   for (const rule of overconfigured) {
