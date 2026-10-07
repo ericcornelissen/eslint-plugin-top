@@ -1,14 +1,14 @@
 name: Weekly
 on:
   schedule:
-    - cron: '0 4 * * 6'
+    - cron: '0 1 * * 1'
   workflow_dispatch: ~
 
 permissions: read-all
 
 jobs:
-  npm-deps:
-    name: Update transitive dependencies
+  npm-transitive:
+    name: package-lock.json
     runs-on: ubuntu-26.04
     permissions:
       contents: write # To push a commit
@@ -25,12 +25,6 @@ jobs:
         with:
           cache: npm
           node-version-file: .nvmrc
-      - name: Create automation token
-        uses: actions/create-github-app-token@v3.1.1
-        id: automation-token
-        with:
-          client-id: ${{ secrets.AUTOMATION_APP_ID }}
-          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Install dependencies
         run: npm clean-install
       - name: Update dependencies
@@ -38,7 +32,7 @@ jobs:
           npm update --prefer-dedupe
       - name: Create Pull Request
         env:
-          GH_TOKEN: ${{ steps.automation-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           git config user.name 'github-actions[bot]'
@@ -56,3 +50,28 @@ jobs:
             --label='dependencies' \
             --title='Bump transitive dependencies' \
             --body='_This Pull Request was created automatically_'
+  tooling:
+    name: .tool-version
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write # To push a commit
+      pull-requests: write # To open a Pull Request
+    steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
+      - name: Update tooling
+        uses: ericcornelissen/tool-versions-update-action/pr@v2.2.2
+        with:
+          labels: dependencies
+          max: 1
+          pr-body: |
+            Bumps {{updated-tools}} from {{updated-old-versions}} to {{updated-new-versions}}.
+
+            ---
+
+            _This Pull Request was generated using the [tool-versions-update-action]._
+
+            [tool-versions-update-action]: https://github.com/ericcornelissen/tool-versions-update-action
+          pr-title: Bump {{updated-tools}} from {{updated-old-versions}} to {{updated-new-versions}}
+          token: ${{ github.token }}
+          install-tools: false
