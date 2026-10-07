@@ -1,8 +1,6 @@
 name: Dependabot
 on:
-  pull_request:
-    branches:
-      - dependabot/github_actions/**
+  pull_request: ~
   push:
     branches:
       - dependabot/github_actions/**

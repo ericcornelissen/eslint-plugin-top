@@ -38,7 +38,7 @@ jobs:
       - name: Audit for deprecation warnings
         run: npm run audit:deprecations:runtime
   vulnerabilities:
-    name: vulnerabilities
+    name: Vulnerabilities
     runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
@@ -60,7 +60,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Insert release audit config
-        if: github.event_name == 'schedule' && failure()
+        if: github.event_name == 'schedule'
         env:
           NDMRC: ${{ vars.NDMRC }}
           NSPRC: ${{ vars.NSPRC }}
