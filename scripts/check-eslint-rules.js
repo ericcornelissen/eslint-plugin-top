@@ -47,6 +47,25 @@ if (unconfigured.size > 0) {
   );
 
   process.exit(1);
-} else {
-  console.log('No problems detected');
 }
+
+const overconfigured = configured
+  .difference(all)
+  .keys()
+  .filter((rule) => rule.includes('/'))
+  .toArray();
+if (overconfigured.length > 0) {
+  for (const rule of overconfigured) {
+    console.log(`'${rule}'`);
+  }
+  console.log('');
+  console.log(
+    overconfigured.length,
+    'rule(s) configured but not found.',
+    'Remove each of them.'
+  );
+
+  process.exit(1);
+}
+
+console.log('No problems detected');
