@@ -779,7 +779,6 @@ export default [
         'unicorn/no-unsafe-property-key': 'error',
         'unicorn/no-unsafe-sqlite-interpolation': 'error',
         'unicorn/no-unsafe-string-replacement': 'error',
-        'unicorn/no-unused-array-method-return': 'error',
         'unicorn/no-unused-builtin-method-return': 'error',
         'unicorn/no-unused-iterator-helper': 'error',
         'unicorn/no-unused-properties': 'error',
