@@ -1,8 +1,8 @@
-name: Audit (prod)
+name: Audit (runtime)
 on:
   pull_request:
     paths:
-      - .github/workflows/audit-prod.yml
+      - .github/workflows/audit-runtime.yml
       - .ndmrc
       - .nsprc
       - package-lock.json
@@ -13,13 +13,36 @@ on:
 permissions: read-all
 
 jobs:
-  v3:
-    name: v3
+  deprecations:
+    name: Deprecations
     runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(github.event_name == 'schedule' && '["v3"]' || format('["{0}"]', github.ref_name)) }}
+        version: ${{ fromJSON(github.event_name == 'schedule' && '["v3"]' || format('["{0}"]', github.head_ref)) }}
+    steps:
+      - name: Verify action checksums
+        uses: $/.github/actions/ghasum
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
+      - name: Install Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Audit for deprecation warnings
+        run: npm run audit:deprecations:runtime
+  vulnerabilities:
+    name: vulnerabilities
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(github.event_name == 'schedule' && '["v3"]' || format('["{0}"]', github.head_ref)) }}
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
