@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 
-import type {Rule} from 'eslint';
+import type {AST, Rule} from 'eslint';
 
 const topLevelTypes = new Set([
   'ArrayExpression',
@@ -22,18 +22,18 @@ const topLevelTypes = new Set([
   'VariableDeclarator'
 ]);
 
-export function getProgram(node: Rule.Node) {
+export function getProgram(node: Rule.Node): AST.Program {
   while (node.type !== 'Program') {
     node = node.parent;
   }
   return node;
 }
 
-export function isCommonJs(node: Rule.Node) {
+export function isCommonJs(node: Rule.Node): boolean {
   return getProgram(node).sourceType === 'script';
 }
 
-export function isTopLevel(node: Rule.Node) {
+export function isTopLevel(node: Rule.Node): boolean {
   let scope = node.parent;
   while (scope !== null && topLevelTypes.has(scope.type)) {
     scope = scope.parent;

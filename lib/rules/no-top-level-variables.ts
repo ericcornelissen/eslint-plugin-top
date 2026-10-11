@@ -5,10 +5,10 @@ import type {Expression, VariableDeclaration, VariableDeclarator} from 'estree';
 
 import {isTopLevel} from '../helpers';
 
-type Options = {
-  readonly allowed: ReadonlyArray<string>;
-  readonly kind: ReadonlyArray<string>;
-};
+interface Options {
+  readonly allowed: readonly string[];
+  readonly kind: readonly string[];
+}
 
 const allowedOption = {
   enum: [
@@ -114,18 +114,18 @@ export const noTopLevelVariables: Rule.RuleModule = {
     }
   },
   create: (context) => {
-    const [provided] = context.options as Partial<Options>[]; // type-coverage:ignore-line
+    const [provided] = context.options as (Partial<Options> | undefined)[]; // type-coverage:ignore-line
 
     const options: Options = {
       allowed: [
         ...allowedOption.always,
-        ...(provided?.allowed || allowedOption.default)
+        ...(provided?.allowed ?? allowedOption.default)
       ],
-      kind: provided?.kind || kindOption.default
+      kind: provided?.kind ?? kindOption.default
     };
 
     return {
-      VariableDeclaration: (node) => {
+      VariableDeclaration: (node): void => {
         if (options.kind.includes(node.kind) || !isTopLevel(node)) {
           return;
         }
@@ -153,7 +153,7 @@ export const noTopLevelVariables: Rule.RuleModule = {
 
         context.report({node, messageId});
       },
-      VariableDeclarator: (node) => {
+      VariableDeclarator: (node): void => {
         const parent = node.parent as VariableDeclaration; // type-coverage:ignore-line
         if (!options.kind.includes(parent.kind)) {
           return; // Prefer reporting the whole declaration.
