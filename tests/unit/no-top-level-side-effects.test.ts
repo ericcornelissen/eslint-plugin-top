@@ -1843,6 +1843,19 @@ const invalid: RuleTester.InvalidTestCase[] = [
       ]
     },
     {
+      code: `foo.bar[baz]();`,
+      options: [{allowedCalls: ['foo.bar.baz'], ...options.allowDerived}],
+      errors: [
+        {
+          messageId: '0',
+          line: 1,
+          column: 1,
+          endLine: 1,
+          endColumn: 15
+        }
+      ]
+    },
+    {
       code: `module.exports = hello_world('hello world');`,
       options: [options.commonjs],
       errors: [

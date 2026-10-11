@@ -25,7 +25,7 @@ export const noTopLevelState: Rule.RuleModule = {
   },
   create: (context) => {
     return {
-      Literal: (node) => {
+      Literal: (node): void => {
         if (!('regex' in node)) {
           return;
         }

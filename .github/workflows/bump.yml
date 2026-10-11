@@ -1,4 +1,4 @@
-name: Weekly
+name: Bump
 on:
   schedule:
     - cron: '0 1 * * 1'

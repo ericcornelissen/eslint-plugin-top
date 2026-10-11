@@ -15,16 +15,16 @@ import type {
 
 import {getProgram, isCommonJs, isTopLevel} from '../helpers';
 
-type Options = {
+interface Options {
   readonly allowDerived: boolean;
-  readonly allowedCalls: ReadonlyArray<string>;
-  readonly allowedNews: ReadonlyArray<string>;
+  readonly allowedCalls: readonly string[];
+  readonly allowedNews: readonly string[];
   readonly allowFunctionProperties: boolean;
   readonly allowIIFE: boolean;
   readonly allowPropertyAccess: boolean;
   readonly commonjs: boolean | undefined;
   readonly isCommonjs: (node: Rule.Node) => boolean;
-};
+}
 
 const defaultOptions: Omit<Options, 'isCommonjs'> = {
   allowDerived: false,
@@ -186,26 +186,27 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
 
 function toJs(node: MemberExpression): string | undefined {
   const id: string[] = [];
-  while (true) {
+  while (node.object.type === 'MemberExpression') {
     if (node.computed) {
-      return undefined;
+      break;
     }
 
     const property = node.property as Identifier; // type-coverage:ignore-line
     id.push(property.name);
 
-    if (node.object.type === 'MemberExpression') {
-      node = node.object;
-    } else if (node.object.type === 'Identifier') {
-      id.push(node.object.name);
-      break;
-    } else {
-      return undefined;
-    }
+    node = node.object;
+  }
+
+  if (node.computed || node.object.type !== 'Identifier') {
+    return undefined;
   }
 
   id.reverse();
-  return id.join('.');
+
+  const suffix = id.length > 0 ? `.${id.join('.')}` : '';
+  const property = node.property as Identifier; // type-coverage:ignore-line
+
+  return `${node.object.name}.${property.name}${suffix}`;
 }
 
 export const noTopLevelSideEffects: Rule.RuleModule = {
@@ -271,12 +272,11 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
     const options: Options = {
       ...defaultOptions,
       ...provided,
-      isCommonjs: (node) =>
-        options.commonjs === undefined ? isCommonJs(node) : options.commonjs
+      isCommonjs: (node) => options.commonjs ?? isCommonJs(node)
     };
 
     return {
-      AssignmentExpression: (node) => {
+      AssignmentExpression: (node): void => {
         if (isCommonJsExportAssignment(node) && options.isCommonjs(node)) {
           return;
         }
@@ -297,7 +297,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      AwaitExpression: (node) => {
+      AwaitExpression: (node): void => {
         if (node.argument.type === 'ImportExpression' || !isTopLevel(node)) {
           return;
         }
@@ -307,7 +307,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      BinaryExpression: (node) => {
+      BinaryExpression: (node): void => {
         if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
@@ -317,7 +317,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      CallExpression: (node) => {
+      CallExpression: (node): void => {
         if (
           options.allowedCalls.some((name) => isCallTo(node, name)) ||
           (isIIFE(node) && options.allowIIFE) ||
@@ -332,7 +332,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ChainExpression: (node) => {
+      ChainExpression: (node): void => {
         if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
@@ -342,7 +342,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ConditionalExpression: (node) => {
+      ConditionalExpression: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -352,7 +352,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      DoWhileStatement: (node) => {
+      DoWhileStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -362,7 +362,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ForInStatement: (node) => {
+      ForInStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -372,7 +372,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ForOfStatement: (node) => {
+      ForOfStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -382,7 +382,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ForStatement: (node) => {
+      ForStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -392,7 +392,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      FunctionDeclaration: (node) => {
+      FunctionDeclaration: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -404,7 +404,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
-      IfStatement: (node) => {
+      IfStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -414,7 +414,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      LogicalExpression: (node) => {
+      LogicalExpression: (node): void => {
         if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
@@ -424,7 +424,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      MemberExpression: (node) => {
+      MemberExpression: (node): void => {
         if (node.parent.type === 'CallExpression') {
           return; // Prefer reporting as respective expression.
         }
@@ -449,7 +449,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      NewExpression: (node) => {
+      NewExpression: (node): void => {
         if (
           options.allowedNews.some((name) => isNew(node, name)) ||
           !isTopLevel(node)
@@ -462,7 +462,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      Property: (node) => {
+      Property: (node): void => {
         if (options.allowDerived || !node.computed || !isTopLevel(node)) {
           return;
         }
@@ -472,7 +472,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      SpreadElement: (node) => {
+      SpreadElement: (node): void => {
         if (options.allowDerived || !isTopLevel(node)) {
           return;
         }
@@ -482,7 +482,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      SwitchStatement: (node) => {
+      SwitchStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -492,7 +492,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      TaggedTemplateExpression: (node) => {
+      TaggedTemplateExpression: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -502,7 +502,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      TemplateLiteral: (node) => {
+      TemplateLiteral: (node): void => {
         if (
           options.allowDerived ||
           node.expressions.length === 0 ||
@@ -516,7 +516,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      ThrowStatement: (node) => {
+      ThrowStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -526,7 +526,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      TryStatement: (node) => {
+      TryStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -536,7 +536,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      UnaryExpression: (node) => {
+      UnaryExpression: (node): void => {
         if (options.allowDerived) {
           return;
         }
@@ -554,7 +554,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      UpdateExpression: (node) => {
+      UpdateExpression: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -564,7 +564,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           messageId: disallowedSideEffect.id
         });
       },
-      VariableDeclarator: (node) => {
+      VariableDeclarator: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
@@ -583,7 +583,7 @@ export const noTopLevelSideEffects: Rule.RuleModule = {
           });
         }
       },
-      WhileStatement: (node) => {
+      WhileStatement: (node): void => {
         if (!isTopLevel(node)) {
           return;
         }
