@@ -1,7 +1,22 @@
 # Configuration file for lockfile-lint (https://github.com/lirantal/lockfile-lint)
 
 path: package-lock.json
-allowedHosts: npm
+type: npm
+
+allowedHosts:
+  - npm
+allowedPackageNameAliases:
+  - eslint-v8
+  - eslint-v9
+  - eslint-v10
+  - string-width-cjs
+  - strip-ansi-cjs
+  - wrap-ansi-cjs
+allowedSchemes:
+  - 'https:'
+allowedUrls: ~
 emptyHostname: false
-validateHttps: true
+integrityExclude: ~
 validateIntegrity: true
+validateIntegrityStrict: true
+validatePackageNames: true
