@@ -149,13 +149,11 @@ function isShadowingRequire(node: VariableDeclarator): boolean {
     case 'ArrayPattern': {
       for (const element of node.id.elements) {
         if (
-          (element !== null &&
-            element.type === 'Identifier' &&
-            element.name === 'require') ||
-          (element !== null &&
-            element.type === 'RestElement' &&
-            element.argument.type === 'Identifier' &&
-            element.argument.name === 'require')
+          element !== null &&
+          ((element.type === 'Identifier' && element.name === 'require') ||
+            (element.type === 'RestElement' &&
+              element.argument.type === 'Identifier' &&
+              element.argument.name === 'require'))
         ) {
           return true;
         }
