@@ -1,6 +1,7 @@
 version 1
 
 actions/cache@v6.0.0 MKDkwdaUHPrM5F5qR1yTYR1b45e+7uC1129dTLvzQj0=
+actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 p0BRRBYZ4J6k1xNZKT4KZRtiX1Qjb4OFlVQ31S9Sm3U=
 actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 sHLxd6T0XFaWDFYcxWhk5jm4T5hmgxejPsHIQFdIP34=
 actions/checkout@v7.0.0 sHLxd6T0XFaWDFYcxWhk5jm4T5hmgxejPsHIQFdIP34=
 actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 ZHZjH0QRM6Y9p81lbJ0MO8R6kBed+Y20rJCBEdPRG6Y=
@@ -11,7 +12,7 @@ actions/upload-artifact@v7.0.1 01WKrIIhbc4Jcktv1DW+n1m18bkeMegJQL4sjtS/8lU=
 asdf-vm/actions@b7bcd026f18772e44fe1026d729e1611cc435d47 NTSr2fG0/s/purlk1j8nFi/OZXSGAlRzB+GB0KKzhTk=
 asdf-vm/actions@v4.0.1 NTSr2fG0/s/purlk1j8nFi/OZXSGAlRzB+GB0KKzhTk=
 ericcornelissen/odgen-action@v1.1.1 UZ+sIMi5lX7uHvMbJfQf/qlN2ZPmUbCCgZkQmy4RZvQ=
-ericcornelissen/tool-versions-update-action@v2.2.2 ZoIQ7jQwtmeBMgR6Dmni0Qjti3UTWKebQwEjvEtp7Qs=
+ericcornelissen/tool-versions-update-action@v2.2.3 iP8seNpzN4BsN60e+EtB50RgY3GQToFF6S/kt8GrZc4=
 github/codeql-action@33d7b85da1a04171e211befe2c739303b9a4c066 ouPmnpjm7anVfVYPrBHCtlW6FuvRyONnqlFoYtdWUr4=
 github/codeql-action@v4.39.3 ouPmnpjm7anVfVYPrBHCtlW6FuvRyONnqlFoYtdWUr4=
 peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 NeaLc9XTsvYCe9F+UP10n8w1SXZ6h08FoZmtE65ScBY=

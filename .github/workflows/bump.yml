@@ -60,7 +60,7 @@ jobs:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
       - name: Update tooling
-        uses: ericcornelissen/tool-versions-update-action/pr@v2.2.2
+        uses: ericcornelissen/tool-versions-update-action/pr@v2.2.3
         with:
           labels: dependencies
           max: 1
