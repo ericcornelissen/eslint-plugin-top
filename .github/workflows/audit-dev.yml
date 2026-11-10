@@ -1,5 +1,8 @@
 name: Audit (dev)
 on:
+  push:
+    branches:
+      - bump-vulnerable-dependencies
   pull_request:
     paths:
       - .github/workflows/audit-dev.yml
