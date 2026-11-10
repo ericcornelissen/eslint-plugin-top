@@ -113,7 +113,12 @@ jobs:
       - name: Perform ODGen analysis
         uses: ericcornelissen/odgen-action@v1.1.1
         with:
-          vulnerability_type: os_command, code_exec, proto_pollution, ipt, path_traversal
+          vulnerability_type: >
+            os_command,
+            code_exec,
+            proto_pollution,
+            ipt,
+            path_traversal
   reproducible:
     name: Reproducible build
     runs-on: ubuntu-26.04

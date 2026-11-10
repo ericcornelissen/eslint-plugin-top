@@ -19,7 +19,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(github.event_name == 'schedule' && '["v3"]' || format('["{0}"]', 'HEAD')) }}
+        version: >-
+          ${{
+            fromJSON(github.event_name == 'schedule'
+              && '["v3"]'
+              || format('["{0}"]', 'HEAD'))
+          }}
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum
@@ -43,7 +48,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(github.event_name == 'schedule' && '["v3"]' || format('["{0}"]', 'HEAD')) }}
+        version: >-
+          ${{
+            fromJSON(github.event_name == 'schedule'
+              && '["v3"]'
+              || format('["{0}"]', 'HEAD'))
+          }}
     steps:
       - name: Verify action checksums
         uses: $/.github/actions/ghasum

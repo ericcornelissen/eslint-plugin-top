@@ -72,9 +72,12 @@ jobs:
           ### Merge checklist
 
           - [ ] All continuous integration checks passed.
-          - [ ] The version number is consistently updated in `package.json` and `package-lock.json`.
-          - [ ] A new release is added to `CHANGELOG.md` with the correct version number and date.
-          - [ ] The new version number is in accordance with [Semantic Versioning].
+          - [ ] The version number is consistently updated in `package.json`
+                and `package-lock.json`.
+          - [ ] A new release is added to `CHANGELOG.md` with the correct
+                version number and date.
+          - [ ] The new version number is in accordance with [Semantic
+                Versioning].
           - [ ] There are no unexpected changes in the Pull Request.
 
           ---

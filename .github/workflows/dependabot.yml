@@ -39,7 +39,13 @@ jobs:
   gha-release:
     name: GitHub Actions Release Immutability
     runs-on: ubuntu-26.04
-    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && startsWith(github.event.pull_request.head.ref || github.ref_name, 'dependabot/github_actions/')
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.actor == 'dependabot[bot]' &&
+      startsWith(
+        github.event.pull_request.head.ref || github.ref_name,
+        'dependabot/github_actions/'
+      )
     permissions:
       pull-requests: write # To comment on a Pull Request
     steps:
@@ -71,8 +77,14 @@ jobs:
         run: |
           set -euo pipefail
 
-          WAS_IMMUTABLE=$(gh release view "v${OLD}" --repo "${REPO}" --json isImmutable | jq .isImmutable)
-          IS_IMMUTABLE=$(gh release view "v${NEW}" --repo "${REPO}" --json isImmutable | jq .isImmutable)
+          WAS_IMMUTABLE=$(
+            gh release view "v${OLD}" --repo "${REPO}" --json isImmutable \
+              | jq .isImmutable
+          )
+          IS_IMMUTABLE=$(
+            gh release view "v${NEW}" --repo "${REPO}" --json isImmutable \
+              | jq .isImmutable
+          )
 
           echo "::debug::was ${WAS_IMMUTABLE}; is ${IS_IMMUTABLE}"
           {

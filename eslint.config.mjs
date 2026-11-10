@@ -1054,6 +1054,15 @@ export default [
           mode: 'strict'
         }
       ],
+      'yml/max-len': [
+        'error',
+        {
+          code: 80,
+          comments: 100,
+          ignorePattern: '^\\s+((default|image|uses): |echo "comment=)',
+          ignoreUrls: true
+        }
+      ],
       'yml/no-boolean-key': 'error',
       'yml/no-empty-document': 'error',
       'yml/no-empty-key': 'error',
