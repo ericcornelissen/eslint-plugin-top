@@ -42,7 +42,7 @@
     "@types/node": "26.6.5",
     "@typescript-eslint/eslint-plugin": "8.72.1",
     "@typescript-eslint/parser": "8.72.1",
-    "better-npm-audit": "3.11.0",
+    "better-npm-audit": "4.2.1",
     "c8": "12.0.0",
     "depreman": "0.3.14",
     "eslint": "10.5.0",
