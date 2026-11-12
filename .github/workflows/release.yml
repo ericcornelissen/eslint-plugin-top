@@ -33,7 +33,7 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
       - name: Create automation token
-        uses: actions/create-github-app-token@v3.1.1
+        uses: actions/create-github-app-token@v3.3.0
         id: automation-token
         with:
           client-id: ${{ secrets.AUTOMATION_APP_ID }}
