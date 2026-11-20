@@ -501,6 +501,7 @@ export default [
         'tseslint/no-unsafe-argument': 'error',
         'tseslint/no-unsafe-assignment': 'error',
         'tseslint/no-unsafe-call': 'error',
+        'tseslint/no-unsafe-class-instance-assignment': 'error',
         'tseslint/no-unsafe-declaration-merging': 'error',
         'tseslint/no-unsafe-enum-assignment': 'error',
         'tseslint/no-unsafe-enum-comparison': 'error',
