@@ -49,6 +49,7 @@ jobs:
           - lockfile
           - manifest
           - md
+          - secrets
           - ts
           - types
           - yml
