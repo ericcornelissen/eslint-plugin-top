@@ -33,7 +33,7 @@
     "@ericcornelissen/eslint-plugin-top": "file:./",
     "@eslint/config-inspector": "3.3.0",
     "@eslint/json": "2.1.1",
-    "@eslint/markdown": "8.0.2",
+    "@eslint/markdown": "9.0.0",
     "@stryker-mutator/core": "10.1.1",
     "@stryker-mutator/mocha-runner": "10.1.1",
     "@stryker-mutator/typescript-checker": "10.1.1",
